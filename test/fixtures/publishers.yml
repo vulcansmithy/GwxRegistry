@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wallet_address: MyString
+  description: MyString
+  balance: 9.99
+
+two:
+  wallet_address: MyString
+  description: MyString
+  balance: 9.99
