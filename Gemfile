@@ -44,10 +44,10 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   
-  gem "rspec-rails", "3.8.1"   # https://github.com/rspec/rspec-rails
-  gem "guard-rspec", "4.7.3"   # https://github.com/guard/guard-rspec
-  gem "faker",       "1.9.1"    # https://github.com/stympy/faker
-  
+  gem "rspec-rails",   "3.8.1"   # https://github.com/rspec/rspec-rails
+  gem "guard-rspec",   "4.7.3"   # https://github.com/guard/guard-rspec
+  gem "faker",         "1.9.1"   # https://github.com/stympy/faker
+  gem "awesome_print", "1.8.0"   # https://github.com/awesome-print/awesome_print
 end
 
 
