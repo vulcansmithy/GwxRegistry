@@ -25,3 +25,6 @@
 
 # Ignore .rvmrc file
 .rvmrc
+
+# Ignore test coverage result
+/coverage
