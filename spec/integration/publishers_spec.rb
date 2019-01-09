@@ -13,8 +13,8 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-              "id" => "1",
-            "type" => "publisher",
+            "user_id" => "1",
+            "type"    => "publisher",
             "attributes" => {
               # @TODO implement the attributes to be returned
             }
@@ -40,8 +40,8 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-              "id" => "1",
-            "type" => "publisher",
+            "user_id" => "1",
+            "type"    => "publisher",
             "attributes" => {
               # @TODO implement the attributes that would be returned
             }
@@ -50,12 +50,12 @@ describe "Gameworks Registry API" do
         
         # @TODO implement the schema
 
-        let(:user_id) { "1" } # @TODO implement Factory Bot
+        let(:user_id) { Factory.create(:publisher).user.id }
         run_test!
       end
       
       response "404", "publisher not found." do
-        let(:id) { "invalid" }
+        let(:user_id) { "invalid" }
         run_test!
       end
     end

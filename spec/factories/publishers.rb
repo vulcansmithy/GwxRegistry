@@ -1,7 +1,8 @@
 FactoryBot.define do
 
-  factory :publisher do
-    # @TODO to be implemented
+  factory :publisher, class: Publisher do
+    user        # define User association
+    description { Faker::Lorem.sentence } 
   end
-
+  
 end
