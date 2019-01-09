@@ -59,4 +59,5 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
-gem "versionist", "1.7.0"    # https://github.com/bploetz/versionist
+gem "versionist", "1.7.0"                    # https://github.com/bploetz/versionist
+gem "rswag",      "2.0.5"                    # https://github.com/domaindrivendev/rswag

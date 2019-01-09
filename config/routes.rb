@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine  => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
+  
   api_version(
     :module    => "Api::V1", 
     :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" }, 

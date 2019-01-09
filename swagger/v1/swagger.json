@@ -1,0 +1,36 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Gameworks Registry API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/v1/publishers": {
+      "get": {
+        "summary": "Retrieve all Publisher accounts",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Retrieve all publisher accounts.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher(s) found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
