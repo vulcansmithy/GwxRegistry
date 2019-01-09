@@ -16,11 +16,46 @@ describe "Gameworks Registry API" do
               "id" => "1",
             "type" => "publisher",
             "attributes" => {
-              # @TODO 
+              # @TODO implement the attributes to be returned
             }
           }
         }
+        
+        # @TODO implement the schema
 
+        run_test!
+      end
+    end
+  end
+  
+  path "/api/v1/publishers/{:user_id}" do
+
+    get "Retrieve a specific Publisher" do
+      tags        "Publishers"
+      description "Retrieve a specific publisher by specifying its 'user_id'."
+      produces    "application/json"
+      parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being retrieved", required: true, type: :string
+
+      response "200", "publisher found." do
+       
+        examples "application/json" => {
+          "data" => {
+              "id" => "1",
+            "type" => "publisher",
+            "attributes" => {
+              # @TODO implement the attributes that would be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        let(:user_id) { "1" } # @TODO implement Factory Bot
+        run_test!
+      end
+      
+      response "404", "publisher not found." do
+        let(:id) { "invalid" }
         run_test!
       end
     end
