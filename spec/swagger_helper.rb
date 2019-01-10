@@ -19,7 +19,7 @@ RSpec.configure do |config|
         title: "Gameworks Registry API V1",
         version: "v1"
       },
-      paths: {}
+      paths: "/api/v1"
     }
   }
 end

@@ -21,13 +21,708 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "user_id": "1",
                   "type": "publisher",
                   "attributes": {
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Create a publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "publisher created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request."
+          }
+        }
+      }
+    },
+    "/api/v1/publishers/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Publisher",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Retrieve a specific publisher by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the publisher being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "publisher not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Update an existing Publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the publisher being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Publisher not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Update an existing Publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the publisher being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Publisher not found."
+          }
+        }
+      }
+    },
+    "/api/v1/player": {
+      "get": {
+        "summary": "Retrieve all Player accounts",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve all Player accounts.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "player(s) found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/players/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Player",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      }
+    },
+    "/api/v1/players": {
+      "post": {
+        "summary": "Create a Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Create a player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "player created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request."
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "summary": "Retrieve all User accounts",
+        "tags": [
+          "Users"
+        ],
+        "description": "Retrieve all User accounts.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "user(s) found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request."
+          }
+        }
+      }
+    },
+    "/api/v1/users/{:id}": {
+      "get": {
+        "summary": "Retrieve a specific User",
+        "tags": [
+          "Users"
+        ],
+        "description": "Retrieve a specific user by specifying its 'id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "user not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
           }
         }
       }
