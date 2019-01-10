@@ -125,6 +125,124 @@
             "description": "publisher not found."
           }
         }
+      },
+      "patch": {
+        "summary": "Update Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Update an existing Publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the publisher being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Publisher not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Update an existing Publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the publisher being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Publisher not found."
+          }
+        }
       }
     }
   }

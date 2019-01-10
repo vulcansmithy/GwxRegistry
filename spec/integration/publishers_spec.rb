@@ -96,8 +96,86 @@ describe "Gameworks Registry API" do
       end
       
       response "400", "Bad request." do
-        let(:blog) { { description: "Lorem ipsum." } }
+        run_test!
+      end
+    end
+  end
+  
+  path "/api/v1/publishers/{:user_id}" do
 
+    patch "Update Publisher account" do
+      tags        "Publishers"
+      description "Update an existing Publisher account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
+      parameter   name: :publisher, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string },
+               email: { type: :stirng },
+         description: { type: :string }     
+        }
+      }
+
+      response "200", "publisher updated." do
+       
+        examples "application/json" => {
+          "data" => {
+            "user_id" => "1",
+            "type"    => "publisher",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "404", "Publisher not found." do
+        run_test!
+      end
+    end
+  end
+  
+  path "/api/v1/publishers/{:user_id}" do
+
+    put "Update Publisher account" do
+      tags        "Publishers"
+      description "Update an existing Publisher account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
+      parameter   name: :publisher, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string },
+               email: { type: :stirng },
+         description: { type: :string }     
+        }
+      }
+
+      response "200", "publisher updated." do
+       
+        examples "application/json" => {
+          "data" => {
+            "user_id" => "1",
+            "type"    => "publisher",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "404", "Publisher not found." do
         run_test!
       end
     end
