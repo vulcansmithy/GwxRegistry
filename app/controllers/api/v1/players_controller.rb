@@ -1,8 +1,11 @@
 class Api::V1::PlayersController < Api::V1::BaseController
+  before_action :initialize
   before_action :find_user
 
   def create
     @player = @user.create_player(player_params)
+    account = @nem.generate_account
+    render json: {message: account}
     if @player.save
       message = 'Player account successfully created'
     else
@@ -16,6 +19,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   private
+
+  def initialize
+    @nem = NemService.new
+  end
 
   def player_params
     params.require(:player).permit(:username, :user_id, :wallet_address)

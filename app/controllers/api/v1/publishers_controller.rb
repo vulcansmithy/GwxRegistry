@@ -1,8 +1,11 @@
 class Api::V1::PublishersController < Api::V1::BaseController
+  before_action :initialize
   before_action :find_user
 
   def create
     @publisher = @user.create_publisher(publisher_params)
+    account = @nem.generate_account
+    render json: {message: account}
     if @publisher.save
       message = 'Publisher account successfully created'
     else
@@ -16,6 +19,10 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   private
+
+  def initialize
+    @nem = NemService.new
+  end
 
   def publisher_params
     params.require(:publisher).permit(:description, :wallet_address, :user_id)
