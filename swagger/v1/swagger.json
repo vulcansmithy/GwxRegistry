@@ -83,7 +83,7 @@
             }
           },
           "400": {
-            "description": "Bad request."
+            "description": "Invalid request."
           }
         }
       }
@@ -241,6 +241,248 @@
           },
           "404": {
             "description": "Publisher not found."
+          }
+        }
+      }
+    },
+    "/api/v1/player": {
+      "get": {
+        "summary": "Retrieve all Player accounts",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve all Player accounts.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "player(s) found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/players/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Player",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      }
+    },
+    "/api/v1/players": {
+      "post": {
+        "summary": "Create a Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Create a player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "player created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "player",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request."
           }
         }
       }
