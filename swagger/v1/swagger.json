@@ -486,6 +486,246 @@
           }
         }
       }
+    },
+    "/api/v1/users": {
+      "get": {
+        "summary": "Retrieve all User accounts",
+        "tags": [
+          "Users"
+        ],
+        "description": "Retrieve all User accounts.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "user(s) found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request."
+          }
+        }
+      }
+    },
+    "/api/v1/users/{:id}": {
+      "get": {
+        "summary": "Retrieve a specific User",
+        "tags": [
+          "Users"
+        ],
+        "description": "Retrieve a specific user by specifying its 'id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "user not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the user being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "user",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      }
     }
   }
 }
