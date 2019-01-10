@@ -30,6 +30,62 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "Create a Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Create a publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "stirng"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "publisher created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "user_id": "1",
+                  "type": "publisher",
+                  "attributes": {
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          }
+        }
       }
     },
     "/api/v1/publishers/{:user_id}": {

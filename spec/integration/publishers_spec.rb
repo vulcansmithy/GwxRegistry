@@ -60,5 +60,46 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+ 
+  path "/api/v1/publishers" do
+
+    post "Create a Publisher account" do
+      tags        "Publishers"
+      description "Create a publisher account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :publisher, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string },
+               email: { type: :stirng },
+         description: { type: :string }     
+        },
+        required: [ "email", "description" ]
+      }
+
+      response "201", "publisher created." do
+       
+        examples "application/json" => {
+          "data" => {
+            "user_id" => "1",
+            "type"    => "publisher",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "400", "Bad request." do
+        let(:blog) { { description: "Lorem ipsum." } }
+
+        run_test!
+      end
+    end
+  end
 end
