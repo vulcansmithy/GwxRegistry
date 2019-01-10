@@ -7,6 +7,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem "bootsnap", ">= 1.1.0", require: false
+gem 'rack-cors', require: 'rack/cors'
 gem "versionist", "1.7.0"                    
 gem "rswag",      "2.0.5"                    
 

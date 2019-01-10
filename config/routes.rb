@@ -28,4 +28,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  post 'auth/register', to: 'users#register'
 end
