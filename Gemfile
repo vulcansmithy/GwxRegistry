@@ -9,6 +9,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'jwt'
 gem "bootsnap", ">= 1.1.0", require: false
 gem 'rack-cors', require: 'rack/cors'
+gem 'simple_command' 
 gem "versionist", "1.7.0"                    
 gem "rswag",      "2.0.5"                    
 
