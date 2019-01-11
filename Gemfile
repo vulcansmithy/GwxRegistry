@@ -30,6 +30,7 @@ end
 group :test do
   gem "simplecov", "0.16.1", require: false
   gem "faker", "1.9.1"
+  gem "factory_bot_rails", "4.11.1"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
