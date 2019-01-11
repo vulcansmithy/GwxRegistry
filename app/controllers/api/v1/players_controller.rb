@@ -4,24 +4,25 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def create
     @player = @user.create_player(player_params)
-    account = @nem.generate_account
-    render json: {message: account}
+    @player.wallet_address = @account.address
+
     if @player.save
       message = 'Player account successfully created'
     else
       message = @user.errors.full_messages
     end
-    render json: {message: message}
+    render json: {message: message, account: @account}
   end
 
   def show
-    render json: {user: @user.player}
+    render json: {player: @user.player}
   end
 
   private
 
   def initialize
     @nem = NemService.new
+    @account = @nem.generate_account
   end
 
   def player_params

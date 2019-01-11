@@ -3,20 +3,27 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def create
     @user = User.create(user_params)
-    account = @nem.generate_account
-    render json: {message: account}
+    @user.wallet_address = @account.address
+
     if @user.save
       message = 'User account successfully created'
     else
       message = @user.errors.full_messages
     end
-    render json: {message: message}
+
+    render json: {message: message, account: @account}
+  end
+
+  def show
+    @user = User.find(params[:id])
+    render json: {user: @user}
   end
 
   private
 
   def initialize
     @nem = NemService.new
+    @account = @nem.generate_account
   end
 
   def user_params
