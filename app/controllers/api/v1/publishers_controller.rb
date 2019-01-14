@@ -1,6 +1,16 @@
 class Api::V1::PublishersController < Api::V1::BaseController
+  skip_before_action :authenticate_request
   before_action :initialize
   before_action :find_user
+
+  def index
+    @publishers = Publisher.all
+    render json: { publishers: @publishers }
+  end
+
+  def show
+    render json: { publisher: @user.publisher }
+  end
 
   def create
     @publisher = @user.create_publisher(publisher_params)
@@ -11,11 +21,11 @@ class Api::V1::PublishersController < Api::V1::BaseController
     else
       message = @user.errors.full_messages
     end
-    render json: {message: message, account: @account}
+    render json: { message: message, account: @account }
   end
 
-  def show
-    render json: {publisher: @user.publisher}
+  def edit
+    @publisher = @user.publisher
   end
 
   private
