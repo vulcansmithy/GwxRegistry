@@ -1,5 +1,8 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :initialize
+  skip_before_action :authenticate_request, only: [:edit, :profile_update, :account_update]
+  before_action :initialize, only: [:create]
+  before_action :find_user, only: [:show, :edit,
+                                   :profile_update, :account_update]
 
   def create
     @user = User.create(user_params)
@@ -11,12 +14,33 @@ class Api::V1::UsersController < Api::V1::BaseController
       message = @user.errors.full_messages
     end
 
-    render json: {message: message, account: @account}
+    render json: { message: message, account: @account }
   end
 
   def show
-    @user = User.find(params[:id])
-    render json: {user: @user}
+    render json: { user: @user }
+  end
+
+  def edit
+    render json: { user: @user }
+  end
+
+  def update; end
+
+  def profile_update
+    if @user.update(update_profile_params)
+      message = 'User profile successfully updated'
+    else
+      message = @user.errors.full_messages
+    end
+  end
+
+  def account_update
+    if @user.update(update_account_params)
+      message = 'User profile successfully updated'
+    else
+      message = @user.errors.full_messages
+    end
   end
 
   private
@@ -24,6 +48,18 @@ class Api::V1::UsersController < Api::V1::BaseController
   def initialize
     @nem = NemService.new
     @account = @nem.generate_account
+  end
+
+  def find_user
+    @user = User.find(params[:id])
+  end
+
+  def update_profile_params
+    params.require(:user).permit(:first_name, :last_name)
+  end
+
+  def update_account_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 
   def user_params
