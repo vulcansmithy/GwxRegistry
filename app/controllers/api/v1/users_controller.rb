@@ -6,7 +6,8 @@ class Api::V1::UsersController < Api::V1::BaseController
     else
       message = @user.errors.full_messages
     end
-    render json: {message: message}
+
+    render json: {message: message}, status: :created
   end
 
   private
