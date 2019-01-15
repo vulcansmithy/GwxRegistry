@@ -1,9 +1,9 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-=begin
+
   ## Publishers
-  path "/api/v1/publishers" do
+  path "/publishers" do
 
     get "Retrieve all Publisher accounts" do
       tags        "Publishers"
@@ -29,7 +29,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/publishers/{:user_id}" do
+  path "/publishers/{:user_id}" do
 
     get "Retrieve a specific Publisher" do
       tags        "Publishers"
@@ -60,7 +60,7 @@ describe "Gameworks Registry API" do
     end
   end
  
-  path "/api/v1/publishers" do
+  path "/publishers" do
 
     post "Create a Publisher account" do
       tags        "Publishers"
@@ -100,7 +100,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/publishers/{:user_id}" do
+  path "/publishers/{:user_id}" do
 
     patch "Update Publisher account" do
       tags        "Publishers"
@@ -140,7 +140,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/publishers/{:user_id}" do
+  path "/publishers/{:user_id}" do
 
     put "Update Publisher account" do
       tags        "Publishers"
@@ -182,7 +182,7 @@ describe "Gameworks Registry API" do
   
 
   ## Players
-  path "/api/v1/player" do
+  path "/player" do
 
     get "Retrieve all Player accounts" do
       tags        "Players"
@@ -208,7 +208,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/players/{:user_id}" do
+  path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
       tags        "Players"
@@ -239,7 +239,7 @@ describe "Gameworks Registry API" do
     end
   end
  
-  path "/api/v1/players" do
+  path "/players" do
 
     post "Create a Player account" do
       tags        "Players"
@@ -279,7 +279,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/players/{:user_id}" do
+  path "/players/{:user_id}" do
 
     patch "Update Player account" do
       tags        "Players"
@@ -319,7 +319,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/players/{:user_id}" do
+  path "/players/{:user_id}" do
 
     put "Update Player account" do
       tags        "Players"
@@ -361,7 +361,7 @@ describe "Gameworks Registry API" do
   
   
   ## Users
-  path "/api/v1/users" do
+  path "/users" do
 
     get "Retrieve all User accounts" do
       tags        "Users"
@@ -387,7 +387,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/users/{:id}" do
+  path "/users/{:id}" do
 
     get "Retrieve a specific User" do
       tags        "Users"
@@ -418,7 +418,7 @@ describe "Gameworks Registry API" do
     end
   end
  
-  path "/api/v1/users" do
+  path "/users" do
 
     post "Create a User account" do
       tags        "Users"
@@ -458,7 +458,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/users/{:id}" do
+  path "/users/{:id}" do
 
     patch "Update User account" do
       tags        "Users"
@@ -498,7 +498,7 @@ describe "Gameworks Registry API" do
     end
   end
   
-  path "/api/v1/users/{:id}" do
+  path "/users/{:id}" do
 
     put "Update User account" do
       tags        "Users"
@@ -538,5 +538,4 @@ describe "Gameworks Registry API" do
     end
   end
   
-=end  
 end

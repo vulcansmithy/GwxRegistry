@@ -5,7 +5,7 @@
     "version": "v1"
   },
   "paths": {
-    "/api/v1/publishers": {
+    "/publishers": {
       "get": {
         "summary": "Retrieve all Publisher accounts",
         "tags": [
@@ -88,7 +88,7 @@
         }
       }
     },
-    "/api/v1/publishers/{:user_id}": {
+    "/publishers/{:user_id}": {
       "get": {
         "summary": "Retrieve a specific Publisher",
         "tags": [
@@ -245,7 +245,7 @@
         }
       }
     },
-    "/api/v1/player": {
+    "/player": {
       "get": {
         "summary": "Retrieve all Player accounts",
         "tags": [
@@ -272,7 +272,7 @@
         }
       }
     },
-    "/api/v1/players/{:user_id}": {
+    "/players/{:user_id}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
@@ -429,7 +429,7 @@
         }
       }
     },
-    "/api/v1/players": {
+    "/players": {
       "post": {
         "summary": "Create a Player account",
         "tags": [
@@ -487,7 +487,7 @@
         }
       }
     },
-    "/api/v1/users": {
+    "/users": {
       "get": {
         "summary": "Retrieve all User accounts",
         "tags": [
@@ -570,7 +570,7 @@
         }
       }
     },
-    "/api/v1/users/{:id}": {
+    "/users/{:id}": {
       "get": {
         "summary": "Retrieve a specific User",
         "tags": [
