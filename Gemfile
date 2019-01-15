@@ -13,6 +13,11 @@ gem "simple_command"                           # https://github.com/nebulab/simp
 gem "versionist", "1.7.0"                      # https://github.com/bploetz/versionist
 gem "rswag",      "2.0.5"                      # https://github.com/domaindrivendev/rswag
 
+gem 'nem-ruby'
+gem 'pry'
+gem 'rb-readline'
+
+
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails",   "3.8.1"                 # https://github.com/rspec/rspec-rails
