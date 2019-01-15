@@ -10,7 +10,13 @@ Rails.application.routes.draw do
     :defaults  => { :format => "json" },
     :default   => true) do
 
-    resources :users, :except => [:destroy]
+    resource :users, :except => [:destroy] do 
+      collection do
+        post "register", to: "users#register"
+        post "login", to: "users#login"
+        get "test", to: "users#test"
+      end
+    end
 
     resources :publishers, :except => [:show, :update, :destroy] do
       collection do
@@ -29,7 +35,4 @@ Rails.application.routes.draw do
     end
   end
   
-  post 'auth/register', to: 'users#register'
-  post 'auth/login', to: 'users#login'
-  get 'test', to: 'users#test'
 end
