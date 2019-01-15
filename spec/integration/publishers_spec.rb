@@ -1,7 +1,7 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-
+=begin
   ## Publishers
   path "/api/v1/publishers" do
 
@@ -538,4 +538,5 @@ describe "Gameworks Registry API" do
     end
   end
   
+=end  
 end
