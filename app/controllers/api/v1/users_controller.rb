@@ -1,6 +1,8 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_request, only: [:edit, :profile_update, :account_update]
-  before_action :initialize, only: [:create]
+  skip_before_action :authenticate_request, only: [:edit, :profile_update,
+                                                   :account_update, :show,
+                                                   :create, :index]
+  before_action :initialization, only: [:create]
   before_action :find_user, only: [:show, :edit,
                                    :profile_update, :account_update]
 
@@ -30,8 +32,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: { user: @user }
   end
 
-  def update; end
-
   def profile_update
     if @user.update(update_profile_params)
       message = 'User profile successfully updated'
@@ -50,7 +50,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   private
 
-  def initialize
+  def initialization
     @nem = NemService.new
     @account = @nem.generate_account
   end

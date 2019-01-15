@@ -1,7 +1,10 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  skip_before_action :authenticate_request
-  before_action :initialize
-  before_action :find_user
+  skip_before_action :authenticate_request, only: [:edit, :update,
+                                                   :publisher_update,
+                                                   :create, :show]
+  before_action :initialization, only: [:create]
+  before_action :find_user, only: [:create, :edit, :update, :publisher_update, :show]
+  before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
 
   def index
     @publishers = Publisher.all
@@ -9,7 +12,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def show
-    render json: { publisher: @user.publisher }
+    render json: { publisher: @publisher }
   end
 
   def create
@@ -25,12 +28,30 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def edit
-    @publisher = @user.publisher
+    render json: { publisher: @publisher }
+  end
+
+  def update
+    if @publisher.update(publisher_params)
+      message = 'Publisher account successfully updated'
+    else
+      message = @publisher.errors.full_message
+    end
+    render json: {message: message}
+  end
+
+  def publisher_update
+    if @publisher.update(publisher_params)
+      message = 'Publisher account successfully updated'
+    else
+      message = @publisher.errors.full_message
+    end
+    render json: {message: message}
   end
 
   private
 
-  def initialize
+  def initialization
     @nem = NemService.new
     @account = @nem.generate_account
   end
@@ -41,5 +62,9 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def find_user
     @user = User.find(params[:publisher][:user_id])
+  end
+
+  def find_publisher
+    @publisher = @user.publisher
   end
 end

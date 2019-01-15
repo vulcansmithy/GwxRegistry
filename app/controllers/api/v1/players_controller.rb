@@ -1,7 +1,7 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-  skip_before_action :authenticate_request
-  before_action :initialize
-  before_action :find_user
+  skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
+  before_action :initialization, only: [:create]
+  before_action :find_user, only: [:create, :show, :edit, :update]
 
   def index
     @players = Player.all
@@ -28,9 +28,19 @@ class Api::V1::PlayersController < Api::V1::BaseController
     @player = @user.player
   end
 
+  def update
+    @player = @user.player
+    if @player.update(player_params)
+      message = 'Player account successfully updated'
+    else
+      message = @player.errors.full_message
+    end
+    render json: {message: message}
+  end
+
   private
 
-  def initialize
+  def initialization
     @nem = NemService.new
     @account = @nem.generate_account
   end

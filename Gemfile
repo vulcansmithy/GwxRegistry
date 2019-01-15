@@ -15,6 +15,8 @@ gem "rswag",      "2.0.5"                      # https://github.com/domaindriven
 
 gem 'nem-ruby'
 gem 'pry'
+gem 'rb-readline'
+
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
