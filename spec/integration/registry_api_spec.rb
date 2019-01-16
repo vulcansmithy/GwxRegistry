@@ -2,6 +2,192 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
+  ## Users
+  # GET /users
+  path "/users" do
+
+    get "Retrieve all User accounts" do
+      tags        "Users"
+      description "Retrieve all User accounts."
+      produces    "application/json"
+
+      response "200", "user(s) found." do
+       
+        examples "application/json" => {
+          "data" => {
+            "id"   => "1",
+            "type" => "user",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+    end
+  end
+  
+  # GET /users/:id
+  path "/users/{:id}" do
+
+    get "Retrieve a specific User" do
+      tags        "Users"
+      description "Retrieve a specific user by specifying its 'id'."
+      produces    "application/json"
+      parameter   name: :id, in: :path, description: "'id' of the user being retrieved", required: true, type: :string
+
+      response "200", "user found." do
+       
+        examples "application/json" => {
+          "data" => {
+            "id"   => "1",
+            "type" => "user",
+            "attributes" => {
+              # @TODO implement the attributes that would be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "404", "user not found." do
+        run_test!
+      end
+    end
+  end
+ 
+  # POST /users
+  path "/users" do
+
+    post "Create a User account" do
+      tags        "Users"
+      description "Create a user account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+                     first_name: { type: :string },
+                      last_name: { type: :string },
+                          email: { type: :string },
+                       password: { type: :string }, 
+          password_confirmation: { type: :string },     
+        },
+        required: [ "email", "password", "password_confirmation" ]
+      }
+
+      response "201", "user created." do
+       
+        examples "application/json" => {
+          "data" => {
+            "id"   => "1",
+            "type" => "user",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "400", "Unable to create a new User. Bad request." do
+        run_test!
+      end
+    end
+  end
+  
+  # PATCH /users/:id
+  path "/users/{:id}" do
+
+    patch "Update User account" do
+      tags        "Users"
+      description "Update an existing User account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string },
+               email: { type: :stirng },
+         description: { type: :string }     
+        }
+      }
+
+      response "200", "user updated." do
+       
+        examples "application/json" => {
+          "data" => {
+            "id"   => "1",
+            "type" => "user",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "404", "User not found." do
+        run_test!
+      end
+    end
+  end
+  
+  # PUT /users/:id
+  path "/users/{:id}" do
+
+    put "Update User account" do
+      tags        "Users"
+      description "Update an existing User account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string },
+               email: { type: :stirng },
+         description: { type: :string }     
+        }
+      }
+
+      response "200", "user updated." do
+       
+        examples "application/json" => {
+          "data" => {
+            "id"   => "1",
+            "type" => "user",
+            "attributes" => {
+              # @TODO implement the attributes to be returned
+            }
+          }
+        }
+        
+        # @TODO implement the schema
+
+        run_test!
+      end
+      
+      response "404", "User not found." do
+        run_test!
+      end
+    end
+  end
+  
+  
+=begin
   ## Publishers
   path "/publishers" do
 
@@ -178,9 +364,10 @@ describe "Gameworks Registry API" do
         run_test!
       end
     end
-  end
+  end  
+=end    
   
-
+=begin
   ## Players
   path "/player" do
 
@@ -248,12 +435,13 @@ describe "Gameworks Registry API" do
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
+                   first_name: { type: :string },
+                    last_name: { type: :string },
+                        email: { type: :stirng },
+                     password: { type: :string },
+        password_confirmation: { type: :string },     
         },
-        required: [ "email", "description" ]
+        required: [ "email", "password", "password_confirmation" ]
       }
 
       response "201", "player created." do
@@ -273,7 +461,7 @@ describe "Gameworks Registry API" do
         run_test!
       end
       
-      response "400", "Invalid request." do
+      response "400", "Unable to create a new User. Bad Request." do
         run_test!
       end
     end
@@ -358,184 +546,6 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
-  
-  ## Users
-  path "/users" do
-
-    get "Retrieve all User accounts" do
-      tags        "Users"
-      description "Retrieve all User accounts."
-      produces    "application/json"
-
-      response "200", "user(s) found." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-    end
-  end
-  
-  path "/users/{:id}" do
-
-    get "Retrieve a specific User" do
-      tags        "Users"
-      description "Retrieve a specific user by specifying its 'id'."
-      produces    "application/json"
-      parameter   name: :id, in: :path, description: "'id' of the user being retrieved", required: true, type: :string
-
-      response "200", "user found." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes that would be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "user not found." do
-        run_test!
-      end
-    end
-  end
- 
-  path "/users" do
-
-    post "Create a User account" do
-      tags        "Users"
-      description "Create a user account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        },
-        required: [ "email", "description" ]
-      }
-
-      response "201", "user created." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "400", "Invalid request." do
-        run_test!
-      end
-    end
-  end
-  
-  path "/users/{:id}" do
-
-    patch "Update User account" do
-      tags        "Users"
-      description "Update an existing User account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        }
-      }
-
-      response "200", "user updated." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "User not found." do
-        run_test!
-      end
-    end
-  end
-  
-  path "/users/{:id}" do
-
-    put "Update User account" do
-      tags        "Users"
-      description "Update an existing User account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        }
-      }
-
-      response "200", "user updated." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "User not found." do
-        run_test!
-      end
-    end
-  end
+=end  
   
 end
