@@ -24,15 +24,18 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: { user: @user }
   end
 
+  # POST  /users
+  # POST  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # POST  /users?version=1
+  # POST  /v1/users 
   def create
     @user = User.create(user_params)
 #   @user.wallet_address = @account.address
 
     if @user.save
-      response = { message: 'User created successfully' }
-      render json: response, status: :created 
+      success_response(@users, :created)
     else
-      render json: @user.errors, status: :bad
+      error_response("Unable to create a new User.", @user.errors, :bad_request)
     end 
   end
   

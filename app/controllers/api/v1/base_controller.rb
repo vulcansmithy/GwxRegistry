@@ -4,8 +4,8 @@ class Api::V1::BaseController < ApplicationController
     render json: response_payload, status: status_code
   end
   
-  def error_response(message, status_code)    
-    render json: { message: message }, status: status_code
+  def error_response(message, errors, status_code)    
+    render json: { message: message, errors: errors }, status: status_code
   end
   
 end
