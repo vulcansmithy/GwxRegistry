@@ -1,9 +1,13 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
+  # @TODO temporary disable authentication
+=begin
   skip_before_action :authenticate_request, only: [:edit, :profile_update,
                                                    :account_update, :show,
                                                    :create, :index]
-  before_action :initialization, only: [:create]
+=end
+  
+# before_action :initialization, only: [:create]
   before_action :find_user, only: [:show, :edit,
                                    :profile_update, :account_update]
 
@@ -18,7 +22,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def create
     @user = User.create(user_params)
-    @user.wallet_address = @account.address
+#   @user.wallet_address = @account.address
 
     if @user.save
       response = { message: 'User created successfully' }
@@ -92,13 +96,12 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def user_params
-    params.permit(
-      :first_name,
-      :last_name,
-      :email,
-      :password,
-      :password_confirmation
-    )
+    params.require(:user).permit(
+      :first_name, 
+      :last_name, 
+      :email, 
+      :password, 
+      :password_confirmation)
   end
   
   def authenticate(email, password)

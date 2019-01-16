@@ -22,17 +22,20 @@ describe Api::V1::UsersController do
     last_name  = Faker::Name.last_name
     email      = "#{first_name}.#{last_name}@example.com".downcase
     password   = email
-    parameters = {
-      "user" => {
-        "first_name" => first_name,
-        "last_name"  => last_name,
-        "email"      => email,
-        "password"   => password  
+
+    # setup parameters to pass
+    params = {
+      user: {
+        first_name: first_name, 
+        last_name:  last_name,
+        email:      email,
+        password:   password,
+        password_confirmation: password
       }
-    }
+    }.as_json
     
     # call the API endpoint
-    post "/users", params: parameters
+    post "/users", params: params
     
     # make sure the response was :created
     expect(response).to have_http_status(:created)
