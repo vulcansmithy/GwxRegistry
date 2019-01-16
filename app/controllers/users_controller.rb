@@ -5,17 +5,17 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     if @user.save
       response = { message: 'User created successfully' }
-      render json: response, status: :created 
+      render json: response, status: :created
    else
     render json: @user.errors, status: :bad
-   end 
+   end
   end
 
   def login
     authenticate params[:email], params[:password]
   end
 
-  def test 
+  def test
     render json: {
       message: 'You have passed authentication and authorization test'
     }
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
       :password_confirmation
     )
   end
-  
+
   def authenticate(email, password)
     command = AuthenticateUser.call(email, password)
 
