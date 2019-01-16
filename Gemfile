@@ -16,6 +16,7 @@ gem "rswag",      "2.0.5"                      # https://github.com/domaindriven
 gem "nem-ruby"
 gem "pry"
 gem "rb-readline"
+gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
 
 
 group :development, :test do
