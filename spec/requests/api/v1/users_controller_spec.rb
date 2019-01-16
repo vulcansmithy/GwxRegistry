@@ -19,7 +19,7 @@ describe Api::V1::UsersController do
     expect(response).to have_http_status(:ok)
     
     # make sure the no_of_users matches
-    expect(JSON.parse(response.body)["users"].length).to eq no_of_users
+    expect(JSON.parse(response.body).length).to eq no_of_users
   end 
   
   it "should implement the endpoint POST /users" do

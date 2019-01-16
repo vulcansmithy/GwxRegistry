@@ -11,9 +11,13 @@ class Api::V1::UsersController < Api::V1::BaseController
   before_action :find_user,      only: [:show, :edit,
                                    :profile_update, :account_update]
 
+  # GET  /users
+  # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # GET  /users?version=1
+  # GET  /v1/users 
   def index
     @users = User.all
-    render json: { users: @users }
+    success_response(@users)
   end
 
   def show
