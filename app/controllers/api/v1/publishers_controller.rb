@@ -12,8 +12,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
 
   def index
-    @publishers = Publisher.all
-    render json: { publishers: @publishers }
+    render json: { publishers: Publisher.all }
   end
 
   def show
@@ -22,14 +21,15 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def create
     @publisher = @user.create_publisher(publisher_params)
-    @publisher.wallet_address = @account.address
+    @account = @nem.generate_account
 
-    if @publisher.save
-      message = 'Publisher account successfully created'
+    if @publisher.save && @account
+      @publisher.update(wallet_address: @account.address)
+      response = { message:'Publisher account successfully created', account: @account }
     else
-      message = @user.errors.full_messages
+      response = { message: @user.errors.full_messages }
     end
-    render json: { message: message, account: @account }
+    render json: response
   end
 
   def edit
@@ -42,7 +42,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
     else
       message = @publisher.errors.full_message
     end
-    render json: {message: message}
+    render json: { message: message }
   end
 
   def publisher_update
@@ -51,14 +51,14 @@ class Api::V1::PublishersController < Api::V1::BaseController
     else
       message = @publisher.errors.full_message
     end
-    render json: {message: message}
+    render json: { message: message }
   end
 
   private
 
   def initialization
     @nem = NemService.new
-    @account = @nem.generate_account
+    @node
   end
 
   def publisher_params

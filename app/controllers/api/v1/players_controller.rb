@@ -6,6 +6,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :show, :edit, :update]
+  before_action :find_player, only: [:show, :edit, :update]
 
   def index
     @players = Player.all
@@ -18,9 +19,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def create
     @player = @user.create_player(player_params)
-    @player.wallet_address = @account.address
+    @account = @nem.generate_account
 
-    if @player.save
+    if @player.save && @account
+      @player.update(wallet_address: @account.address)
       message = 'Player account successfully created'
     else
       message = @user.errors.full_messages
@@ -29,11 +31,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def edit
-    @player = @user.player
+    render json: { player: @player }
   end
 
   def update
-    @player = @user.player
     if @player.update(player_params)
       message = 'Player account successfully updated'
     else
@@ -55,5 +56,9 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def find_user
     @user = User.find(params[:player][:user_id])
+  end
+
+  def find_player
+    @player = @user.player
   end
 end
