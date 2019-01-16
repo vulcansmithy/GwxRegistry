@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 #   @user.wallet_address = @account.address
 
     if @user.save
-      success_response(@users, :created)
+      success_response(UserSerializer.new(@user).serialized_json, :created)
     else
       error_response("Unable to create a new User.", @user.errors, :bad_request)
     end 

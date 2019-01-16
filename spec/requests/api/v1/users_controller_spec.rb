@@ -18,11 +18,15 @@ describe Api::V1::UsersController do
     # make sure login was successful
     expect(response).to have_http_status(:ok)
     
+    # retrieve the result
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}"  
+    
     # make sure the no_of_users matches
-    expect(JSON.parse(response.body)["data"].length).to eq no_of_users
+    expect(result["data"].length).to eq no_of_users
   end 
   
-  xit "should implement the endpoint POST /users" do
+  it "should implement the endpoint POST /users" do
     
     first_name = Faker::Name.first_name
     last_name  = Faker::Name.last_name
@@ -45,5 +49,15 @@ describe Api::V1::UsersController do
     
     # make sure the response was :created
     expect(response).to have_http_status(:created)
+
+    # retrieve the result
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}"  
+
+    # make sure its a User type
+    expect(result["data"]["type"]).to eq "user"
+    
+    # make sure the result have the same email
+    expect(result["data"]["attributes"]["email"]).to eq email
   end 
 end
