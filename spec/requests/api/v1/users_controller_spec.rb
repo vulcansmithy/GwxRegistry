@@ -2,10 +2,13 @@ require "rails_helper"
 
 describe Api::V1::UsersController do
 
-  xit "should implement the endpoint GET /users" do
+  it "should implement the endpoint GET /users" do
+    
+    # set the no. of Users accounts
+    no_of_users = 5
     
     # setup 5 sample Users
-    5.times do
+    no_of_users.times do
       user = create(:user)
     end
     
@@ -14,6 +17,9 @@ describe Api::V1::UsersController do
     
     # make sure login was successful
     expect(response).to have_http_status(:ok)
+    
+    # make sure the no_of_users matches
+    expect(JSON.parse(response.body)["users"].length).to eq no_of_users
   end 
   
   it "should implement the endpoint POST /users" do
