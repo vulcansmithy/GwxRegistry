@@ -8,7 +8,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 =end
   
 # before_action :initialization, only: [:create]
-  before_action :find_user, only: [:show, :edit,
+  before_action :find_user,      only: [:show, :edit,
                                    :profile_update, :account_update]
 
   def index
