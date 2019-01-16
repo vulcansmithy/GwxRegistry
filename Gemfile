@@ -13,9 +13,9 @@ gem "simple_command"                           # https://github.com/nebulab/simp
 gem "versionist", "1.7.0"                      # https://github.com/bploetz/versionist
 gem "rswag",      "2.0.5"                      # https://github.com/domaindrivendev/rswag
 
-gem 'nem-ruby'
-gem 'pry'
-gem 'rb-readline'
+gem "nem-ruby"
+gem "pry"
+gem "rb-readline"
 
 
 group :development, :test do
