@@ -14,13 +14,63 @@ describe "Gameworks Registry API" do
       response "200", "user(s) found." do
        
         examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
+          "data" => [
+                  {
+                          "id" => "147",
+                        "type" => "user",
+                  "attributes" => {
+                                  "id" => 147,
+                          "first_name" => "Ismael",
+                           "last_name" => "Koss",
+                               "email" => "ismael.koss@example.com",
+                      "wallet_address" => nil
+                  }
+              },
+                  {
+                          "id" => "148",
+                        "type" => "user",
+                  "attributes" => {
+                                  "id" => 148,
+                          "first_name" => "Shenika",
+                           "last_name" => "Halvorson",
+                               "email" => "shenika.halvorson@example.com",
+                      "wallet_address" => nil
+                  }
+              },
+                  {
+                          "id" => "149",
+                        "type" => "user",
+                  "attributes" => {
+                                  "id" => 149,
+                          "first_name" => "Shara",
+                           "last_name" => "Roob",
+                               "email" => "shara.roob@example.com",
+                      "wallet_address" => nil
+                  }
+              },
+                  {
+                          "id" => "150",
+                        "type" => "user",
+                  "attributes" => {
+                                  "id" => 150,
+                          "first_name" => "Devon",
+                           "last_name" => "Abbott",
+                               "email" => "devon.abbott@example.com",
+                      "wallet_address" => nil
+                  }
+              },
+                  {
+                          "id" => "151",
+                        "type" => "user",
+                  "attributes" => {
+                                  "id" => 151,
+                          "first_name" => "Milissa",
+                           "last_name" => "Dicki",
+                               "email" => "milissa.dicki@example.com",
+                      "wallet_address" => nil
+                  }
+              }
+          ]
         }
         
         # @TODO implement the schema
@@ -85,11 +135,15 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+                     "id" => "158",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 158,
+                     "first_name" => "Mohammed",
+                      "last_name" => "Graham",
+                          "email" => "mohammed.graham@example.com",
+                 "wallet_address" => nil
+             }
           }
         }
         
