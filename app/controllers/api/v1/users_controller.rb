@@ -17,7 +17,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   # GET  /v1/users 
   def index
     @users = User.all
-    success_response(@users)
+    success_response(UserSerializer.new(@users).serialized_json)
   end
 
   def show

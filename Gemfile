@@ -17,7 +17,7 @@ gem "nem-ruby"
 gem "pry"
 gem "rb-readline"
 gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
-
+gem "fast_jsonapi",             "1.3"          # https://github.com/Netflix/fast_jsonap
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
