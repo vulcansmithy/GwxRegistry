@@ -1,5 +1,9 @@
 class Api::V1::PlayersController < Api::V1::BaseController
+  # @TODO temporary disable authentication
+=begin  
   skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
+=end
+  
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :show, :edit, :update]
 

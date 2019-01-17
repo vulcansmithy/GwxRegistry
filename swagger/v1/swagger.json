@@ -5,488 +5,6 @@
     "version": "v1"
   },
   "paths": {
-    "/publishers": {
-      "get": {
-        "summary": "Retrieve all Publisher accounts",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Retrieve all publisher accounts.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "publisher(s) found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "publisher",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a Publisher account",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Create a publisher account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "publisher",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "email",
-                "description"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "publisher created.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "publisher",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request."
-          }
-        }
-      }
-    },
-    "/publishers/{:user_id}": {
-      "get": {
-        "summary": "Retrieve a specific Publisher",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Retrieve a specific publisher by specifying its 'user_id'.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the publisher being retrieved",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "publisher found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "publisher",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "publisher not found."
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update Publisher account",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Update an existing Publisher account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the publisher being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "publisher updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "publisher",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Publisher not found."
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Publisher account",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Update an existing Publisher account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the publisher being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "publisher",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "publisher updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "publisher",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Publisher not found."
-          }
-        }
-      }
-    },
-    "/player": {
-      "get": {
-        "summary": "Retrieve all Player accounts",
-        "tags": [
-          "Players"
-        ],
-        "description": "Retrieve all Player accounts.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "player(s) found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "player",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/players/{:user_id}": {
-      "get": {
-        "summary": "Retrieve a specific Player",
-        "tags": [
-          "Players"
-        ],
-        "description": "Retrieve a specific player by specifying its 'user_id'.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being retrieved",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "player",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "player not found."
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update Player account",
-        "tags": [
-          "Players"
-        ],
-        "description": "Update an existing Player account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "player",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Player not found."
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Player account",
-        "tags": [
-          "Players"
-        ],
-        "description": "Update an existing Player account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "player",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Player not found."
-          }
-        }
-      }
-    },
-    "/players": {
-      "post": {
-        "summary": "Create a Player account",
-        "tags": [
-          "Players"
-        ],
-        "description": "Create a player account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "email",
-                "description"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "player created.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "user_id": "1",
-                  "type": "player",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request."
-          }
-        }
-      }
-    },
     "/users": {
       "get": {
         "summary": "Retrieve all User accounts",
@@ -502,12 +20,63 @@
             "description": "user(s) found.",
             "examples": {
               "application/json": {
-                "data": {
-                  "id": "1",
-                  "type": "user",
-                  "attributes": {
+                "data": [
+                  {
+                    "id": "147",
+                    "type": "user",
+                    "attributes": {
+                      "id": 147,
+                      "first_name": "Ismael",
+                      "last_name": "Koss",
+                      "email": "ismael.koss@example.com",
+                      "wallet_address": null
+                    }
+                  },
+                  {
+                    "id": "148",
+                    "type": "user",
+                    "attributes": {
+                      "id": 148,
+                      "first_name": "Shenika",
+                      "last_name": "Halvorson",
+                      "email": "shenika.halvorson@example.com",
+                      "wallet_address": null
+                    }
+                  },
+                  {
+                    "id": "149",
+                    "type": "user",
+                    "attributes": {
+                      "id": 149,
+                      "first_name": "Shara",
+                      "last_name": "Roob",
+                      "email": "shara.roob@example.com",
+                      "wallet_address": null
+                    }
+                  },
+                  {
+                    "id": "150",
+                    "type": "user",
+                    "attributes": {
+                      "id": 150,
+                      "first_name": "Devon",
+                      "last_name": "Abbott",
+                      "email": "devon.abbott@example.com",
+                      "wallet_address": null
+                    }
+                  },
+                  {
+                    "id": "151",
+                    "type": "user",
+                    "attributes": {
+                      "id": 151,
+                      "first_name": "Milissa",
+                      "last_name": "Dicki",
+                      "email": "milissa.dicki@example.com",
+                      "wallet_address": null
+                    }
                   }
-                }
+                ]
               }
             }
           }
@@ -537,15 +106,19 @@
                   "type": "string"
                 },
                 "email": {
-                  "type": "stirng"
+                  "type": "string"
                 },
-                "description": {
+                "password": {
+                  "type": "string"
+                },
+                "password_confirmation": {
                   "type": "string"
                 }
               },
               "required": [
                 "email",
-                "description"
+                "password",
+                "password_confirmation"
               ]
             }
           }
@@ -556,16 +129,21 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "id": "158",
                   "type": "user",
                   "attributes": {
+                    "id": 158,
+                    "first_name": "Mohammed",
+                    "last_name": "Graham",
+                    "email": "mohammed.graham@example.com",
+                    "wallet_address": null
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid request."
+            "description": "Unable to create a new User. Bad request."
           }
         }
       }
