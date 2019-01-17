@@ -19,7 +19,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    render json: { user: @user }
+    success_response(UserSerializer.new(@user).serialized_json)
   end
 
   # POST  /users
@@ -54,31 +54,33 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def edit
-    render json: { user: @user}
+    render json: { user: @user }
   end
 
   def profile_update
     if @user.update(update_profile_params)
-      response = { message: 'User profile successfully updated' }
+      response = {
+        message: 'User profile successfully updated',
+        user: @user
+      }
+      success_response(response)
     else
-      response = { message: @user.errors.full_messages, status: :bad }
+      error_response('Unable to update user profile',
+                     @user.errors.full_messages, :bad_request)
     end
-
-    render json: response
   end
 
   def account_update
     if @user.update(update_account_params)
       response = {
-                   message: 'User account successfully updated',
-                   account: @account,
-                   status: :ok
-                 }
+        message: 'User account successfully updated',
+        account: @account
+      }
+      success_response(response)
     else
-      response = { message: @user.errors.full_messages }
+      error_response('Unable to update user account',
+                     @user.errors.full_messages, :bad_request)
     end
-
-    render json: response
   end
 
   private

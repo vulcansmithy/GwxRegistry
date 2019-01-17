@@ -1,20 +1,20 @@
 class Api::V1::PlayersController < Api::V1::BaseController
   # @TODO temporary disable authentication
-=begin  
+=begin
   skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
 =end
-  
+
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :show, :edit, :update]
   before_action :find_player, only: [:show, :edit, :update]
 
   def index
     @players = Player.all
-    render json: { players: @players }
+    success_response(PlayerSerializer.new(@players).serialized_json)
   end
 
   def show
-    render json: { player: @user.player }
+    success_response(PlayerSerializer.new(@player).serialized_json)
   end
 
   def create
@@ -23,24 +23,33 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
     if @player.save && @account
       @player.update(wallet_address: @account.address)
-      message = 'Player account successfully created'
+      response = {
+        message: 'Player account successfully created',
+        player: PlayerSerializer.new(@player).serialized_json,
+        account: @account
+      }
+      success_response(response)
     else
-      message = @user.errors.full_messages
+      error_response('Unable to create player account',
+                     @player.errors.full_messages, :bad_request)
     end
-    render json: { message: message, account: @account }
   end
 
   def edit
-    render json: { player: @player }
+    render json: { player: PlayerSerializer.new(@player).serialized_json }
   end
 
   def update
     if @player.update(player_params)
-      message = 'Player account successfully updated'
+      response = {
+        message: 'Player account successfully updated',
+        player: PlayerSerializer.new(@player).serialized_json
+      }
+      success_response(response)
     else
-      message = @player.errors.full_message
+      error_response('Unable to update player account',
+                     @player.errors.full_messages, :bad_request)
     end
-    render json: {message: message}
   end
 
   private

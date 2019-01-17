@@ -1,22 +1,23 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  
+
   # @TODO temporary disable authentication
 =begin
   skip_before_action :authenticate_request, only: [:edit, :update,
                                                    :publisher_update,
                                                    :create, :show]
 =end
-  
+
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :edit, :update, :publisher_update, :show]
   before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
 
   def index
-    render json: { publishers: Publisher.all }
+    @publishers = Publisher.all
+    success_response(PublisherSerializer.new(@publishers).serialized_json)
   end
 
   def show
-    render json: { publisher: @publisher }
+    success_response(PublisherSerializer.new(@publisher).serialized_json)
   end
 
   def create
@@ -25,40 +26,39 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
     if @publisher.save && @account
       @publisher.update(wallet_address: @account.address)
-      response = { message:'Publisher account successfully created', account: @account }
+      response = {
+        message: 'Publisher account successfully created',
+        user: PublisherSerializer.new(@publisher).serialized_json,
+        account: @account
+      }
+      success_response(response, :created)
     else
-      response = { message: @user.errors.full_messages }
+      error_response('Unable to create publisher account',
+                     @publisher.errors.full_messages, :bad_request)
     end
-    render json: response
   end
 
   def edit
-    render json: { publisher: @publisher }
+    success_response(PublisherSerializer.new(@publisher).serialized_json)
   end
 
   def update
     if @publisher.update(publisher_params)
-      message = 'Publisher account successfully updated'
+      response = {
+        message: 'Publisher account successfully updated',
+        publisher: PublisherSerializer.new(@publisher).serialized_json
+      }
+      success_response(response)
     else
-      message = @publisher.errors.full_message
+      error_response('There is an error updating publisher account',
+                     @user.errors.full_messages, :bad_request)
     end
-    render json: { message: message }
-  end
-
-  def publisher_update
-    if @publisher.update(publisher_params)
-      message = 'Publisher account successfully updated'
-    else
-      message = @publisher.errors.full_message
-    end
-    render json: { message: message }
   end
 
   private
 
   def initialization
     @nem = NemService.new
-    @node
   end
 
   def publisher_params
