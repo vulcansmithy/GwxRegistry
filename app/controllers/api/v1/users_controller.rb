@@ -66,10 +66,17 @@ class Api::V1::UsersController < Api::V1::BaseController
   # PATCH /users/profile_update/:id?version=1
   # PATCH /v1/users/profile_update/:id
   def profile_update
-    if @user.update(update_profile_params)
-      success_response(UserSerializer.new(@user).serialized_json)
-    else
+
+    # retrieve the existing user by means of the passed 'id'
+    @user = User.where(id: params[:id]).first
+    
+    # update the user
+    @user.update(update_profile_params)
+    
+    if @user.changes.empty?
       error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
+    else
+      success_response(UserSerializer.new(@user).serialized_json)
     end
   end
 
