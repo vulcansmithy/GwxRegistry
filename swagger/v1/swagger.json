@@ -173,9 +173,14 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "id": "48",
                   "type": "user",
                   "attributes": {
+                    "id": 48,
+                    "first_name": "Luisa",
+                    "last_name": "Osinski",
+                    "email": "luisa.osinski@example.com",
+                    "wallet_address": null
                   }
                 }
               }
@@ -183,124 +188,6 @@
           },
           "404": {
             "description": "user not found."
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update User account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the user being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "1",
-                  "type": "user",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
-          }
-        }
-      },
-      "put": {
-        "summary": "Update User account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the user being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "1",
-                  "type": "user",
-                  "attributes": {
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
           }
         }
       }

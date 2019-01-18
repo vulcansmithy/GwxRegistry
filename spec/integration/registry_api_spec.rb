@@ -93,13 +93,17 @@ describe "Gameworks Registry API" do
       response "200", "user found." do
        
         examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes that would be returned
+        	"data" => {
+                        "id" => "48",
+                      "type" => "user",
+                "attributes" => {
+                                "id" => 48,
+                        "first_name" => "Luisa",
+                         "last_name" => "Osinski",
+                             "email" => "luisa.osinski@example.com",
+                    "wallet_address" => nil
+                }
             }
-          }
         }
         
         # @TODO implement the schema
@@ -158,7 +162,9 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+=end 
+    
+=begin  
   # PATCH /users/:id
   path "/users/{:id}" do
 
