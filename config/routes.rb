@@ -12,12 +12,12 @@ Rails.application.routes.draw do
 
     resources :users, :except => [:destroy] do
       collection do
-        patch :profile_update
-        patch :account_update
+        patch "/profile_update/:id", to: "users#profile_update"
+        patch "/account_update/:id", to: "users#{}"
         
-        post "register", to: "users#register"
-        post "login",    to: "users#login"
-        get  "test",     to: "users#test"
+        post "/register",            to: "users#register"
+        post "/login",               to: "users#login"
+        get  "/test",                to: "users#test"
       end
     end
 
