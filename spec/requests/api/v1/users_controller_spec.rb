@@ -81,7 +81,7 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["email"]).to eq user.email
   end
   
-  it "should implement the endpoint PATCH /users/profile_update/:id" do
+  it "should implement the endpoint PATCH/PUT /users/profile_update/:id" do
     
     # setup test user
     user = create(:user)
