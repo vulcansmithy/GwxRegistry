@@ -12,10 +12,7 @@ gem "rack-cors", "1.0.2",    require: "rack/cors"
 gem "simple_command"                           # https://github.com/nebulab/simple_command
 gem "versionist", "1.7.0"                      # https://github.com/bploetz/versionist
 gem "rswag",      "2.0.5"                      # https://github.com/domaindrivendev/rswag
-
 gem "nem-ruby"
-gem "pry"
-gem "rb-readline"
 gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
 gem "fast_jsonapi",             "1.3"          # https://github.com/Netflix/fast_jsonap
 
