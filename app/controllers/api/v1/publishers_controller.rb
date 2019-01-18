@@ -9,6 +9,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :edit, :update, :publisher_update, :show]
+  before_action :check_publisher, only: [:create]
   before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
 
   def index
@@ -26,12 +27,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
     if @publisher.save && @account
       @publisher.update(wallet_address: @account.address)
-      response = {
-        message: 'Publisher account successfully created',
-        user: PublisherSerializer.new(@publisher).serialized_json,
-        account: @account
-      }
-      success_response(response, :created)
+      success_response(PublisherSerializer.new(@publisher).serialized_json, :created)
     else
       error_response('Unable to create publisher account',
                      @publisher.errors.full_messages, :bad_request)
@@ -44,11 +40,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def update
     if @publisher.update(publisher_params)
-      response = {
-        message: 'Publisher account successfully updated',
-        publisher: PublisherSerializer.new(@publisher).serialized_json
-      }
-      success_response(response)
+      success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
       error_response('There is an error updating publisher account',
                      @user.errors.full_messages, :bad_request)
@@ -62,7 +54,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def publisher_params
-    params.require(:publisher).permit(:description, :wallet_address, :user_id)
+    params.require(:publisher).permit(:description, :wallet_address, :user_id, :publisher_name)
   end
 
   def find_user
@@ -72,4 +64,18 @@ class Api::V1::PublishersController < Api::V1::BaseController
   def find_publisher
     @publisher = @user.publisher
   end
+
+  def check_publisher
+    @user.errors.add(:base, "publisher account already exist")
+    error_response('publisher account already exist', @user.errors.full_messages, :bad_request) if @user.publisher
+  end
 end
+
+
+
+
+
+
+
+
+

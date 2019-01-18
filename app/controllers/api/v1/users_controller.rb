@@ -30,7 +30,8 @@ class Api::V1::UsersController < Api::V1::BaseController
     @user = User.create(user_params)
     # @account = @nem.generate_account
 
-    if @user.save && @account
+    # if @user.save && @account
+    if @user.save
       # @user.update(wallet_address: @account.address)
       response = {
         message: 'User created successfully',

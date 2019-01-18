@@ -6,6 +6,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :show, :edit, :update]
+  before_action :check_player, only: [:create]
   before_action :find_player, only: [:show, :edit, :update]
 
   def index
@@ -23,12 +24,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
     if @player.save && @account
       @player.update(wallet_address: @account.address)
-      response = {
-        message: 'Player account successfully created',
-        player: PlayerSerializer.new(@player).serialized_json,
-        account: @account
-      }
-      success_response(response)
+      success_response(PlayerSerializer.new(@player).serialized_json, :created)
     else
       error_response('Unable to create player account',
                      @player.errors.full_messages, :bad_request)
@@ -41,11 +37,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def update
     if @player.update(player_params)
-      response = {
-        message: 'Player account successfully updated',
-        player: PlayerSerializer.new(@player).serialized_json
-      }
-      success_response(response)
+      success_response(PlayerSerializer.new(@player).serialized_json)
     else
       error_response('Unable to update player account',
                      @player.errors.full_messages, :bad_request)
@@ -69,5 +61,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def find_player
     @player = @user.player
+  end
+
+  def check_player
+    @user.errors.add(:base, "player account already exist")
+    error_response('Player account already exist', @user.errors.full_messages, :bad_request) if @user.player
   end
 end
