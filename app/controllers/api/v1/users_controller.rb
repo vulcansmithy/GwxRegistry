@@ -18,6 +18,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     success_response(UserSerializer.new(@users).serialized_json)
   end
 
+  # GET  /users/:id
+  # GET  /users/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # GET  /users/:id?version=1
+  # GET  /v1/users/:id
   def show
     success_response(UserSerializer.new(@user).serialized_json)
   end
