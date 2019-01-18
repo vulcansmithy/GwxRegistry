@@ -1,10 +1,10 @@
 class Api::V1::UsersController < Api::V1::BaseController
+  
+  DISABLE_WALLET_CREATION = true
 
   # @TODO temporary disable authentication
-=begin
-  skip_before_action :authenticate_request, only: %i[edit profile_update show
-                                                  account_update create index]
-=end
+  # skip_before_action :authenticate_request, only: %i[edit profile_update show
+  #                                                account_update create index]
 
   before_action :initialization, only: [:create]
   before_action :find_user, only: %i[show edit profile_update account_update]
@@ -27,18 +27,18 @@ class Api::V1::UsersController < Api::V1::BaseController
   # POST  /users?version=1
   # POST  /v1/users
   def create
-    @user = User.create(user_params)
-    # @account = @nem.generate_account
 
-    if @user.save && @account
-      # @user.update(wallet_address: @account.address)
-      response = {
-        message: 'User created successfully',
-        user: UserSerializer.new(@user).serialized_json,
-        account: @account,
-        status: :created
-      }
-      success_response(response, :created)
+    @user = User.create(user_params)
+    
+    @account = @nem.generate_account unless DISABLE_WALLET_CREATION
+
+    if @user.save 
+      
+      unless DISABLE_WALLET_CREATION 
+        @user.update(wallet_address: @account.address)
+      end
+      
+      success_response(UserSerializer.new(@user).serialized_json,  :created)
     else
       error_response("Unable to create a new User.", @user.errors, :bad_request)
     end
