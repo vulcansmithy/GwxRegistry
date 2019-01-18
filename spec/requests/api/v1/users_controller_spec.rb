@@ -60,4 +60,24 @@ describe Api::V1::UsersController do
     # make sure the result have the same email
     expect(result["data"]["attributes"]["email"]).to eq email
   end 
+  
+  it "should implement the endpoint GET users/:id" do
+    
+    # setup test user
+    user = create(:user)
+    
+    # call the API endpoint
+    get "/users/#{user.id}"
+    
+    # make sure the response was :ok
+    expect(response).to have_http_status(:ok)
+    
+    # retrieve the result
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}" 
+    
+    # make sure the response has the same info as the test user
+    expect(result["data"]["attributes"]["email"]).to eq user.email
+  end
+
 end
