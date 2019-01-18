@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :users, :except => [:destroy] do
       collection do
         patch "/profile_update/:id", to: "users#profile_update"
+        put   "/profile_update/:id", to: "users#profile_update"
         patch "/account_update/:id", to: "users#account_update"
         
         post "/register",            to: "users#register"
