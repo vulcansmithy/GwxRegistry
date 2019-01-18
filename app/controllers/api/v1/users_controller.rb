@@ -61,19 +61,19 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: { user: @user }
   end
 
+  # PATCH /users/profile_update/:id
+  # PATCH /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PATCH /users/profile_update/:id?version=1
+  # PATCH /v1/users/profile_update/:id
   def profile_update
     if @user.update(update_profile_params)
-      response = {
-        message: 'User profile successfully updated',
-        user: @user
-      }
-      success_response(response)
+      success_response(UserSerializer.new(@user).serialized_json)
     else
-      error_response('Unable to update user profile',
-                     @user.errors.full_messages, :bad_request)
+      error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
     end
   end
 
+  # PATCH /users/profile_update/:id
   def account_update
     if @user.update(update_account_params)
       response = {
