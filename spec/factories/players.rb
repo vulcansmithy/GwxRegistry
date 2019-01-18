@@ -1,7 +1,8 @@
 FactoryBot.define do
 
   factory :player do
-    # @TODO to be implemented
+    username { Faker::Name.unique.name }
+    wallet_address { Faker::Number.number(20) }
   end
 
 end
