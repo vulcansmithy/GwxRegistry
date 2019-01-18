@@ -3,6 +3,7 @@ require "swagger_helper"
 describe "Gameworks Registry API" do
 
 =begin
+###
   ## Users
   # GET /users
   path "/users" do
@@ -162,92 +163,103 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end 
+  
+  # PATCH /users/profile_update/:id
+  path "/users/profile_update/{:id}" do
+  
+    patch "Update profile" do
+      tags        "Users"
+      description "Update an existing User profile."
+      consumes    "application/json", "application/xml"
+      parameter   name: :id,   in: :path, description: "'id' of the user profile being updated", required: true, type: :string
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+           last_name: { type: :string }
+        }
+      }
+  
+      response "200", "user updated." do
+     
+        examples "application/json" => {
+          "data" => {
+                     "id" => "375",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 375,
+                     "first_name" => "Lesley",
+                      "last_name" => "Reichert",
+                          "email" => "latasha.harris@example.com",
+                 "wallet_address" => nil
+             }
+          }
+        }
+      
+        # @TODO implement the schema
+  
+        run_test!
+      end
     
-=begin  
-  # PATCH /users/:id
-  path "/users/{:id}" do
-
-    patch "Update User account" do
-      tags        "Users"
-      description "Update an existing User account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        }
-      }
-
-      response "200", "user updated." do
-       
-        examples "application/json" => {
-          "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
+      response "404", "User not found." do
         run_test!
       end
-      
-      response "404", "User not found." do
+  
+      response "400", "Unable to update user profile." do
         run_test!
       end
     end
   end
+ 
+  # PUT /users/profile_update/:id
+  path "/users/profile_update/{:id}" do
   
-  # PUT /users/:id
-  path "/users/{:id}" do
-
-    put "Update User account" do
+    put "Update profile" do
       tags        "Users"
-      description "Update an existing User account."
+      description "Update an existing User profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user being updated", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the user profile being updated", required: true, type: :string
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
           first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
+           last_name: { type: :string }
         }
       }
-
+  
       response "200", "user updated." do
-       
+     
         examples "application/json" => {
           "data" => {
-            "id"   => "1",
-            "type" => "user",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+                     "id" => "245",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 245,
+                     "first_name" => "Chi",
+                      "last_name" => "Sipes",
+                          "email" => "mason.mcclure@example.com",
+                 "wallet_address" => nil
+             }
           }
         }
-        
+      
         # @TODO implement the schema
-
+  
         run_test!
       end
-      
+    
       response "404", "User not found." do
+        run_test!
+      end
+  
+      response "400", "Unable to update user profile." do
         run_test!
       end
     end
   end
-=end  
-  
+### 
+=end
+      
 =begin
   ## Publishers
   path "/publishers" do
