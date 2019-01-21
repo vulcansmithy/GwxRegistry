@@ -173,9 +173,14 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "id": "48",
                   "type": "user",
                   "attributes": {
+                    "id": 48,
+                    "first_name": "Luisa",
+                    "last_name": "Osinski",
+                    "email": "luisa.osinski@example.com",
+                    "wallet_address": null
                   }
                 }
               }
@@ -185,13 +190,15 @@
             "description": "user not found."
           }
         }
-      },
+      }
+    },
+    "/users/profile_update/{:id}": {
       "patch": {
-        "summary": "Update User account",
+        "summary": "Update profile",
         "tags": [
           "Users"
         ],
-        "description": "Update an existing User account.",
+        "description": "Update an existing User profile.",
         "consumes": [
           "application/json",
           "application/xml"
@@ -200,7 +207,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "'id' of the user being updated",
+            "description": "'id' of the user profile being updated",
             "required": true,
             "type": "string"
           },
@@ -215,12 +222,6 @@
                 },
                 "last_name": {
                   "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
                 }
               }
             }
@@ -232,9 +233,14 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "id": "375",
                   "type": "user",
                   "attributes": {
+                    "id": 375,
+                    "first_name": "Lesley",
+                    "last_name": "Reichert",
+                    "email": "latasha.harris@example.com",
+                    "wallet_address": null
                   }
                 }
               }
@@ -242,15 +248,18 @@
           },
           "404": {
             "description": "User not found."
+          },
+          "400": {
+            "description": "Unable to update user profile."
           }
         }
       },
       "put": {
-        "summary": "Update User account",
+        "summary": "Update profile",
         "tags": [
           "Users"
         ],
-        "description": "Update an existing User account.",
+        "description": "Update an existing User profile.",
         "consumes": [
           "application/json",
           "application/xml"
@@ -259,7 +268,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "'id' of the user being updated",
+            "description": "'id' of the user profile being updated",
             "required": true,
             "type": "string"
           },
@@ -274,12 +283,6 @@
                 },
                 "last_name": {
                   "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
                 }
               }
             }
@@ -291,9 +294,14 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "1",
+                  "id": "245",
                   "type": "user",
                   "attributes": {
+                    "id": 245,
+                    "first_name": "Chi",
+                    "last_name": "Sipes",
+                    "email": "mason.mcclure@example.com",
+                    "wallet_address": null
                   }
                 }
               }
@@ -301,6 +309,9 @@
           },
           "404": {
             "description": "User not found."
+          },
+          "400": {
+            "description": "Unable to update user profile."
           }
         }
       }
