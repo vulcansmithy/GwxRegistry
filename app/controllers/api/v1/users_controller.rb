@@ -75,7 +75,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
-      error_response("User not found", nil, :not_found)
+      error_response("User not found", 
+        "Passed 'id' does not match to any existing User", 
+        :not_found)
     end
     
     # update the user
@@ -100,7 +102,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
-      error_response("User not found", nil, :not_found)
+      error_response("User not found", 
+        "Passed 'id' does not match to any existing User", 
+        :not_found)
     end  
     
     # update the user
