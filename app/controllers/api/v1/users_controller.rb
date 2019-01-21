@@ -65,6 +65,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   # PATCH /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
   # PATCH /users/profile_update/:id?version=1
   # PATCH /v1/users/profile_update/:id
+  #
+  # PUT   /users/profile_update/:id
+  # PUT   /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PUT   /users/profile_update/:id?version=1
+  # PUT   /v1/users/profile_update/:id
   def profile_update
 
     # retrieve the existing user by means of the passed 'id'
