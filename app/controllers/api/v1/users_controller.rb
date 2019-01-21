@@ -6,8 +6,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   # skip_before_action :authenticate_request, only: %i[edit profile_update show
   #                                                account_update create index]
 
-  before_action :initialization, only: [:create]
-  before_action :find_user, only: %i[show edit profile_update account_update]
+  before_action :initialization, only:   [:create]
+  before_action :find_user,      only: %i[show profile_update account_update]
 
   # GET  /users
   # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -46,19 +46,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     else
       error_response("Unable to create a new User.", @user.errors, :bad_request)
     end
-  end
-
-  def login
-    authenticate params[:email], params[:password]
-  end
-
-  def test
-    message = @user.errors.full_messages
-    render json: { message: message, account: @account }
-  end
-
-  def edit
-    render json: { user: @user }
   end
 
   # PATCH /users/profile_update/:id
@@ -113,6 +100,15 @@ class Api::V1::UsersController < Api::V1::BaseController
     else
       error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
     end  
+  end
+
+  def login
+    authenticate params[:email], params[:password]
+  end
+
+  def test
+    message = @user.errors.full_messages
+    render json: { message: message, account: @account }
   end
 
 
