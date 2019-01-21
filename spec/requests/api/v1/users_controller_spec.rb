@@ -115,4 +115,34 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["last_name"]).to eq last_name
   end
 
+  it "should implement the endpoint PATCH/PUT /users/account_update/:id" do
+    
+    # setup test user
+    user = create(:user)
+    
+    # setup a new test user email
+    email = "#{user.first_name}.#{user.last_name}+#{Faker::Lorem.word}@example.com".downcase
+
+    # setup parameters to pass
+    params = {
+      user: {
+        email:    email, 
+        password: email,
+        password_confirmation: email
+      }
+    }.as_json
+    
+    # call the API endpoint
+    patch "/users/account_update/#{user.id}", params: params
+    
+    # make sure the response was :ok
+    expect(response).to have_http_status(:ok)
+
+    # retrieve the result
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}" 
+ 
+    # make sure the first_name was successfully updated
+    expect(result["data"]["attributes"]["email"]).to eq email
+  end
 end

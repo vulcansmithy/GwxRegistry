@@ -105,11 +105,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     end  
     
     # update the user
-    @user.update(update_account_params)
-    if @user.changes.empty?
-      error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
-    else
+    if @user.update(update_account_params) 
       success_response(UserSerializer.new(@user).serialized_json)
+    else
+      error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
     end  
   end
 
