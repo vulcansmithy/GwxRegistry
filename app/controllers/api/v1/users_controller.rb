@@ -83,7 +83,15 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  # PATCH /users/profile_update/:id
+  # PATCH /users/account_update/:id
+  # PATCH /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PATCH /users/account_update/:id?version=1
+  # PATCH /v1/users/account_update/:id
+  #
+  # PUT   /users/account_update/:id
+  # PUT   /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PUT   /users/account_update/:id?version=1
+  # PUT   /v1/users/account_update/:id
   def account_update
     if @user.update(update_account_params)
       response = {
