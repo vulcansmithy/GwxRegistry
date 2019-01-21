@@ -72,11 +72,10 @@ class Api::V1::UsersController < Api::V1::BaseController
   # PUT   /v1/users/profile_update/:id
   def profile_update
 
-    # retrieve the existing user by means of the passed 'id'
+    # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
-      error_response("User not found", 
-        @user.errors.full_messages, :not_found)
+      error_response("User not found", nil, :not_found)
     end
 
     # update the user
@@ -99,7 +98,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   # PUT   /v1/users/account_update/:id
   def account_update
 
-    # retrieve the existing user by means of the passed 'id'
+    # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
       error_response("User not found", nil, :not_found)
@@ -113,6 +112,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       success_response(UserSerializer.new(@user).serialized_json)
     end  
   end
+
 
   private
 
@@ -149,7 +149,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     command = AuthenticateUser.call(email, password)
 
     if command.success?
-      response = { access_token: command.result, message: 'Login Successful' }
+      response = { access_token: command.result, message: "Login Successful" }
     else
       response = { message: command.errors, status: :unauthorized }
     end
