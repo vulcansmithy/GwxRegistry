@@ -93,16 +93,20 @@ class Api::V1::UsersController < Api::V1::BaseController
   # PUT   /users/account_update/:id?version=1
   # PUT   /v1/users/account_update/:id
   def account_update
-    if @user.update(update_account_params)
-      response = {
-        message: 'User account successfully updated',
-        account: @account
-      }
-      success_response(response)
+
+    # retrieve the existing user by means of the passed 'id'
+    @user = User.where(id: params[:id]).first
+    if @user.nil?
+      error_response("User not found", nil, :not_found)
+    end  
+    
+    # update the user
+    @user.update(update_account_params)
+    if @user.changes.empty?
+      error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
     else
-      error_response('Unable to update user account',
-                     @user.errors.full_messages, :bad_request)
-    end
+      success_response(UserSerializer.new(@user).serialized_json)
+    end  
   end
 
   private
@@ -120,7 +124,10 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update_account_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(
+      :email, 
+      :password, 
+      :password_confirmation)
   end
 
   def user_params
