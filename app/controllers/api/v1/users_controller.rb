@@ -77,13 +77,16 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.nil?
       error_response("User not found", nil, :not_found)
     end
+    
+    # @TODO bug found. If password (and password confirmation) is not included,
+    # update is initiated, update will not push through and an error is raised
 
     # update the user
-    @user.update(update_profile_params)
-    if @user.changes.empty?
-      error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
-    else
+    if @user.update(update_profile_params)
       success_response(UserSerializer.new(@user).serialized_json)
+    else  
+puts "@DEBUG L:#{__LINE__}   #{ap @user.errors.full_messages}"      
+      error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
     end
   end
 

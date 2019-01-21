@@ -94,7 +94,7 @@ describe Api::V1::UsersController do
     params = {
       user: {
         first_name: first_name, 
-        last_name:  last_name,
+        last_name:  last_name
       }
     }.as_json
     
