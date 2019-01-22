@@ -586,7 +586,8 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+=end
+    
   path "/players/{:user_id}" do
 
     patch "Update Player account" do
@@ -597,27 +598,25 @@ describe "Gameworks Registry API" do
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
+          username: { type: :string },
         }
       }
 
       response "200", "player updated." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+              "data" => {
+                          "id" => "309",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 309,
+                            "username" => "leeroy.jenkins",
+                      "wallet_address" => "47712730402019423195",
+                             "user_id" => 939
+                  }
+              }
           }
-        }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -627,6 +626,7 @@ describe "Gameworks Registry API" do
     end
   end
   
+=begin  
   path "/players/{:user_id}" do
 
     put "Update Player account" do

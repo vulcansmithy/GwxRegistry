@@ -430,6 +430,60 @@
             "description": "player not found."
           }
         }
+      },
+      "patch": {
+        "summary": "Update Player account",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "309",
+                  "type": "player",
+                  "attributes": {
+                    "id": 309,
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "47712730402019423195",
+                    "user_id": 939
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
       }
     }
   }

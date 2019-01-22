@@ -40,6 +40,15 @@ class Api::V1::PlayersController < Api::V1::BaseController
     render json: { player: PlayerSerializer.new(@player).serialized_json }
   end
 
+  # PATCH /players/:player_id
+  # PATCH /players/:player_id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PATCH /players/:player_id?version=1
+  # PATCH /players/:player_id
+  #
+  # PUT   /players/:player_id
+  # PUT   /players/:player_id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # PUT   /players/:player_id?version=1
+  # PUT   /players/:player_id
   def update
     if @player.update(player_params)
       success_response(PlayerSerializer.new(@player).serialized_json)
@@ -52,7 +61,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   private
 
   def player_params
-    params.require(:player).permit(:username, :user_id, :wallet_address)
+    params.require(:player).permit(:username)
   end
 
   def find_user

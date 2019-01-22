@@ -53,24 +53,34 @@ describe Api::V1::PlayersController do
     expect(response).to have_http_status(:not_found)
   end
 
-  xit "should implement the endpoint PATCH /players/:user_id" do
-    player = create(:player, user_id: @user.id)
-    player.username = "PROUDCLOUD"
-    username = "Testing01"
+  it "should implement the endpoint PATCH/PUT /players/:user_id" do
 
+    # setup test player 
+    user = create(:user)
+    user.player = create(:player)   
+    player  = user.player
+    user_id = user.id
+    
+    # setup a new name
+    new_name = "leeroy.jenkins"
+    
     params = {
       player: {
-        user_id: player.user_id,
-        username: username
+        username: new_name
       }
-    }.as_json
+    }
 
-    patch "/players/"#{player.id}"", params: params
-
-    result = JSON.parse(response.body)
-
+    # call API endpoint
+    patch "/players/#{player.user_id}", params: params
+    
+    # make sure the HTTP response code is :ok
     expect(response).to have_http_status(:ok)
-    expect(result["data"]["attributes"]["username"]).to eq username
+    
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}"
+
+    # make sure the 'username' was change to 'new_name'
+    expect(result["data"]["attributes"]["username"]).to eq new_name
   end
 
   xit "should implement the endpoint POST /players" do
