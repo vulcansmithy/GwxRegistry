@@ -9,6 +9,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
   before_action :check_player, only: [:create]
   before_action :find_player, only: [:show, :edit, :update]
 
+  # GET  /players
+  # GET  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # GET  /players?version=1
+  # GET  /v1/players
   def index
     @players = Player.all
     success_response(PlayerSerializer.new(@players).serialized_json)

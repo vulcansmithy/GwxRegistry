@@ -2,7 +2,6 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
-=begin
 ###
   ## Users
   # GET /users
@@ -258,7 +257,6 @@ describe "Gameworks Registry API" do
     end
   end
 ### 
-=end
       
 =begin
   ## Publishers
@@ -440,8 +438,9 @@ describe "Gameworks Registry API" do
   end  
 =end    
   
-=begin
+
   ## Players
+  # GET /players
   path "/player" do
 
     get "Retrieve all Player accounts" do
@@ -452,14 +451,60 @@ describe "Gameworks Registry API" do
       response "200", "player(s) found." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
+            "data" => [
+                    {
+                            "id" => "65",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 65,
+                              "username" => "Morgan Dicki",
+                        "wallet_address" => "90445621618164879000",
+                               "user_id" => 695
+                    }
+                },
+                    {
+                            "id" => "66",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 66,
+                              "username" => "Erna Carroll IV",
+                        "wallet_address" => "97002651083318758593",
+                               "user_id" => 696
+                    }
+                },
+                    {
+                            "id" => "67",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 67,
+                              "username" => "Amos Wuckert",
+                        "wallet_address" => "23459906457174736851",
+                               "user_id" => 697
+                    }
+                },
+                    {
+                            "id" => "68",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 68,
+                              "username" => "Risa Prohaska",
+                        "wallet_address" => "22019013962398419102",
+                               "user_id" => 698
+                    }
+                },
+                    {
+                            "id" => "69",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 69,
+                              "username" => "Trudie Ziemann",
+                        "wallet_address" => "16622347443976403018",
+                               "user_id" => 699
+                    }
+                }
+            ]
         }
+        
         
         # @TODO implement the schema
 
@@ -468,6 +513,7 @@ describe "Gameworks Registry API" do
     end
   end
   
+=begin  
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
