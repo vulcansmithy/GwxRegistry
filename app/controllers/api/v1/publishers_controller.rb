@@ -23,10 +23,8 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def create
     @publisher = @user.create_publisher(publisher_params)
-    @account = @nem.generate_account
 
-    if @publisher.save && @account
-      @publisher.update(wallet_address: @account.address)
+    if @publisher.save
       success_response(PublisherSerializer.new(@publisher).serialized_json, :created)
     else
       error_response('Unable to create publisher account',

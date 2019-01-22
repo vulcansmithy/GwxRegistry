@@ -20,10 +20,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def create
     @player = @user.create_player(player_params)
-    @account = @nem.generate_account
-
-    if @player.save && @account
-      @player.update(wallet_address: @account.address)
+    if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
     else
       error_response('Unable to create player account',
@@ -48,7 +45,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def initialization
     @nem = NemService.new
-    @account = @nem.generate_account
   end
 
   def player_params
