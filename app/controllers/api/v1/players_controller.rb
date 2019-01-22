@@ -5,7 +5,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
 =end
 
-  before_action :find_user, only: [:create, :show, :edit, :update]
+  before_action :find_user, only: [:show, :edit, :update, :check_player]
   before_action :check_player, only: [:create]
   before_action :find_player, only: [:show, :edit, :update]
 
@@ -26,7 +26,12 @@ class Api::V1::PlayersController < Api::V1::BaseController
     success_response(PlayerSerializer.new(@player).serialized_json)
   end
 
+  # POST  /players
+  # POST  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # POST  /players?version=1
+  # POST  /v1/players
   def create
+    @user = User.find(params[:player][:user_id])
     @player = @user.create_player(player_params)
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
@@ -61,10 +66,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
   private
 
   def player_params
-    params.require(:player).permit(:username)
+    params.require(:player).permit(:user_id, :username, :wallet_address)
   end
 
-  def find_user
+  def find_user   
     @user = User.find(params[:user_id])
   end
 
@@ -73,6 +78,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def check_player
+    @user = User.find(params[:player][:user_id])
     @user.errors.add(:base, "player account already exist")
     error_response('Player account already exist', @user.errors.full_messages, :bad_request) if @user.player
   end

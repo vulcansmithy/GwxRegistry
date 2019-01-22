@@ -626,7 +626,6 @@ describe "Gameworks Registry API" do
     end
   end
   
-=begin  
   path "/players/{:user_id}" do
 
     put "Update Player account" do
@@ -648,16 +647,17 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+                          "id" => "398",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 398,
+                            "username" => "PROUDCLOUD",
+                      "wallet_address" => "09123f1997fc2acbc5748e311aa362696578140f074ef6ba57ea48cce5f6e250",
+                             "user_id" => 1037
+                  }
+              }
           }
-        }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -666,6 +666,5 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end  
   
 end

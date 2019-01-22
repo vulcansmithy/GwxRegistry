@@ -83,22 +83,30 @@ describe Api::V1::PlayersController do
     expect(result["data"]["attributes"]["username"]).to eq new_name
   end
 
-  xit "should implement the endpoint POST /players" do
+  it "should implement the endpoint POST /players" do
+    
+    # setup test player 
+    user = create(:user)
+
     username = "PROUDCLOUD"
     params = {
       player: {
-        user_id: @user.id,
-        username: username,
-        wallet_address: "123456"
+        user_id:        user.id, 
+        username:       username,
+        wallet_address: Faker::Crypto.sha256 
       }
     }.as_json
 
     post "/players/", params: params
 
-    result = JSON.parse(response.body)
-
+    # make sure the HTTP response code is :created
     expect(response).to have_http_status(:created)
-    expect(result["data"]["attributes"]["username"]).to eq username
+
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}"
+
+    # make sure the Player actually exist
+    expect(result["data"]["id"].to_i).to eq Player.first.id
   end
 
 end
