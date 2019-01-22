@@ -513,7 +513,6 @@ describe "Gameworks Registry API" do
     end
   end
   
-=begin  
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
@@ -525,16 +524,17 @@ describe "Gameworks Registry API" do
       response "200", "player found." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes that would be returned
-            }
+              "data" => {
+                          "id" => "230",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 230,
+                            "username" => "Olive Kovacek",
+                      "wallet_address" => "27468432186301453222",
+                             "user_id" => 860
+                  }
+              }
           }
-        }
-        
-        # @TODO implement the schema
 
         run_test!
       end
@@ -545,6 +545,7 @@ describe "Gameworks Registry API" do
     end
   end
  
+=begin 
   path "/players" do
 
     post "Create a Player account" do

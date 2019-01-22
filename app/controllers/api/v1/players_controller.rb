@@ -1,10 +1,10 @@
 class Api::V1::PlayersController < Api::V1::BaseController
+
   # @TODO temporary disable authentication
 =begin
   skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
 =end
 
-  before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :show, :edit, :update]
   before_action :check_player, only: [:create]
   before_action :find_player, only: [:show, :edit, :update]
@@ -18,6 +18,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
     success_response(PlayerSerializer.new(@players).serialized_json)
   end
 
+  # GET  /players/:id
+  # GET  /players/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # GET  /players/:id?version=1
+  # GET  /v1/players/:id
   def show
     success_response(PlayerSerializer.new(@player).serialized_json)
   end
@@ -47,16 +51,12 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   private
 
-  def initialization
-    @nem = NemService.new
-  end
-
   def player_params
     params.require(:player).permit(:username, :user_id, :wallet_address)
   end
 
   def find_user
-    @user = User.find(params[:player][:user_id])
+    @user = User.find(params[:user_id])
   end
 
   def find_player

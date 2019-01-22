@@ -388,6 +388,49 @@
           }
         }
       }
+    },
+    "/players/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Player",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "230",
+                  "type": "player",
+                  "attributes": {
+                    "id": 230,
+                    "username": "Olive Kovacek",
+                    "wallet_address": "27468432186301453222",
+                    "user_id": 860
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          }
+        }
+      }
     }
   }
 }

@@ -14,7 +14,7 @@ describe Api::V1::PlayersController do
       @user.player = create(:player)
     end
     
-    # call endpoint
+    # call the API endpoint
     get "/players"
 
     expect(response).to have_http_status(:ok)
@@ -24,19 +24,23 @@ describe Api::V1::PlayersController do
     expect(result["data"].length).to eq no_of_players
   end
 
-  xit "should implement the endpoint GET /players/:user_id" do
-    player = create(:player, user_id: @user.id)
-    params = {
-      player: {
-        user_id: player.user_id
-      }
-    }.as_json
+  it "should implement the endpoint GET /players/:user_id" do
 
-    get "/players/"#{player.user_id}"", params: params
+    # setup test player
+    @user = create(:user)
+    @user.player = create(:player)   
+    player = @user.player
 
-    result = JSON.parse(response.body)
+    # call the API endpoint
+    get "/players/#{player.user_id}"
 
+    # make sure the HTTP response code is :ok
     expect(response).to have_http_status(:ok)
+        
+    result = JSON.parse(response.body)
+    puts "@DEBUG L:#{__LINE__}   #{ap result}"
+
+    # make sure the result matches to the created test player
     expect(result["data"]["id"].to_i).to eq player.id
   end
 
