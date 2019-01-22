@@ -44,6 +44,15 @@ describe Api::V1::PlayersController do
     expect(result["data"]["id"].to_i).to eq player.id
   end
 
+  it "should be able to return 404 response code for GET /players/:user_id" do
+    
+    # call the API endpoint
+    get "/players/999"
+    
+    # make sure the HTTP response code is :not_found
+    expect(response).to have_http_status(:not_found)
+  end
+
   xit "should implement the endpoint PATCH /players/:user_id" do
     player = create(:player, user_id: @user.id)
     player.username = "PROUDCLOUD"
