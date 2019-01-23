@@ -521,8 +521,8 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
-=begin  
+
+  # GET /players/:user_id  
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
@@ -535,13 +535,15 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
               "data" => {
-                          "id" => "230",
+                          "id" => "627",
                         "type" => "player",
                   "attributes" => {
-                                  "id" => 230,
-                            "username" => "Olive Kovacek",
-                      "wallet_address" => "27468432186301453222",
-                             "user_id" => 860
+                             "user_id" => 1265,
+                          "first_name" => "Wyatt",
+                           "last_name" => "Ullrich",
+                               "email" => "wyatt.ullrich@example.com",
+                            "username" => "wyatt.ullrich",
+                      "wallet_address" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
                   }
               }
           }
@@ -554,7 +556,7 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end 
+
 =begin 
   
   path "/players" do

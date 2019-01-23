@@ -398,6 +398,51 @@
           }
         }
       }
+    },
+    "/players/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Player",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "627",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1265,
+                    "first_name": "Wyatt",
+                    "last_name": "Ullrich",
+                    "email": "wyatt.ullrich@example.com",
+                    "username": "wyatt.ullrich",
+                    "wallet_address": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          }
+        }
+      }
     }
   }
 }

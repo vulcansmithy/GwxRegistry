@@ -7,4 +7,5 @@ FactoryBot.define do
     password        { email                  }
     wallet_address  { Faker::Crypto.sha256   }
   end
+  
 end
