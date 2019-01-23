@@ -16,7 +16,10 @@ describe Api::V1::PlayersController do
     # call the API endpoint
     get "/players"
 
+    # make sure the HTTP response code was returned :ok
     expect(response).to have_http_status(:ok)
+    
+    # retrieve the return data by the API endpoint
     result = JSON.parse(response.body)
 
     # make sure the no. of players matches to the set no_of_players
