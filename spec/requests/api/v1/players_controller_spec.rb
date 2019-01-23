@@ -2,10 +2,9 @@ require "rails_helper"
 
 describe Api::V1::PlayersController do
 
-  before do
-  end
-
   it "should implement the endpoint GET /players" do
+ 
+    # setup the no. of test players
     no_of_players = 5
 
     # setup test players to be returned
