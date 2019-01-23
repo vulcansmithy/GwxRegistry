@@ -1,7 +1,8 @@
 FactoryBot.define do
 
   factory :player do
-    username        { Faker::Name.unique.name }
-    wallet_address  { Faker::Number.number(20) }
+    username        { Faker::Internet.user_name }
+    wallet_address  { Faker::Crypto.sha256      }
   end
+  
 end
