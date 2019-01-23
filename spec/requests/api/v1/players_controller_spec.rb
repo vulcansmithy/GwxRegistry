@@ -44,52 +44,53 @@ describe Api::V1::PlayersController do
     expect(result["data"]["id"].to_i).to eq player.id
   end
 
-  xit "should be able to return 404 response code for GET /players/:user_id" do
+  it "should be able to return 404 response code for GET /players/:user_id" do
     
     # call the API endpoint
     get "/players/999"
     
-    # make sure the HTTP response code is :not_found
+    # make sure the HTTP response code was :not_found
     expect(response).to have_http_status(:not_found)
   end
 
-  xit "should implement the endpoint PATCH/PUT /players/:user_id" do
+  it "should implement the endpoint PATCH/PUT /players/:user_id" do
 
     # setup test player 
-    user = create(:user)
-    user.player = create(:player)   
-    player  = user.player
-    user_id = user.id
+    player  = create(:player, user: create(:user))
+    user_id = player.user_id
     
     # setup a new name
-    new_name = "leeroy.jenkins"
+    new_username = "leeroy.jenkins"
     
+    # prepare the params to be passed
     params = {
       player: {
-        username: new_name
+        username: new_username
       }
     }
 
-    # call API endpoint
+    # call the API endpoint
     patch "/players/#{player.user_id}", params: params
     
-    # make sure the HTTP response code is :ok
+    # make sure the HTTP response code was returned :ok
     expect(response).to have_http_status(:ok)
     
+    # retrieve the return data by the API endpoint    
     result = JSON.parse(response.body)
     puts "@DEBUG L:#{__LINE__}   #{ap result}"
 
-    # make sure the 'username' was change to 'new_name'
-    expect(result["data"]["attributes"]["username"]).to eq new_name
+    # make sure the 'username' was change to the new username
+    expect(result["data"]["attributes"]["username"]).to eq new_username
   end
 
-  xit "should implement the endpoint POST /players" do
+  it "should implement the endpoint POST /players" do
     
     # setup test player 
     user = create(:user)
 
-    username = "PROUDCLOUD"
-    params = {
+    # prepare the params to be passed
+    username = Faker::Internet.user_name 
+    params   = {
       player: {
         user_id:        user.id, 
         username:       username,
@@ -97,11 +98,13 @@ describe Api::V1::PlayersController do
       }
     }.as_json
 
+    # call the API endpoint
     post "/players/", params: params
 
-    # make sure the HTTP response code is :created
+    # make sure the HTTP response code was returned :created
     expect(response).to have_http_status(:created)
 
+    # retrieve the return data by the API endpoint   
     result = JSON.parse(response.body)
     puts "@DEBUG L:#{__LINE__}   #{ap result}"
 
