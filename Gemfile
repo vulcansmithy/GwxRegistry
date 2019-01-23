@@ -15,6 +15,7 @@ gem "rswag",      "2.0.5"                      # https://github.com/domaindriven
 gem "nem-ruby"
 gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
 gem "fast_jsonapi",             "1.3"          # https://github.com/Netflix/fast_jsonap
+gem "rd-readline"
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

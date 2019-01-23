@@ -13,7 +13,7 @@ describe "Gameworks Registry API" do
       produces    "application/json"
 
       response "200", "user(s) found." do
-       
+
         examples "application/json" => {
           "data" => [
             {
@@ -73,12 +73,12 @@ describe "Gameworks Registry API" do
             }
           ]
         }
-        
+
         run_test!
       end
     end
   end
-  
+
   # GET /users/:id
   path "/users/{:id}" do
 
@@ -89,7 +89,7 @@ describe "Gameworks Registry API" do
       parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :string
 
       response "200", "user found." do
-       
+
         examples "application/json" => {
           "data" => {
                     "id" => "354",
@@ -103,16 +103,16 @@ describe "Gameworks Registry API" do
             }
           }
         }
-        
+
         run_test!
       end
-      
+
       response "404", "user not found." do
         run_test!
       end
     end
   end
- 
+
   # POST /users
   path "/users" do
 
@@ -130,8 +130,8 @@ describe "Gameworks Registry API" do
                           last_name: { type: :string },
                               email: { type: :string },
                      wallet_address: { type: :string },
-                           password: { type: :string }, 
-              password_confirmation: { type: :string }, 
+                           password: { type: :string },
+              password_confirmation: { type: :string },
             },
           }
         },
@@ -139,7 +139,7 @@ describe "Gameworks Registry API" do
       }
 
       response "201", "user created." do
-       
+
         examples "application/json" => {
           "data" => {
                      "id" => "158",
@@ -153,19 +153,19 @@ describe "Gameworks Registry API" do
              }
           }
         }
-        
+
         run_test!
       end
-      
+
       response "400", "Unable to create a new User account. Bad request." do
         run_test!
       end
     end
   end
-  
+
   # PATCH /users/profile_update/:id
   path "/users/profile_update/{:id}" do
-  
+
     patch "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
@@ -184,9 +184,9 @@ describe "Gameworks Registry API" do
           },
         }
       }
-  
+
       response "200", "user updated." do
-     
+
         examples "application/json" => {
           "data" => {
                      "id" => "375",
@@ -200,25 +200,25 @@ describe "Gameworks Registry API" do
              }
           }
         }
-      
+
         # @TODO implement the schema
-  
+
         run_test!
       end
-    
+
       response "404", "User not found." do
         run_test!
       end
-  
+
       response "400", "Unable to update user profile." do
         run_test!
       end
     end
   end
- 
+
   # PUT /users/profile_update/:id
   path "/users/profile_update/{:id}" do
-  
+
     put "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
@@ -237,9 +237,9 @@ describe "Gameworks Registry API" do
           },
         }
       }
-  
+
       response "200", "user updated." do
-     
+
         examples "application/json" => {
           "data" => {
                      "id" => "375",
@@ -253,25 +253,25 @@ describe "Gameworks Registry API" do
              }
           }
         }
-      
+
         # @TODO implement the schema
-  
+
         run_test!
       end
-    
+
       response "404", "User not found." do
         run_test!
       end
-  
+
       response "400", "Unable to update user profile." do
         run_test!
       end
     end
   end
-  
+
   # PATCH /users/account_update/:id
   path "/users/account_update/{:id}" do
-  
+
     patch "Update a User account" do
       tags        "Users"
       description "Update an existing User account."
@@ -290,9 +290,9 @@ describe "Gameworks Registry API" do
           },
         }
       }
-  
+
       response "200", "user updated." do
-     
+
         examples "application/json" => {
           "data" => {
                      "id" => "432",
@@ -306,23 +306,23 @@ describe "Gameworks Registry API" do
              }
           }
         }
-      
+
         run_test!
       end
-    
+
       response "404", "User not found." do
         run_test!
       end
-  
+
       response "400", "Unable to update user profile." do
         run_test!
       end
     end
   end
-  
+
   # PUT /users/account_update/:id
   path "/users/account_update/{:id}" do
-  
+
     put "Update a User account" do
       tags        "Users"
       description "Update an existing User account."
@@ -341,9 +341,9 @@ describe "Gameworks Registry API" do
           },
         }
       }
-  
+
       response "200", "user updated." do
-     
+
         examples "application/json" => {
           "data" => {
                      "id" => "432",
@@ -357,14 +357,14 @@ describe "Gameworks Registry API" do
              }
           }
         }
-      
+
         run_test!
       end
-    
+
       response "404", "User not found." do
         run_test!
       end
-  
+
       response "400", "Unable to update user profile." do
         run_test!
       end
@@ -382,7 +382,7 @@ describe "Gameworks Registry API" do
 #     produces    "application/json"
 #
 #     response "200", "publisher(s) found." do
-#      
+#
 #       examples "application/json" => {
 #         "data" => {
 #           "user_id" => "1",
@@ -392,14 +392,14 @@ describe "Gameworks Registry API" do
 #           }
 #         }
 #       }
-#       
+#
 #       # @TODO implement the schema
 #
 #       run_test!
 #     end
 #   end
 # end
-# 
+#
 # path "/publishers/{:user_id}" do
 #
 #   get "Retrieve a specific Publisher" do
@@ -409,7 +409,7 @@ describe "Gameworks Registry API" do
 #     parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being retrieved", required: true, type: :string
 #
 #     response "200", "publisher found." do
-#      
+#
 #       examples "application/json" => {
 #         "data" => {
 #           "user_id" => "1",
@@ -419,12 +419,12 @@ describe "Gameworks Registry API" do
 #           }
 #         }
 #       }
-#       
+#
 #       # @TODO implement the schema
 #
 #       run_test!
 #     end
-#     
+#
 #     response "404", "publisher not found." do
 #       run_test!
 #     end
@@ -443,13 +443,13 @@ describe "Gameworks Registry API" do
 #         first_name: { type: :string },
 #          last_name: { type: :string },
 #              email: { type: :stirng },
-#        description: { type: :string }     
+#        description: { type: :string }
 #       },
 #       required: [ "email", "description" ]
 #     }
 #
 #     response "201", "publisher created." do
-#      
+#
 #       examples "application/json" => {
 #         "data" => {
 #           "user_id" => "1",
@@ -459,18 +459,18 @@ describe "Gameworks Registry API" do
 #           }
 #         }
 #       }
-#       
+#
 #       # @TODO implement the schema
 #
 #       run_test!
 #     end
-#     
+#
 #     response "400", "Invalid request." do
 #       run_test!
 #     end
 #   end
 # end
-# 
+#
 # path "/publishers/{:user_id}" do
 #
 #   patch "Update Publisher account" do
@@ -484,12 +484,12 @@ describe "Gameworks Registry API" do
 #         first_name: { type: :string },
 #          last_name: { type: :string },
 #              email: { type: :stirng },
-#        description: { type: :string }     
+#        description: { type: :string }
 #       }
 #     }
 #
 #     response "200", "publisher updated." do
-#      
+#
 #       examples "application/json" => {
 #         "data" => {
 #           "user_id" => "1",
@@ -499,18 +499,18 @@ describe "Gameworks Registry API" do
 #           }
 #         }
 #       }
-#       
+#
 #       # @TODO implement the schema
 #
 #       run_test!
 #     end
-#     
+#
 #     response "404", "Publisher not found." do
 #       run_test!
 #     end
 #   end
 # end
-# 
+#
 # path "/publishers/{:user_id}" do
 #
 #   put "Update Publisher account" do
@@ -524,12 +524,12 @@ describe "Gameworks Registry API" do
 #         first_name: { type: :string },
 #          last_name: { type: :string },
 #              email: { type: :stirng },
-#        description: { type: :string }     
+#        description: { type: :string }
 #       }
 #     }
 #
 #     response "200", "publisher updated." do
-#      
+#
 #       examples "application/json" => {
 #         "data" => {
 #           "user_id" => "1",
@@ -539,17 +539,17 @@ describe "Gameworks Registry API" do
 #           }
 #         }
 #       }
-#       
+#
 #       # @TODO implement the schema
 #
 #       run_test!
 #     end
-#     
+#
 #     response "404", "Publisher not found." do
 #       run_test!
 #     end
 #    end
-#  end  
+#  end
 
 
 
@@ -563,7 +563,7 @@ describe "Gameworks Registry API" do
       produces    "application/json"
 
       response "200", "player(s) found." do
-       
+
         examples "application/json" => {
             "data" => [
                     {
@@ -636,7 +636,7 @@ describe "Gameworks Registry API" do
     end
   end
 
-  # GET /players/:user_id  
+  # GET /players/:user_id
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
@@ -646,7 +646,7 @@ describe "Gameworks Registry API" do
       parameter   name: :user_id, in: :path, description: "'user_id' of the player being retrieved", required: true, type: :string
 
       response "200", "player found." do
-       
+
         examples "application/json" => {
               "data" => {
                           "id" => "627",
@@ -664,7 +664,7 @@ describe "Gameworks Registry API" do
 
         run_test!
       end
-      
+
       response "404", "player not found." do
         run_test!
       end
@@ -686,15 +686,15 @@ describe "Gameworks Registry API" do
             properties: {
                user_id: { type: :integer },
               username: { type: :string  },
-            },   
-          }, 
-        },          
+            },
+          },
+        },
 
         required: [ "user_id", "username" ]
       }
 
       response "201", "player created." do
-       
+
         examples "application/json" => {
             "data" => {
                         "id" => "629",
@@ -709,17 +709,17 @@ describe "Gameworks Registry API" do
                 }
             }
         }
-        
+
         run_test!
       end
-      
+
       response "400", "Unable to create a new User. Bad Request." do
         run_test!
       end
     end
   end
- 
-  # PATCH /players/:user_id 
+
+  # PATCH /players/:user_id
   path "/players/{:user_id}" do
 
     patch "Update Player profile" do
@@ -735,7 +735,7 @@ describe "Gameworks Registry API" do
       }
 
       response "200", "player updated." do
-       
+
         examples "application/json" => {
           "data" => {
               "id"   => "633",
@@ -750,17 +750,17 @@ describe "Gameworks Registry API" do
               }
           }
         }
-        
+
         run_test!
       end
-      
+
       response "404", "Player not found." do
         run_test!
       end
     end
   end
-  
-  # PUT /players/:user_id 
+
+  # PUT /players/:user_id
   path "/players/{:user_id}" do
 
     put "Update Player profile" do
@@ -776,7 +776,7 @@ describe "Gameworks Registry API" do
       }
 
       response "200", "player updated." do
-       
+
         examples "application/json" => {
           "data" => {
               "id"   => "633",
@@ -791,15 +791,15 @@ describe "Gameworks Registry API" do
               }
           }
         }
-        
+
         run_test!
       end
-      
+
       response "404", "Player not found." do
         run_test!
       end
     end
   end
 =end
-  
+
 end

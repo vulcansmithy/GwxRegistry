@@ -20,7 +20,6 @@ describe Api::V1::PlayersController do
 
     # retrieve the return data by the API endpoint
     result = JSON.parse(response.body)
-    puts "@DEBUG L:#{__LINE__}   #{ap result}"
 
     # make sure the no. of players matches to the set no_of_players
     expect(result["data"].length).to eq no_of_players

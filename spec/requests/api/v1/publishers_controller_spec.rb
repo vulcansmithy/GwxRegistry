@@ -31,6 +31,13 @@ describe Api::V1::PublishersController do
     expect(result["data"]["id"].to_i).to eq publisher.id
   end
 
+  it "should be able to return 404 response code for GET /publishers/:user_id" do
+
+    get "/players/999"
+
+    expect(response).to have_http_status(:not_found)
+  end
+
   it 'should implement the endpoint PATCH /publishers/:user_id' do
     user = create(:user)
     user.publisher = create(:publisher)
@@ -69,6 +76,15 @@ describe Api::V1::PublishersController do
     expect(response).to have_http_status(:created)
 
     result = JSON.parse(response.body)
+
+    params = {
+      publisher: {
+        user_id:        user.id,
+        publisher_name: "PROUDCLOUD",
+        wallet_address: Faker::Crypto.sha256,
+        description:    "hello"
+      }
+    }.as_json
 
     expect(result["data"]["id"].to_i).to eq Publisher.first.id
   end
