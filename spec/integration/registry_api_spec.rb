@@ -2,7 +2,6 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
-=begin
 ###
   ## Users
   # GET /users
@@ -258,7 +257,6 @@ describe "Gameworks Registry API" do
     end
   end
 ### 
-=end
       
 =begin
   ## Publishers
@@ -440,8 +438,9 @@ describe "Gameworks Registry API" do
   end  
 =end    
   
-=begin
+
   ## Players
+  # GET /players
   path "/player" do
 
     get "Retrieve all Player accounts" do
@@ -452,14 +451,60 @@ describe "Gameworks Registry API" do
       response "200", "player(s) found." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
+            "data" => [
+                    {
+                            "id" => "65",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 65,
+                              "username" => "Morgan Dicki",
+                        "wallet_address" => "90445621618164879000",
+                               "user_id" => 695
+                    }
+                },
+                    {
+                            "id" => "66",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 66,
+                              "username" => "Erna Carroll IV",
+                        "wallet_address" => "97002651083318758593",
+                               "user_id" => 696
+                    }
+                },
+                    {
+                            "id" => "67",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 67,
+                              "username" => "Amos Wuckert",
+                        "wallet_address" => "23459906457174736851",
+                               "user_id" => 697
+                    }
+                },
+                    {
+                            "id" => "68",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 68,
+                              "username" => "Risa Prohaska",
+                        "wallet_address" => "22019013962398419102",
+                               "user_id" => 698
+                    }
+                },
+                    {
+                            "id" => "69",
+                          "type" => "player",
+                    "attributes" => {
+                                    "id" => 69,
+                              "username" => "Trudie Ziemann",
+                        "wallet_address" => "16622347443976403018",
+                               "user_id" => 699
+                    }
+                }
+            ]
         }
+        
         
         # @TODO implement the schema
 
@@ -479,16 +524,17 @@ describe "Gameworks Registry API" do
       response "200", "player found." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes that would be returned
-            }
+              "data" => {
+                          "id" => "230",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 230,
+                            "username" => "Olive Kovacek",
+                      "wallet_address" => "27468432186301453222",
+                             "user_id" => 860
+                  }
+              }
           }
-        }
-        
-        # @TODO implement the schema
 
         run_test!
       end
@@ -499,6 +545,7 @@ describe "Gameworks Registry API" do
     end
   end
  
+=begin 
   path "/players" do
 
     post "Create a Player account" do
@@ -539,7 +586,8 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+=end
+    
   path "/players/{:user_id}" do
 
     patch "Update Player account" do
@@ -550,27 +598,25 @@ describe "Gameworks Registry API" do
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
+          username: { type: :string },
         }
       }
 
       response "200", "player updated." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+              "data" => {
+                          "id" => "309",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 309,
+                            "username" => "leeroy.jenkins",
+                      "wallet_address" => "47712730402019423195",
+                             "user_id" => 939
+                  }
+              }
           }
-        }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -601,16 +647,17 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
+                          "id" => "398",
+                        "type" => "player",
+                  "attributes" => {
+                                  "id" => 398,
+                            "username" => "PROUDCLOUD",
+                      "wallet_address" => "09123f1997fc2acbc5748e311aa362696578140f074ef6ba57ea48cce5f6e250",
+                             "user_id" => 1037
+                  }
+              }
           }
-        }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -619,6 +666,5 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end  
   
 end

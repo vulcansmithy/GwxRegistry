@@ -1,13 +1,10 @@
 class Api::V1::UsersController < Api::V1::BaseController
   
-  DISABLE_WALLET_CREATION = true
-
   # @TODO temporary disable authentication
   # skip_before_action :authenticate_request, only: %i[edit profile_update show
   #                                                account_update create index]
 
-  before_action :initialization, only:   [:create]
-  before_action :find_user,      only: %i[show profile_update account_update]
+  before_action :find_user, only: %i[show profile_update account_update]
 
   # GET  /users
   # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -32,15 +29,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   # POST  /v1/users
   def create
 
-    @user    = User.create(user_params)
-    @account = @nem.generate_account unless DISABLE_WALLET_CREATION
-
+    @user = User.create(user_params)
     if @user.save 
-      
-      unless DISABLE_WALLET_CREATION 
-        @user.update(wallet_address: @account.address)
-      end
-      
       success_response(UserSerializer.new(@user).serialized_json,  :created)
     else
       error_response("Unable to create a new User.", @user.errors, :bad_request)
@@ -112,10 +102,6 @@ class Api::V1::UsersController < Api::V1::BaseController
 
 
   private
-
-  def initialization
-    @nem = NemService.new
-  end
 
   def find_user
     @user = User.find(params[:id])

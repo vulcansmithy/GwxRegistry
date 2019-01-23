@@ -7,7 +7,6 @@ class Api::V1::PublishersController < Api::V1::BaseController
                                                    :create, :show]
 =end
 
-  before_action :initialization, only: [:create]
   before_action :find_user, only: [:create, :edit, :update, :publisher_update, :show]
   before_action :check_publisher, only: [:create]
   before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
@@ -47,16 +46,12 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   private
 
-  def initialization
-    @nem = NemService.new
-  end
-
   def publisher_params
     params.require(:publisher).permit(:description, :wallet_address, :user_id, :publisher_name)
   end
 
   def find_user
-    @user = User.find(params[:publisher][:user_id])
+    @user = User.find(params[:user_id])
   end
 
   def find_publisher
