@@ -9,8 +9,8 @@ describe Api::V1::PlayersController do
 
     # setup test players to be returned
     no_of_players.times do
-      @user = create(:user)
-      @user.player = create(:player)
+      user = create(:user)
+      user.player = create(:player)
     end
     
     # call the API endpoint
