@@ -1,8 +1,9 @@
 FactoryBot.define do
 
   factory :player do
-    username        { Faker::Internet.user_name }
-    wallet_address  { Faker::Crypto.sha256      }
+    user           # define User association
+    username       { "#{user.first_name}.#{user.last_name}".downcase }
+    wallet_address { Faker::Crypto.sha256 }
   end
   
 end

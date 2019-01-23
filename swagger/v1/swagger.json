@@ -322,7 +322,7 @@
         "tags": [
           "Players"
         ],
-        "description": "Retrieve all Player accounts.",
+        "description": "Retrieve all existing Player accounts.",
         "produces": [
           "application/json"
         ],
@@ -333,218 +333,68 @@
               "application/json": {
                 "data": [
                   {
-                    "id": "65",
+                    "id": "621",
                     "type": "player",
                     "attributes": {
-                      "id": 65,
-                      "username": "Morgan Dicki",
-                      "wallet_address": "90445621618164879000",
-                      "user_id": 695
+                      "user_id": 1259,
+                      "first_name": "Michaela",
+                      "last_name": "Bruen",
+                      "email": "michaela.bruen@example.com",
+                      "username": "michaela.bruen",
+                      "wallet_address": "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
                     }
                   },
                   {
-                    "id": "66",
+                    "id": "622",
                     "type": "player",
                     "attributes": {
-                      "id": 66,
-                      "username": "Erna Carroll IV",
-                      "wallet_address": "97002651083318758593",
-                      "user_id": 696
+                      "user_id": 1260,
+                      "first_name": "Clare",
+                      "last_name": "Dietrich",
+                      "email": "clare.dietrich@example.com",
+                      "username": "clare.dietrich",
+                      "wallet_address": "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
                     }
                   },
                   {
-                    "id": "67",
+                    "id": "623",
                     "type": "player",
                     "attributes": {
-                      "id": 67,
-                      "username": "Amos Wuckert",
-                      "wallet_address": "23459906457174736851",
-                      "user_id": 697
+                      "user_id": 1261,
+                      "first_name": "Cameron",
+                      "last_name": "Hermiston",
+                      "email": "cameron.hermiston@example.com",
+                      "username": "cameron.hermiston",
+                      "wallet_address": "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
                     }
                   },
                   {
-                    "id": "68",
+                    "id": "624",
                     "type": "player",
                     "attributes": {
-                      "id": 68,
-                      "username": "Risa Prohaska",
-                      "wallet_address": "22019013962398419102",
-                      "user_id": 698
+                      "user_id": 1262,
+                      "first_name": "Paz",
+                      "last_name": "Emard",
+                      "email": "paz.emard@example.com",
+                      "username": "paz.emard",
+                      "wallet_address": "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
                     }
                   },
                   {
-                    "id": "69",
+                    "id": "625",
                     "type": "player",
                     "attributes": {
-                      "id": 69,
-                      "username": "Trudie Ziemann",
-                      "wallet_address": "16622347443976403018",
-                      "user_id": 699
+                      "user_id": 1263,
+                      "first_name": "Dian",
+                      "last_name": "Kuhn",
+                      "email": "dian.kuhn@example.com",
+                      "username": "dian.kuhn",
+                      "wallet_address": "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
                     }
                   }
                 ]
               }
             }
-          }
-        }
-      }
-    },
-    "/players/{:user_id}": {
-      "get": {
-        "summary": "Retrieve a specific Player",
-        "tags": [
-          "Players"
-        ],
-        "description": "Retrieve a specific player by specifying its 'user_id'.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being retrieved",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "230",
-                  "type": "player",
-                  "attributes": {
-                    "id": 230,
-                    "username": "Olive Kovacek",
-                    "wallet_address": "27468432186301453222",
-                    "user_id": 860
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "player not found."
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update Player account",
-        "tags": [
-          "Players"
-        ],
-        "description": "Update an existing Player account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "309",
-                  "type": "player",
-                  "attributes": {
-                    "id": 309,
-                    "username": "leeroy.jenkins",
-                    "wallet_address": "47712730402019423195",
-                    "user_id": 939
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Player not found."
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Player account",
-        "tags": [
-          "Players"
-        ],
-        "description": "Update an existing Player account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "'user_id' of the player being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "398",
-                  "type": "player",
-                  "attributes": {
-                    "id": 398,
-                    "username": "PROUDCLOUD",
-                    "wallet_address": "09123f1997fc2acbc5748e311aa362696578140f074ef6ba57ea48cce5f6e250",
-                    "user_id": 1037
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Player not found."
           }
         }
       }

@@ -445,7 +445,7 @@ describe "Gameworks Registry API" do
 
     get "Retrieve all Player accounts" do
       tags        "Players"
-      description "Retrieve all Player accounts."
+      description "Retrieve all existing Player accounts."
       produces    "application/json"
 
       response "200", "player(s) found." do
@@ -453,59 +453,68 @@ describe "Gameworks Registry API" do
         examples "application/json" => {
             "data" => [
                     {
-                            "id" => "65",
+                            "id" => "621",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 65,
-                              "username" => "Morgan Dicki",
-                        "wallet_address" => "90445621618164879000",
-                               "user_id" => 695
+                               "user_id" => 1259,
+                            "first_name" => "Michaela",
+                             "last_name" => "Bruen",
+                                 "email" => "michaela.bruen@example.com",
+                              "username" => "michaela.bruen",
+                        "wallet_address" => "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
                     }
                 },
                     {
-                            "id" => "66",
+                            "id" => "622",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 66,
-                              "username" => "Erna Carroll IV",
-                        "wallet_address" => "97002651083318758593",
-                               "user_id" => 696
+                               "user_id" => 1260,
+                            "first_name" => "Clare",
+                             "last_name" => "Dietrich",
+                                 "email" => "clare.dietrich@example.com",
+                              "username" => "clare.dietrich",
+                        "wallet_address" => "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
                     }
                 },
                     {
-                            "id" => "67",
+                            "id" => "623",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 67,
-                              "username" => "Amos Wuckert",
-                        "wallet_address" => "23459906457174736851",
-                               "user_id" => 697
+                               "user_id" => 1261,
+                            "first_name" => "Cameron",
+                             "last_name" => "Hermiston",
+                                 "email" => "cameron.hermiston@example.com",
+                              "username" => "cameron.hermiston",
+                        "wallet_address" => "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
                     }
                 },
                     {
-                            "id" => "68",
+                            "id" => "624",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 68,
-                              "username" => "Risa Prohaska",
-                        "wallet_address" => "22019013962398419102",
-                               "user_id" => 698
+                               "user_id" => 1262,
+                            "first_name" => "Paz",
+                             "last_name" => "Emard",
+                                 "email" => "paz.emard@example.com",
+                              "username" => "paz.emard",
+                        "wallet_address" => "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
                     }
                 },
                     {
-                            "id" => "69",
+                            "id" => "625",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 69,
-                              "username" => "Trudie Ziemann",
-                        "wallet_address" => "16622347443976403018",
-                               "user_id" => 699
+                               "user_id" => 1263,
+                            "first_name" => "Dian",
+                             "last_name" => "Kuhn",
+                                 "email" => "dian.kuhn@example.com",
+                              "username" => "dian.kuhn",
+                        "wallet_address" => "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
                     }
                 }
             ]
         }
-        
-        
+
         # @TODO implement the schema
 
         run_test!
@@ -513,6 +522,7 @@ describe "Gameworks Registry API" do
     end
   end
   
+=begin  
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
@@ -544,8 +554,9 @@ describe "Gameworks Registry API" do
       end
     end
   end
- 
+=end 
 =begin 
+  
   path "/players" do
 
     post "Create a Player account" do
@@ -587,7 +598,8 @@ describe "Gameworks Registry API" do
     end
   end
 =end
-    
+ 
+=begin    
   path "/players/{:user_id}" do
 
     patch "Update Player account" do
@@ -666,5 +678,5 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+=end  
 end
