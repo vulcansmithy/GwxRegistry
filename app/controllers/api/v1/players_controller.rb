@@ -31,7 +31,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
   # POST  /players?version=1
   # POST  /v1/players
   def create
-puts "@DEBUG L:#{__LINE__}   MARKED"    
     @user = User.find(params[:player][:user_id])
     @player = @user.create_player(player_params)
     if @player.save
