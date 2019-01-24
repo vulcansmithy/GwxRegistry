@@ -108,7 +108,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update_profile_params
-    params.require(:user).permit(:first_name, :last_name)
+    params.require(:user).permit(:first_name, :last_name, :wallet_address)
   end
 
   def update_account_params
@@ -122,6 +122,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     params.require(:user).permit(
       :first_name,
       :last_name,
+      :wallet_address,
       :email,
       :password,
       :password_confirmation

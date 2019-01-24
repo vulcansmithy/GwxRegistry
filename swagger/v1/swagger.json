@@ -216,7 +216,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "'id' of the user profile being updated",
+            "description": "'id' of the User profile being updated",
             "required": true,
             "type": "string"
           },
@@ -226,11 +226,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "wallet_address": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -249,7 +257,7 @@
                     "first_name": "Lesley",
                     "last_name": "Reichert",
                     "email": "latasha.harris@example.com",
-                    "wallet_address": null
+                    "wallet_address": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
                   }
                 }
               }
@@ -264,7 +272,7 @@
         }
       },
       "put": {
-        "summary": "Update profile",
+        "summary": "Update a User profile",
         "tags": [
           "Users"
         ],
@@ -277,7 +285,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "'id' of the user profile being updated",
+            "description": "'id' of the User profile being updated",
             "required": true,
             "type": "string"
           },
@@ -287,11 +295,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "wallet_address": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -303,14 +319,14 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "245",
+                  "id": "375",
                   "type": "user",
                   "attributes": {
-                    "id": 245,
-                    "first_name": "Chi",
-                    "last_name": "Sipes",
-                    "email": "mason.mcclure@example.com",
-                    "wallet_address": null
+                    "id": 375,
+                    "first_name": "Lesley",
+                    "last_name": "Reichert",
+                    "email": "latasha.harris@example.com",
+                    "wallet_address": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
                   }
                 }
               }
@@ -321,6 +337,447 @@
           },
           "400": {
             "description": "Unable to update user profile."
+          }
+        }
+      }
+    },
+    "/users/account_update/{:id}": {
+      "patch": {
+        "summary": "Update a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the User account being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "password_confirmation": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "432",
+                  "type": "user",
+                  "attributes": {
+                    "id": 432,
+                    "first_name": "Matha",
+                    "last_name": "McDermott",
+                    "email": "matha.mcdermott@example.com",
+                    "wallet_address": "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "400": {
+            "description": "Unable to update user profile."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Update an existing User account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the User account being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "password_confirmation": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "432",
+                  "type": "user",
+                  "attributes": {
+                    "id": 432,
+                    "first_name": "Matha",
+                    "last_name": "McDermott",
+                    "email": "matha.mcdermott@example.com",
+                    "wallet_address": "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "400": {
+            "description": "Unable to update user profile."
+          }
+        }
+      }
+    },
+    "/players": {
+      "get": {
+        "summary": "Retrieve all Player profiles",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve all existing Player profiles.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "player(s) found.",
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "id": "621",
+                    "type": "player",
+                    "attributes": {
+                      "user_id": 1259,
+                      "first_name": "Michaela",
+                      "last_name": "Bruen",
+                      "email": "michaela.bruen@example.com",
+                      "username": "michaela.bruen",
+                      "wallet_address": "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
+                    }
+                  },
+                  {
+                    "id": "622",
+                    "type": "player",
+                    "attributes": {
+                      "user_id": 1260,
+                      "first_name": "Clare",
+                      "last_name": "Dietrich",
+                      "email": "clare.dietrich@example.com",
+                      "username": "clare.dietrich",
+                      "wallet_address": "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
+                    }
+                  },
+                  {
+                    "id": "623",
+                    "type": "player",
+                    "attributes": {
+                      "user_id": 1261,
+                      "first_name": "Cameron",
+                      "last_name": "Hermiston",
+                      "email": "cameron.hermiston@example.com",
+                      "username": "cameron.hermiston",
+                      "wallet_address": "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
+                    }
+                  },
+                  {
+                    "id": "624",
+                    "type": "player",
+                    "attributes": {
+                      "user_id": 1262,
+                      "first_name": "Paz",
+                      "last_name": "Emard",
+                      "email": "paz.emard@example.com",
+                      "username": "paz.emard",
+                      "wallet_address": "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
+                    }
+                  },
+                  {
+                    "id": "625",
+                    "type": "player",
+                    "attributes": {
+                      "user_id": 1263,
+                      "first_name": "Dian",
+                      "last_name": "Kuhn",
+                      "email": "dian.kuhn@example.com",
+                      "username": "dian.kuhn",
+                      "wallet_address": "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Create a player profile. The requirement is that a User account should be already exist.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "user_id",
+                "username"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "player created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "629",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1267,
+                    "first_name": "Kenya",
+                    "last_name": "Mertz",
+                    "email": "kenya.mertz@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to create a new User. Bad Request."
+          }
+        }
+      }
+    },
+    "/players/{:user_id}": {
+      "get": {
+        "summary": "Retrieve a specific Player",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the player being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "627",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1265,
+                    "first_name": "Wyatt",
+                    "last_name": "Ullrich",
+                    "email": "wyatt.ullrich@example.com",
+                    "username": "wyatt.ullrich",
+                    "wallet_address": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player profile.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the Player profile being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player profile.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the Player profile being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
           }
         }
       }

@@ -2,6 +2,7 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
+=begin
   ## Users
   # GET /users
   path "/users" do
@@ -169,12 +170,18 @@ describe "Gameworks Registry API" do
       tags        "Users"
       description "Update an existing User profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user profile being updated", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :string
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string }
+          player: {
+            type: :object,
+            properties: {
+                   first_name: { type: :string },
+                    last_name: { type: :string },
+               wallet_address: { type: :string }
+            },
+          },
         }
       }
   
@@ -189,7 +196,7 @@ describe "Gameworks Registry API" do
                      "first_name" => "Lesley",
                       "last_name" => "Reichert",
                           "email" => "latasha.harris@example.com",
-                 "wallet_address" => nil
+                 "wallet_address" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
              }
           }
         }
@@ -212,16 +219,22 @@ describe "Gameworks Registry API" do
   # PUT /users/profile_update/:id
   path "/users/profile_update/{:id}" do
   
-    put "Update profile" do
+    put "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the user profile being updated", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :string
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string }
+          player: {
+            type: :object,
+            properties: {
+                   first_name: { type: :string },
+                    last_name: { type: :string },
+               wallet_address: { type: :string }
+            },
+          },
         }
       }
   
@@ -229,14 +242,14 @@ describe "Gameworks Registry API" do
      
         examples "application/json" => {
           "data" => {
-                     "id" => "245",
+                     "id" => "375",
                    "type" => "user",
              "attributes" => {
-                             "id" => 245,
-                     "first_name" => "Chi",
-                      "last_name" => "Sipes",
-                          "email" => "mason.mcclure@example.com",
-                 "wallet_address" => nil
+                             "id" => 375,
+                     "first_name" => "Lesley",
+                      "last_name" => "Reichert",
+                          "email" => "latasha.harris@example.com",
+                 "wallet_address" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
              }
           }
         }
@@ -255,7 +268,109 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=begin
+  
+  # PATCH /users/account_update/:id
+  path "/users/account_update/{:id}" do
+  
+    patch "Update a User account" do
+      tags        "Users"
+      description "Update an existing User account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :id,   in: :path, description: "'id' of the User account being updated", required: true, type: :string
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          player: {
+            type: :object,
+            properties: {
+                               email: { type: :string },
+                            password: { type: :string },
+               password_confirmation: { type: :string }
+            },
+          },
+        }
+      }
+  
+      response "200", "user updated." do
+     
+        examples "application/json" => {
+          "data" => {
+                     "id" => "432",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 432,
+                     "first_name" => "Matha",
+                      "last_name" => "McDermott",
+                          "email" => "matha.mcdermott@example.com",
+                 "wallet_address" => "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
+             }
+          }
+        }
+      
+        run_test!
+      end
+    
+      response "404", "User not found." do
+        run_test!
+      end
+  
+      response "400", "Unable to update user profile." do
+        run_test!
+      end
+    end
+  end
+  
+  # PUT /users/account_update/:id
+  path "/users/account_update/{:id}" do
+  
+    put "Update a User account" do
+      tags        "Users"
+      description "Update an existing User account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :id,   in: :path, description: "'id' of the User account being updated", required: true, type: :string
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          player: {
+            type: :object,
+            properties: {
+                               email: { type: :string },
+                            password: { type: :string },
+               password_confirmation: { type: :string }
+            },
+          },
+        }
+      }
+  
+      response "200", "user updated." do
+     
+        examples "application/json" => {
+          "data" => {
+                     "id" => "432",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 432,
+                     "first_name" => "Matha",
+                      "last_name" => "McDermott",
+                          "email" => "matha.mcdermott@example.com",
+                 "wallet_address" => "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
+             }
+          }
+        }
+      
+        run_test!
+      end
+    
+      response "404", "User not found." do
+        run_test!
+      end
+  
+      response "400", "Unable to update user profile." do
+        run_test!
+      end
+    end
+  end
+
 
 
 #  ## Publishers
@@ -685,6 +800,6 @@ describe "Gameworks Registry API" do
       end
     end
   end
-
 =end
+  
 end
