@@ -66,7 +66,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   private
 
   def player_params
-    params.require(:player).permit(:user_id, :username, :wallet_address)
+    params.require(:player).permit(:user_id, :username)
   end
 
   def find_user   

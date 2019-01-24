@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.save 
       success_response(UserSerializer.new(@user).serialized_json,  :created)
     else
-      error_response("Unable to create a new User.", @user.errors, :bad_request)
+      error_response("Unable to create a new User account.", @user.errors, :bad_request)
     end
   end
 
@@ -108,7 +108,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update_profile_params
-    params.require(:user).permit(:first_name, :last_name)
+    params.require(:user).permit(:first_name, :last_name, :wallet_address)
   end
 
   def update_account_params
@@ -122,6 +122,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     params.require(:user).permit(
       :first_name,
       :last_name,
+      :wallet_address,
       :email,
       :password,
       :password_confirmation
