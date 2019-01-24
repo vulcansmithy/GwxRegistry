@@ -19,6 +19,10 @@ class PlayerSerializer < ActiveModel::Serializer
   
   attribute :email do |player|
     player.user.email
-  end        
+  end  
+  
+  attribute :wallet_address do |player|
+    player.user.wallet_address
+  end      
 
 end
