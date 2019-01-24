@@ -81,30 +81,28 @@ describe "Gameworks Registry API" do
   # GET /users/:id
   path "/users/{:id}" do
 
-    get "Retrieve a specific User" do
+    get "Retrieve a specific User account" do
       tags        "Users"
-      description "Retrieve a specific user by specifying its 'id'."
+      description "Retrieve a specific User account by specifying its 'id'."
       produces    "application/json"
-      parameter   name: :id, in: :path, description: "'id' of the user being retrieved", required: true, type: :string
+      parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :string
 
       response "200", "user found." do
        
         examples "application/json" => {
-        	"data" => {
-                        "id" => "48",
-                      "type" => "user",
-                "attributes" => {
-                                "id" => 48,
-                        "first_name" => "Luisa",
-                         "last_name" => "Osinski",
-                             "email" => "luisa.osinski@example.com",
-                    "wallet_address" => nil
-                }
+          "data" => {
+                    "id" => "354",
+                  "type" => "user",
+            "attributes" => {
+                            "id" => 354,
+                    "first_name" => "Chuck",
+                     "last_name" => "Aufderhar",
+                         "email" => "chuck.aufderhar@example.com",
+                "wallet_address" => "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
             }
+          }
         }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -124,13 +122,19 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-                     first_name: { type: :string },
-                      last_name: { type: :string },
-                          email: { type: :string },
-                       password: { type: :string }, 
-          password_confirmation: { type: :string },     
+          user: {
+            type: :object,
+            properties: {
+                         first_name: { type: :string },
+                          last_name: { type: :string },
+                              email: { type: :string },
+                     wallet_address: { type: :string },
+                           password: { type: :string }, 
+              password_confirmation: { type: :string }, 
+            },
+          }
         },
-        required: [ "email", "password", "password_confirmation" ]
+        required: [ "email", "wallet_address", "password", "password_confirmation" ]
       }
 
       response "201", "user created." do
@@ -144,17 +148,15 @@ describe "Gameworks Registry API" do
                      "first_name" => "Mohammed",
                       "last_name" => "Graham",
                           "email" => "mohammed.graham@example.com",
-                 "wallet_address" => nil
+                 "wallet_address" => "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
              }
           }
         }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
-      response "400", "Unable to create a new User. Bad request." do
+      response "400", "Unable to create a new User account. Bad request." do
         run_test!
       end
     end
@@ -163,7 +165,7 @@ describe "Gameworks Registry API" do
   # PATCH /users/profile_update/:id
   path "/users/profile_update/{:id}" do
   
-    patch "Update profile" do
+    patch "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
       consumes    "application/json", "application/xml"

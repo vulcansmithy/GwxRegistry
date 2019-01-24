@@ -26,7 +26,7 @@ describe Api::V1::UsersController do
     expect(result["data"].length).to eq no_of_users
   end 
   
-  xit "should implement the endpoint POST /users" do
+  it "should implement the endpoint POST /users" do
     
     # setup test user information
     first_name = Faker::Name.first_name
