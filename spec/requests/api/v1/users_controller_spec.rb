@@ -26,7 +26,7 @@ describe Api::V1::UsersController do
     expect(result["data"].length).to eq no_of_users
   end 
   
-  it "should implement the endpoint POST /users" do
+  xit "should implement the endpoint POST /users" do
     
     # setup test user information
     first_name = Faker::Name.first_name
@@ -62,7 +62,7 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["email"]).to eq email
   end 
   
-  it "should implement the endpoint GET users/:id" do
+  xit "should implement the endpoint GET users/:id" do
     
     # setup test user
     user = create(:user)
@@ -81,7 +81,7 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["email"]).to eq user.email
   end
   
-  it "should implement the endpoint PATCH/PUT /users/profile_update/:id" do
+  xit "should implement the endpoint PATCH/PUT /users/profile_update/:id" do
     
     # setup test user
     user = create(:user)
@@ -115,7 +115,7 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["last_name"]).to eq last_name
   end
 
-  it "should implement the endpoint PATCH/PUT /users/account_update/:id" do
+  xit "should implement the endpoint PATCH/PUT /users/account_update/:id" do
     
     # setup test user
     user = create(:user)

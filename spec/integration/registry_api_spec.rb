@@ -2,7 +2,6 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
-=begin
   ## Users
   # GET /users
   path "/users" do
@@ -16,66 +15,64 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => [
-                  {
-                          "id" => "147",
-                        "type" => "user",
-                  "attributes" => {
-                                  "id" => 147,
-                          "first_name" => "Ismael",
-                           "last_name" => "Koss",
-                               "email" => "ismael.koss@example.com",
-                      "wallet_address" => nil
-                  }
-              },
-                  {
-                          "id" => "148",
-                        "type" => "user",
-                  "attributes" => {
-                                  "id" => 148,
-                          "first_name" => "Shenika",
-                           "last_name" => "Halvorson",
-                               "email" => "shenika.halvorson@example.com",
-                      "wallet_address" => nil
-                  }
-              },
-                  {
-                          "id" => "149",
-                        "type" => "user",
-                  "attributes" => {
-                                  "id" => 149,
-                          "first_name" => "Shara",
-                           "last_name" => "Roob",
-                               "email" => "shara.roob@example.com",
-                      "wallet_address" => nil
-                  }
-              },
-                  {
-                          "id" => "150",
-                        "type" => "user",
-                  "attributes" => {
-                                  "id" => 150,
-                          "first_name" => "Devon",
-                           "last_name" => "Abbott",
-                               "email" => "devon.abbott@example.com",
-                      "wallet_address" => nil
-                  }
-              },
-                  {
-                          "id" => "151",
-                        "type" => "user",
-                  "attributes" => {
-                                  "id" => 151,
-                          "first_name" => "Milissa",
-                           "last_name" => "Dicki",
-                               "email" => "milissa.dicki@example.com",
-                      "wallet_address" => nil
-                  }
+            {
+                      "id" => "17",
+                    "type" => "user",
+              "attributes" => {
+                              "id" => 17,
+                      "first_name" => "Duane",
+                       "last_name" => "Kohler",
+                           "email" => "duane.kohler@example.com",
+                  "wallet_address" => "b6a86d69ff07758f3ee4a894fce8849309af74179695e3ccfb314db489a94dc8"
               }
+            },
+            {
+                      "id" => "18",
+                    "type" => "user",
+              "attributes" => {
+                              "id" => 18,
+                      "first_name" => "Shin",
+                       "last_name" => "McDermott",
+                           "email" => "shin.mcdermott@example.com",
+                  "wallet_address" => "f588eaf1048bc74a8c69e20e751b42d0eda50045cfd12594d363aac289ff8e78"
+              }
+            },
+            {
+                      "id" => "19",
+                    "type" => "user",
+              "attributes" => {
+                              "id" => 19,
+                      "first_name" => "Williams",
+                       "last_name" => "Gaylord",
+                           "email" => "williams.gaylord@example.com",
+                  "wallet_address" => "92ce8f0147db4be1ae52858a530daf1f05ce8a611eef9fa5de4f6ba0d4d5f118"
+              }
+            },
+            {
+                      "id" => "20",
+                    "type" => "user",
+              "attributes" => {
+                              "id" => 20,
+                      "first_name" => "Maple",
+                       "last_name" => "Schuppe",
+                           "email" => "maple.schuppe@example.com",
+                  "wallet_address" => "ceef5f3f9d7066ce2b5fec14559164c997a6aec2f7f6b4e8aab72d30211cf11d"
+              }
+            },
+            {
+                      "id" => "21",
+                    "type" => "user",
+              "attributes" => {
+                              "id" => 21,
+                      "first_name" => "Carylon",
+                       "last_name" => "Russel",
+                           "email" => "carylon.russel@example.com",
+                  "wallet_address" => "71037afb5e123b65e2fc2a0666826df3bc6611b39792d14be629c9620c392a57"
+              }
+            }
           ]
         }
         
-        # @TODO implement the schema
-
         run_test!
       end
     end
@@ -256,7 +253,7 @@ describe "Gameworks Registry API" do
       end
     end
   end
-
+=begin
 
 
 #  ## Publishers
