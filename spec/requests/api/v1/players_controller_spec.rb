@@ -26,7 +26,7 @@ describe Api::V1::PlayersController do
     expect(result["data"].length).to eq no_of_players
   end
 
-  it "should implement the endpoint GET /players/:user_id" do
+  xit "should implement the endpoint GET /players/:user_id" do
 
     # setup a test player
     player = create(:player, user: create(:user))
@@ -84,7 +84,7 @@ describe Api::V1::PlayersController do
     expect(result["data"]["attributes"]["username"]).to eq new_username
   end
 
-  xit "should implement the endpoint POST /players" do
+  it "should implement the endpoint POST /players" do
     
     # setup test player 
     user = create(:user)

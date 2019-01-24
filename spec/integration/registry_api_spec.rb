@@ -557,8 +557,7 @@ describe "Gameworks Registry API" do
     end
   end
 
-=begin 
-  
+  # POST /players
   path "/players" do
 
     post "Create a Player account" do
@@ -566,31 +565,50 @@ describe "Gameworks Registry API" do
       description "Create a player account."
       consumes    "application/json", "application/xml"
       parameter   name: :player, in: :body, schema: {
+=begin        
         type: :object,
         properties: {
                    first_name: { type: :string },
                     last_name: { type: :string },
-                        email: { type: :stirng },
+                        email: { type: :string },
                      password: { type: :string },
-        password_confirmation: { type: :string },     
-        },
+        password_confirmation: { type: :string },  
+        }, 
+=end
+        type: :object,
+        properties: {
+          player: {
+            type: :object,
+            properties: {
+                         first_name: { type: :string },
+                          last_name: { type: :string },
+                              email: { type: :string },
+                           password: { type: :string },
+              password_confirmation: { type: :string },  
+            },   
+          }, 
+        },          
+
         required: [ "email", "password", "password_confirmation" ]
       }
 
       response "201", "player created." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
+            "data" => {
+                        "id" => "629",
+                      "type" => "player",
+                "attributes" => {
+                           "user_id" => 1267,
+                        "first_name" => "Kenya",
+                         "last_name" => "Mertz",
+                             "email" => "kenya.mertz@example.com",
+                          "username" => "leeroy.jenkins",
+                    "wallet_address" => "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                }
             }
-          }
         }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -599,7 +617,6 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end
  
 =begin    
   path "/players/{:user_id}" do
