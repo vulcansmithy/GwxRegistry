@@ -322,7 +322,7 @@
         "tags": [
           "Players"
         ],
-        "description": "Retrieve all Player accounts.",
+        "description": "Retrieve all existing Player accounts.",
         "produces": [
           "application/json"
         ],
@@ -333,53 +333,63 @@
               "application/json": {
                 "data": [
                   {
-                    "id": "65",
+                    "id": "621",
                     "type": "player",
                     "attributes": {
-                      "id": 65,
-                      "username": "Morgan Dicki",
-                      "wallet_address": "90445621618164879000",
-                      "user_id": 695
+                      "user_id": 1259,
+                      "first_name": "Michaela",
+                      "last_name": "Bruen",
+                      "email": "michaela.bruen@example.com",
+                      "username": "michaela.bruen",
+                      "wallet_address": "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
                     }
                   },
                   {
-                    "id": "66",
+                    "id": "622",
                     "type": "player",
                     "attributes": {
-                      "id": 66,
-                      "username": "Erna Carroll IV",
-                      "wallet_address": "97002651083318758593",
-                      "user_id": 696
+                      "user_id": 1260,
+                      "first_name": "Clare",
+                      "last_name": "Dietrich",
+                      "email": "clare.dietrich@example.com",
+                      "username": "clare.dietrich",
+                      "wallet_address": "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
                     }
                   },
                   {
-                    "id": "67",
+                    "id": "623",
                     "type": "player",
                     "attributes": {
-                      "id": 67,
-                      "username": "Amos Wuckert",
-                      "wallet_address": "23459906457174736851",
-                      "user_id": 697
+                      "user_id": 1261,
+                      "first_name": "Cameron",
+                      "last_name": "Hermiston",
+                      "email": "cameron.hermiston@example.com",
+                      "username": "cameron.hermiston",
+                      "wallet_address": "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
                     }
                   },
                   {
-                    "id": "68",
+                    "id": "624",
                     "type": "player",
                     "attributes": {
-                      "id": 68,
-                      "username": "Risa Prohaska",
-                      "wallet_address": "22019013962398419102",
-                      "user_id": 698
+                      "user_id": 1262,
+                      "first_name": "Paz",
+                      "last_name": "Emard",
+                      "email": "paz.emard@example.com",
+                      "username": "paz.emard",
+                      "wallet_address": "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
                     }
                   },
                   {
-                    "id": "69",
+                    "id": "625",
                     "type": "player",
                     "attributes": {
-                      "id": 69,
-                      "username": "Trudie Ziemann",
-                      "wallet_address": "16622347443976403018",
-                      "user_id": 699
+                      "user_id": 1263,
+                      "first_name": "Dian",
+                      "last_name": "Kuhn",
+                      "email": "dian.kuhn@example.com",
+                      "username": "dian.kuhn",
+                      "wallet_address": "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
                     }
                   }
                 ]
@@ -414,13 +424,15 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "230",
+                  "id": "627",
                   "type": "player",
                   "attributes": {
-                    "id": 230,
-                    "username": "Olive Kovacek",
-                    "wallet_address": "27468432186301453222",
-                    "user_id": 860
+                    "user_id": 1265,
+                    "first_name": "Wyatt",
+                    "last_name": "Ullrich",
+                    "email": "wyatt.ullrich@example.com",
+                    "username": "wyatt.ullrich",
+                    "wallet_address": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
                   }
                 }
               }
@@ -432,11 +444,11 @@
         }
       },
       "patch": {
-        "summary": "Update Player account",
+        "summary": "Update Player profile",
         "tags": [
           "Players"
         ],
-        "description": "Update an existing Player account.",
+        "description": "Update an existing Player profile.",
         "consumes": [
           "application/json",
           "application/xml"
@@ -445,7 +457,7 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the player being updated",
+            "description": "'user_id' of the Player profile being updated",
             "required": true,
             "type": "string"
           },
@@ -468,13 +480,15 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "309",
+                  "id": "633",
                   "type": "player",
                   "attributes": {
-                    "id": 309,
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
                     "username": "leeroy.jenkins",
-                    "wallet_address": "47712730402019423195",
-                    "user_id": 939
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
                   }
                 }
               }
@@ -486,11 +500,11 @@
         }
       },
       "put": {
-        "summary": "Update Player account",
+        "summary": "Update Player profile",
         "tags": [
           "Players"
         ],
-        "description": "Update an existing Player account.",
+        "description": "Update an existing Player profile.",
         "consumes": [
           "application/json",
           "application/xml"
@@ -499,7 +513,7 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the player being updated",
+            "description": "'user_id' of the Player profile being updated",
             "required": true,
             "type": "string"
           },
@@ -509,16 +523,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
-                  "type": "string"
-                },
-                "last_name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "stirng"
-                },
-                "description": {
+                "username": {
                   "type": "string"
                 }
               }
@@ -531,13 +536,15 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "398",
+                  "id": "633",
                   "type": "player",
                   "attributes": {
-                    "id": 398,
-                    "username": "PROUDCLOUD",
-                    "wallet_address": "09123f1997fc2acbc5748e311aa362696578140f074ef6ba57ea48cce5f6e250",
-                    "user_id": 1037
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
                   }
                 }
               }
@@ -545,6 +552,69 @@
           },
           "404": {
             "description": "Player not found."
+          }
+        }
+      }
+    },
+    "/players": {
+      "post": {
+        "summary": "Create a Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Create a player profile. The requirement is that a User account should be already exist.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "player": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "user_id",
+                "username"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "player created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "629",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1267,
+                    "first_name": "Kenya",
+                    "last_name": "Mertz",
+                    "email": "kenya.mertz@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to create a new User. Bad Request."
           }
         }
       }

@@ -2,7 +2,7 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
-###
+=begin
   ## Users
   # GET /users
   path "/users" do
@@ -256,196 +256,196 @@ describe "Gameworks Registry API" do
       end
     end
   end
-### 
-      
-=begin
-  ## Publishers
-  path "/publishers" do
 
-    get "Retrieve all Publisher accounts" do
-      tags        "Publishers"
-      description "Retrieve all publisher accounts."
-      produces    "application/json"
 
-      response "200", "publisher(s) found." do
-       
-        examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "publisher",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
 
-        run_test!
-      end
-    end
-  end
-  
-  path "/publishers/{:user_id}" do
+#  ## Publishers
+#  path "/publishers" do
+#
+#    get "Retrieve all Publisher accounts" do
+#      tags        "Publishers"
+#     description "Retrieve all publisher accounts."
+#     produces    "application/json"
+#
+#     response "200", "publisher(s) found." do
+#      
+#       examples "application/json" => {
+#         "data" => {
+#           "user_id" => "1",
+#           "type"    => "publisher",
+#           "attributes" => {
+#             # @TODO implement the attributes to be returned
+#           }
+#         }
+#       }
+#       
+#       # @TODO implement the schema
+#
+#       run_test!
+#     end
+#   end
+# end
+# 
+# path "/publishers/{:user_id}" do
+#
+#   get "Retrieve a specific Publisher" do
+#     tags        "Publishers"
+#     description "Retrieve a specific publisher by specifying its 'user_id'."
+#     produces    "application/json"
+#     parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being retrieved", required: true, type: :string
+#
+#     response "200", "publisher found." do
+#      
+#       examples "application/json" => {
+#         "data" => {
+#           "user_id" => "1",
+#           "type"    => "publisher",
+#           "attributes" => {
+#             # @TODO implement the attributes that would be returned
+#           }
+#         }
+#       }
+#       
+#       # @TODO implement the schema
+#
+#       run_test!
+#     end
+#     
+#     response "404", "publisher not found." do
+#       run_test!
+#     end
+#   end
+# end
+#
+# path "/publishers" do
+#
+#   post "Create a Publisher account" do
+#     tags        "Publishers"
+#     description "Create a publisher account."
+#     consumes    "application/json", "application/xml"
+#     parameter   name: :publisher, in: :body, schema: {
+#       type: :object,
+#       properties: {
+#         first_name: { type: :string },
+#          last_name: { type: :string },
+#              email: { type: :stirng },
+#        description: { type: :string }     
+#       },
+#       required: [ "email", "description" ]
+#     }
+#
+#     response "201", "publisher created." do
+#      
+#       examples "application/json" => {
+#         "data" => {
+#           "user_id" => "1",
+#           "type"    => "publisher",
+#           "attributes" => {
+#             # @TODO implement the attributes to be returned
+#           }
+#         }
+#       }
+#       
+#       # @TODO implement the schema
+#
+#       run_test!
+#     end
+#     
+#     response "400", "Invalid request." do
+#       run_test!
+#     end
+#   end
+# end
+# 
+# path "/publishers/{:user_id}" do
+#
+#   patch "Update Publisher account" do
+#     tags        "Publishers"
+#     description "Update an existing Publisher account."
+#     consumes    "application/json", "application/xml"
+#     parameter   name: :user_id,   in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
+#     parameter   name: :publisher, in: :body, schema: {
+#       type: :object,
+#       properties: {
+#         first_name: { type: :string },
+#          last_name: { type: :string },
+#              email: { type: :stirng },
+#        description: { type: :string }     
+#       }
+#     }
+#
+#     response "200", "publisher updated." do
+#      
+#       examples "application/json" => {
+#         "data" => {
+#           "user_id" => "1",
+#           "type"    => "publisher",
+#           "attributes" => {
+#             # @TODO implement the attributes to be returned
+#           }
+#         }
+#       }
+#       
+#       # @TODO implement the schema
+#
+#       run_test!
+#     end
+#     
+#     response "404", "Publisher not found." do
+#       run_test!
+#     end
+#   end
+# end
+# 
+# path "/publishers/{:user_id}" do
+#
+#   put "Update Publisher account" do
+#     tags        "Publishers"
+#     description "Update an existing Publisher account."
+#     consumes    "application/json", "application/xml"
+#     parameter   name: :user_id,   in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
+#     parameter   name: :publisher, in: :body, schema: {
+#       type: :object,
+#       properties: {
+#         first_name: { type: :string },
+#          last_name: { type: :string },
+#              email: { type: :stirng },
+#        description: { type: :string }     
+#       }
+#     }
+#
+#     response "200", "publisher updated." do
+#      
+#       examples "application/json" => {
+#         "data" => {
+#           "user_id" => "1",
+#           "type"    => "publisher",
+#           "attributes" => {
+#             # @TODO implement the attributes to be returned
+#           }
+#         }
+#       }
+#       
+#       # @TODO implement the schema
+#
+#       run_test!
+#     end
+#     
+#     response "404", "Publisher not found." do
+#       run_test!
+#     end
+#    end
+#  end  
 
-    get "Retrieve a specific Publisher" do
-      tags        "Publishers"
-      description "Retrieve a specific publisher by specifying its 'user_id'."
-      produces    "application/json"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being retrieved", required: true, type: :string
 
-      response "200", "publisher found." do
-       
-        examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "publisher",
-            "attributes" => {
-              # @TODO implement the attributes that would be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "publisher not found." do
-        run_test!
-      end
-    end
-  end
- 
-  path "/publishers" do
-
-    post "Create a Publisher account" do
-      tags        "Publishers"
-      description "Create a publisher account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :publisher, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        },
-        required: [ "email", "description" ]
-      }
-
-      response "201", "publisher created." do
-       
-        examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "publisher",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "400", "Invalid request." do
-        run_test!
-      end
-    end
-  end
-  
-  path "/publishers/{:user_id}" do
-
-    patch "Update Publisher account" do
-      tags        "Publishers"
-      description "Update an existing Publisher account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
-      parameter   name: :publisher, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        }
-      }
-
-      response "200", "publisher updated." do
-       
-        examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "publisher",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "Publisher not found." do
-        run_test!
-      end
-    end
-  end
-  
-  path "/publishers/{:user_id}" do
-
-    put "Update Publisher account" do
-      tags        "Publishers"
-      description "Update an existing Publisher account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
-      parameter   name: :publisher, in: :body, schema: {
-        type: :object,
-        properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
-        }
-      }
-
-      response "200", "publisher updated." do
-       
-        examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "publisher",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
-            }
-          }
-        }
-        
-        # @TODO implement the schema
-
-        run_test!
-      end
-      
-      response "404", "Publisher not found." do
-        run_test!
-      end
-    end
-  end  
-=end    
-  
 
   ## Players
   # GET /players
-  path "/player" do
+  path "/players" do
 
-    get "Retrieve all Player accounts" do
+    get "Retrieve all Player profiles" do
       tags        "Players"
-      description "Retrieve all Player accounts."
+      description "Retrieve all existing Player profiles."
       produces    "application/json"
 
       response "200", "player(s) found." do
@@ -453,66 +453,76 @@ describe "Gameworks Registry API" do
         examples "application/json" => {
             "data" => [
                     {
-                            "id" => "65",
+                            "id" => "621",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 65,
-                              "username" => "Morgan Dicki",
-                        "wallet_address" => "90445621618164879000",
-                               "user_id" => 695
+                               "user_id" => 1259,
+                            "first_name" => "Michaela",
+                             "last_name" => "Bruen",
+                                 "email" => "michaela.bruen@example.com",
+                              "username" => "michaela.bruen",
+                        "wallet_address" => "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
                     }
                 },
                     {
-                            "id" => "66",
+                            "id" => "622",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 66,
-                              "username" => "Erna Carroll IV",
-                        "wallet_address" => "97002651083318758593",
-                               "user_id" => 696
+                               "user_id" => 1260,
+                            "first_name" => "Clare",
+                             "last_name" => "Dietrich",
+                                 "email" => "clare.dietrich@example.com",
+                              "username" => "clare.dietrich",
+                        "wallet_address" => "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
                     }
                 },
                     {
-                            "id" => "67",
+                            "id" => "623",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 67,
-                              "username" => "Amos Wuckert",
-                        "wallet_address" => "23459906457174736851",
-                               "user_id" => 697
+                               "user_id" => 1261,
+                            "first_name" => "Cameron",
+                             "last_name" => "Hermiston",
+                                 "email" => "cameron.hermiston@example.com",
+                              "username" => "cameron.hermiston",
+                        "wallet_address" => "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
                     }
                 },
                     {
-                            "id" => "68",
+                            "id" => "624",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 68,
-                              "username" => "Risa Prohaska",
-                        "wallet_address" => "22019013962398419102",
-                               "user_id" => 698
+                               "user_id" => 1262,
+                            "first_name" => "Paz",
+                             "last_name" => "Emard",
+                                 "email" => "paz.emard@example.com",
+                              "username" => "paz.emard",
+                        "wallet_address" => "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
                     }
                 },
                     {
-                            "id" => "69",
+                            "id" => "625",
                           "type" => "player",
                     "attributes" => {
-                                    "id" => 69,
-                              "username" => "Trudie Ziemann",
-                        "wallet_address" => "16622347443976403018",
-                               "user_id" => 699
+                               "user_id" => 1263,
+                            "first_name" => "Dian",
+                             "last_name" => "Kuhn",
+                                 "email" => "dian.kuhn@example.com",
+                              "username" => "dian.kuhn",
+                        "wallet_address" => "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
                     }
                 }
             ]
         }
-        
-        
+
         # @TODO implement the schema
 
         run_test!
       end
     end
   end
-  
+
+  # GET /players/:user_id  
   path "/players/{:user_id}" do
 
     get "Retrieve a specific Player" do
@@ -525,13 +535,15 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
               "data" => {
-                          "id" => "230",
+                          "id" => "627",
                         "type" => "player",
                   "attributes" => {
-                                  "id" => 230,
-                            "username" => "Olive Kovacek",
-                      "wallet_address" => "27468432186301453222",
-                             "user_id" => 860
+                             "user_id" => 1265,
+                          "first_name" => "Wyatt",
+                           "last_name" => "Ullrich",
+                               "email" => "wyatt.ullrich@example.com",
+                            "username" => "wyatt.ullrich",
+                      "wallet_address" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
                   }
               }
           }
@@ -544,40 +556,46 @@ describe "Gameworks Registry API" do
       end
     end
   end
- 
-=begin 
+
+  # POST /players
   path "/players" do
 
-    post "Create a Player account" do
+    post "Create a Player profile" do
       tags        "Players"
-      description "Create a player account."
+      description "Create a player profile. The requirement is that a User account should be already exist."
       consumes    "application/json", "application/xml"
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-                   first_name: { type: :string },
-                    last_name: { type: :string },
-                        email: { type: :stirng },
-                     password: { type: :string },
-        password_confirmation: { type: :string },     
-        },
-        required: [ "email", "password", "password_confirmation" ]
+          player: {
+            type: :object,
+            properties: {
+               user_id: { type: :integer },
+              username: { type: :string  },
+            },   
+          }, 
+        },          
+
+        required: [ "user_id", "username" ]
       }
 
       response "201", "player created." do
        
         examples "application/json" => {
-          "data" => {
-            "user_id" => "1",
-            "type"    => "player",
-            "attributes" => {
-              # @TODO implement the attributes to be returned
+            "data" => {
+                        "id" => "629",
+                      "type" => "player",
+                "attributes" => {
+                           "user_id" => 1267,
+                        "first_name" => "Kenya",
+                         "last_name" => "Mertz",
+                             "email" => "kenya.mertz@example.com",
+                          "username" => "leeroy.jenkins",
+                    "wallet_address" => "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                }
             }
-          }
         }
         
-        # @TODO implement the schema
-
         run_test!
       end
       
@@ -586,15 +604,15 @@ describe "Gameworks Registry API" do
       end
     end
   end
-=end
-    
+ 
+  # PATCH /players/:user_id 
   path "/players/{:user_id}" do
 
-    patch "Update Player account" do
+    patch "Update Player profile" do
       tags        "Players"
-      description "Update an existing Player account."
+      description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the player being updated", required: true, type: :string
+      parameter   name: :user_id, in: :path, description: "'user_id' of the Player profile being updated", required: true, type: :string
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
@@ -605,17 +623,19 @@ describe "Gameworks Registry API" do
       response "200", "player updated." do
        
         examples "application/json" => {
-              "data" => {
-                          "id" => "309",
-                        "type" => "player",
-                  "attributes" => {
-                                  "id" => 309,
-                            "username" => "leeroy.jenkins",
-                      "wallet_address" => "47712730402019423195",
-                             "user_id" => 939
-                  }
+          "data" => {
+              "id"   => "633",
+              "type" => "player",
+              "attributes" => {
+                       "user_id" => 1271,
+                    "first_name" => "Marcellus",
+                     "last_name" => "Luettgen",
+                         "email" => "marcellus.luettgen@example.com",
+                      "username" => "leeroy.jenkins",
+                "wallet_address" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
               }
           }
+        }
         
         run_test!
       end
@@ -626,20 +646,18 @@ describe "Gameworks Registry API" do
     end
   end
   
+  # PUT /players/:user_id 
   path "/players/{:user_id}" do
 
-    put "Update Player account" do
+    put "Update Player profile" do
       tags        "Players"
-      description "Update an existing Player account."
+      description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the player being updated", required: true, type: :string
+      parameter   name: :user_id, in: :path, description: "'user_id' of the Player profile being updated", required: true, type: :string
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
-          first_name: { type: :string },
-           last_name: { type: :string },
-               email: { type: :stirng },
-         description: { type: :string }     
+          username: { type: :string },
         }
       }
 
@@ -647,16 +665,18 @@ describe "Gameworks Registry API" do
        
         examples "application/json" => {
           "data" => {
-                          "id" => "398",
-                        "type" => "player",
-                  "attributes" => {
-                                  "id" => 398,
-                            "username" => "PROUDCLOUD",
-                      "wallet_address" => "09123f1997fc2acbc5748e311aa362696578140f074ef6ba57ea48cce5f6e250",
-                             "user_id" => 1037
-                  }
+              "id"   => "633",
+              "type" => "player",
+              "attributes" => {
+                       "user_id" => 1271,
+                    "first_name" => "Marcellus",
+                     "last_name" => "Luettgen",
+                         "email" => "marcellus.luettgen@example.com",
+                      "username" => "leeroy.jenkins",
+                "wallet_address" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
               }
           }
+        }
         
         run_test!
       end
@@ -666,5 +686,6 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+
+=end
 end
