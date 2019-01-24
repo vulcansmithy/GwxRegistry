@@ -580,16 +580,13 @@ describe "Gameworks Registry API" do
           player: {
             type: :object,
             properties: {
-                         first_name: { type: :string },
-                          last_name: { type: :string },
-                              email: { type: :string },
-                           password: { type: :string },
-              password_confirmation: { type: :string },  
+               user_id: { type: :string },
+              username: { type: :string },
             },   
           }, 
         },          
 
-        required: [ "email", "password", "password_confirmation" ]
+        required: [ "user_id", "username" ]
       }
 
       response "201", "player created." do
