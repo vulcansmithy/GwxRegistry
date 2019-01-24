@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Api::V1::PlayersController do
 
-  xit "should implement the endpoint GET /players" do
+  it "should implement the endpoint GET /players" do
  
     # setup the no. of test players
     no_of_players = 5
@@ -26,7 +26,7 @@ describe Api::V1::PlayersController do
     expect(result["data"].length).to eq no_of_players
   end
 
-  xit "should implement the endpoint GET /players/:user_id" do
+  it "should implement the endpoint GET /players/:user_id" do
 
     # setup a test player
     player = create(:player, user: create(:user))
@@ -45,7 +45,7 @@ describe Api::V1::PlayersController do
     expect(result["data"]["id"].to_i).to eq player.id
   end
 
-  xit "should be able to return 404 response code for GET /players/:user_id" do
+  it "should be able to return 404 response code for GET /players/:user_id" do
     
     # call the API endpoint
     get "/players/999"
@@ -54,7 +54,7 @@ describe Api::V1::PlayersController do
     expect(response).to have_http_status(:not_found)
   end
 
-  xit "should implement the endpoint PATCH/PUT /players/:user_id" do
+  it "should implement the endpoint PATCH/PUT /players/:user_id" do
 
     # setup test player 
     player  = create(:player, user: create(:user))

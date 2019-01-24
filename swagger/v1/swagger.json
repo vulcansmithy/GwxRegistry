@@ -442,15 +442,127 @@
             "description": "player not found."
           }
         }
+      },
+      "patch": {
+        "summary": "Update Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player profile.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the Player profile being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Update an existing Player profile.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "'user_id' of the Player profile being updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player updated.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "user_id": 1271,
+                    "first_name": "Marcellus",
+                    "last_name": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          }
+        }
       }
     },
     "/players": {
       "post": {
-        "summary": "Create a Player account",
+        "summary": "Create a Player profile",
         "tags": [
           "Players"
         ],
-        "description": "Create a player account.",
+        "description": "Create a player profile. The requirement is that a User account should be already exist.",
         "consumes": [
           "application/json",
           "application/xml"
