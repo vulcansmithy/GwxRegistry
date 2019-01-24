@@ -565,23 +565,13 @@ describe "Gameworks Registry API" do
       description "Create a player account."
       consumes    "application/json", "application/xml"
       parameter   name: :player, in: :body, schema: {
-=begin        
-        type: :object,
-        properties: {
-                   first_name: { type: :string },
-                    last_name: { type: :string },
-                        email: { type: :string },
-                     password: { type: :string },
-        password_confirmation: { type: :string },  
-        }, 
-=end
         type: :object,
         properties: {
           player: {
             type: :object,
             properties: {
-               user_id: { type: :string },
-              username: { type: :string },
+               user_id: { type: :integer },
+              username: { type: :string  },
             },   
           }, 
         },          
