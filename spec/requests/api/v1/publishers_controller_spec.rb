@@ -6,24 +6,23 @@ describe Api::V1::PublishersController do
     no_of_publishers = 5
 
     no_of_publishers.times do
-      user = create(:user)
-      user.publisher = create(:publisher)
+      publisher = create(:publisher, user: create(:user))
     end
 
     get '/publishers'
 
     expect(response).to have_http_status(:ok)
+
     result = JSON.parse(response.body)
 
     expect(result["data"].length).to eq no_of_publishers
   end
 
   it 'should implement the endpoint GET /publishers/:user_id' do
-    user = create(:user)
-    user.publisher = create(:publisher)
-    publisher = user.publisher
+    publisher = create(:publisher, user: create(:user))
 
     get "/publishers/#{publisher.user_id}"
+
     expect(response).to have_http_status(:ok)
 
     result = JSON.parse(response.body)
@@ -33,15 +32,15 @@ describe Api::V1::PublishersController do
 
   it "should be able to return 404 response code for GET /publishers/:user_id" do
 
-    get "/players/999"
+    # call the API endpoint
+    get "/publishers/999"
 
+    # make sure the HTTP response code was :not_found
     expect(response).to have_http_status(:not_found)
   end
 
-  it 'should implement the endpoint PATCH /publishers/:user_id' do
-    user = create(:user)
-    user.publisher = create(:publisher)
-    publisher = user.publisher
+  it 'should implement the endpoint PATCH/PUT /publishers/:user_id' do
+    publisher = create(:publisher, user: create(:user))
     new_name = "Testing01"
 
     params = {
@@ -76,15 +75,6 @@ describe Api::V1::PublishersController do
     expect(response).to have_http_status(:created)
 
     result = JSON.parse(response.body)
-
-    params = {
-      publisher: {
-        user_id:        user.id,
-        publisher_name: "PROUDCLOUD",
-        wallet_address: Faker::Crypto.sha256,
-        description:    "hello"
-      }
-    }.as_json
 
     expect(result["data"]["id"].to_i).to eq Publisher.first.id
   end
