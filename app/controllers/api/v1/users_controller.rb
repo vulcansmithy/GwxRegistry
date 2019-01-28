@@ -1,8 +1,9 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  
+
   # @TODO temporary disable authentication
   # skip_before_action :authenticate_request, only: %i[edit profile_update show
-  #                                                account_update create index]
+  #                                                account_update create index login]
+  skip_before_action :authenticate_request, only: %i[create login]
 
   before_action :find_user, only: %i[show profile_update account_update]
 
@@ -30,7 +31,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
 
     @user = User.create(user_params)
-    if @user.save 
+    if @user.save
       success_response(UserSerializer.new(@user).serialized_json,  :created)
     else
       error_response("Unable to create a new User account.", @user.errors, :bad_request)
@@ -51,15 +52,15 @@ class Api::V1::UsersController < Api::V1::BaseController
     # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
-      error_response("User not found", 
-        "Passed 'id' does not match to any existing User", 
+      error_response("User not found",
+        "Passed 'id' does not match to any existing User",
         :not_found)
     end
-    
+
     # update the user
     if @user.update(update_profile_params)
       success_response(UserSerializer.new(@user).serialized_json)
-    else  
+    else
       error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
     end
   end
@@ -78,17 +79,17 @@ class Api::V1::UsersController < Api::V1::BaseController
     # retrieve the existing user by means of the passed "id"
     @user = User.where(id: params[:id]).first
     if @user.nil?
-      error_response("User not found", 
-        "Passed 'id' does not match to any existing User", 
+      error_response("User not found",
+        "Passed 'id' does not match to any existing User",
         :not_found)
-    end  
-    
+    end
+
     # update the user
-    if @user.update(update_account_params) 
+    if @user.update(update_account_params)
       success_response(UserSerializer.new(@user).serialized_json)
     else
       error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
-    end  
+    end
   end
 
   def login
@@ -113,8 +114,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def update_account_params
     params.require(:user).permit(
-      :email, 
-      :password, 
+      :email,
+      :password,
       :password_confirmation)
   end
 
@@ -132,7 +133,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def authenticate(email, password)
     command = AuthenticateUser.call(email, password)
 
-    if command.success?
+    if command.success
       response = { access_token: command.result, message: "Login Successful" }
     else
       response = { message: command.errors, status: :unauthorized }

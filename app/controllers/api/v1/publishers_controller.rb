@@ -1,12 +1,5 @@
 class Api::V1::PublishersController < Api::V1::BaseController
 
-  # @TODO temporary disable authentication
-=begin
-  skip_before_action :authenticate_request, only: [:edit, :update,
-                                                   :publisher_update,
-                                                   :create, :show]
-=end
-
   before_action :find_user, only: [:edit, :update, :publisher_update, :show]
   before_action :check_publisher, only: [:create]
   before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]

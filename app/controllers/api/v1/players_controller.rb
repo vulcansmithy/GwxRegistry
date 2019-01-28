@@ -1,11 +1,5 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-
-  # @TODO temporary disable authentication
-=begin
-  skip_before_action :authenticate_request, only: [:edit, :create, :update, :find_user, :show]
-=end
-
-  before_action :find_user, only: [:show, :edit, :update, :check_player]
+  before_action :find_user, only: [:show, :edit, :update, :check_player, :authenticate]
   before_action :check_player, only: [:create]
   before_action :find_player, only: [:show, :edit, :update]
 
@@ -69,7 +63,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
     params.require(:player).permit(:user_id, :username)
   end
 
-  def find_user   
+  def find_user
     @user = User.find(params[:user_id])
   end
 
