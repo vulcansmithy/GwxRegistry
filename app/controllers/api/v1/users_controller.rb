@@ -1,7 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-
   skip_before_action :authenticate_request, only: %i[create login test sample]
-
   before_action :set_user, only: %i[show edit update]
 
   # GET  /users
@@ -13,18 +11,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     success_response(UserSerializer.new(@users).serialized_json)
   end
 
-  # GET  /users/:id
-  # GET  /users/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # GET  /users/:id?version=1
-  # GET  /v1/users/:id
   def show
     success_response(UserSerializer.new(@user).serialized_json)
   end
 
-  # POST  /users
-  # POST  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # POST  /users?version=1
-  # POST  /v1/users
   def create
     @user = User.create(user_params)
     if @user.save
@@ -43,7 +33,6 @@ class Api::V1::UsersController < Api::V1::BaseController
                      :unprocessable_entity)
     end
   end
-
 
   # POST  /users/login
   # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }

@@ -1,5 +1,4 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-
   before_action :set_user, only: %i[create edit update show check_publisher]
   before_action :check_publisher, only: [:create]
   before_action :set_publisher, only: %i[edit update show]
