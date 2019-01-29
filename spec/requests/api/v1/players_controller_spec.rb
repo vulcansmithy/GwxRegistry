@@ -12,8 +12,12 @@ describe Api::V1::PlayersController do
       player = create(:player, user: create(:user))
     end
 
+    user = User.first
+    post '/users/login', params: {email: user.email, password: 'password'}
+    result = JSON.parse(response.body)
+
     # call the API endpoint
-    get "/players"
+    get "/players", headers: { Authorization: "#{result['access_token']}" }
 
     # make sure the HTTP response code was returned :ok
     expect(response).to have_http_status(:ok)
@@ -30,8 +34,11 @@ describe Api::V1::PlayersController do
     # setup a test player
     player = create(:player, user: create(:user))
 
+    post '/users/login', params: {email: player.user.email, password: 'password'}
+    result = JSON.parse(response.body)
+
     # call the API endpoint
-    get "/players/#{player.user_id}"
+    get "/players/#{player.user_id}", headers: { Authorization: "#{result['access_token']}" }
 
     # make sure the HTTP response code was returned :ok
     expect(response).to have_http_status(:ok)
@@ -45,8 +52,13 @@ describe Api::V1::PlayersController do
 
   it "should be able to return 404 response code for GET /players/:user_id" do
 
+    user = create(:user)
+
+    post '/users/login', params: {email: user.email, password: 'password'}
+    result = JSON.parse(response.body)
+
     # call the API endpoint
-    get "/players/999"
+    get "/players/999", headers: { Authorization: "#{result['access_token']}" }
 
     # make sure the HTTP response code was :not_found
     expect(response).to have_http_status(:not_found)
@@ -57,6 +69,9 @@ describe Api::V1::PlayersController do
     # setup test player
     player  = create(:player, user: create(:user))
     user_id = player.user_id
+
+    post '/users/login', params: {email: player.user.email, password: 'password'}
+    result = JSON.parse(response.body)
 
     # setup a new name
     new_username = "leeroy.jenkins"
@@ -69,7 +84,7 @@ describe Api::V1::PlayersController do
     }
 
     # call the API endpoint
-    patch "/players/#{player.user_id}", params: params
+    patch "/players/#{player.user_id}", params: params, headers: { Authorization: "#{result['access_token']}" }
 
     # make sure the HTTP response code was returned :ok
     expect(response).to have_http_status(:ok)
@@ -86,6 +101,9 @@ describe Api::V1::PlayersController do
     # setup test player
     user = create(:user)
 
+    post '/users/login', params: {email: user.email, password: 'password'}
+    result = JSON.parse(response.body)
+
     # prepare the params to be passed
     params = {
       player: {
@@ -96,7 +114,7 @@ describe Api::V1::PlayersController do
     }.as_json
 
     # call the API endpoint
-    post "/players/", params: params
+    post "/players/", params: params, headers: { Authorization: "#{result['access_token']}" }
 
     # make sure the HTTP response code was returned :created
     expect(response).to have_http_status(:created)
