@@ -28,5 +28,3 @@
 
 # Ignore test coverage result
 /coverage
-
-/config/database.yml
