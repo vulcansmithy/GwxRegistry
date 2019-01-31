@@ -29,7 +29,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   # POST  /users?version=1
   # POST  /v1/users
   def create
-
     @user = User.create(user_params)
     if @user.save
       success_response(UserSerializer.new(@user).serialized_json,  :created)
@@ -138,10 +137,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     command = AuthenticateUser.call(email, password)
 
     if command.success
-      response = { access_token: command.result, message: "Login Successful" }
+      success_response({ access_token: command.result, message: "Login Successful" })
     else
-      response = { message: command.errors, status: :unauthorized }
+      error_response("Login Unsuccessful", command.errors, :unauthorized)
     end
-    render json: response
   end
+
 end

@@ -12,10 +12,17 @@ describe Api::V1::UsersController do
       user = create(:user)
     end
 
+    # retrieve the first User
     user = User.first
+    
+    # authenticate by calling the login endpoint
     post "/users/login", params: {email: user.email, password: "password"}
-    result = JSON.parse(response.body)
 
+    # make sure the User was successfully login
+    expect(response).to have_http_status(:ok)
+
+    result = JSON.parse(response.body)
+    
     # call the API endpoint
     get "/users", headers: { Authorization: "#{result["access_token"]}" }
 
