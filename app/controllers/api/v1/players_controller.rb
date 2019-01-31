@@ -1,7 +1,8 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-  before_action :find_user, only: [:show, :edit, :update, :check_player, :authenticate]
+
+  before_action :find_user,    only: [:show, :edit, :update, :check_player, :authenticate]
   before_action :check_player, only: [:create]
-  before_action :find_player, only: [:show, :edit, :update]
+  before_action :find_player,  only: [:show, :edit, :update]
 
   # GET  /players
   # GET  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -30,8 +31,8 @@ class Api::V1::PlayersController < Api::V1::BaseController
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
     else
-      error_response('Unable to create player account',
-                     @player.errors.full_messages, :bad_request)
+      error_response("Unable to create player account",
+        @player.errors.full_messages, :bad_request)
     end
   end
 
@@ -52,8 +53,8 @@ class Api::V1::PlayersController < Api::V1::BaseController
     if @player.update(player_params)
       success_response(PlayerSerializer.new(@player).serialized_json)
     else
-      error_response('Unable to update player account',
-                     @player.errors.full_messages, :bad_request)
+      error_response("Unable to update player account",
+        @player.errors.full_messages, :bad_request)
     end
   end
 

@@ -13,7 +13,7 @@ describe Api::V1::PlayersController do
     end
 
     user = User.first
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -34,7 +34,7 @@ describe Api::V1::PlayersController do
     # setup a test player
     player = create(:player, user: create(:user))
 
-    post '/users/login', params: {email: player.user.email, password: 'password'}
+    post "/users/login", params: { email: player.user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -54,7 +54,7 @@ describe Api::V1::PlayersController do
 
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -70,7 +70,7 @@ describe Api::V1::PlayersController do
     player  = create(:player, user: create(:user))
     user_id = player.user_id
 
-    post '/users/login', params: {email: player.user.email, password: 'password'}
+    post "/users/login", params: {email: player.user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # setup a new name
@@ -101,7 +101,7 @@ describe Api::V1::PlayersController do
     # setup test player
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # prepare the params to be passed
