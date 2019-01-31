@@ -1,8 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
-  # @TODO temporary disable authentication
-  # skip_before_action :authenticate_request, only: %i[edit profile_update show
-  #                                                account_update create index login]
   skip_before_action :authenticate_request, only: %i[create login]
 
   before_action :find_user, only: %i[show profile_update account_update]
