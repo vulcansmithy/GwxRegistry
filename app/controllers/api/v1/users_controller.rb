@@ -92,6 +92,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  # POST  /users/login
+  # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # POST  /users/login?version=1
+  # POST  /v1/users/login
   def login
     authenticate params[:email], params[:password]
   end
