@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  AppInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro
+      ImageId: ami-0c5199d385b432989
+      KeyName: gwx-registry-staging
+      SecurityGroups:
+      - !Ref AppInstanceSG
+      Tags:
+        -
+          Key: Name
+          Value: Gameworks Registry API Staging
+      UserData: !Base64 |
+        #!/bin/bash
+        sudo apt-get update -qq
+        sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+        sudo apt-get update -qq
+        sudo apt-cache policy docker-ce
+        sudo apt -y install docker-ce
+        sudo mkdir -p /etc/systemd/system/docker.service.d
+        sudo bash -c 'printf "[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375\n" >>  /etc/systemd/system/docker.service.d/docker.conf'
+        sudo systemctl daemon-reload
+        sudo systemctl restart docker
+
+  AppInstanceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH, HTTP, HTTPS, & Docker Ports
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 2375
+        ToPort: 2375
+        CidrIp: 0.0.0.0/0
+  
+  DBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: gwxregistrystaging
+      Engine: postgres
+      MasterUsername: db_user
+      MasterUserPassword: 'wYWdr4cu^8#q'
+      DBInstanceClass: db.t2.small
+      AllocatedStorage: 5
+      DBSecurityGroups:
+        - !Ref DatabaseSG
+  
+  DatabaseSG:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      GroupDescription: Security Group for RDS public access
+      # public access for the meantime
+      DBSecurityGroupIngress:
+        - CIDRIP: 0.0.0.0/0
