@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine  => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
-
+  
+  root to: "application#welcome"
+  
   api_version(
     :module    => "Api::V1",
     :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
     :default   => true) do
 
     resources :users, :except => [:destroy] do
+      
       collection do
         patch "/profile_update/:id", to: "users#profile_update"
         put   "/profile_update/:id", to: "users#profile_update"
