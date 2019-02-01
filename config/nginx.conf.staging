@@ -1,5 +1,5 @@
 upstream puma {
-  server unix:///home/ubuntu/gwx-registry-api/shared/tmp/sockets/appname-puma.sock;
+  server unix:///home/ubuntu/gwx-registry-api/shared/tmp/sockets/gwx-registry-api-puma.sock;
 }
 
 server {
