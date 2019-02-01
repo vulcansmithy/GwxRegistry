@@ -16,6 +16,8 @@ gem "nem-ruby"
 gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
 gem "fast_jsonapi",             "1.3"          # https://github.com/Netflix/fast_jsonap
 
+gem "rspec-core"
+
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails",   "3.8.1"                 # https://github.com/rspec/rspec-rails
