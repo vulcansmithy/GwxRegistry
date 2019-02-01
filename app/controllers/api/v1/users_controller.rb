@@ -1,8 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
-  # @TODO temporary disable authentication
-  # skip_before_action :authenticate_request, only: %i[edit profile_update show
-  #                                                account_update create index login]
   skip_before_action :authenticate_request, only: %i[create login]
 
   before_action :find_user, only: %i[show profile_update account_update]
@@ -29,7 +26,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   # POST  /users?version=1
   # POST  /v1/users
   def create
-
     @user = User.create(user_params)
     if @user.save
       success_response(UserSerializer.new(@user).serialized_json,  :created)
@@ -92,6 +88,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  # POST  /users/login
+  # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
+  # POST  /users/login?version=1
+  # POST  /v1/users/login
   def login
     authenticate params[:email], params[:password]
   end
@@ -134,10 +134,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     command = AuthenticateUser.call(email, password)
 
     if command.success
-      response = { access_token: command.result, message: "Login Successful" }
+      success_response({ access_token: command.result, message: "Login Successful" })
     else
-      response = { message: command.errors, status: :unauthorized }
+      error_response("Login Unsuccessful", command.errors, :unauthorized)
     end
-    render json: response
   end
+
 end

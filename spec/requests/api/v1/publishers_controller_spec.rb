@@ -2,18 +2,29 @@ require "rails_helper"
 
 describe Api::V1::PublishersController do
 
-  it 'should implement the endpoint GET /publishers' do
+  it "should implement the endpoint GET /publishers" do
+    
+    # set the no. of Publisher profile
     no_of_publishers = 5
 
+    # setup 5 sample test Publishers
     no_of_publishers.times do
       publisher = create(:publisher, user: create(:user))
     end
 
+    # retrieve the first User
     user = User.first
-    post '/users/login', params: {email: user.email, password: 'password'}
+    
+    # authenticate by calling the login endpoint
+    post "/users/login", params: { email: user.email, password: "password" }
+    
+    # make sure the User was successfully login
+    expect(response).to have_http_status(:ok)
+    
     result = JSON.parse(response.body)
-
-    get '/publishers', headers: { Authorization: "#{result['access_token']}" }
+    
+    # call the API endpoint
+    get "/publishers", headers: { Authorization: "#{result['access_token']}" }
 
     expect(response).to have_http_status(:ok)
 
@@ -22,10 +33,10 @@ describe Api::V1::PublishersController do
     expect(result["data"].length).to eq no_of_publishers
   end
 
-  it 'should implement the endpoint GET /publishers/:user_id' do
+  it "should implement the endpoint GET /publishers/:user_id" do
     publisher = create(:publisher, user: create(:user))
 
-    post '/users/login', params: {email: publisher.user.email, password: 'password'}
+    post "/users/login", params: { email: publisher.user.email, password: "password" }
     result = JSON.parse(response.body)
 
     get "/publishers/#{publisher.user_id}", headers: { Authorization: "#{result['access_token']}" }
@@ -40,7 +51,7 @@ describe Api::V1::PublishersController do
   it "should be able to return 404 response code for GET /publishers/:user_id" do
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -51,17 +62,21 @@ describe Api::V1::PublishersController do
   end
 
   it "should be able to return user not found error for GET /publishers/:user_id with wrong access_token" do
+
     publisher = create(:publisher, user: create(:user))
 
-    post '/users/login', params: {email: publisher.user.email, password: 'password1'}
-    get "/publishers/#{publisher.user_id}", headers: { Authorization: "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNSwiZXhwIjoxNTQ4NzM0NDA5fQ._IBrXOuHvDUB6Ojd_V4Gwy3vH3p_iy6kFxcSNHlw9D8" }
+    post "/users/login", params: { email: publisher.user.email, password: "password" }
+
+    # pass an incorrect access token
+    get "/publishers/#{publisher.user_id}", headers: { Authorization: "incorect-token" }
+    
     result = JSON.parse(response.body)
 
-    # make sure the HTTP response code was :not_found
-    expect(response).to have_http_status(:not_found)
+    # make sure the HTTP response code was :unauthorized
+    expect(response).to have_http_status(:internal_server_error)
   end
 
-  it 'should implement the endpoint PATCH/PUT /publishers/:user_id' do
+  it "should implement the endpoint PATCH/PUT /publishers/:user_id" do
     publisher = create(:publisher, user: create(:user))
     new_name = "Testing01"
 
@@ -83,7 +98,7 @@ describe Api::V1::PublishersController do
     expect(result["data"]["attributes"]["publisher_name"]).to eq new_name
   end
 
-  it 'should implement the endpoint POST /publisher' do
+  it "should implement the endpoint POST /publisher" do
     user = create(:user)
 
     post '/users/login', params: {email: user.email, password: 'password'}

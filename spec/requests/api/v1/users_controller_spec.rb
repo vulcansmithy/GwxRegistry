@@ -12,13 +12,19 @@ describe Api::V1::UsersController do
       user = create(:user)
     end
 
+    # retrieve the first User
     user = User.first
-    post '/users/login', params: {email: user.email, password: 'password'}
+    
+    # authenticate by calling the login endpoint
+    post "/users/login", params: {email: user.email, password: "password"}
+
+    # make sure the User was successfully login
+    expect(response).to have_http_status(:ok)
+
     result = JSON.parse(response.body)
-
-
+    
     # call the API endpoint
-    get "/users", headers: { Authorization: "#{result['access_token']}" }
+    get "/users", headers: { Authorization: "#{result["access_token"]}" }
 
     # make sure login was successful
     expect(response).to have_http_status(:ok)
@@ -69,11 +75,11 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/users/#{user.id}", headers: {Authorization: "#{result['access_token']}"}
+    get "/users/#{user.id}", headers: {Authorization: "#{result["access_token"]}"}
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)
@@ -90,7 +96,7 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: {email: user.email, password: "password"}
     result = JSON.parse(response.body)
 
     # setup a new test user first_name and last_name
@@ -106,7 +112,7 @@ describe Api::V1::UsersController do
     }.as_json
 
     # call the API endpoint
-    patch "/users/profile_update/#{user.id}", params: params, headers: {Authorization: "#{result['access_token']}"}
+    patch "/users/profile_update/#{user.id}", params: params, headers: {Authorization: "#{result["access_token"]}"}
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)
@@ -126,7 +132,7 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post '/users/login', params: {email: user.email, password: 'password'}
+    post "/users/login", params: {email: user.email, password: "password"}
     result = JSON.parse(response.body)
 
     # setup a new test user email
@@ -142,7 +148,7 @@ describe Api::V1::UsersController do
     }.as_json
 
     # call the API endpoint
-    patch "/users/account_update/#{user.id}", params: params, headers: {Authorization: "#{result['access_token']}"}
+    patch "/users/account_update/#{user.id}", params: params, headers: { Authorization: "#{result["access_token"]}" }
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)
@@ -153,4 +159,5 @@ describe Api::V1::UsersController do
     # make sure the first_name was successfully updated
     expect(result["data"]["attributes"]["email"]).to eq email
   end
+
 end

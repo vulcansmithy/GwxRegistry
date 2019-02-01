@@ -1,8 +1,8 @@
 class Api::V1::PublishersController < Api::V1::BaseController
 
-  before_action :find_user, only: [:edit, :update, :publisher_update, :show]
+  before_action :find_user,       only: [:edit, :update, :publisher_update, :show]
   before_action :check_publisher, only: [:create]
-  before_action :find_publisher, only: [:edit, :update, :publisher_update, :show]
+  before_action :find_publisher,  only: [:edit, :update, :publisher_update, :show]
 
   def index
     @publishers = Publisher.all
@@ -20,8 +20,8 @@ class Api::V1::PublishersController < Api::V1::BaseController
     if @publisher.save
       success_response(PublisherSerializer.new(@publisher).serialized_json, :created)
     else
-      error_response('Unable to create publisher account',
-                     @publisher.errors.full_messages, :bad_request)
+      error_response("Unable to create publisher account",
+        @publisher.errors.full_messages, :bad_request)
     end
   end
 
@@ -33,8 +33,8 @@ class Api::V1::PublishersController < Api::V1::BaseController
     if @publisher.update(publisher_params)
       success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
-      error_response('There is an error updating publisher account',
-                     @user.errors.full_messages, :bad_request)
+      error_response("There is an error updating publisher account",
+        @user.errors.full_messages, :bad_request)
     end
   end
 
@@ -55,15 +55,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   def check_publisher
     @user = User.find(params[:publisher][:user_id])
     @user.errors.add(:base, "publisher account already exist")
-    error_response('publisher account already exist', @user.errors.full_messages, :bad_request) if @user.publisher
+    error_response('Publisher account already exist', @user.errors.full_messages, :bad_request) if @user.publisher
   end
+
 end
-
-
-
-
-
-
-
-
-
