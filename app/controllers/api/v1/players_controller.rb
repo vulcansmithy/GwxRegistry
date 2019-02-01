@@ -1,6 +1,6 @@
 class Api::V1::PlayersController < Api::V1::BaseController
 
-  before_action :find_user,    only: [:show, :edit, :update, :check_player, :authenticate]
+  before_action :find_user,    only: [:show, :edit, :update, :check_player]
   before_action :check_player, only: [:create]
   before_action :find_player,  only: [:show, :edit, :update]
 
@@ -28,6 +28,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   def create
     @user = User.find(params[:player][:user_id])
     @player = @user.create_player(player_params)
+    
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
     else
