@@ -25,6 +25,7 @@ Resources:
         sudo bash -c 'printf "[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375\n" >>  /etc/systemd/system/docker.service.d/docker.conf'
         sudo systemctl daemon-reload
         sudo systemctl restart docker
+        sudo apt-get install -y build-essential git-core nginx libssl-dev libreadline-dev zlib1g-dev libpq-dev
 
   AppInstanceSG:
     Type: AWS::EC2::SecurityGroup
