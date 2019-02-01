@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: gwx_registry_api_development
+test:
+  <<: *default
+  database: gwx_registry_api_test
+
+staging:
+  <<: *default
+  database: gwx_registry_api_staging
+  username: db_user
+  password: wYWdr4cu^8#q
+  host: gd1vq8x0pvy2x7v.ckmbjjrltdpp.ap-southeast-1.rds.amazonaws.com
+
+  port: 5432
