@@ -1,5 +1,11 @@
 lock "~> 3.11.0"
 
+set :rbenv_type, :user
+set :rbenv_ruby, "2.5.1"
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails puma pumactl}
+set :rbenv_roles, :all
+
 set :repo_url,        'git@github.com:gameworks-gwx/gwx-registry-api.git'
 set :application,     'gwx-registry-api'
 set :user,            'ubuntu'
@@ -21,8 +27,7 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 
-set :scm,           :git
-set :branch,        :feature/cloudformation
+set :branch,        'feature/cloudformation'
 set :format,        :pretty
 set :log_level,     :debug
 set :keep_releases, 5
