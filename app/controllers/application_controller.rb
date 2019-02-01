@@ -1,11 +1,15 @@
 class ApplicationController < ActionController::API
 
-  before_action :authenticate_request
+  before_action :authenticate_request, except: [:welcome]
 
   attr_reader :current_user
 
   include ExceptionHandler
 
+  def welcome
+    render nothing: true, status: :ok
+  end
+    
   private
 
   def authenticate_request

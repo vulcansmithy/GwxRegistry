@@ -96,12 +96,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     authenticate params[:email], params[:password]
   end
 
-  def test
-    message = @user.errors.full_messages
-    render json: { message: message, account: @account }
-  end
-
-
   private
 
   def find_user

@@ -159,5 +159,5 @@ describe Api::V1::UsersController do
     # make sure the first_name was successfully updated
     expect(result["data"]["attributes"]["email"]).to eq email
   end
-
-end
+  
+ end
