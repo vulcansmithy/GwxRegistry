@@ -27,7 +27,6 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 
-set :branch,        'feature/cloudformation'
 set :format,        :pretty
 set :log_level,     :debug
 set :keep_releases, 5
