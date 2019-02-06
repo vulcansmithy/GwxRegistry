@@ -5,7 +5,7 @@ Resources:
     Properties:
       InstanceType: t3.micro
       ImageId: ami-0c5199d385b432989
-      KeyName: gwx-registry-staging
+      KeyName: gwx-registry-api
       SecurityGroups:
       - !Ref AppInstanceSG
       Tags:
