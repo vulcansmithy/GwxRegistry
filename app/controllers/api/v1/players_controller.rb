@@ -1,8 +1,8 @@
 class Api::V1::PlayersController < Api::V1::BaseController
 
-  before_action :find_user,    only: [:show, :edit, :update, :check_player]
+  before_action :set_user, only: [:create, :show, :edit, :update]
   before_action :check_player, only: [:create]
-  before_action :find_player,  only: [:show, :edit, :update]
+  before_action :set_player, only: [:show, :edit, :update]
 
   # GET  /players
   # GET  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -65,11 +65,11 @@ class Api::V1::PlayersController < Api::V1::BaseController
     params.require(:player).permit(:user_id, :username)
   end
 
-  def find_user
-    @user = User.find(params[:user_id])
+  def set_user
+    @user = User.find(params[:player][:user_id])
   end
 
-  def find_player
+  def set_player
     @player = @user.player
   end
 
