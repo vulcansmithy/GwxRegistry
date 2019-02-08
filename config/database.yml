@@ -19,7 +19,7 @@ staging:
   port: 5432
 production:
   <<: *default
-  database: gwx_registry_api_staging
+  database: gwx_registry_api_production
   username: db_user
   password: wYWdr4cu^8#q
   host: gd1r2q6biceaiqd.crbvlq8se7oc.ap-southeast-1.rds.amazonaws.com
