@@ -17,3 +17,10 @@ then run the rails server and load the API doc at
 ~~~
 http://localhost:3000/api-docs
 ~~~
+
+Create user account
+~~~
+rake create_users:users
+rake create_users:players
+rake create_users:publishers
+~~~
