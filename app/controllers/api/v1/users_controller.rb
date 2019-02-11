@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
-  skip_before_action :authenticate_request, only: %i[create login]
+  skip_before_action :authenticate_request, only: %i[create login, test, sample]
   
   before_action :set_user, only: %i[show edit profile_update account_update]
 
@@ -20,7 +20,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def show
     success_response(UserSerializer.new(@user).serialized_json)
   end
-
+  
   # POST  /users
   # POST  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
   # POST  /users?version=1
@@ -96,6 +96,17 @@ class Api::V1::UsersController < Api::V1::BaseController
     authenticate params[:email], params[:password]
   end
 
+  def test
+    render json: {
+      message: 'You have passed authentication and authorization test'
+    }
+  end
+
+  def sample
+    response = { message: 'sample' }
+    render json: response, status: :ok
+  end
+  
   private
 
   def set_user
@@ -114,15 +125,13 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def user_params
-    params.require(:user).permit(
+    params.permit(
       :first_name,
       :last_name,
       :wallet_address,
       :email,
-      :pk,
-      :mac_address,
       :password,
-      :password_confirmation,
+      :password_confirmation
     )
   end
 
@@ -135,5 +144,4 @@ class Api::V1::UsersController < Api::V1::BaseController
       error_response("Login Unsuccessful", command.errors, :unauthorized)
     end
   end
-
 end
