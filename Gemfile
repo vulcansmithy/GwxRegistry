@@ -2,21 +2,22 @@ source "https://rubygems.org"
 
 ruby "2.5.1"
 
-gem "rails",     "~> 5.2.2"
-gem "pg",        ">= 0.18", "< 2.0"
-gem "puma",      "~> 3.11"
-gem "bcrypt",    "~> 3.1", ">= 3.1.12"
-gem "jwt",       "2.1.0"                       # https://github.com/jwt/ruby-jwt
-gem "bootsnap",  ">= 1.1.0", require: false
-gem "rack-cors", "1.0.2",    require: "rack/cors"
-gem "simple_command"                           # https://github.com/nebulab/simple_command
-gem "versionist", "1.7.0"                      # https://github.com/bploetz/versionist
-gem "rswag",      "2.0.5"                      # https://github.com/domaindrivendev/rswag
-gem "nem-ruby"
-gem "active_model_serializers", "0.10.8"       # https://github.com/rails-api/active_model_serializers
-gem "fast_jsonapi",             "1.3"          # https://github.com/Netflix/fast_jsonap
+gem "rails",                    "~> 5.2.2"
+gem "pg",                       ">= 0.18", "< 2.0"
+gem "puma",                     "~> 3.11"
+gem "bcrypt",                   "~> 3.1", ">= 3.1.12"
+gem "jwt",                      "2.1.0"                            # https://github.com/jwt/ruby-jwt
+gem "bootsnap",                 ">= 1.1.0", require: false       
+gem "rack-cors",                "1.0.2",    require: "rack/cors"   
+gem "simple_command"                                               # https://github.com/nebulab/simple_command
+gem "versionist",               "1.7.0"                            # https://github.com/bploetz/versionist
+gem "rswag",                    "2.0.5"                            # https://github.com/domaindrivendev/rswag
+gem "nem-ruby"                                                     # https://github.com/44uk/nem-ruby
+gem "active_model_serializers", "0.10.8"                           # https://github.com/rails-api/active_model_serializers
+gem "fast_jsonapi",             "1.3"                              # https://github.com/Netflix/fast_jsonap
 
 gem "rspec-core"
+gem "attr_encrypted",           "3.1.0"                            # https://github.com/attr-encrypted/attr_encrypted
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
