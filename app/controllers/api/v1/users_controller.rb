@@ -88,7 +88,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-<<<<<<< Updated upstream
   # POST  /users/login
   # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
   # POST  /users/login?version=1
@@ -120,8 +119,10 @@ class Api::V1::UsersController < Api::V1::BaseController
       :last_name,
       :wallet_address,
       :email,
+      :pk,
+      :mac_address,
       :password,
-      :password_confirmation
+      :password_confirmation,
     )
   end
 
