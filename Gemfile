@@ -1,5 +1,4 @@
 source "https://rubygems.org"
-
 ruby "2.5.1"
 
 gem "rails",     "~> 5.2.2"
@@ -42,6 +41,8 @@ group :test do
   gem "simplecov", "0.16.1", require: false   # https://github.com/colszowka/simplecov
   gem "faker", "1.9.1"                        # https://github.com/stympy/faker
   gem "factory_bot_rails", "4.11.1"           # https://github.com/thoughtbot/factory_bot_rails
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

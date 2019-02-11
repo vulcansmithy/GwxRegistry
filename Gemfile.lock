@@ -84,6 +84,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.4)
     crass (1.0.4)
+    database_cleaner (1.7.0)
     diff-lcs (1.3)
     digest-sha3 (1.1.0)
     docile (1.3.1)
@@ -234,6 +235,8 @@ GEM
       railties (>= 3.1, < 6.0)
     ruby_dep (1.5.0)
     shellany (0.0.1)
+    shoulda-matchers (3.1.3)
+      activesupport (>= 4.0.0)
     simple_command (0.0.9)
     simplecov (0.16.1)
       docile (~> 1.1)
@@ -283,6 +286,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.1)
   capistrano-rbenv-install (~> 1.2.0)
   capistrano3-puma
+  database_cleaner
   factory_bot_rails (= 4.11.1)
   faker (= 1.9.1)
   fast_jsonapi (= 1.3)
@@ -298,6 +302,7 @@ DEPENDENCIES
   rspec-core
   rspec-rails (= 3.8.1)
   rswag (= 2.0.5)
+  shoulda-matchers
   simple_command
   simplecov (= 0.16.1)
   spring
