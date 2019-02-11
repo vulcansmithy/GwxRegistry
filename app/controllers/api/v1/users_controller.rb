@@ -1,8 +1,8 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
   skip_before_action :authenticate_request, only: %i[create login]
-
-  before_action :find_user, only: %i[show profile_update account_update]
+  
+  before_action :set_user, only: %i[show edit profile_update account_update]
 
   # GET  /users
   # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -88,6 +88,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+<<<<<<< Updated upstream
   # POST  /users/login
   # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
   # POST  /users/login?version=1
@@ -98,7 +99,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   private
 
-  def find_user
+  def set_user
     @user = User.find(params[:id])
   end
 

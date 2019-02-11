@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  
   include ActiveModel::SecurePassword
 
   has_secure_password
@@ -14,6 +13,5 @@ class User < ApplicationRecord
   validates_format_of     :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
   
   validates_presence_of   :password, :on => :create
-  validates               :password, length: { minimum: 8 }, if: -> (o) { o.blank? }
-
+  validates_length_of :password, minimum: 8
 end
