@@ -129,6 +129,8 @@ class Api::V1::UsersController < Api::V1::BaseController
       :first_name,
       :last_name,
       :wallet_address,
+      :pk,
+      :mac_address,
       :email,
       :password,
       :password_confirmation
