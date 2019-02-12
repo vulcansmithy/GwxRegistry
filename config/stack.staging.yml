@@ -11,20 +11,10 @@ Resources:
       Tags:
         -
           Key: Name
-          Value: Gameworks Registry API Staging
+          Value: Gameworks Registry API Edge
       UserData: !Base64 |
         #!/bin/bash
         sudo apt-get update -qq
-        sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-        sudo apt-get update -qq
-        sudo apt-cache policy docker-ce
-        sudo apt -y install docker-ce
-        sudo mkdir -p /etc/systemd/system/docker.service.d
-        sudo bash -c 'printf "[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375\n" >>  /etc/systemd/system/docker.service.d/docker.conf'
-        sudo systemctl daemon-reload
-        sudo systemctl restart docker
         sudo apt-get install -y build-essential git-core nginx libssl-dev libreadline-dev zlib1g-dev libpq-dev
 
   AppInstanceSG:
@@ -43,10 +33,6 @@ Resources:
       - IpProtocol: tcp
         FromPort: 22
         ToPort: 22
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 2375
-        ToPort: 2375
         CidrIp: 0.0.0.0/0
   
   DBInstance:
