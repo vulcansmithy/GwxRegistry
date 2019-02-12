@@ -11,18 +11,18 @@ Rails.application.routes.draw do
     :path      => { :value  => "v1"   },
     :defaults  => { :format => "json" },
     :default   => true) do
-
+    
+    post 'register' => 'users#create'
+    post 'login' => 'users#login'
+    get 'sample' => 'users#sample'
+    get 'test' => 'users#test'
+    
     resources :users, :except => [:destroy] do
-      
       collection do
         patch "/profile_update/:id", to: "users#profile_update"
         put   "/profile_update/:id", to: "users#profile_update"
         patch "/account_update/:id", to: "users#account_update"
         put   "/account_update/:id", to: "users#account_update"
-        
-        post "/register",            to: "users#register"
-        post "/login",               to: "users#login"
-        get  "/test",                to: "users#test"
       end
     end
 
@@ -42,8 +42,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  post "auth/register", to: "users#register"
-  post "auth/login",    to: "users#login"
-  get "test",           to: "users#test"
 end
