@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
-  skip_before_action :authenticate_request, only: %i[create login, test, sample]
+  skip_before_action :authenticate_request, only: %i[create login test sample]
   
   before_action :set_user, only: %i[show edit profile_update account_update]
 
