@@ -1,7 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
   skip_before_action :authenticate_request, only: %i[create login test sample]
-  
+
   before_action :set_user, only: %i[show edit profile_update account_update]
 
   # GET  /users
@@ -20,7 +20,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def show
     success_response(UserSerializer.new(@user).serialized_json)
   end
-  
+
   # POST  /users
   # POST  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
   # POST  /users?version=1
@@ -54,6 +54,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     # update the user
+    binding.pry
     if @user.update(update_profile_params)
       success_response(UserSerializer.new(@user).serialized_json)
     else
@@ -106,7 +107,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     response = { message: 'sample' }
     render json: response, status: :ok
   end
-  
+
   private
 
   def set_user
@@ -114,14 +115,19 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update_profile_params
-    params.require(:user).permit(:first_name, :last_name, :wallet_address)
+    params.permit(
+      :first_name,
+      :last_name,
+      :wallet_address
+    )
   end
 
   def update_account_params
-    params.require(:user).permit(
+    params.permit(
       :email,
       :password,
-      :password_confirmation)
+      :password_confirmation
+    )
   end
 
   def user_params
