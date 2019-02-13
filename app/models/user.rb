@@ -14,5 +14,5 @@ class User < ApplicationRecord
 
   validates_presence_of   :password, :on => :create
   validates_length_of     :password, minimum: 8
-  validates               :mac_address, uniqueness: true unless ENV['RAILS_ENV'] = 'development'
+  validates               :mac_address, uniqueness: true unless ENV['RAILS_ENV'] == 'development' || ENV['RAILS_ENV'] == 'staging'
 end
