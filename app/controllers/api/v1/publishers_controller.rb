@@ -1,8 +1,8 @@
 class Api::V1::PublishersController < Api::V1::BaseController
 
-  before_action :set_user, only: [:create, :edit, :update, :publisher_update, :show]
+  before_action :set_user, only: %i[create edit update publisher_update show]
   before_action :check_publisher, only: [:create]
-  before_action :set_publisher, only: [:edit, :update, :publisher_update, :show]
+  before_action :set_publisher, only: %i[edit update publisher_update show]
 
   def index
     @publishers = Publisher.all
@@ -14,7 +14,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def create
-    @user = User.find(params[:publisher][:user_id])
+    @user = User.find(params[:user_id])
     @publisher = @user.create_publisher(publisher_params)
 
     if @publisher.save
@@ -41,11 +41,11 @@ class Api::V1::PublishersController < Api::V1::BaseController
   private
 
   def publisher_params
-    params.require(:publisher).permit(:description, :wallet_address, :user_id, :publisher_name)
+    params.permit(:description, :wallet_address, :user_id, :publisher_name)
   end
 
   def set_user
-    @user = User.find(params[:publisher][:user_id])
+    @user = User.find(params[:user_id])
   end
 
   def set_publisher
@@ -53,7 +53,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def check_publisher
-    @user = User.find(params[:publisher][:user_id])
+    @user = User.find(params[:user_id])
     @user.errors.add(:base, "publisher account already exist")
     error_response('Publisher account already exist', @user.errors.full_messages, :bad_request) if @user.publisher
   end
