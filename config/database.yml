@@ -13,7 +13,7 @@ test:
 
 staging:
   <<: *default
-  database: gd14mkvw7wv5r23
+  database: gwx_registry_api_staging
   username: db_user
   password: wYWdr4cu^8#q
   host: gd14mkvw7wv5r23.crbvlq8se7oc.ap-southeast-1.rds.amazonaws.com
