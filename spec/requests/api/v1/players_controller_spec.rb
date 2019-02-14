@@ -13,7 +13,7 @@ describe Api::V1::PlayersController do
     end
 
     user = User.first
-    post "/users/login", params: { email: user.email, password: "password" }
+    post "/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -34,7 +34,7 @@ describe Api::V1::PlayersController do
     # setup a test player
     player = create(:player, user: create(:user))
 
-    post "/users/login", params: { email: player.user.email, password: "password" }
+    post "/login", params: { email: player.user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -54,7 +54,7 @@ describe Api::V1::PlayersController do
 
     user = create(:user)
 
-    post "/users/login", params: { email: user.email, password: "password" }
+    post "/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -70,7 +70,7 @@ describe Api::V1::PlayersController do
     player  = create(:player, user: create(:user))
     user_id = player.user_id
 
-    post "/users/login", params: {email: player.user.email, password: "password" }
+    post "/login", params: {email: player.user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # setup a new name
@@ -78,9 +78,7 @@ describe Api::V1::PlayersController do
 
     # prepare the params to be passed
     params = {
-      player: {
-        username: new_username
-      }
+      username: new_username
     }
 
     # call the API endpoint
@@ -101,16 +99,14 @@ describe Api::V1::PlayersController do
     # setup test player
     user = create(:user)
 
-    post "/users/login", params: { email: user.email, password: "password" }
+    post "/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # prepare the params to be passed
     params = {
-      player: {
-        user_id:        user.id,
-        username:       "PROUDCLOUD",
-        wallet_address: Faker::Crypto.sha256
-      }
+      user_id:        user.id,
+      username:       "PROUDCLOUD",
+      wallet_address: Faker::Crypto.sha256
     }.as_json
 
     # call the API endpoint

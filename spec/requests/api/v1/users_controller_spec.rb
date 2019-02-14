@@ -2,6 +2,16 @@ require "rails_helper"
 
 describe Api::V1::UsersController do
 
+  it "should implement the enpoint POST /login" do
+    user = create(:user)
+
+    post "/login", params: { email: user.email, password: "password" }
+    result = JSON.parse(response.body)
+
+    expect(result["access_token"]).to_not eq nil
+    expect(result["message"]).to eq "Login Successful"
+  end
+
   it "should implement the endpoint GET /users" do
 
     # set the no. of Users accounts
@@ -14,15 +24,15 @@ describe Api::V1::UsersController do
 
     # retrieve the first User
     user = User.first
-    
+
     # authenticate by calling the login endpoint
-    post "/users/login", params: {email: user.email, password: "password"}
+    post "/login", params: {email: user.email, password: "password"}
 
     # make sure the User was successfully login
     expect(response).to have_http_status(:ok)
 
     result = JSON.parse(response.body)
-    
+
     # call the API endpoint
     get "/users", headers: { Authorization: "#{result["access_token"]}" }
 
@@ -36,7 +46,7 @@ describe Api::V1::UsersController do
     expect(result["data"].length).to eq no_of_users
   end
 
-  it "should implement the endpoint POST /users" do
+  it "should implement the endpoint POST /register" do
 
     # setup test user information
     first_name = Faker::Name.first_name
@@ -46,13 +56,11 @@ describe Api::V1::UsersController do
 
     # setup parameters to pass
     params = {
-      user: {
-        first_name: first_name,
-        last_name:  last_name,
-        email:      email,
-        password:   password,
-        password_confirmation: password
-      }
+      first_name: first_name,
+      last_name:  last_name,
+      email:      email,
+      password:   password,
+      password_confirmation: password
     }.as_json
 
     # call the API endpoint
@@ -75,7 +83,7 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post "/users/login", params: { email: user.email, password: "password" }
+    post "/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
     # call the API endpoint
@@ -96,7 +104,7 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post "/users/login", params: {email: user.email, password: "password"}
+    post "/login", params: {email: user.email, password: "password"}
     result = JSON.parse(response.body)
 
     # setup a new test user first_name and last_name
@@ -105,10 +113,8 @@ describe Api::V1::UsersController do
 
     # setup parameters to pass
     params = {
-      user: {
-        first_name: first_name,
-        last_name:  last_name
-      }
+      first_name: first_name,
+      last_name:  last_name
     }.as_json
 
     # call the API endpoint
@@ -132,7 +138,7 @@ describe Api::V1::UsersController do
     # setup test user
     user = create(:user)
 
-    post "/users/login", params: {email: user.email, password: "password"}
+    post "/login", params: {email: user.email, password: "password"}
     result = JSON.parse(response.body)
 
     # setup a new test user email
@@ -140,11 +146,9 @@ describe Api::V1::UsersController do
 
     # setup parameters to pass
     params = {
-      user: {
-        email:    email,
-        password: email,
-        password_confirmation: email
-      }
+      email:    email,
+      password: email,
+      password_confirmation: email
     }.as_json
 
     # call the API endpoint
@@ -159,5 +163,5 @@ describe Api::V1::UsersController do
     # make sure the first_name was successfully updated
     expect(result["data"]["attributes"]["email"]).to eq email
   end
-  
+
  end

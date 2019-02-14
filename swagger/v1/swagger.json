@@ -575,15 +575,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "publisher": {
-                  "type": "object",
-                  "properties": {
-                    "publisher_name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    }
+                "type": "object",
+                "properties": {
+                  "publisher_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
                   }
                 }
               },
@@ -821,15 +819,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "player": {
-                  "type": "object",
-                  "properties": {
-                    "user_id": {
-                      "type": "integer"
-                    },
-                    "username": {
-                      "type": "string"
-                    }
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "username": {
+                    "type": "string"
                   }
                 }
               },
