@@ -116,14 +116,12 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update_profile_params
     params.permit(
       :first_name,
-      :last_name,
-      :wallet_address
+      :last_name
     )
   end
 
   def update_account_params
     params.permit(
-      :email,
       :password,
       :password_confirmation
     )
