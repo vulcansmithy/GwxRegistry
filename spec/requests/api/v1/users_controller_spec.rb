@@ -2,6 +2,16 @@ require "rails_helper"
 
 describe Api::V1::UsersController do
 
+  it "should implement the enpoint POST /login" do
+    user = create(:user)
+
+    post "/login", params: { email: user.email, password: "password" }
+    result = JSON.parse(response.body)
+
+    expect(result["access_token"]).to_not eq nil
+    expect(result["message"]).to eq "Login Successful"
+  end
+
   it "should implement the endpoint GET /users" do
 
     # set the no. of Users accounts
@@ -36,7 +46,7 @@ describe Api::V1::UsersController do
     expect(result["data"].length).to eq no_of_users
   end
 
-  it "should implement the endpoint POST /users" do
+  it "should implement the endpoint POST /register" do
 
     # setup test user information
     first_name = Faker::Name.first_name
