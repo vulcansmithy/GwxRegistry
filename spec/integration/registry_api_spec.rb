@@ -489,12 +489,10 @@ path "/publishers" do
     parameter   name: :publisher, in: :body, schema: {
       type: :object,
       properties: {
-        publisher: {
-          type: :object,
-          properties: {
-            publisher_name: { type: :string },
-            description:    { type: :string },
-          },
+        type: :object,
+        properties: {
+          publisher_name: { type: :string },
+          description:    { type: :string },
         },
       },
       required: [ "user_id", "publisher_name", "description" ]
@@ -695,12 +693,10 @@ end
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          player: {
-            type: :object,
-            properties: {
-               user_id: { type: :integer },
-              username: { type: :string  },
-            },
+          type: :object,
+          properties: {
+             user_id: { type: :integer },
+            username: { type: :string  },
           },
         },
 
