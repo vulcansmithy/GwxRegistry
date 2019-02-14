@@ -14,5 +14,9 @@ class User < ApplicationRecord
 
   validates_presence_of   :password, :on => :create
   validates_length_of     :password, minimum: 8, :on => :create
-  validates               :mac_address, uniqueness: true, :on => :create unless ENV['RAILS_ENV'] == 'development' || ENV['RAILS_ENV'] == 'staging'
+
+  MAC_ADDRESS_ENV = ['development', 'staging', 'test']
+  validates               :mac_address, uniqueness: true,
+                          :on => :create unless MAC_ADDRESS_ENV.include?(ENV['RAILS_ENV'])
+
 end
