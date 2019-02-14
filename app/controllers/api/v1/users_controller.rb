@@ -54,7 +54,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     # update the user
-    binding.pry
     if @user.update(update_profile_params)
       success_response(UserSerializer.new(@user).serialized_json)
     else
