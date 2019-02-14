@@ -2,6 +2,7 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
+=begin
   ## Users
   # GET /users
   path "/users" do
@@ -810,4 +811,6 @@ end
       end
     end
   end
+=end
+    
 end
