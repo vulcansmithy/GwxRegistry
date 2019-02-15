@@ -2,7 +2,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   skip_before_action :authenticate_request, only: %i[create login test sample]
 
-  before_action :set_user, only: %i[show edit profile_update account_update]
+  before_action :set_user, only: %i[show edit update]
 
   # GET  /users
   # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -30,63 +30,20 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.save
       success_response(UserSerializer.new(@user).serialized_json,  :created)
     else
-      error_response("Unable to create a new User account.", @user.errors, :bad_request)
+      error_response("Unable to create a new User account.", @user.errors, :unprocessable_entity)
     end
   end
 
-  # PATCH /users/profile_update/:id
-  # PATCH /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PATCH /users/profile_update/:id?version=1
-  # PATCH /v1/users/profile_update/:id
-  #
-  # PUT   /users/profile_update/:id
-  # PUT   /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PUT   /users/profile_update/:id?version=1
-  # PUT   /v1/users/profile_update/:id
-  def profile_update
-
-    # retrieve the existing user by means of the passed "id"
-    @user = User.where(id: params[:id]).first
-    if @user.nil?
-      error_response("User not found",
-        "Passed 'id' does not match to any existing User",
-        :not_found)
-    end
-
-    # update the user
-    if @user.update(update_profile_params)
+  def update
+    if @user.update(update_user_params)
       success_response(UserSerializer.new(@user).serialized_json)
     else
-      error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
+      error_response("Unable to update user profile",
+                     @user.errors.full_messages,
+                     :unprocessable_entity)
     end
   end
 
-  # PATCH /users/account_update/:id
-  # PATCH /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PATCH /users/account_update/:id?version=1
-  # PATCH /v1/users/account_update/:id
-  #
-  # PUT   /users/account_update/:id
-  # PUT   /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PUT   /users/account_update/:id?version=1
-  # PUT   /v1/users/account_update/:id
-  def account_update
-
-    # retrieve the existing user by means of the passed "id"
-    @user = User.where(id: params[:id]).first
-    if @user.nil?
-      error_response("User not found",
-        "Passed 'id' does not match to any existing User",
-        :not_found)
-    end
-
-    # update the user
-    if @user.update(update_account_params)
-      success_response(UserSerializer.new(@user).serialized_json)
-    else
-      error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
-    end
-  end
 
   # POST  /users/login
   # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -113,19 +70,17 @@ class Api::V1::UsersController < Api::V1::BaseController
     @user = User.find(params[:id])
   end
 
-  def update_profile_params
+  def update_account_params
     params.permit(
-      :first_name,
-      :last_name,
-      :wallet_address
+      :password,
+      :password_confirmation
     )
   end
 
-  def update_account_params
+  def update_user_params
     params.permit(
-      :email,
-      :password,
-      :password_confirmation
+      :first_name,
+      :last_name
     )
   end
 

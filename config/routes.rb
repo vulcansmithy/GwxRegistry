@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine  => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
-  
+
   root to: "application#welcome"
-  
+
   api_version(
     :module    => "Api::V1",
     :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
@@ -11,20 +11,13 @@ Rails.application.routes.draw do
     :path      => { :value  => "v1"   },
     :defaults  => { :format => "json" },
     :default   => true) do
-    
+
     post 'register' => 'users#create'
     post 'login' => 'users#login'
     get 'sample' => 'users#sample'
     get 'test' => 'users#test'
-    
-    resources :users, :except => [:destroy] do
-      collection do
-        patch "/profile_update/:id", to: "users#profile_update"
-        put   "/profile_update/:id", to: "users#profile_update"
-        patch "/account_update/:id", to: "users#account_update"
-        put   "/account_update/:id", to: "users#account_update"
-      end
-    end
+
+    resources :users, :except => [:destroy]
 
     resources :publishers, :except => [:show, :update, :destroy] do
       collection do
