@@ -28,7 +28,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     @user = User.create(user_params)
     if @user.save
-      success_response(UserSerializer.new(@user).serialized_json,  :created)
+      authenticate user_params[:email], user_params[:password]
     else
       error_response("Unable to create a new User account.", @user.errors, :unprocessable_entity)
     end
@@ -80,7 +80,9 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update_user_params
     params.permit(
       :first_name,
-      :last_name
+      :last_name,
+      :wallet_address,
+      :pk
     )
   end
 
@@ -101,7 +103,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     command = AuthenticateUser.call(email, password)
 
     if command.success
-      success_response({ access_token: command.result, message: "Login Successful" })
+      response = command.result
+      response[:message] = 'Login Successful'
+
+      success_response(response)
     else
       error_response("Login Unsuccessful", command.errors, :unauthorized)
     end
