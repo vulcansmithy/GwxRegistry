@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_11_063133) do
+ActiveRecord::Schema.define(version: 2019_02_15_005436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 2019_02_11_063133) do
     t.string "encrypted_pk_iv"
     t.string "mac_address"
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.string "address"
+    t.string "type"
+    t.string "account_type"
+    t.bigint "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_type", "account_id"], name: "index_wallets_on_account_type_and_account_id"
   end
 
   add_foreign_key "players", "users"
