@@ -8,7 +8,7 @@ describe Api::V1::UsersController do
     post "/login", params: { email: user.email, password: "password" }
     result = JSON.parse(response.body)
 
-    expect(result["access_token"]).to_not eq nil
+    expect(result["token"]).to_not eq nil
     expect(result["message"]).to eq "Login Successful"
   end
 
@@ -34,7 +34,7 @@ describe Api::V1::UsersController do
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/users", headers: { Authorization: "#{result["access_token"]}" }
+    get "/users", headers: { Authorization: "#{result["token"]}" }
 
     # make sure login was successful
     expect(response).to have_http_status(:ok)
@@ -67,16 +67,16 @@ describe Api::V1::UsersController do
     post "/users", params: params
 
     # make sure the response was :created
-    expect(response).to have_http_status(:created)
+    expect(response).to have_http_status(:ok)
 
     # retrieve the result
     result = JSON.parse(response.body)
 
     # make sure its a User type
-    expect(result["data"]["type"]).to eq "user"
+    expect(result["user"]["data"]["type"]).to eq "user"
 
     # make sure the result have the same email
-    expect(result["data"]["attributes"]["email"]).to eq email
+    expect(result["user"]["data"]["attributes"]["email"]).to eq email
   end
 
   it "should implement the endpoint GET users/:id" do
@@ -87,7 +87,7 @@ describe Api::V1::UsersController do
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/users/#{user.id}", headers: {Authorization: "#{result["access_token"]}"}
+    get "/users/#{user.id}", headers: {Authorization: "#{result["token"]}"}
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)
@@ -99,7 +99,7 @@ describe Api::V1::UsersController do
     expect(result["data"]["attributes"]["email"]).to eq user.email
   end
 
-  it "should implement the endpoint PATCH/PUT /users/profile_update/:id" do
+  it "should implement the endpoint PATCH/PUT /users/:id" do
 
     # setup test user
     user = create(:user)
@@ -110,15 +110,19 @@ describe Api::V1::UsersController do
     # setup a new test user first_name and last_name
     first_name = Faker::Name.first_name
     last_name  = Faker::Name.last_name
+    wallet_address = Faker::Number.hexadecimal(20)
+    pk = Faker::Number.hexadecimal(10)
 
     # setup parameters to pass
     params = {
       first_name: first_name,
-      last_name:  last_name
+      last_name:  last_name,
+      wallet_address: wallet_address,
+      pk: pk
     }.as_json
 
     # call the API endpoint
-    patch "/users/profile_update/#{user.id}", params: params, headers: {Authorization: "#{result["access_token"]}"}
+    patch "/users/#{user.id}", params: params, headers: {Authorization: "#{result["token"]}"}
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)
@@ -132,36 +136,4 @@ describe Api::V1::UsersController do
     # make sure the first_name was successfully updated
     expect(result["data"]["attributes"]["last_name"]).to eq last_name
   end
-
-  it "should implement the endpoint PATCH/PUT /users/account_update/:id" do
-
-    # setup test user
-    user = create(:user)
-
-    post "/login", params: {email: user.email, password: "password"}
-    result = JSON.parse(response.body)
-
-    # setup a new test user email
-    email = "#{user.first_name}.#{user.last_name}+#{Faker::Lorem.word}@example.com".downcase
-
-    # setup parameters to pass
-    params = {
-      email:    email,
-      password: email,
-      password_confirmation: email
-    }.as_json
-
-    # call the API endpoint
-    patch "/users/account_update/#{user.id}", params: params, headers: { Authorization: "#{result["access_token"]}" }
-
-    # make sure the response was :ok
-    expect(response).to have_http_status(:ok)
-
-    # retrieve the result
-    result = JSON.parse(response.body)
-
-    # make sure the first_name was successfully updated
-    expect(result["data"]["attributes"]["email"]).to eq email
-  end
-
  end

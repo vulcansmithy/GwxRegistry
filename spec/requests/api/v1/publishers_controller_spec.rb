@@ -24,7 +24,7 @@ describe Api::V1::PublishersController do
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/publishers", headers: { Authorization: "#{result['access_token']}" }
+    get "/publishers", headers: { Authorization: "#{result['token']}" }
 
     expect(response).to have_http_status(:ok)
 
@@ -39,7 +39,7 @@ describe Api::V1::PublishersController do
     post "/login", params: { email: publisher.user.email, password: "password" }
     result = JSON.parse(response.body)
 
-    get "/publishers/#{publisher.user_id}", headers: { Authorization: "#{result['access_token']}" }
+    get "/publishers/#{publisher.user_id}", headers: { Authorization: "#{result['token']}" }
 
     expect(response).to have_http_status(:ok)
 
@@ -55,7 +55,7 @@ describe Api::V1::PublishersController do
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/publishers/999", headers: { Authorization: "#{result['access_token']}" }
+    get "/publishers/999", headers: { Authorization: "#{result['token']}" }
 
     # make sure the HTTP response code was :not_found
     expect(response).to have_http_status(:not_found)
@@ -87,7 +87,7 @@ describe Api::V1::PublishersController do
       publisher_name: new_name,
     }.as_json
 
-    patch "/publishers/#{publisher.user_id}", params: params, headers: { Authorization: "#{result['access_token']}" }
+    patch "/publishers/#{publisher.user_id}", params: params, headers: { Authorization: "#{result['token']}" }
 
     expect(response).to have_http_status(:ok)
 
@@ -109,7 +109,7 @@ describe Api::V1::PublishersController do
       description:    "hello"
     }.as_json
 
-    post "/publishers/", params: params, headers: { Authorization: "#{result['access_token']}" }
+    post "/publishers/", params: params, headers: { Authorization: "#{result['token']}" }
 
     expect(response).to have_http_status(:created)
 
