@@ -4,8 +4,51 @@ describe "Gameworks Registry API" do
 
 =begin
   ## Users
+  # POST /login
+  path "/login" do
+    post "Login" do
+      tags "Users"
+      description "Successfully login to api"
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+                email: { type: :string },
+             password: { type: :string }
+        },
+        required: [ "email", "password" ]
+      }
+
+      response "200", "Login Successful" do
+        examples "application/json" => {
+          "data" =>
+            {
+              "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
+              "user": {
+                  "data": {
+                      "id": "8",
+                      "type": "user",
+                      "attributes": {
+                          "id": 8,
+                          "first_name": "sample",
+                          "last_name": "one",
+                          "email": "sample_one@gmail.com",
+                          "wallet_address": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                      }
+                  }
+              },
+              "message": "Login Successful"
+            }
+        }
+
+        run_test!
+      end
+    end
+  end
+
   # GET /users
   path "/users" do
+    $ref: '#/path/~1login'
 
     get "Retrieve all User accounts" do
       tags        "Users"

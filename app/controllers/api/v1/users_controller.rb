@@ -100,15 +100,17 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def authenticate(email, password)
-    command = AuthenticateUser.call(email, password)
+    begin
+      command = AuthenticateUser.call(email, password)
 
-    if command.success
-      response = command.result
-      response[:message] = 'Login Successful'
+      if command.success
+        response = command.result
+        response[:message] = 'Login Successful'
 
-      success_response(response)
-    else
-      error_response("Login Unsuccessful", command.errors, :unauthorized)
+        success_response(response)
+      end
+    rescue
+      error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
     end
   end
 end
