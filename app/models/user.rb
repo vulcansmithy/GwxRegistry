@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   has_one :player,    dependent: :destroy
   has_one :publisher, dependent: :destroy
-  has_one :wallet, as: :account
+  has_one :wallet,    as: :account
 
   validates_presence_of   :email, :on => :create
   validates_uniqueness_of :email, :on => :create
