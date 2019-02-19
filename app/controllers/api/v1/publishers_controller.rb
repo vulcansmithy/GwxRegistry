@@ -32,7 +32,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
     if @publisher.update(publisher_params)
       success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
-      error_response("There is an error updating publisher account",
+      error_response("Unable to update publisher account",
         @user.errors.full_messages, :unprocessable_entity)
     end
   end

@@ -133,7 +133,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "user created.",
             "examples": {
               "application/json": {
@@ -151,8 +151,8 @@
               }
             }
           },
-          "400": {
-            "description": "Unable to create a new User account. Bad request."
+          "422": {
+            "description": "Unable to create a new User account."
           }
         }
       }
@@ -199,9 +199,7 @@
             "description": "user not found."
           }
         }
-      }
-    },
-    "/users/profile_update/{:id}": {
+      },
       "patch": {
         "summary": "Update a User profile",
         "tags": [
@@ -235,6 +233,9 @@
                     "last_name": {
                       "type": "string"
                     },
+                    "pk": {
+                      "type": "string"
+                    },
                     "wallet_address": {
                       "type": "string"
                     }
@@ -266,7 +267,7 @@
           "404": {
             "description": "User not found."
           },
-          "400": {
+          "422": {
             "description": "Unable to update user profile."
           }
         }
@@ -304,6 +305,9 @@
                     "last_name": {
                       "type": "string"
                     },
+                    "pk": {
+                      "type": "string"
+                    },
                     "wallet_address": {
                       "type": "string"
                     }
@@ -335,147 +339,7 @@
           "404": {
             "description": "User not found."
           },
-          "400": {
-            "description": "Unable to update user profile."
-          }
-        }
-      }
-    },
-    "/users/account_update/{:id}": {
-      "patch": {
-        "summary": "Update a User account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the User account being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "player": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    },
-                    "password_confirmation": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "432",
-                  "type": "user",
-                  "attributes": {
-                    "id": 432,
-                    "first_name": "Matha",
-                    "last_name": "McDermott",
-                    "email": "matha.mcdermott@example.com",
-                    "wallet_address": "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
-          },
-          "400": {
-            "description": "Unable to update user profile."
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a User account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the User account being updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "player": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    },
-                    "password_confirmation": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "432",
-                  "type": "user",
-                  "attributes": {
-                    "id": 432,
-                    "first_name": "Matha",
-                    "last_name": "McDermott",
-                    "email": "matha.mcdermott@example.com",
-                    "wallet_address": "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
-          },
-          "400": {
+          "422": {
             "description": "Unable to update user profile."
           }
         }
@@ -612,8 +476,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request."
+          "422": {
+            "description": "Unable to create publisher account."
           }
         }
       }
@@ -714,8 +578,8 @@
               }
             }
           },
-          "404": {
-            "description": "Publisher not found."
+          "422": {
+            "description": "Unable to update publisher account."
           }
         }
       }
@@ -856,8 +720,8 @@
               }
             }
           },
-          "400": {
-            "description": "Unable to create a new User. Bad Request."
+          "422": {
+            "description": "Unable to create a new User"
           }
         }
       }
@@ -959,6 +823,9 @@
           },
           "404": {
             "description": "Player not found."
+          },
+          "422": {
+            "description": "Unable to update player account"
           }
         }
       },
@@ -1015,6 +882,9 @@
           },
           "404": {
             "description": "Player not found."
+          },
+          "422": {
+            "description": "Unable to update player account"
           }
         }
       }
