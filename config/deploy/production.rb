@@ -1,2 +1,2 @@
-server "xxx.xxx.xxx.xxx", user: "ubuntu", roles: %w{app web}
+server "13.229.58.101", user: "ubuntu", roles: %w{app web}
 set :branch, 'master'
