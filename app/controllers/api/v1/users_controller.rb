@@ -1,8 +1,8 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
-  skip_before_action :authenticate_request, only: %i[create login]
+  skip_before_action :authenticate_request, only: %i[create login test sample]
 
-  before_action :find_user, only: %i[show profile_update account_update]
+  before_action :set_user, only: %i[show edit update]
 
   # GET  /users
   # GET  /users, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -28,65 +28,22 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     @user = User.create(user_params)
     if @user.save
-      success_response(UserSerializer.new(@user).serialized_json,  :created)
+      authenticate user_params[:email], user_params[:password]
     else
-      error_response("Unable to create a new User account.", @user.errors, :bad_request)
+      error_response("Unable to create a new User account.", @user.errors, :unprocessable_entity)
     end
   end
 
-  # PATCH /users/profile_update/:id
-  # PATCH /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PATCH /users/profile_update/:id?version=1
-  # PATCH /v1/users/profile_update/:id
-  #
-  # PUT   /users/profile_update/:id
-  # PUT   /users/profile_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PUT   /users/profile_update/:id?version=1
-  # PUT   /v1/users/profile_update/:id
-  def profile_update
-
-    # retrieve the existing user by means of the passed "id"
-    @user = User.where(id: params[:id]).first
-    if @user.nil?
-      error_response("User not found",
-        "Passed 'id' does not match to any existing User",
-        :not_found)
-    end
-
-    # update the user
-    if @user.update(update_profile_params)
+  def update
+    if @user.update(update_user_params)
       success_response(UserSerializer.new(@user).serialized_json)
     else
-      error_response("Unable to update user profile", @user.errors.full_messages, :bad_request)
+      error_response("Unable to update user profile",
+                     @user.errors.full_messages,
+                     :unprocessable_entity)
     end
   end
 
-  # PATCH /users/account_update/:id
-  # PATCH /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PATCH /users/account_update/:id?version=1
-  # PATCH /v1/users/account_update/:id
-  #
-  # PUT   /users/account_update/:id
-  # PUT   /users/account_update/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PUT   /users/account_update/:id?version=1
-  # PUT   /v1/users/account_update/:id
-  def account_update
-
-    # retrieve the existing user by means of the passed "id"
-    @user = User.where(id: params[:id]).first
-    if @user.nil?
-      error_response("User not found",
-        "Passed 'id' does not match to any existing User",
-        :not_found)
-    end
-
-    # update the user
-    if @user.update(update_account_params)
-      success_response(UserSerializer.new(@user).serialized_json)
-    else
-      error_response("Unable to update user account", @user.errors.full_messages, :bad_request)
-    end
-  end
 
   # POST  /users/login
   # POST  /users/login, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
@@ -96,28 +53,46 @@ class Api::V1::UsersController < Api::V1::BaseController
     authenticate params[:email], params[:password]
   end
 
+  def test
+    render json: {
+      message: 'You have passed authentication and authorization test'
+    }
+  end
+
+  def sample
+    response = { message: 'sample' }
+    render json: response, status: :ok
+  end
+
   private
 
-  def find_user
+  def set_user
     @user = User.find(params[:id])
   end
 
-  def update_profile_params
-    params.require(:user).permit(:first_name, :last_name, :wallet_address)
-  end
-
   def update_account_params
-    params.require(:user).permit(
-      :email,
+    params.permit(
       :password,
-      :password_confirmation)
+      :password_confirmation
+    )
   end
 
-  def user_params
-    params.require(:user).permit(
+  def update_user_params
+    params.permit(
       :first_name,
       :last_name,
       :wallet_address,
+      :pk
+    )
+  end
+
+  def user_params
+    params.permit(
+      :first_name,
+      :last_name,
+      :wallet_address,
+      :pk,
+      :mac_address,
       :email,
       :password,
       :password_confirmation
@@ -125,13 +100,17 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def authenticate(email, password)
-    command = AuthenticateUser.call(email, password)
+    begin
+      command = AuthenticateUser.call(email, password)
 
-    if command.success
-      success_response({ access_token: command.result, message: "Login Successful" })
-    else
-      error_response("Login Unsuccessful", command.errors, :unauthorized)
+      if command.success
+        response = command.result
+        response[:message] = 'Login Successful'
+
+        success_response(response)
+      end
+    rescue
+      error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
     end
   end
-
 end

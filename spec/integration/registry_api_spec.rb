@@ -2,9 +2,53 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
+=begin
   ## Users
+  # POST /login
+  path "/login" do
+    post "Login" do
+      tags "Users"
+      description "Successfully login to api"
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+                email: { type: :string },
+             password: { type: :string }
+        },
+        required: [ "email", "password" ]
+      }
+
+      response "200", "Login Successful" do
+        examples "application/json" => {
+          "data" =>
+            {
+              "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
+              "user": {
+                  "data": {
+                      "id": "8",
+                      "type": "user",
+                      "attributes": {
+                          "id": 8,
+                          "first_name": "sample",
+                          "last_name": "one",
+                          "email": "sample_one@gmail.com",
+                          "wallet_address": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                      }
+                  }
+              },
+              "message": "Login Successful"
+            }
+        }
+
+        run_test!
+      end
+    end
+  end
+
   # GET /users
   path "/users" do
+    $ref: '#/path/~1login'
 
     get "Retrieve all User accounts" do
       tags        "Users"
@@ -137,7 +181,7 @@ describe "Gameworks Registry API" do
         required: [ "email", "wallet_address", "password", "password_confirmation" ]
       }
 
-      response "201", "user created." do
+      response "200", "user created." do
 
         examples "application/json" => {
           "data" => {
@@ -156,14 +200,14 @@ describe "Gameworks Registry API" do
         run_test!
       end
 
-      response "400", "Unable to create a new User account. Bad request." do
+      response "422", "Unable to create a new User account." do
         run_test!
       end
     end
   end
 
-  # PATCH /users/profile_update/:id
-  path "/users/profile_update/{:id}" do
+  # PATCH /users/:id
+  path "/users/{:id}" do
 
     patch "Update a User profile" do
       tags        "Users"
@@ -178,6 +222,7 @@ describe "Gameworks Registry API" do
             properties: {
                    first_name: { type: :string },
                     last_name: { type: :string },
+                           pk: { type: :string },
                wallet_address: { type: :string }
             },
           },
@@ -209,14 +254,14 @@ describe "Gameworks Registry API" do
         run_test!
       end
 
-      response "400", "Unable to update user profile." do
+      response "422", "Unable to update user profile." do
         run_test!
       end
     end
   end
 
-  # PUT /users/profile_update/:id
-  path "/users/profile_update/{:id}" do
+  # PUT /users/:id
+  path "/users/{:id}" do
 
     put "Update a User profile" do
       tags        "Users"
@@ -231,6 +276,7 @@ describe "Gameworks Registry API" do
             properties: {
                    first_name: { type: :string },
                     last_name: { type: :string },
+                           pk: { type: :string },
                wallet_address: { type: :string }
             },
           },
@@ -262,115 +308,11 @@ describe "Gameworks Registry API" do
         run_test!
       end
 
-      response "400", "Unable to update user profile." do
+      response "422", "Unable to update user profile." do
         run_test!
       end
     end
   end
-
-  # PATCH /users/account_update/:id
-  path "/users/account_update/{:id}" do
-
-    patch "Update a User account" do
-      tags        "Users"
-      description "Update an existing User account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the User account being updated", required: true, type: :string
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          player: {
-            type: :object,
-            properties: {
-                               email: { type: :string },
-                            password: { type: :string },
-               password_confirmation: { type: :string }
-            },
-          },
-        }
-      }
-
-      response "200", "user updated." do
-
-        examples "application/json" => {
-          "data" => {
-                     "id" => "432",
-                   "type" => "user",
-             "attributes" => {
-                             "id" => 432,
-                     "first_name" => "Matha",
-                      "last_name" => "McDermott",
-                          "email" => "matha.mcdermott@example.com",
-                 "wallet_address" => "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
-             }
-          }
-        }
-
-        run_test!
-      end
-
-      response "404", "User not found." do
-        run_test!
-      end
-
-      response "400", "Unable to update user profile." do
-        run_test!
-      end
-    end
-  end
-
-  # PUT /users/account_update/:id
-  path "/users/account_update/{:id}" do
-
-    put "Update a User account" do
-      tags        "Users"
-      description "Update an existing User account."
-      consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the User account being updated", required: true, type: :string
-      parameter   name: :user, in: :body, schema: {
-        type: :object,
-        properties: {
-          player: {
-            type: :object,
-            properties: {
-                               email: { type: :string },
-                            password: { type: :string },
-               password_confirmation: { type: :string }
-            },
-          },
-        }
-      }
-
-      response "200", "user updated." do
-
-        examples "application/json" => {
-          "data" => {
-                     "id" => "432",
-                   "type" => "user",
-             "attributes" => {
-                             "id" => 432,
-                     "first_name" => "Matha",
-                      "last_name" => "McDermott",
-                          "email" => "matha.mcdermott@example.com",
-                 "wallet_address" => "6da8db1a756b52830e91b1e12bb00098b282b5754bb7ce918bd4cd40f35174b7"
-             }
-          }
-        }
-
-        run_test!
-      end
-
-      response "404", "User not found." do
-        run_test!
-      end
-
-      response "400", "Unable to update user profile." do
-        run_test!
-      end
-    end
-  end
-
-
 
  ## Publishers
   path "/publishers" do
@@ -489,12 +431,10 @@ path "/publishers" do
     parameter   name: :publisher, in: :body, schema: {
       type: :object,
       properties: {
-        publisher: {
-          type: :object,
-          properties: {
-            publisher_name: { type: :string },
-            description:    { type: :string },
-          },
+        type: :object,
+        properties: {
+          publisher_name: { type: :string },
+          description:    { type: :string },
         },
       },
       required: [ "user_id", "publisher_name", "description" ]
@@ -519,7 +459,7 @@ path "/publishers" do
       run_test!
     end
 
-    response "400", "Invalid request." do
+    response "422", "Unable to create publisher account." do
       run_test!
     end
   end
@@ -560,7 +500,7 @@ path "/publishers/{:user_id}" do
       run_test!
     end
 
-    response "404", "Publisher not found." do
+    response "422", "Unable to update publisher account." do
       run_test!
     end
   end
@@ -695,12 +635,10 @@ end
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          player: {
-            type: :object,
-            properties: {
-               user_id: { type: :integer },
-              username: { type: :string  },
-            },
+          type: :object,
+          properties: {
+             user_id: { type: :integer },
+            username: { type: :string  },
           },
         },
 
@@ -727,7 +665,7 @@ end
         run_test!
       end
 
-      response "400", "Unable to create a new User. Bad Request." do
+      response "422", "Unable to create a new User" do
         run_test!
       end
     end
@@ -771,6 +709,10 @@ end
       response "404", "Player not found." do
         run_test!
       end
+
+      response "422", "Unable to update player account" do
+        run_test!
+      end
     end
   end
 
@@ -812,6 +754,11 @@ end
       response "404", "Player not found." do
         run_test!
       end
+
+      response "422", "Unable to update player account" do
+        run_test!
+      end
     end
   end
+=end
 end

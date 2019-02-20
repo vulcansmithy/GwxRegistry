@@ -13,7 +13,11 @@ class AuthenticateUser
   
   #this is where the result gets returned
   def call
-    @result = JsonWebToken.encode(user_id: user.id) if user
+    auth_user = user
+    @result = {
+      token: JsonWebToken.encode(user_id: auth_user.id),
+      user: UserSerializer.new(auth_user).serializable_hash
+    }
   end
 
   private
