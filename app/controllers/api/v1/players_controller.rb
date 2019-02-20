@@ -1,30 +1,17 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-
   before_action :set_user, only: %i[create show edit update check_player]
   before_action :check_player, only: [:create]
   before_action :set_player, only: %i[show edit update]
 
-  # GET  /players
-  # GET  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # GET  /players?version=1
-  # GET  /v1/players
   def index
     @players = Player.all
     success_response(PlayerSerializer.new(@players).serialized_json)
   end
 
-  # GET  /players/:id
-  # GET  /players/:id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # GET  /players/:id?version=1
-  # GET  /v1/players/:id
   def show
     success_response(PlayerSerializer.new(@player).serialized_json)
   end
 
-  # POST  /players
-  # POST  /players, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # POST  /players?version=1
-  # POST  /v1/players
   def create
     @player = @user.create_player(player_params)
 
@@ -40,15 +27,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
     render json: { player: PlayerSerializer.new(@player).serialized_json }
   end
 
-  # PATCH /players/:player_id
-  # PATCH /players/:player_id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PATCH /players/:player_id?version=1
-  # PATCH /players/:player_id
-  #
-  # PUT   /players/:player_id
-  # PUT   /players/:player_id, {}, { "Accept" => "application/vnd.gameworks.io; vesion=1" }
-  # PUT   /players/:player_id?version=1
-  # PUT   /players/:player_id
   def update
     if @player.update(player_params)
       success_response(PlayerSerializer.new(@player).serialized_json)
