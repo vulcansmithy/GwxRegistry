@@ -7,5 +7,4 @@ class Api::V1::BaseController < ApplicationController
   def error_response(message, errors, status_code)    
     render json: { message: message, errors: errors }, status: status_code
   end
-  
 end
