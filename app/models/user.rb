@@ -30,13 +30,8 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end 
   
-  def mark_as_confirmed!
-    self.confirmation_code = nil
-    self.confirmed_at = Time.now.utc
-  end
-
   def confirm_account(code)
-    return false unless self.confirmed_at.nil? && code == confirmation_code && (self.confirmation_sent_at + 30.days) > Time.now.utc
+    return false unless self.confirmed_at.nil? && code == confirmation_code
     update(confirmation_code: nil, confirmed_at: Time.now.utc)
   end
 

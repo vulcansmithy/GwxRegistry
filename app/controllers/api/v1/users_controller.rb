@@ -14,7 +14,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     @user = User.create(user_params)
     if @user.save
-      success_response(UserSerializer.new(@user).serialized_json, :created)
+      authenticate user_params[:email], user_params[:password]
     else
       error_response("Unable to create a new User account.", @user.errors, :unprocessable_entity)
     end
@@ -24,7 +24,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     return unless params[:code]
     user = User.find_by!(confirmation_code: params[:code])
     if user.confirm_account(params[:code])
-      user.mark_as_confirmed!
       render json: { message: 'Confirmed' }, status: :ok 
     else
       render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
@@ -33,6 +32,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def resend_code
     return if current_user.confirmed_at.nil?
+
     current_user.send_confirmation_code
     render json: { message: 'sent' }, status: :ok
   end
