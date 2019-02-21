@@ -16,15 +16,15 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.save
       authenticate user_params[:email], user_params[:password]
     else
-      error_response("Unable to create a new User account.", @user.errors, :unprocessable_entity)
+      error_response("Unable to create user account.", @user.errors, :unprocessable_entity)
     end
   end
-  
+
   def confirm
     return unless params[:code]
     user = User.find_by!(confirmation_code: params[:code])
     if user.confirm_account(params[:code])
-      render json: { message: 'Confirmed' }, status: :ok 
+      render json: { message: 'Confirmed' }, status: :ok
     else
       render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
     end

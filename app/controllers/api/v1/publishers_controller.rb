@@ -51,7 +51,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def check_publisher
-    @user.errors.add(:base, "publisher account already exist")
-    error_response('Publisher account already exist', @user.errors.full_messages, :unprocessable_entity) if @user.publisher
+    @user.errors.add(:base, "Publisher account already exist")
+    error_response('Unable to create publisher account', @user.errors.full_messages, :unprocessable_entity) if @user.publisher
   end
 end
