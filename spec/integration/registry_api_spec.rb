@@ -2,7 +2,6 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 
-=begin
   ## Users
   # POST /login
   path "/login" do
@@ -48,8 +47,6 @@ describe "Gameworks Registry API" do
 
   # GET /users
   path "/users" do
-    $ref: '#/path/~1login'
-
     get "Retrieve all User accounts" do
       tags        "Users"
       description "Retrieve all User accounts."
@@ -166,17 +163,12 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          user: {
-            type: :object,
-            properties: {
-                         first_name: { type: :string },
-                          last_name: { type: :string },
-                              email: { type: :string },
-                     wallet_address: { type: :string },
-                           password: { type: :string },
-              password_confirmation: { type: :string },
-            },
-          }
+                     first_name: { type: :string },
+                      last_name: { type: :string },
+                          email: { type: :string },
+                 wallet_address: { type: :string },
+                       password: { type: :string },
+          password_confirmation: { type: :string },
         },
         required: [ "email", "wallet_address", "password", "password_confirmation" ]
       }
@@ -217,16 +209,11 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          player: {
-            type: :object,
-            properties: {
-                   first_name: { type: :string },
-                    last_name: { type: :string },
-                           pk: { type: :string },
-               wallet_address: { type: :string }
-            },
-          },
-        }
+               first_name: { type: :string },
+                last_name: { type: :string },
+                       pk: { type: :string },
+           wallet_address: { type: :string }
+        },
       }
 
       response "200", "user updated." do
@@ -271,16 +258,11 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          player: {
-            type: :object,
-            properties: {
-                   first_name: { type: :string },
-                    last_name: { type: :string },
-                           pk: { type: :string },
-               wallet_address: { type: :string }
-            },
-          },
-        }
+               first_name: { type: :string },
+                last_name: { type: :string },
+                       pk: { type: :string },
+           wallet_address: { type: :string }
+        },
       }
 
       response "200", "user updated." do
@@ -431,11 +413,10 @@ path "/publishers" do
     parameter   name: :publisher, in: :body, schema: {
       type: :object,
       properties: {
-        type: :object,
-        properties: {
-          publisher_name: { type: :string },
-          description:    { type: :string },
-        },
+               user_id: { type: :string },
+        wallet_address: { type: :string },
+        publisher_name: { type: :string },
+           description: { type: :string }
       },
       required: [ "user_id", "publisher_name", "description" ]
     }
@@ -475,6 +456,7 @@ path "/publishers/{:user_id}" do
     parameter   name: :publisher, in: :body, schema: {
       type: :object,
       properties: {
+        user_id:        { type: :integer },
         publisher_name: { type: :string },
         description:    { type: :string }
       }
@@ -635,13 +617,9 @@ end
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          type: :object,
-          properties: {
-             user_id: { type: :integer },
-            username: { type: :string  },
-          },
+           user_id: { type: :integer },
+          username: { type: :string  },
         },
-
         required: [ "user_id", "username" ]
       }
 
@@ -682,6 +660,7 @@ end
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
+          user_id: { type: :integer },
           username: { type: :string },
         }
       }
@@ -727,6 +706,7 @@ end
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
+          user_id: { type: :integer },
           username: { type: :string },
         }
       }
@@ -760,5 +740,4 @@ end
       end
     end
   end
-=end
 end
