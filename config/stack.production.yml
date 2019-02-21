@@ -11,7 +11,7 @@ Resources:
       Tags:
         -
           Key: Name
-          Value: Gameworks Registry API Edge Production
+          Value: Gameworks Registry API Production
       UserData: !Base64 |
         #!/bin/bash
         sudo apt-get update -qq
