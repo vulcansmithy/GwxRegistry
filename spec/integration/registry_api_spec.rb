@@ -1,7 +1,7 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-
+=begin
   ## Users
   # POST /login
   path "/login" do
@@ -483,7 +483,8 @@ path "/publishers/{:user_id}" do
       properties: {
         user_id:        { type: :integer },
         publisher_name: { type: :string },
-        description:    { type: :string }
+        description:    { type: :string },
+        wallet_addres:  { type: :string },
       }
     }
 
@@ -765,4 +766,5 @@ end
       end
     end
   end
+=end
 end

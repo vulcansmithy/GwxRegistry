@@ -390,6 +390,33 @@
         }
       }
     },
+    "/users/confirm/:code": {
+      "get": {
+        "summary": "Confirm user account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Confirm user account",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmed",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "confirmation_code": "1111"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Wrong confirmation code"
+          }
+        }
+      }
+    },
     "/publishers": {
       "get": {
         "summary": "Retrieve all Publisher accounts",
@@ -604,6 +631,9 @@
                   "type": "string"
                 },
                 "description": {
+                  "type": "string"
+                },
+                "wallet_addres": {
                   "type": "string"
                 }
               }
