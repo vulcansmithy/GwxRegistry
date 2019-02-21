@@ -1,7 +1,7 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-
+=begin
   ## Users
   # POST /login
   path "/login" do
@@ -193,6 +193,31 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Unable to create a new User account." do
+        run_test!
+      end
+    end
+  end
+
+  # GET /confirm/:code
+  path "/users/confirm/:code" do
+
+    get "Confirm user account" do
+      tags "Users"
+      description "Confirm user account"
+      produces "application/json"
+      
+      response "200", "Confirmed" do
+
+        examples "application/json" => {
+          "data" => {
+                      "confirmation_code" => '1111'
+                    }
+        }
+        
+        run_test!
+      end
+      
+      response "422", "Wrong confirmation code" do
         run_test!
       end
     end
@@ -458,7 +483,8 @@ path "/publishers/{:user_id}" do
       properties: {
         user_id:        { type: :integer },
         publisher_name: { type: :string },
-        description:    { type: :string }
+        description:    { type: :string },
+        wallet_addres:  { type: :string },
       }
     }
 
@@ -740,4 +766,5 @@ end
       end
     end
   end
+=end
 end
