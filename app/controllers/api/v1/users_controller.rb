@@ -53,7 +53,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def test
     render json: {
-      rails_env: Rails.env
+      rails_env: Rails.env,
       message: 'You have passed authentication and authorization test'
     }
   end
