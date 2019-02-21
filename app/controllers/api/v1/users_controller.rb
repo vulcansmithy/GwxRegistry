@@ -30,7 +30,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  def resend_code 
+  def resend_code
     raise_user_verified unless @current_user.confirmed_at.nil?
     @current_user.send_confirmation_code
     render json: { message: 'Sent' }, status: :ok
@@ -60,6 +60,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def set_user
     @user = User.find(params[:id])
+    render json: { message: 'Unauthorized access' },
+      status: :unauthorized unless @user == @current_user
   end
 
   def update_account_params
@@ -107,6 +109,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def raise_user_verified
-    raise ExceptionHandler::UserVerified, "User has already been verified" 
+    raise ExceptionHandler::UserVerified, "User has already been verified"
   end
 end
