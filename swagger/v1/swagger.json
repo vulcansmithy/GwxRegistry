@@ -159,28 +159,23 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user": {
-                  "type": "object",
-                  "properties": {
-                    "first_name": {
-                      "type": "string"
-                    },
-                    "last_name": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "wallet_address": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    },
-                    "password_confirmation": {
-                      "type": "string"
-                    }
-                  }
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "wallet_address": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "password_confirmation": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -284,22 +279,17 @@
             "schema": {
               "type": "object",
               "properties": {
-                "player": {
-                  "type": "object",
-                  "properties": {
-                    "first_name": {
-                      "type": "string"
-                    },
-                    "last_name": {
-                      "type": "string"
-                    },
-                    "pk": {
-                      "type": "string"
-                    },
-                    "wallet_address": {
-                      "type": "string"
-                    }
-                  }
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "pk": {
+                  "type": "string"
+                },
+                "wallet_address": {
+                  "type": "string"
                 }
               }
             }
@@ -356,22 +346,17 @@
             "schema": {
               "type": "object",
               "properties": {
-                "player": {
-                  "type": "object",
-                  "properties": {
-                    "first_name": {
-                      "type": "string"
-                    },
-                    "last_name": {
-                      "type": "string"
-                    },
-                    "pk": {
-                      "type": "string"
-                    },
-                    "wallet_address": {
-                      "type": "string"
-                    }
-                  }
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "pk": {
+                  "type": "string"
+                },
+                "wallet_address": {
+                  "type": "string"
                 }
               }
             }
@@ -499,14 +484,17 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": "object",
-                "properties": {
-                  "publisher_name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
+                "user_id": {
+                  "type": "string"
+                },
+                "wallet_address": {
+                  "type": "string"
+                },
+                "publisher_name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -609,6 +597,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "user_id": {
+                  "type": "integer"
+                },
                 "publisher_name": {
                   "type": "string"
                 },
@@ -743,14 +734,11 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": "object",
-                "properties": {
-                  "user_id": {
-                    "type": "integer"
-                  },
-                  "username": {
-                    "type": "string"
-                  }
+                "user_id": {
+                  "type": "integer"
+                },
+                "username": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -854,6 +842,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "user_id": {
+                  "type": "integer"
+                },
                 "username": {
                   "type": "string"
                 }
@@ -913,6 +904,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "user_id": {
+                  "type": "integer"
+                },
                 "username": {
                   "type": "string"
                 }
