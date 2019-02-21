@@ -198,6 +198,31 @@ describe "Gameworks Registry API" do
     end
   end
 
+  # GET /confirm/:code
+  path "/users/confirm/:code" do
+
+    get "Confirm user account" do
+      tags "Users"
+      description "Confirm user account"
+      produces "application/json"
+      
+      response "200", "Confirmed" do
+
+        examples "application/json" => {
+          "data" => {
+                      "confirmation_code" => '1111'
+                    }
+        }
+        
+        run_test!
+      end
+      
+      response "422", "Wrong confirmation code" do
+        run_test!
+      end
+    end
+  end
+
   # PATCH /users/:id
   path "/users/{:id}" do
 
