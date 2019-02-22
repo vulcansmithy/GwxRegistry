@@ -1,7 +1,6 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-
   ## Users
   # POST /login
   path "/login" do
@@ -41,6 +40,10 @@ describe "Gameworks Registry API" do
         }
 
         run_test!
+
+        response "401", "Invalid Credentials" do
+          run_test!
+        end
       end
     end
   end
@@ -51,6 +54,7 @@ describe "Gameworks Registry API" do
       tags        "Users"
       description "Retrieve all User accounts."
       produces    "application/json"
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user(s) found." do
 
@@ -115,18 +119,23 @@ describe "Gameworks Registry API" do
         }
 
         run_test!
+
+        response "401", "Unauthorized: Access is denied" do
+          run_test!
+        end
       end
     end
   end
 
   # GET /users/:id
-  path "/users/{:id}" do
+  path "/users/{id}" do
 
     get "Retrieve a specific User account" do
       tags        "Users"
       description "Retrieve a specific User account by specifying its 'id'."
       produces    "application/json"
-      parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :string
+      parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user found." do
 
@@ -147,7 +156,11 @@ describe "Gameworks Registry API" do
         run_test!
       end
 
-      response "404", "user not found." do
+      response "404", "User not found" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
         run_test!
       end
     end
@@ -192,20 +205,66 @@ describe "Gameworks Registry API" do
         run_test!
       end
 
-      response "422", "Unable to create a new User account." do
+      response "422", "Unable to create user account." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  # GET /users/confirm/:code
+  path "/users/confirm/{code}" do
+
+    get "Confirm user account" do
+      tags "Users"
+      description "Confirm user account"
+      produces "application/json"
+      parameter   name: :code,   in: :path, description: "confirmation code sent on email", required: true, type: :integer
+
+      response "200", "Confirmed" do
+
+        examples "application/json" => {
+          "data" => {
+                      "confirmation_code" => '1111'
+                    }
+        }
+
+        run_test!
+      end
+
+      response "422", "Wrong confirmation code" do
+        run_test!
+      end
+    end
+  end
+
+  # GET /users/:id/resend_code
+  path "/users/{id}/resend_code" do
+
+    get "Resend code" do
+      tags "Users"
+      description "Resend code"
+      produces "application/json"
+      parameter   name: :id,   in: :path, description: "id", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "Sent" do
         run_test!
       end
     end
   end
 
   # PATCH /users/:id
-  path "/users/{:id}" do
+  path "/users/{id}" do
 
     patch "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :integer
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
@@ -215,6 +274,7 @@ describe "Gameworks Registry API" do
            wallet_address: { type: :string }
         },
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user updated." do
 
@@ -242,19 +302,23 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Unable to update user profile." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
         run_test!
       end
     end
   end
 
   # PUT /users/:id
-  path "/users/{:id}" do
+  path "/users/{id}" do
 
     put "Update a User profile" do
       tags        "Users"
       description "Update an existing User profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being updated", required: true, type: :integer
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
@@ -264,6 +328,7 @@ describe "Gameworks Registry API" do
            wallet_address: { type: :string }
         },
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user updated." do
 
@@ -293,16 +358,21 @@ describe "Gameworks Registry API" do
       response "422", "Unable to update user profile." do
         run_test!
       end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
     end
   end
 
- ## Publishers
+  ## Publishers
   path "/publishers" do
 
    get "Retrieve all Publisher accounts" do
-     tags        "Publishers"
+    tags        "Publishers"
     description "Retrieve all publisher accounts."
     produces    "application/json"
+    parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
     response "200", "publisher(s) found." do
 
@@ -367,126 +437,145 @@ describe "Gameworks Registry API" do
       }
 
       run_test!
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
     end
   end
 end
 
-path "/publishers/{:user_id}" do
+  path "/publishers/{user_id}" do
 
-  get "Retrieve a specific Publisher" do
-    tags        "Publishers"
-    description "Retrieve a specific publisher by specifying its 'user_id'."
-    produces    "application/json"
-    parameter   name: :user_id, in: :path, description: "'user_id' of the publisher being retrieved", required: true, type: :string
+    get "Retrieve a specific Publisher" do
+      tags        "Publishers"
+      description "Retrieve a specific publisher by specifying its 'user_id'."
+      produces    "application/json"
+      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
-    response "200", "publisher found." do
+      response "200", "publisher found." do
 
-      examples "application/json" => {
-        "data" => {
-                    "id" => "29",
-                  "type" => "publisher",
-            "attributes" => {
-                            "id" => 29,
-                "publisher_name" => "Vania Hilll",
-                   "description" => "Commodi odit doloremque non.",
-                "wallet_address" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
-                       "user_id" => 30
-            }
+        examples "application/json" => {
+          "data" => {
+                      "id" => "29",
+                    "type" => "publisher",
+              "attributes" => {
+                              "id" => 29,
+                  "publisher_name" => "Vania Hilll",
+                     "description" => "Commodi odit doloremque non.",
+                  "wallet_address" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
+                         "user_id" => 30
+              }
+          }
+        }
+
+        run_test!
+      end
+
+      response "404", "publisher not found." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  path "/publishers" do
+
+    post "Create a Publisher account" do
+      tags        "Publishers"
+      description "Create a publisher account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :publisher, in: :body, schema: {
+        type: :object,
+        properties: {
+                 user_id: { type: :integer },
+          wallet_address: { type: :string },
+          publisher_name: { type: :string },
+             description: { type: :string }
+        },
+        required: [ "user_id", "publisher_name", "description" ]
+      }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "201", "publisher created." do
+
+        examples "application/json" => {
+          "data" => {
+                      "id" => "47",
+                    "type" => "publisher",
+              "attributes" => {
+                              "id" => 47,
+                  "publisher_name" => "PROUDCLOUD",
+                     "description" => "hello",
+                  "wallet_address" => "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
+                         "user_id" => 48
+              }
+          }
+        }
+
+        run_test!
+      end
+
+      response "422", "Unable to create publisher account." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  path "/publishers/{user_id}" do
+
+    patch "Update Publisher account" do
+      tags        "Publishers"
+      description "Update an existing Publisher account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :publisher, in: :body, schema: {
+        type: :object,
+        properties: {
+          publisher_name: { type: :string },
+          wallet_address: { type: :string },
+          description:    { type: :string }
         }
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
-      run_test!
-    end
+      response "200", "publisher updated." do
 
-    response "404", "publisher not found." do
-      run_test!
-    end
-  end
-end
-
-path "/publishers" do
-
-  post "Create a Publisher account" do
-    tags        "Publishers"
-    description "Create a publisher account."
-    consumes    "application/json", "application/xml"
-    parameter   name: :publisher, in: :body, schema: {
-      type: :object,
-      properties: {
-               user_id: { type: :string },
-        wallet_address: { type: :string },
-        publisher_name: { type: :string },
-           description: { type: :string }
-      },
-      required: [ "user_id", "publisher_name", "description" ]
-    }
-
-    response "201", "publisher created." do
-
-      examples "application/json" => {
-        "data" => {
-                    "id" => "47",
-                  "type" => "publisher",
-            "attributes" => {
-                            "id" => 47,
-                "publisher_name" => "PROUDCLOUD",
-                   "description" => "hello",
-                "wallet_address" => "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
-                       "user_id" => 48
-            }
+        examples "application/json" => {
+          "data" => {
+                      "id" => "54",
+                    "type" => "publisher",
+              "attributes" => {
+                              "id" => 54,
+                  "publisher_name" => "Testing01",
+                     "description" => "Ducimus quisquam ipsam inventore.",
+                  "wallet_address" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
+                         "user_id" => 55
+              }
+          }
         }
-      }
-
-      run_test!
-    end
-
-    response "422", "Unable to create publisher account." do
-      run_test!
-    end
-  end
-end
-
-path "/publishers/{:user_id}" do
-
-  patch "Update Publisher account" do
-    tags        "Publishers"
-    description "Update an existing Publisher account."
-    consumes    "application/json", "application/xml"
-    parameter   name: :user_id,   in: :path, description: "'user_id' of the publisher being updated", required: true, type: :string
-    parameter   name: :publisher, in: :body, schema: {
-      type: :object,
-      properties: {
-        user_id:        { type: :integer },
-        publisher_name: { type: :string },
-        description:    { type: :string }
-      }
-    }
-
-    response "200", "publisher updated." do
-
-      examples "application/json" => {
-        "data" => {
-                    "id" => "54",
-                  "type" => "publisher",
-            "attributes" => {
-                            "id" => 54,
-                "publisher_name" => "Testing01",
-                   "description" => "Ducimus quisquam ipsam inventore.",
-                "wallet_address" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
-                       "user_id" => 55
-            }
-        }
-      }
 
 
-      run_test!
-    end
+        run_test!
+      end
 
-    response "422", "Unable to update publisher account." do
-      run_test!
+      response "422", "Unable to update publisher account." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
     end
   end
-end
 
 
   ## Players
@@ -497,6 +586,7 @@ end
       tags        "Players"
       description "Retrieve all existing Player profiles."
       produces    "application/json"
+      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player(s) found." do
 
@@ -568,18 +658,23 @@ end
         # @TODO implement the schema
 
         run_test!
+
+        response "401", "Unauthorized: Access is denied" do
+          run_test!
+        end
       end
     end
   end
 
   # GET /players/:user_id
-  path "/players/{:user_id}" do
+  path "/players/{user_id}" do
 
     get "Retrieve a specific Player" do
       tags        "Players"
       description "Retrieve a specific player by specifying its 'user_id'."
       produces    "application/json"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the player being retrieved", required: true, type: :string
+      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player found." do
 
@@ -604,6 +699,10 @@ end
       response "404", "player not found." do
         run_test!
       end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
     end
   end
 
@@ -617,11 +716,12 @@ end
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-           user_id: { type: :integer },
+          user_id:  { type: :integer },
           username: { type: :string  },
         },
         required: [ "user_id", "username" ]
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "201", "player created." do
 
@@ -646,24 +746,28 @@ end
       response "422", "Unable to create a new User" do
         run_test!
       end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
     end
   end
 
   # PATCH /players/:user_id
-  path "/players/{:user_id}" do
+  path "/players/{user_id}" do
 
     patch "Update Player profile" do
       tags        "Players"
       description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the Player profile being updated", required: true, type: :string
+      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
-          user_id: { type: :integer },
           username: { type: :string },
         }
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player updated." do
 
@@ -690,26 +794,30 @@ end
       end
 
       response "422", "Unable to update player account" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
         run_test!
       end
     end
   end
 
   # PUT /players/:user_id
-  path "/players/{:user_id}" do
+  path "/players/{user_id}" do
 
     put "Update Player profile" do
       tags        "Players"
       description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id, in: :path, description: "'user_id' of the Player profile being updated", required: true, type: :string
+      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
-          user_id: { type: :integer },
           username: { type: :string },
         }
       }
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player updated." do
 
@@ -736,6 +844,10 @@ end
       end
 
       response "422", "Unable to update player account" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
         run_test!
       end
     end

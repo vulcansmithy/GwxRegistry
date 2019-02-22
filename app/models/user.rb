@@ -40,7 +40,7 @@ class User < ApplicationRecord
   end
   
   def set_confirmation_code
-    self.confirmation_code = SecureRandom.random_number(10000)
+    self.confirmation_code = SecureRandom.rand.to_s[2..5]
     self.confirmation_sent_at = Time.now.utc
   end
 end

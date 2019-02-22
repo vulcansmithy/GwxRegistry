@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     :default   => true) do
 
     post 'register' => 'users#create'
-    get 'confirm/:code' => 'users#confirm'
+    get 'users/confirm/:code' => 'users#confirm'
+    get 'users/:id/resend_code' => 'users#resend_code'
     post 'login' => 'users#login'
     get 'test' => 'users#test'
 

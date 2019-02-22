@@ -38,6 +38,9 @@
           }
         ],
         "responses": {
+          "401": {
+            "description": "Invalid Credentials"
+          },
           "200": {
             "description": "Login Successful",
             "examples": {
@@ -75,7 +78,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
           "200": {
             "description": "user(s) found.",
             "examples": {
@@ -207,12 +222,15 @@
             }
           },
           "422": {
-            "description": "Unable to create a new User account."
+            "description": "Unable to create user account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
     },
-    "/users/{:id}": {
+    "/users/{id}": {
       "get": {
         "summary": "Retrieve a specific User account",
         "tags": [
@@ -227,6 +245,13 @@
             "name": "id",
             "in": "path",
             "description": "'id' of the User being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -251,7 +276,10 @@
             }
           },
           "404": {
-            "description": "user not found."
+            "description": "User not found"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       },
@@ -271,7 +299,7 @@
             "in": "path",
             "description": "'id' of the User profile being updated",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "user",
@@ -293,6 +321,13 @@
                 }
               }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -319,6 +354,9 @@
           },
           "422": {
             "description": "Unable to update user profile."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       },
@@ -338,7 +376,7 @@
             "in": "path",
             "description": "'id' of the User profile being updated",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "user",
@@ -360,6 +398,13 @@
                 }
               }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -386,6 +431,78 @@
           },
           "422": {
             "description": "Unable to update user profile."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/users/confirm/{code}": {
+      "get": {
+        "summary": "Confirm user account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Confirm user account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "confirmation code sent on email",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmed",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "confirmation_code": "1111"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Wrong confirmation code"
+          }
+        }
+      }
+    },
+    "/users/{id}/resend_code": {
+      "get": {
+        "summary": "Resend code",
+        "tags": [
+          "Users"
+        ],
+        "description": "Resend code",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent"
           }
         }
       }
@@ -400,7 +517,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
           "200": {
             "description": "publisher(s) found.",
             "examples": {
@@ -485,7 +614,7 @@
               "type": "object",
               "properties": {
                 "user_id": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "wallet_address": {
                   "type": "string"
@@ -503,6 +632,13 @@
                 "description"
               ]
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -526,11 +662,14 @@
           },
           "422": {
             "description": "Unable to create publisher account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
     },
-    "/publishers/{:user_id}": {
+    "/publishers/{user_id}": {
       "get": {
         "summary": "Retrieve a specific Publisher",
         "tags": [
@@ -544,7 +683,14 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the publisher being retrieved",
+            "description": "'id' of the User profile being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -570,6 +716,9 @@
           },
           "404": {
             "description": "publisher not found."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       },
@@ -587,9 +736,9 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the publisher being updated",
+            "description": "'id' of the User profile being retrieved",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "publisher",
@@ -597,10 +746,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "type": "integer"
-                },
                 "publisher_name": {
+                  "type": "string"
+                },
+                "wallet_address": {
                   "type": "string"
                 },
                 "description": {
@@ -608,6 +757,13 @@
                 }
               }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -631,6 +787,9 @@
           },
           "422": {
             "description": "Unable to update publisher account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
@@ -645,7 +804,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
           "200": {
             "description": "player(s) found.",
             "examples": {
@@ -746,6 +917,13 @@
                 "username"
               ]
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -770,11 +948,14 @@
           },
           "422": {
             "description": "Unable to create a new User"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
     },
-    "/players/{:user_id}": {
+    "/players/{user_id}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
@@ -788,7 +969,14 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the player being retrieved",
+            "description": "'id' of the User profile being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -815,6 +1003,9 @@
           },
           "404": {
             "description": "player not found."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       },
@@ -832,9 +1023,9 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the Player profile being updated",
+            "description": "'id' of the User profile being retrieved",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "player",
@@ -842,14 +1033,18 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "type": "integer"
-                },
                 "username": {
                   "type": "string"
                 }
               }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -877,6 +1072,9 @@
           },
           "422": {
             "description": "Unable to update player account"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       },
@@ -894,9 +1092,9 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "'user_id' of the Player profile being updated",
+            "description": "'id' of the User profile being retrieved",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "player",
@@ -904,14 +1102,18 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "type": "integer"
-                },
                 "username": {
                   "type": "string"
                 }
               }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -939,6 +1141,9 @@
           },
           "422": {
             "description": "Unable to update player account"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
