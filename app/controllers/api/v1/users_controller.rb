@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_request, only: %i[create login test confirm resend_code]
+  skip_before_action :authenticate_request, only: %i[create login test confirm]
   before_action :set_user, only: %i[show edit update resend_code]
 
   def index
@@ -30,11 +30,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  def resend_code
-    return if current_user.confirmed_at.nil?
-
-    current_user.send_confirmation_code
-    render json: { message: 'sent' }, status: :ok
+  def resend_code 
+    raise_user_verified unless @current_user.confirmed_at.nil?
+    @current_user.send_confirmation_code
+    render json: { message: 'Sent' }, status: :ok
   end
 
   def update
@@ -105,5 +104,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     rescue
       error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
     end
+  end
+
+  def raise_user_verified
+    raise ExceptionHandler::UserVerified, "User has already been verified" 
   end
 end
