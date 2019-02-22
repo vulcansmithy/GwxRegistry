@@ -438,7 +438,7 @@
         }
       }
     },
-    "/confirm/{code}": {
+    "/users/confirm/{code}": {
       "get": {
         "summary": "Confirm user account",
         "tags": [
@@ -470,6 +470,39 @@
           },
           "422": {
             "description": "Wrong confirmation code"
+          }
+        }
+      }
+    },
+    "/users/{id}/resend_code": {
+      "get": {
+        "summary": "Resend code",
+        "tags": [
+          "Users"
+        ],
+        "description": "Resend code",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent"
           }
         }
       }

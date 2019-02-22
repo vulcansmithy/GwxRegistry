@@ -1,7 +1,6 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
-=begin
   ## Users
   # POST /login
   path "/login" do
@@ -216,8 +215,8 @@ describe "Gameworks Registry API" do
     end
   end
 
-  # GET /confirm/:code
-  path "/confirm/{code}" do
+  # GET /users/confirm/:code
+  path "/users/confirm/{code}" do
 
     get "Confirm user account" do
       tags "Users"
@@ -237,6 +236,22 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Wrong confirmation code" do
+        run_test!
+      end
+    end
+  end
+
+  # GET /users/:id/resend_code
+  path "/users/{id}/resend_code" do
+
+    get "Resend code" do
+      tags "Users"
+      description "Resend code"
+      produces "application/json"
+      parameter   name: :id,   in: :path, description: "id", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "Sent" do
         run_test!
       end
     end
@@ -837,5 +852,4 @@ end
       end
     end
   end
-=end
 end
