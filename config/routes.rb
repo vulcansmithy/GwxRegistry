@@ -16,9 +16,9 @@ Rails.application.routes.draw do
     post 'login' => 'users#login'
     get 'test' => 'users#test'
 
-    resources :users, :except => [:destroy]
+    resources :users, :except => [:destroy, :index]
 
-    resources :publishers, :except => [:show, :update, :destroy] do
+    resources :publishers, :except => [:show, :update, :destroy, :index] do
       collection do
         get   '/:user_id', to: 'publishers#show'
         patch '/:user_id', to: 'publishers#update'
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, :except => [:show, :destroy] do
+    resources :players, :except => [:show, :destroy, :index] do
       collection do
         get   '/:user_id', to: 'players#show'
         patch '/:user_id', to: 'players#update'
