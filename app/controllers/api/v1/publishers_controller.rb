@@ -1,6 +1,8 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  before_action :set_user, only: %i[create edit update show check_publisher]
-  before_action :check_publisher, only: [:create]
+  before_action :check_current_user
+  before_action except: %i[index show] do
+    check_player_publisher_account(@current_user, "publisher")
+  end
   before_action :set_publisher, only: %i[edit update show]
 
   def index
@@ -42,16 +44,11 @@ class Api::V1::PublishersController < Api::V1::BaseController
     params.permit(:description, :wallet_address, :user_id, :publisher_name)
   end
 
-  def set_user
-    @user = User.find(params[:user_id])
-  end
-
   def set_publisher
-    @publisher = @user.publisher
-  end
-
-  def check_publisher
-    @user.errors.add(:base, "Publisher account already exist")
-    error_response('Unable to create publisher account', @user.errors.full_messages, :unprocessable_entity) if @user.publisher
+    unless @publisher = @current_user.publisher
+    error_response("You don't have an existing publisher account",
+                   "Publisher account does not exist",
+                   :unprocessable_entity)
+    end
   end
 end

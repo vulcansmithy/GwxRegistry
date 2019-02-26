@@ -46,8 +46,6 @@ ActiveRecord::Schema.define(version: 2019_02_18_074643) do
     t.string "wallet_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
     t.string "encrypted_pk"
     t.string "encrypted_pk_iv"
     t.string "mac_address"
