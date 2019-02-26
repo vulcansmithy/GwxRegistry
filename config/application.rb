@@ -26,8 +26,8 @@ module GwxRegistryApi
       end
     end
     
-    config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('service')
 
-    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('service')
   end
 end
