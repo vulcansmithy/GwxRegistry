@@ -1,6 +1,6 @@
 class JsonWebToken
   class << self
-    def encode(payload, exp = 24.hours.from_now)
+    def encode(payload, exp = 1.hour.from_now)
       # set token expiration time 
       payload[:exp] = exp.to_i
       
