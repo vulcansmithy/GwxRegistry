@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine  => "/api-docs"
-  mount Rswag::Api::Engine => "/api-docs"
+  mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
+  mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
 
   api_version(
     :module    => "Api::V1",
