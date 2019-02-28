@@ -32,7 +32,6 @@ class User < ApplicationRecord
 
   def confirm_account(code)
     return false unless self.confirmed_at.nil? && code == confirmation_code
-    update(confirmation_code: nil, confirmed_at: Time.now.utc)
   end
 
   def send_confirmation_code
