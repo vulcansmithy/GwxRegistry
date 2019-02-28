@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_074643) do
+ActiveRecord::Schema.define(version: 2019_02_27_074045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "players", force: :cascade do |t|
     t.string "username"
-    t.decimal "balance"
+    t.decimal "balance", precision: 8, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_02_18_074643) do
   create_table "publishers", force: :cascade do |t|
     t.string "wallet_address"
     t.string "description"
-    t.decimal "balance"
+    t.decimal "balance", precision: 8, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 2019_02_18_074643) do
     t.string "wallet_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.string "encrypted_pk"
     t.string "encrypted_pk_iv"
     t.string "mac_address"
