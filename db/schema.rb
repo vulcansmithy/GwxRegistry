@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_27_074045) do
+ActiveRecord::Schema.define(version: 2019_02_27_084629) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_02_27_074045) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_players_on_user_id"
+    t.index ["username"], name: "index_players_on_username", unique: true
   end
 
   create_table "publishers", force: :cascade do |t|
@@ -32,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_02_27_074045) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.string "publisher_name"
+    t.index ["publisher_name"], name: "index_publishers_on_publisher_name", unique: true
     t.index ["user_id"], name: "index_publishers_on_user_id"
   end
 
@@ -51,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_02_27_074045) do
     t.string "encrypted_pk"
     t.string "encrypted_pk_iv"
     t.string "mac_address"
+    t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end
 
