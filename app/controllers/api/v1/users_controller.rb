@@ -22,9 +22,14 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def confirm
     return unless params[:code]
-    user = User.find_by!(confirmation_code: params[:code])
-    if user.confirm_account(params[:code])
-      render json: { message: 'Confirmed' }, status: :ok
+    if user = User.find_by(confirmation_code: params[:code])
+      if Time.now.utc > user.confirmation_sent_at.advance(minutes: 60)
+        render json: { message: 'Expired confirmation code' }, status: :unprocessable_entity
+        user.resend_confirmation!
+      else user.confirm_account(params[:code])
+        render json: { message: 'Confirmed' }, status: :ok
+        user.confirm!
+      end
     else
       render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
     end
