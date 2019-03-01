@@ -98,14 +98,14 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-                     first_name: { type: :string },
-                      last_name: { type: :string },
+                     firstName: { type: :string },
+                      lastName: { type: :string },
                           email: { type: :string },
-                 wallet_address: { type: :string },
+                 walletAddress: { type: :string },
                        password: { type: :string },
-          password_confirmation: { type: :string },
+          passwordConfirmation: { type: :string },
         },
-        required: [ "email", "wallet_address", "password", "password_confirmation" ]
+        required: [ "email", "walletAddress", "password", "passwordConfirmation" ]
       }
 
       response "200", "user created." do
@@ -190,10 +190,10 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-               first_name: { type: :string },
-                last_name: { type: :string },
+               firstName: { type: :string },
+                lastName: { type: :string },
                        pk: { type: :string },
-           wallet_address: { type: :string }
+           walletAddress: { type: :string }
         },
       }
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
@@ -244,10 +244,10 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-               first_name: { type: :string },
-                last_name: { type: :string },
+               firstName: { type: :string },
+                lastName: { type: :string },
                        pk: { type: :string },
-           wallet_address: { type: :string }
+           walletAddress: { type: :string }
         },
       }
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
@@ -289,13 +289,13 @@ describe "Gameworks Registry API" do
 
   ## Publishers
 
-  path "/publishers/{user_id}" do
+  path "/publishers/{userId}" do
 
     get "Retrieve a specific Publisher" do
       tags        "Publishers"
-      description "Retrieve a specific publisher by specifying its 'user_id'."
+      description "Retrieve a specific publisher by specifying its 'userId'."
       produces    "application/json"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "publisher found." do
@@ -336,12 +336,12 @@ describe "Gameworks Registry API" do
       parameter   name: :publisher, in: :body, schema: {
         type: :object,
         properties: {
-                 user_id: { type: :integer },
-          wallet_address: { type: :string },
-          publisher_name: { type: :string },
+                 userId: { type: :integer },
+          walletAddress: { type: :string },
+          publisherName: { type: :string },
              description: { type: :string }
         },
-        required: [ "user_id", "publisher_name", "description" ]
+        required: [ "userId", "publisherName", "description" ]
       }
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
@@ -374,18 +374,18 @@ describe "Gameworks Registry API" do
     end
   end
 
-  path "/publishers/{user_id}" do
+  path "/publishers/{userId}" do
 
     patch "Update Publisher account" do
       tags        "Publishers"
       description "Update an existing Publisher account."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :publisher, in: :body, schema: {
         type: :object,
         properties: {
-          publisher_name: { type: :string },
-          wallet_address: { type: :string },
+          publisherName: { type: :string },
+          walletAddress: { type: :string },
           description:    { type: :string }
         }
       }
@@ -421,19 +421,19 @@ describe "Gameworks Registry API" do
     end
   end
 
-  # PUT /publishers/:user_id
-  path "/publishers/{user_id}" do
+  # PUT /publishers/:userId
+  path "/publishers/{userId}" do
 
     put "Update Publisher account" do
       tags        "Publishers"
       description "Update an existing Publisher account."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :publisher, in: :body, schema: {
         type: :object,
         properties: {
-          publisher_name: { type: :string },
-          wallet_address: { type: :string },
+          publisherName: { type: :string },
+          walletAddress: { type: :string },
           description:    { type: :string }
         }
       }
@@ -476,14 +476,14 @@ describe "Gameworks Registry API" do
 
   ## Players
 
-  # GET /players/:user_id
-  path "/players/{user_id}" do
+  # GET /players/:userId
+  path "/players/{userId}" do
 
     get "Retrieve a specific Player" do
       tags        "Players"
-      description "Retrieve a specific player by specifying its 'user_id'."
+      description "Retrieve a specific player by specifying its 'userId'."
       produces    "application/json"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player found." do
@@ -526,10 +526,10 @@ describe "Gameworks Registry API" do
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          user_id:  { type: :integer },
+          userId:  { type: :integer },
           username: { type: :string  },
         },
-        required: [ "user_id", "username" ]
+        required: [ "userId", "username" ]
       }
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
@@ -563,14 +563,14 @@ describe "Gameworks Registry API" do
     end
   end
 
-  # PATCH /players/:user_id
-  path "/players/{user_id}" do
+  # PATCH /players/:userId
+  path "/players/{userId}" do
 
     patch "Update Player profile" do
       tags        "Players"
       description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
@@ -613,14 +613,14 @@ describe "Gameworks Registry API" do
     end
   end
 
-  # PUT /players/:user_id
-  path "/players/{user_id}" do
+  # PUT /players/:userId
+  path "/players/{userId}" do
 
     put "Update Player profile" do
       tags        "Players"
       description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :user_id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
