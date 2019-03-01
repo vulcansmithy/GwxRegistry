@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_request, only: %i[create login test confirm]
+  skip_before_action :authenticate_request, only: %i[create login confirm]
   before_action :set_user, only: %i[show edit update resend_code]
   before_action :params_transform, only: [:create, :edit, :update]
 
@@ -23,9 +23,14 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def confirm
     return unless params[:code]
-    user = User.find_by!(confirmation_code: params[:code])
-    if user.confirm_account(params[:code])
-      render json: { message: 'Confirmed' }, status: :ok
+    if user = User.find_by(confirmation_code: params[:code])
+      if Time.now.utc > (user.confirmation_sent_at + 60.minutes)
+        render json: { message: 'Expired confirmation code' }, status: :unprocessable_entity
+        user.resend_confirmation!
+      else user.confirm_account(params[:code])
+        render json: { message: 'Confirmed' }, status: :ok
+        user.confirm!
+      end
     else
       render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
     end

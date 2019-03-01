@@ -10,14 +10,16 @@ Rails.application.routes.draw do
     :defaults  => { :format => "json" },
     :default   => true) do
 
-    post 'register' => 'users#create'
-    get 'users/confirm/:code' => 'users#confirm'
-    get 'users/:id/resend_code' => 'users#resend_code'
-    post 'login' => 'users#login'
-    get 'test' => 'users#test'
+    get 'test', to: 'users#test'
+    post 'login', to: 'users#login'
 
-    resources :users, :except => [:destroy, :index]
-
+    resources :users, :except => [:destroy, :index] do
+      collection do
+        get '/confirm/:code', to: 'users#confirm'
+        get '/:id/resend_code', to: 'users#resend_code'
+      end
+    end
+    
     resources :publishers, :except => [:show, :update, :destroy, :index] do
       collection do
         get   '/:user_id', to: 'publishers#show'

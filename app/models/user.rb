@@ -32,15 +32,32 @@ class User < ApplicationRecord
 
   def confirm_account(code)
     return false unless self.confirmed_at.nil? && code == confirmation_code
-    update(confirmation_code: nil, confirmed_at: Time.now.utc)
   end
 
   def send_confirmation_code
     UserMailer.account_confirmation(self).deliver_later(wait: 1.minute)
+    update(confirmation_sent_at: Time.now.utc)
   end
 
   def set_confirmation_code
-    self.confirmation_code = SecureRandom.rand.to_s[2..5]
-    self.confirmation_sent_at = Time.now.utc
+    self.confirmation_code = generate_confirmation_code
+  end
+
+  def confirm!
+    update(confirmation_code: nil, confirmed_at: Time.now.utc)
+  end
+
+  def resend_confirmation!
+    update(confirmation_code: generate_confirmation_code)
+    send_confirmation_code
+  end
+
+  private
+
+  def generate_confirmation_code
+    loop do
+      code = SecureRandom.rand.to_s[2..5]
+      break code if User.find_by(confirmation_code: code).nil?
+    end
   end
 end
