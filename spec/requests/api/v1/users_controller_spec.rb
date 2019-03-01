@@ -12,7 +12,7 @@ describe Api::V1::UsersController do
     expect(result["message"]).to eq "Login Successful"
   end
 
-  it "should implement the endpoint GET /users" do
+  xit "should implement the endpoint GET /users" do
 
     # set the no. of Users accounts
     no_of_users = 5
@@ -49,18 +49,18 @@ describe Api::V1::UsersController do
   it "should implement the endpoint POST /register" do
 
     # setup test user information
-    first_name = Faker::Name.first_name
-    last_name  = Faker::Name.last_name
-    email      = "#{first_name}.#{last_name}@example.com".downcase
+    firstName = Faker::Name.first_name
+    lastName  = Faker::Name.last_name
+    email      = "#{firstName}.#{lastName}@example.com".downcase
     password   = email
 
     # setup parameters to pass
     params = {
-      first_name: first_name,
-      last_name:  last_name,
+      firstName: firstName,
+      lastName:  lastName,
       email:      email,
       password:   password,
-      password_confirmation: password
+      passwordConfirmation: password
     }.as_json
 
     # call the API endpoint
@@ -108,16 +108,16 @@ describe Api::V1::UsersController do
     result = JSON.parse(response.body)
 
     # setup a new test user first_name and last_name
-    first_name = Faker::Name.first_name
-    last_name  = Faker::Name.last_name
-    wallet_address = Faker::Number.hexadecimal(20)
+    firstName = Faker::Name.first_name
+    lastName  = Faker::Name.last_name
+    walletAddress = Faker::Number.hexadecimal(20)
     pk = Faker::Number.hexadecimal(10)
 
     # setup parameters to pass
     params = {
-      first_name: first_name,
-      last_name:  last_name,
-      wallet_address: wallet_address,
+      firstName: firstName,
+      lastName:  lastName,
+      walletAddress: walletAddress,
       pk: pk
     }.as_json
 
@@ -131,9 +131,9 @@ describe Api::V1::UsersController do
     result = JSON.parse(response.body)
 
     # make sure the first_name was successfully updated
-    expect(result["data"]["attributes"]["first_name"]).to eq first_name
+    expect(result["data"]["attributes"]["firstName"]).to eq firstName
 
     # make sure the first_name was successfully updated
-    expect(result["data"]["attributes"]["last_name"]).to eq last_name
+    expect(result["data"]["attributes"]["lastName"]).to eq lastName
   end
  end
