@@ -35,4 +35,8 @@ class ApplicationController < ActionController::API
   def exception_unauthorized
     raise ExceptionHandler::AuthenticationError, 'Unauthorized: Access is denied'
   end
+
+  def params_transform
+    params.transform_keys!(&:underscore)
+  end
 end
