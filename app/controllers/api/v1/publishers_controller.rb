@@ -16,7 +16,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def create
-    @publisher = @user.create_publisher(publisher_params)
+    @publisher = @current_user.create_publisher(publisher_params)
 
     if @publisher.save
       success_response(PublisherSerializer.new(@publisher).serialized_json, :created)
@@ -35,7 +35,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
       success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
       error_response("Unable to update publisher account",
-        @user.errors.full_messages, :unprocessable_entity)
+        @current_user.errors.full_messages, :unprocessable_entity)
     end
   end
 
