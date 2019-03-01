@@ -1,4 +1,5 @@
 class Api::V1::PlayersController < Api::V1::BaseController
+  before_action :params_transform, only: [:create]
   before_action :check_current_user
   before_action only: [:create] do
     check_player_publisher_account(@current_user, "player")
