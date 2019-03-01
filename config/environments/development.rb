@@ -60,5 +60,6 @@ Rails.application.configure do
     user_name:            'gwxregistry@gmail.com',
     password:             'mfta uoia ejab leqr',
     authentication:       'plain',
-    enable_starttls_auto: true }
+    enable_starttls_auto: true
+  }
 end
