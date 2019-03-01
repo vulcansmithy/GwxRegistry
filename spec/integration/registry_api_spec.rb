@@ -29,10 +29,10 @@ describe "Gameworks Registry API" do
                       "type": "user",
                       "attributes": {
                           "id": 8,
-                          "firstName": "sample",
-                          "lastName": "one",
+                          "first_name": "sample",
+                          "last_name": "one",
                           "email": "sample_one@gmail.com",
-                          "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                          "wallet_address": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
                       }
                   }
               },
@@ -67,10 +67,10 @@ describe "Gameworks Registry API" do
                   "type" => "user",
             "attributes" => {
                             "id" => 354,
-                    "firstName" => "Chuck",
-                     "lastName" => "Aufderhar",
+                    "first_name" => "Chuck",
+                     "last_name" => "Aufderhar",
                          "email" => "chuck.aufderhar@example.com",
-                "walletAddress" => "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
+                "wallet_address" => "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
             }
           }
         }
@@ -116,10 +116,10 @@ describe "Gameworks Registry API" do
                    "type" => "user",
              "attributes" => {
                              "id" => 158,
-                     "firstName" => "Mohammed",
-                      "lastName" => "Graham",
+                     "first_name" => "Mohammed",
+                      "last_name" => "Graham",
                           "email" => "mohammed.graham@example.com",
-                 "walletAddress" => "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                 "wallet_address" => "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
              }
           }
         }
@@ -150,7 +150,7 @@ describe "Gameworks Registry API" do
 
         examples "application/json" => {
           "data" => {
-                      "confirmationCode" => '1111'
+                      "confirmation_code" => '1111'
                     }
         }
 
@@ -206,10 +206,10 @@ describe "Gameworks Registry API" do
                    "type" => "user",
              "attributes" => {
                              "id" => 375,
-                     "firstName" => "Lesley",
-                      "lastName" => "Reichert",
+                     "first_name" => "Lesley",
+                      "last_name" => "Reichert",
                           "email" => "latasha.harris@example.com",
-                 "walletAddress" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
+                 "wallet_address" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
              }
           }
         }
@@ -260,10 +260,10 @@ describe "Gameworks Registry API" do
                    "type" => "user",
              "attributes" => {
                              "id" => 375,
-                     "firstName" => "Lesley",
-                      "lastName" => "Reichert",
+                     "first_name" => "Lesley",
+                      "last_name" => "Reichert",
                           "email" => "latasha.harris@example.com",
-                 "walletAddress" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
+                 "wallet_address" => "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
              }
           }
         }
@@ -306,10 +306,10 @@ describe "Gameworks Registry API" do
                     "type" => "publisher",
               "attributes" => {
                               "id" => 29,
-                  "publisherName" => "Vania Hilll",
+                  "publisher_name" => "Vania Hilll",
                      "description" => "Commodi odit doloremque non.",
-                  "walletAddress" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
-                         "userId" => 30
+                  "wallet_address" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
+                         "user_id" => 30
               }
           }
         }
@@ -353,10 +353,10 @@ describe "Gameworks Registry API" do
                     "type" => "publisher",
               "attributes" => {
                               "id" => 47,
-                  "publisherName" => "PROUDCLOUD",
+                  "publisher_name" => "PROUDCLOUD",
                      "description" => "hello",
-                  "walletAddress" => "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
-                         "userId" => 48
+                  "wallet_address" => "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
+                         "user_id" => 48
               }
           }
         }
@@ -399,10 +399,10 @@ describe "Gameworks Registry API" do
                     "type" => "publisher",
               "attributes" => {
                               "id" => 54,
-                  "publisherName" => "Testing01",
+                  "publisher_name" => "Testing01",
                      "description" => "Ducimus quisquam ipsam inventore.",
-                  "walletAddress" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
-                         "userId" => 55
+                  "wallet_address" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
+                         "user_id" => 55
               }
           }
         }
@@ -447,10 +447,10 @@ describe "Gameworks Registry API" do
                     "type" => "publisher",
               "attributes" => {
                               "id" => 54,
-                  "publisherName" => "Testing01",
+                  "publisher_name" => "Testing01",
                      "description" => "Ducimus quisquam ipsam inventore.",
-                  "walletAddress" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
-                         "userId" => 55
+                  "wallet_address" => "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
+                         "user_id" => 55
               }
           }
         }
@@ -493,12 +493,12 @@ describe "Gameworks Registry API" do
                           "id" => "627",
                         "type" => "player",
                   "attributes" => {
-                             "userId" => 1265,
-                          "firstName" => "Wyatt",
-                           "lastName" => "Ullrich",
+                             "user_id" => 1265,
+                          "first_name" => "Wyatt",
+                           "last_name" => "Ullrich",
                                "email" => "wyatt.ullrich@example.com",
                             "username" => "wyatt.ullrich",
-                      "walletAddress" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                      "wallet_address" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
                   }
               }
           }
@@ -540,12 +540,12 @@ describe "Gameworks Registry API" do
                         "id" => "629",
                       "type" => "player",
                 "attributes" => {
-                           "userId" => 1267,
-                        "firstName" => "Kenya",
-                         "lastName" => "Mertz",
+                           "user_id" => 1267,
+                        "first_name" => "Kenya",
+                         "last_name" => "Mertz",
                              "email" => "kenya.mertz@example.com",
                           "username" => "leeroy.jenkins",
-                    "walletAddress" => "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                    "wallet_address" => "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
                 }
             }
         }
@@ -586,12 +586,12 @@ describe "Gameworks Registry API" do
               "id"   => "633",
               "type" => "player",
               "attributes" => {
-                       "userId" => 1271,
-                    "firstName" => "Marcellus",
-                     "lastName" => "Luettgen",
+                       "user_id" => 1271,
+                    "first_name" => "Marcellus",
+                     "last_name" => "Luettgen",
                          "email" => "marcellus.luettgen@example.com",
                       "username" => "leeroy.jenkins",
-                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                "wallet_address" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
               }
           }
         }
@@ -636,12 +636,12 @@ describe "Gameworks Registry API" do
               "id"   => "633",
               "type" => "player",
               "attributes" => {
-                       "userId" => 1271,
-                    "firstName" => "Marcellus",
-                     "lastName" => "Luettgen",
+                       "user_id" => 1271,
+                    "first_name" => "Marcellus",
+                     "last_name" => "Luettgen",
                          "email" => "marcellus.luettgen@example.com",
                       "username" => "leeroy.jenkins",
-                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                "wallet_address" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
               }
           }
         }

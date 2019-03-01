@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
 
-  validates :email, presence: true,
+  validates :email, presence: true, 
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
@@ -23,22 +23,22 @@ class User < ApplicationRecord
   validates :mac_address, uniqueness: true,
                           allow_nil: true
 
-  validates :confirmation_code, uniqueness: true,
+  validates :confirmation_code, uniqueness: true, 
                                 allow_nil:  true
-
+  
   def full_name
     "#{first_name} #{last_name}"
-  end
-
+  end 
+  
   def confirm_account(code)
     return false unless self.confirmed_at.nil? && code == confirmation_code
     update(confirmation_code: nil, confirmed_at: Time.now.utc)
   end
 
   def send_confirmation_code
-    UserMailer.account_confirmation(self).deliver_later(wait: 1.minute)
+    UserMailer.account_confirmation(self).deliver
   end
-
+  
   def set_confirmation_code
     self.confirmation_code = SecureRandom.rand.to_s[2..5]
     self.confirmation_sent_at = Time.now.utc
