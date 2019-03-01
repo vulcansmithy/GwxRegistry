@@ -1,6 +1,7 @@
 class PlayerSerializer < ActiveModel::Serializer
-  
   include FastJsonapi::ObjectSerializer
+
+  set_key_transform :camel_lower
 
   attributes :user_id,
     :first_name,
@@ -11,18 +12,18 @@ class PlayerSerializer < ActiveModel::Serializer
 
   attribute :first_name do |player|
     player.user.first_name
-  end     
-  
+  end
+
   attribute :last_name do |player|
     player.user.last_name
-  end  
-  
+  end
+
   attribute :email do |player|
     player.user.email
-  end  
-  
+  end
+
   attribute :wallet_address do |player|
     player.user.wallet_address
-  end      
+  end
 
 end
