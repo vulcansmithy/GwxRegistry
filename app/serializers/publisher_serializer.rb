@@ -6,5 +6,6 @@ class PublisherSerializer < ActiveModel::Serializer
   attributes :id,
     :publisher_name,
     :wallet_address,
+    :description,
     :user_id
 end

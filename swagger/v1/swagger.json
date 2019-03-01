@@ -145,16 +145,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "pk": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 }
               }
@@ -222,16 +222,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "pk": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 }
               }
@@ -294,30 +294,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "email": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
                 "password": {
                   "type": "string"
                 },
-                "password_confirmation": {
+                "passwordConfirmation": {
                   "type": "string"
                 }
               },
               "required": [
                 "email",
-                "wallet_address",
+                "walletAddress",
                 "password",
-                "password_confirmation"
+                "passwordConfirmation"
               ]
             }
           }
@@ -419,19 +419,19 @@
         }
       }
     },
-    "/publishers/{user_id}": {
+    "/publishers/{userId}": {
       "get": {
         "summary": "Retrieve a specific Publisher",
         "tags": [
           "Publishers"
         ],
-        "description": "Retrieve a specific publisher by specifying its 'user_id'.",
+        "description": "Retrieve a specific publisher by specifying its 'userId'.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -484,7 +484,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -496,10 +496,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "publisher_name": {
+                "publisherName": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
                 "description": {
@@ -555,7 +555,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -567,10 +567,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "publisher_name": {
+                "publisherName": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
                 "description": {
@@ -636,13 +636,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
+                "userId": {
                   "type": "integer"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
-                "publisher_name": {
+                "publisherName": {
                   "type": "string"
                 },
                 "description": {
@@ -650,8 +650,8 @@
                 }
               },
               "required": [
-                "user_id",
-                "publisher_name",
+                "userId",
+                "publisherName",
                 "description"
               ]
             }
@@ -692,19 +692,19 @@
         }
       }
     },
-    "/players/{user_id}": {
+    "/players/{userId}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
           "Players"
         ],
-        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "description": "Retrieve a specific player by specifying its 'userId'.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -758,7 +758,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -827,7 +827,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -903,7 +903,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
+                "userId": {
                   "type": "integer"
                 },
                 "username": {
@@ -911,7 +911,7 @@
                 }
               },
               "required": [
-                "user_id",
+                "userId",
                 "username"
               ]
             }
