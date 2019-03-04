@@ -1,7 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :set_user, only: %i[show edit update resend_code]
-  before_action :params_transform, only: [:create, :edit, :update]
+  before_action :set_user, only: %[show edit update]
+  before_action :params_transform, only: %i[create edit update]
 
   def index
     @users = User.all
@@ -106,7 +106,6 @@ class Api::V1::UsersController < Api::V1::BaseController
       if command.success
         response = command.result
         response[:message] = 'Login Successful'
-
         success_response(response)
       end
     rescue
