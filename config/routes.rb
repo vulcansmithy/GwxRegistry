@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
     get 'test', to: 'users#test'
     post 'login', to: 'users#login'
+    post 'register' => 'users#create'
 
     resources :users, :except => [:destroy, :index] do
       collection do
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
         get '/:id/resend_code', to: 'users#resend_code'
       end
     end
-    
+
     resources :publishers, :except => [:show, :update, :destroy, :index] do
       collection do
         get   '/:user_id', to: 'publishers#show'
