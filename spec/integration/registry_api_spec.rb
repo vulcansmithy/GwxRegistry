@@ -3,6 +3,55 @@ require "swagger_helper"
 describe "Gameworks Registry API" do
 =begin
   ## Users
+  # POST /users
+  path "/register" do
+
+    post "Create a User account" do
+      tags        "Users"
+      description "Create a user account."
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+                     firstName: { type: :string },
+                      lastName: { type: :string },
+                          email: { type: :string },
+                 walletAddress: { type: :string },
+                       password: { type: :string },
+          passwordConfirmation: { type: :string },
+        },
+        required: [ "email", "walletAddress", "password", "passwordConfirmation" ]
+      }
+
+      response "200", "user created." do
+
+        examples "application/json" => {
+          "data" => {
+                     "id" => "158",
+                   "type" => "user",
+             "attributes" => {
+                             "id" => 158,
+                     "firstName" => "Mohammed",
+                      "lastName" => "Graham",
+                          "email" => "mohammed.graham@example.com",
+                 "walletAddress" => "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+             }
+          }
+        }
+
+        run_test!
+      end
+
+      response "422", "Unable to create user account." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
   # POST /login
   path "/login" do
     post "Login" do
@@ -45,45 +94,6 @@ describe "Gameworks Registry API" do
         response "401", "Invalid Credentials" do
           run_test!
         end
-      end
-    end
-  end
-
-  # GET /users/:id
-  path "/users/{id}" do
-
-    get "Retrieve a specific User account" do
-      tags        "Users"
-      description "Retrieve a specific User account by specifying its 'id'."
-      produces    "application/json"
-      parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :integer
-      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
-
-      response "200", "user found." do
-
-        examples "application/json" => {
-          "data" => {
-                    "id" => "354",
-                  "type" => "user",
-            "attributes" => {
-                            "id" => 354,
-                    "firstName" => "Chuck",
-                     "lastName" => "Aufderhar",
-                         "email" => "chuck.aufderhar@example.com",
-                "walletAddress" => "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
-            }
-          }
-        }
-
-        run_test!
-      end
-
-      response "404", "User not found" do
-        run_test!
-      end
-
-      response "401", "Unauthorized: Access is denied" do
-        run_test!
       end
     end
   end
@@ -136,6 +146,46 @@ describe "Gameworks Registry API" do
       end
     end
   end
+
+  # GET /users/:id
+  path "/users/{id}" do
+
+    get "Retrieve a specific User account" do
+      tags        "Users"
+      description "Retrieve a specific User account by specifying its 'id'."
+      produces    "application/json"
+      parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "user found." do
+
+        examples "application/json" => {
+          "data" => {
+                    "id" => "354",
+                  "type" => "user",
+            "attributes" => {
+                            "id" => 354,
+                    "firstName" => "Chuck",
+                     "lastName" => "Aufderhar",
+                         "email" => "chuck.aufderhar@example.com",
+                "walletAddress" => "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
+            }
+          }
+        }
+
+        run_test!
+      end
+
+      response "404", "User not found" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
 
   # GET /users/confirm/:code
   path "/users/confirm/{code}" do
@@ -288,47 +338,7 @@ describe "Gameworks Registry API" do
   end
 
   ## Publishers
-
-  path "/publishers/{userId}" do
-
-    get "Retrieve a specific Publisher" do
-      tags        "Publishers"
-      description "Retrieve a specific publisher by specifying its 'userId'."
-      produces    "application/json"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
-      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
-
-      response "200", "publisher found." do
-
-        examples "application/json" => {
-          "data" => {
-                      "id" => "29",
-                    "type" => "publisher",
-              "attributes" => {
-                              "id" => 29,
-                  "publisherName" => "Vania Hilll",
-                     "description" => "Commodi odit doloremque non.",
-                  "walletAddress" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
-                         "userId" => 30
-              }
-          }
-        }
-
-        run_test!
-      end
-
-      response "404", "publisher not found." do
-        run_test!
-      end
-
-      response "401", "Unauthorized: Access is denied" do
-        run_test!
-      end
-    end
-  end
-
   path "/publishers" do
-
     post "Create a Publisher account" do
       tags        "Publishers"
       description "Create a publisher account."
@@ -373,6 +383,45 @@ describe "Gameworks Registry API" do
       end
     end
   end
+
+  path "/publishers/{userId}" do
+
+    get "Retrieve a specific Publisher" do
+      tags        "Publishers"
+      description "Retrieve a specific publisher by specifying its 'userId'."
+      produces    "application/json"
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "publisher found." do
+
+        examples "application/json" => {
+          "data" => {
+                      "id" => "29",
+                    "type" => "publisher",
+              "attributes" => {
+                              "id" => 29,
+                  "publisherName" => "Vania Hilll",
+                     "description" => "Commodi odit doloremque non.",
+                  "walletAddress" => "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
+                         "userId" => 30
+              }
+          }
+        }
+
+        run_test!
+      end
+
+      response "404", "publisher not found." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
 
   path "/publishers/{userId}" do
 
@@ -475,47 +524,6 @@ describe "Gameworks Registry API" do
 
 
   ## Players
-
-  # GET /players/:userId
-  path "/players/{userId}" do
-
-    get "Retrieve a specific Player" do
-      tags        "Players"
-      description "Retrieve a specific player by specifying its 'userId'."
-      produces    "application/json"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
-      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
-
-      response "200", "player found." do
-
-        examples "application/json" => {
-              "data" => {
-                          "id" => "627",
-                        "type" => "player",
-                  "attributes" => {
-                             "userId" => 1265,
-                          "firstName" => "Wyatt",
-                           "lastName" => "Ullrich",
-                               "email" => "wyatt.ullrich@example.com",
-                            "username" => "wyatt.ullrich",
-                      "walletAddress" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
-                  }
-              }
-          }
-
-        run_test!
-      end
-
-      response "404", "player not found." do
-        run_test!
-      end
-
-      response "401", "Unauthorized: Access is denied" do
-        run_test!
-      end
-    end
-  end
-
   # POST /players
   path "/players" do
 
@@ -554,6 +562,46 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Unable to create a new User" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  # GET /players/:userId
+  path "/players/{userId}" do
+
+    get "Retrieve a specific Player" do
+      tags        "Players"
+      description "Retrieve a specific player by specifying its 'userId'."
+      produces    "application/json"
+      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "player found." do
+
+        examples "application/json" => {
+              "data" => {
+                          "id" => "627",
+                        "type" => "player",
+                  "attributes" => {
+                             "userId" => 1265,
+                          "firstName" => "Wyatt",
+                           "lastName" => "Ullrich",
+                               "email" => "wyatt.ullrich@example.com",
+                            "username" => "wyatt.ullrich",
+                      "walletAddress" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                  }
+              }
+          }
+
+        run_test!
+      end
+
+      response "404", "player not found." do
         run_test!
       end
 
