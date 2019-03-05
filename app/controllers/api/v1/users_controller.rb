@@ -43,11 +43,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @user.update(update_user_params)
-      success_response(UserSerializer.new(@user).serialized_json)
+    if @current_user.update(update_user_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
-                     @user.errors.full_messages,
+                     @current_user.errors.full_messages,
                      :unprocessable_entity)
     end
   end
