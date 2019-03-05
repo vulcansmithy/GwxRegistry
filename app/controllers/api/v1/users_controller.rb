@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :set_user, only: %[show edit update]
+  before_action :set_user, only: %i[show edit update]
   before_action :params_transform, only: %i[create edit update]
 
   def index
@@ -43,11 +43,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @current_user.update(update_user_params)
-      success_response(UserSerializer.new(@current_user).serialized_json)
+    if @user.update(update_user_params)
+      success_response(UserSerializer.new(@user).serialized_json)
     else
       error_response("Unable to update user profile",
-                     @current_user.errors.full_messages,
+                     @user.errors.full_messages,
                      :unprocessable_entity)
     end
   end

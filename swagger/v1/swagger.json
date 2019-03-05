@@ -5,6 +5,80 @@
     "version": "v1"
   },
   "paths": {
+    "/register": {
+      "post": {
+        "summary": "Create a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "walletAddress": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "passwordConfirmation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "walletAddress",
+                "password",
+                "passwordConfirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "158",
+                  "type": "user",
+                  "attributes": {
+                    "id": 158,
+                    "firstName": "Mohammed",
+                    "lastName": "Graham",
+                    "email": "mohammed.graham@example.com",
+                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create user account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
     "/login": {
       "post": {
         "summary": "Login",
@@ -64,6 +138,80 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "walletAddress": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "passwordConfirmation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "walletAddress",
+                "password",
+                "passwordConfirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "158",
+                  "type": "user",
+                  "attributes": {
+                    "id": 158,
+                    "firstName": "Mohammed",
+                    "lastName": "Graham",
+                    "email": "mohammed.graham@example.com",
+                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create user account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
@@ -276,80 +424,6 @@
         }
       }
     },
-    "/users": {
-      "post": {
-        "summary": "Create a User account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Create a user account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "type": "string"
-                },
-                "lastName": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "walletAddress": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
-                },
-                "passwordConfirmation": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "email",
-                "walletAddress",
-                "password",
-                "passwordConfirmation"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user created.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "158",
-                  "type": "user",
-                  "attributes": {
-                    "id": 158,
-                    "firstName": "Mohammed",
-                    "lastName": "Graham",
-                    "email": "mohammed.graham@example.com",
-                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unable to create user account."
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      }
-    },
     "/users/confirm/{code}": {
       "get": {
         "summary": "Confirm user account",
@@ -415,6 +489,80 @@
         "responses": {
           "200": {
             "description": "Sent"
+          }
+        }
+      }
+    },
+    "/publishers": {
+      "post": {
+        "summary": "Create a Publisher account",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Create a publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer"
+                },
+                "walletAddress": {
+                  "type": "string"
+                },
+                "publisherName": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "userId",
+                "publisherName",
+                "description"
+              ]
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "publisher created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "47",
+                  "type": "publisher",
+                  "attributes": {
+                    "id": 47,
+                    "publisherName": "PROUDCLOUD",
+                    "description": "hello",
+                    "walletAddress": "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
+                    "userId": 48
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create publisher account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
@@ -618,20 +766,20 @@
         }
       }
     },
-    "/publishers": {
+    "/players": {
       "post": {
-        "summary": "Create a Publisher account",
+        "summary": "Create a Player profile",
         "tags": [
-          "Publishers"
+          "Players"
         ],
-        "description": "Create a publisher account.",
+        "description": "Create a player profile. The requirement is that a User account should be already exist.",
         "consumes": [
           "application/json",
           "application/xml"
         ],
         "parameters": [
           {
-            "name": "publisher",
+            "name": "player",
             "in": "body",
             "schema": {
               "type": "object",
@@ -639,20 +787,13 @@
                 "userId": {
                   "type": "integer"
                 },
-                "walletAddress": {
-                  "type": "string"
-                },
-                "publisherName": {
-                  "type": "string"
-                },
-                "description": {
+                "username": {
                   "type": "string"
                 }
               },
               "required": [
                 "userId",
-                "publisherName",
-                "description"
+                "username"
               ]
             }
           },
@@ -666,25 +807,26 @@
         ],
         "responses": {
           "201": {
-            "description": "publisher created.",
+            "description": "player created.",
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "47",
-                  "type": "publisher",
+                  "id": "629",
+                  "type": "player",
                   "attributes": {
-                    "id": 47,
-                    "publisherName": "PROUDCLOUD",
-                    "description": "hello",
-                    "walletAddress": "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
-                    "userId": 48
+                    "userId": 1267,
+                    "firstName": "Kenya",
+                    "lastName": "Mertz",
+                    "email": "kenya.mertz@example.com",
+                    "username": "leeroy.jenkins",
+                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
                   }
                 }
               }
             }
           },
           "422": {
-            "description": "Unable to create publisher account."
+            "description": "Unable to create a new User"
           },
           "401": {
             "description": "Unauthorized: Access is denied"
@@ -878,74 +1020,6 @@
           },
           "422": {
             "description": "Unable to update player account"
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      }
-    },
-    "/players": {
-      "post": {
-        "summary": "Create a Player profile",
-        "tags": [
-          "Players"
-        ],
-        "description": "Create a player profile. The requirement is that a User account should be already exist.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "integer"
-                },
-                "username": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "userId",
-                "username"
-              ]
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "player created.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "629",
-                  "type": "player",
-                  "attributes": {
-                    "userId": 1267,
-                    "firstName": "Kenya",
-                    "lastName": "Mertz",
-                    "email": "kenya.mertz@example.com",
-                    "username": "leeroy.jenkins",
-                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unable to create a new User"
           },
           "401": {
             "description": "Unauthorized: Access is denied"
