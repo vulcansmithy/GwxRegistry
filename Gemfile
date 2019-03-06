@@ -17,6 +17,7 @@ gem "active_model_serializers", "0.10.8"    # https://github.com/rails-api/activ
 gem "fast_jsonapi",             "1.3"       # https://github.com/Netflix/fast_jsonap
 gem "rspec-core"
 gem "attr_encrypted",           "3.1.0"     # https://github.com/attr-encrypted/attr_encrypted
+gem 'appsignal'
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
