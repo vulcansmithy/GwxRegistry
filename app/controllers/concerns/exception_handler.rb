@@ -19,7 +19,7 @@ module ExceptionHandler
   private
 
   def not_found(e)
-    render json: { message: e.message }, status: not_found
+    render json: { message: e.message }, status: :not_found
   end
 
   def unprocessable(e)

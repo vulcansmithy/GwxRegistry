@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :set_user, only: %i[show edit update]
+  before_action :check_current_user, only: %i[show edit update]
   before_action :params_transform, only: %i[create edit update]
 
   def index
@@ -9,7 +9,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    success_response(UserSerializer.new(@user).serialized_json)
+    success_response(UserSerializer.new(@current_user).serialized_json)
   end
 
   def create
@@ -43,11 +43,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @user.update(update_user_params)
-      success_response(UserSerializer.new(@user).serialized_json)
+    if @current_user.update(update_user_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
-                     @user.errors.full_messages,
+                     @current_user.errors.full_messages,
                      :unprocessable_entity)
     end
   end
@@ -63,12 +63,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:id])
-    render json: { message: 'Unauthorized access' },
-      status: :unauthorized unless @user == @current_user
-  end
 
   def update_account_params
     params.permit(

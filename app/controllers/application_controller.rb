@@ -19,7 +19,6 @@ class ApplicationController < ActionController::API
     end
   end
 
-
   def check_player_publisher_account(user, account)
     if user.send("#{account}")
       error_response("Unable to create account",
@@ -29,11 +28,7 @@ class ApplicationController < ActionController::API
   end
 
   def check_current_user
-    exception_unauthorized unless @current_user == User.find(params[:user_id])
-  end
-
-  def exception_unauthorized
-    raise ExceptionHandler::AuthenticationError, 'Unauthorized: Access is denied'
+    exception_unauthorized unless @current_user == User.find(params[:user_id] || params[:id])
   end
 
   def params_transform
