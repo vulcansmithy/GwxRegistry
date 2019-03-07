@@ -28,7 +28,9 @@ class ApplicationController < ActionController::API
   end
 
   def check_current_user
-    exception_unauthorized unless @current_user == User.find(params[:user_id] || params[:id])
+    raise ExceptionHandler::AuthenticationError,
+    'Unauthorized: Access is denied' unless
+    @current_user == User.find(params[:user_id] || params[:id])
   end
 
   def params_transform
