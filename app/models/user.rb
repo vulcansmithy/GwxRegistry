@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   def confirm_account(code)
     return false unless self.confirmed_at.nil? && code == confirmation_code
-    if Time.now.utc > (self.confirmation_sent_at + 1.minute)
+    if Time.now.utc > (self.confirmation_sent_at + 1.hour)
       self.resend_confirmation!
     else
       self.confirm!
