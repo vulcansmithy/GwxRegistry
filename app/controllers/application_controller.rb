@@ -29,7 +29,11 @@ class ApplicationController < ActionController::API
   end
 
   def check_current_user
-    exception_unauthorized unless @current_user == User.find(params[:user_id])
+    begin
+      exception_unauthorized unless @current_user == User.find(params[:user_id])
+    rescue ActiveRecord::RecordNotFound => e
+      error_response("Account does not exist", e.message, :not_found)
+    end
   end
 
   def exception_unauthorized
