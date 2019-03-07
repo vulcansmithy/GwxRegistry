@@ -5,6 +5,80 @@
     "version": "v1"
   },
   "paths": {
+    "/register": {
+      "post": {
+        "summary": "Create a User account",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "walletAddress": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "passwordConfirmation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "walletAddress",
+                "password",
+                "passwordConfirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "158",
+                  "type": "user",
+                  "attributes": {
+                    "id": 158,
+                    "firstName": "Mohammed",
+                    "lastName": "Graham",
+                    "email": "mohammed.graham@example.com",
+                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create user account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
     "/login": {
       "post": {
         "summary": "Login",
@@ -53,10 +127,10 @@
                       "type": "user",
                       "attributes": {
                         "id": 8,
-                        "first_name": "sample",
-                        "last_name": "one",
+                        "firstName": "sample",
+                        "lastName": "one",
                         "email": "sample_one@gmail.com",
-                        "wallet_address": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                        "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
                       }
                     }
                   },
@@ -69,94 +143,6 @@
       }
     },
     "/users": {
-      "get": {
-        "summary": "Retrieve all User accounts",
-        "tags": [
-          "Users"
-        ],
-        "description": "Retrieve all User accounts.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          },
-          "200": {
-            "description": "user(s) found.",
-            "examples": {
-              "application/json": {
-                "data": [
-                  {
-                    "id": "17",
-                    "type": "user",
-                    "attributes": {
-                      "id": 17,
-                      "first_name": "Duane",
-                      "last_name": "Kohler",
-                      "email": "duane.kohler@example.com",
-                      "wallet_address": "b6a86d69ff07758f3ee4a894fce8849309af74179695e3ccfb314db489a94dc8"
-                    }
-                  },
-                  {
-                    "id": "18",
-                    "type": "user",
-                    "attributes": {
-                      "id": 18,
-                      "first_name": "Shin",
-                      "last_name": "McDermott",
-                      "email": "shin.mcdermott@example.com",
-                      "wallet_address": "f588eaf1048bc74a8c69e20e751b42d0eda50045cfd12594d363aac289ff8e78"
-                    }
-                  },
-                  {
-                    "id": "19",
-                    "type": "user",
-                    "attributes": {
-                      "id": 19,
-                      "first_name": "Williams",
-                      "last_name": "Gaylord",
-                      "email": "williams.gaylord@example.com",
-                      "wallet_address": "92ce8f0147db4be1ae52858a530daf1f05ce8a611eef9fa5de4f6ba0d4d5f118"
-                    }
-                  },
-                  {
-                    "id": "20",
-                    "type": "user",
-                    "attributes": {
-                      "id": 20,
-                      "first_name": "Maple",
-                      "last_name": "Schuppe",
-                      "email": "maple.schuppe@example.com",
-                      "wallet_address": "ceef5f3f9d7066ce2b5fec14559164c997a6aec2f7f6b4e8aab72d30211cf11d"
-                    }
-                  },
-                  {
-                    "id": "21",
-                    "type": "user",
-                    "attributes": {
-                      "id": 21,
-                      "first_name": "Carylon",
-                      "last_name": "Russel",
-                      "email": "carylon.russel@example.com",
-                      "wallet_address": "71037afb5e123b65e2fc2a0666826df3bc6611b39792d14be629c9620c392a57"
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
       "post": {
         "summary": "Create a User account",
         "tags": [
@@ -174,30 +160,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "email": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
                 "password": {
                   "type": "string"
                 },
-                "password_confirmation": {
+                "passwordConfirmation": {
                   "type": "string"
                 }
               },
               "required": [
                 "email",
-                "wallet_address",
+                "walletAddress",
                 "password",
-                "password_confirmation"
+                "passwordConfirmation"
               ]
             }
           }
@@ -212,10 +198,10 @@
                   "type": "user",
                   "attributes": {
                     "id": 158,
-                    "first_name": "Mohammed",
-                    "last_name": "Graham",
+                    "firstName": "Mohammed",
+                    "lastName": "Graham",
                     "email": "mohammed.graham@example.com",
-                    "wallet_address": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
                   }
                 }
               }
@@ -266,10 +252,10 @@
                   "type": "user",
                   "attributes": {
                     "id": 354,
-                    "first_name": "Chuck",
-                    "last_name": "Aufderhar",
+                    "firstName": "Chuck",
+                    "lastName": "Aufderhar",
                     "email": "chuck.aufderhar@example.com",
-                    "wallet_address": "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
+                    "walletAddress": "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
                   }
                 }
               }
@@ -307,16 +293,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "pk": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 }
               }
@@ -340,10 +326,10 @@
                   "type": "user",
                   "attributes": {
                     "id": 375,
-                    "first_name": "Lesley",
-                    "last_name": "Reichert",
+                    "firstName": "Lesley",
+                    "lastName": "Reichert",
                     "email": "latasha.harris@example.com",
-                    "wallet_address": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
+                    "walletAddress": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
                   }
                 }
               }
@@ -384,16 +370,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "first_name": {
+                "firstName": {
                   "type": "string"
                 },
-                "last_name": {
+                "lastName": {
                   "type": "string"
                 },
                 "pk": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 }
               }
@@ -417,10 +403,10 @@
                   "type": "user",
                   "attributes": {
                     "id": 375,
-                    "first_name": "Lesley",
-                    "last_name": "Reichert",
+                    "firstName": "Lesley",
+                    "lastName": "Reichert",
                     "email": "latasha.harris@example.com",
-                    "wallet_address": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
+                    "walletAddress": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
                   }
                 }
               }
@@ -463,7 +449,7 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "confirmation_code": "1111"
+                  "confirmationCode": "1111"
                 }
               }
             }
@@ -508,94 +494,6 @@
       }
     },
     "/publishers": {
-      "get": {
-        "summary": "Retrieve all Publisher accounts",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Retrieve all publisher accounts.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          },
-          "200": {
-            "description": "publisher(s) found.",
-            "examples": {
-              "application/json": {
-                "data": [
-                  {
-                    "id": "16",
-                    "type": "publisher",
-                    "attributes": {
-                      "id": 16,
-                      "publisher_name": "Clemente Rosenbaum",
-                      "description": "Labore atque cumque repudiandae.",
-                      "wallet_address": "3ea0329ca47cfaddffc470637543dfa365ad3efa8a8eb69d82b0d1d994e1fc7c",
-                      "user_id": 17
-                    }
-                  },
-                  {
-                    "id": "17",
-                    "type": "publisher",
-                    "attributes": {
-                      "id": 17,
-                      "publisher_name": "Janean Sporer",
-                      "description": "Eaque ut doloremque sit.",
-                      "wallet_address": "65622dfe102a4ee9a30584008b1130814d525521d96f355824b9a02791e12c89",
-                      "user_id": 18
-                    }
-                  },
-                  {
-                    "id": "18",
-                    "type": "publisher",
-                    "attributes": {
-                      "id": 18,
-                      "publisher_name": "Kent Monahan II",
-                      "description": "Autem aut mollitia eum.",
-                      "wallet_address": "6c74a6311f38eadd4302e12869eccc9e2363aed4955156c735cb687e58c2d42e",
-                      "user_id": 19
-                    }
-                  },
-                  {
-                    "id": "19",
-                    "type": "publisher",
-                    "attributes": {
-                      "id": 19,
-                      "publisher_name": "Thurman Maggio",
-                      "description": "Repellendus sit magni nisi.",
-                      "wallet_address": "c1f740400f0a90dec1cd99dcc25b0c27c3cbb15eb85e54a1d344f7af3aab4779",
-                      "user_id": 20
-                    }
-                  },
-                  {
-                    "id": "20",
-                    "type": "publisher",
-                    "attributes": {
-                      "id": 20,
-                      "publisher_name": "Sidney Murray",
-                      "description": "Iste aut praesentium nostrum.",
-                      "wallet_address": "fa4383f66b93aa438b91a2cd82e402797b67c07c4ef0b5b38c954b5231dcbcdf",
-                      "user_id": 21
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
       "post": {
         "summary": "Create a Publisher account",
         "tags": [
@@ -613,13 +511,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
+                "userId": {
                   "type": "integer"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
-                "publisher_name": {
+                "publisherName": {
                   "type": "string"
                 },
                 "description": {
@@ -627,8 +525,8 @@
                 }
               },
               "required": [
-                "user_id",
-                "publisher_name",
+                "userId",
+                "publisherName",
                 "description"
               ]
             }
@@ -651,10 +549,10 @@
                   "type": "publisher",
                   "attributes": {
                     "id": 47,
-                    "publisher_name": "PROUDCLOUD",
+                    "publisherName": "PROUDCLOUD",
                     "description": "hello",
-                    "wallet_address": "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
-                    "user_id": 48
+                    "walletAddress": "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
+                    "userId": 48
                   }
                 }
               }
@@ -669,19 +567,19 @@
         }
       }
     },
-    "/publishers/{user_id}": {
+    "/publishers/{userId}": {
       "get": {
         "summary": "Retrieve a specific Publisher",
         "tags": [
           "Publishers"
         ],
-        "description": "Retrieve a specific publisher by specifying its 'user_id'.",
+        "description": "Retrieve a specific publisher by specifying its 'userId'.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -705,10 +603,10 @@
                   "type": "publisher",
                   "attributes": {
                     "id": 29,
-                    "publisher_name": "Vania Hilll",
+                    "publisherName": "Vania Hilll",
                     "description": "Commodi odit doloremque non.",
-                    "wallet_address": "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
-                    "user_id": 30
+                    "walletAddress": "7d46d75765a50ce5e96b646b14759dc58473c23248a615a7e89a8d55867e041e",
+                    "userId": 30
                   }
                 }
               }
@@ -734,7 +632,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -746,10 +644,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "publisher_name": {
+                "publisherName": {
                   "type": "string"
                 },
-                "wallet_address": {
+                "walletAddress": {
                   "type": "string"
                 },
                 "description": {
@@ -776,10 +674,10 @@
                   "type": "publisher",
                   "attributes": {
                     "id": 54,
-                    "publisher_name": "Testing01",
+                    "publisherName": "Testing01",
                     "description": "Ducimus quisquam ipsam inventore.",
-                    "wallet_address": "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
-                    "user_id": 55
+                    "walletAddress": "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
+                    "userId": 55
                   }
                 }
               }
@@ -792,19 +690,43 @@
             "description": "Unauthorized: Access is denied"
           }
         }
-      }
-    },
-    "/players": {
-      "get": {
-        "summary": "Retrieve all Player profiles",
+      },
+      "put": {
+        "summary": "Update Publisher account",
         "tags": [
-          "Players"
+          "Publishers"
         ],
-        "description": "Retrieve all existing Player profiles.",
-        "produces": [
-          "application/json"
+        "description": "Update an existing Publisher account.",
+        "consumes": [
+          "application/json",
+          "application/xml"
         ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "'id' of the User profile being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "publisher",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "publisherName": {
+                  "type": "string"
+                },
+                "walletAddress": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -814,80 +736,37 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          },
           "200": {
-            "description": "player(s) found.",
+            "description": "publisher updated.",
             "examples": {
               "application/json": {
-                "data": [
-                  {
-                    "id": "621",
-                    "type": "player",
-                    "attributes": {
-                      "user_id": 1259,
-                      "first_name": "Michaela",
-                      "last_name": "Bruen",
-                      "email": "michaela.bruen@example.com",
-                      "username": "michaela.bruen",
-                      "wallet_address": "6321a571ee1a69c8c44e72b8a4b67c74259024eb18728575984f624923682f85"
-                    }
-                  },
-                  {
-                    "id": "622",
-                    "type": "player",
-                    "attributes": {
-                      "user_id": 1260,
-                      "first_name": "Clare",
-                      "last_name": "Dietrich",
-                      "email": "clare.dietrich@example.com",
-                      "username": "clare.dietrich",
-                      "wallet_address": "a73203391935fda8548debd8679c6bf282e634adf864f77fa0d977fa52f834a2"
-                    }
-                  },
-                  {
-                    "id": "623",
-                    "type": "player",
-                    "attributes": {
-                      "user_id": 1261,
-                      "first_name": "Cameron",
-                      "last_name": "Hermiston",
-                      "email": "cameron.hermiston@example.com",
-                      "username": "cameron.hermiston",
-                      "wallet_address": "bbe29af33171a6cea839817589418de814e9e825dd71fcc810236d18cfeb8f06"
-                    }
-                  },
-                  {
-                    "id": "624",
-                    "type": "player",
-                    "attributes": {
-                      "user_id": 1262,
-                      "first_name": "Paz",
-                      "last_name": "Emard",
-                      "email": "paz.emard@example.com",
-                      "username": "paz.emard",
-                      "wallet_address": "e149817318bb8c3b6fe5c9cfcc55629b006bfdc2c5796595b5e264f7272d5b32"
-                    }
-                  },
-                  {
-                    "id": "625",
-                    "type": "player",
-                    "attributes": {
-                      "user_id": 1263,
-                      "first_name": "Dian",
-                      "last_name": "Kuhn",
-                      "email": "dian.kuhn@example.com",
-                      "username": "dian.kuhn",
-                      "wallet_address": "796e7296f80960683b10d8bc8ac3b8974fb6788a40f9073ed7c5163223280b0b"
-                    }
+                "data": {
+                  "id": "54",
+                  "type": "publisher",
+                  "attributes": {
+                    "id": 54,
+                    "publisherName": "Testing01",
+                    "description": "Ducimus quisquam ipsam inventore.",
+                    "walletAddress": "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
+                    "userId": 55
                   }
-                ]
+                }
               }
             }
+          },
+          "404": {
+            "description": "Publisher not found."
+          },
+          "422": {
+            "description": "Unable to update publisher account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
-      },
+      }
+    },
+    "/players": {
       "post": {
         "summary": "Create a Player profile",
         "tags": [
@@ -905,7 +784,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
+                "userId": {
                   "type": "integer"
                 },
                 "username": {
@@ -913,7 +792,7 @@
                 }
               },
               "required": [
-                "user_id",
+                "userId",
                 "username"
               ]
             }
@@ -935,12 +814,12 @@
                   "id": "629",
                   "type": "player",
                   "attributes": {
-                    "user_id": 1267,
-                    "first_name": "Kenya",
-                    "last_name": "Mertz",
+                    "userId": 1267,
+                    "firstName": "Kenya",
+                    "lastName": "Mertz",
                     "email": "kenya.mertz@example.com",
                     "username": "leeroy.jenkins",
-                    "wallet_address": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
                   }
                 }
               }
@@ -955,19 +834,19 @@
         }
       }
     },
-    "/players/{user_id}": {
+    "/players/{userId}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
           "Players"
         ],
-        "description": "Retrieve a specific player by specifying its 'user_id'.",
+        "description": "Retrieve a specific player by specifying its 'userId'.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -990,12 +869,12 @@
                   "id": "627",
                   "type": "player",
                   "attributes": {
-                    "user_id": 1265,
-                    "first_name": "Wyatt",
-                    "last_name": "Ullrich",
+                    "userId": 1265,
+                    "firstName": "Wyatt",
+                    "lastName": "Ullrich",
                     "email": "wyatt.ullrich@example.com",
                     "username": "wyatt.ullrich",
-                    "wallet_address": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                    "walletAddress": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
                   }
                 }
               }
@@ -1021,7 +900,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -1056,12 +935,12 @@
                   "id": "633",
                   "type": "player",
                   "attributes": {
-                    "user_id": 1271,
-                    "first_name": "Marcellus",
-                    "last_name": "Luettgen",
+                    "userId": 1271,
+                    "firstName": "Marcellus",
+                    "lastName": "Luettgen",
                     "email": "marcellus.luettgen@example.com",
                     "username": "leeroy.jenkins",
-                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
                   }
                 }
               }
@@ -1090,7 +969,7 @@
         ],
         "parameters": [
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -1125,12 +1004,12 @@
                   "id": "633",
                   "type": "player",
                   "attributes": {
-                    "user_id": 1271,
-                    "first_name": "Marcellus",
-                    "last_name": "Luettgen",
+                    "userId": 1271,
+                    "firstName": "Marcellus",
+                    "lastName": "Luettgen",
                     "email": "marcellus.luettgen@example.com",
                     "username": "leeroy.jenkins",
-                    "wallet_address": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
                   }
                 }
               }

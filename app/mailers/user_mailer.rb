@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: 'Gameworks Registry Team <no-reply@gameworks.io>'
+  default from: 'no-reply@gameworks.io'
 
   def account_confirmation(user)
     @user = user

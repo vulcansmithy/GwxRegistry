@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
 
-  validates :email, presence: true, 
+  validates :email, presence: true,
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
@@ -23,24 +23,56 @@ class User < ApplicationRecord
   validates :mac_address, uniqueness: true,
                           allow_nil: true
 
-  validates :confirmation_code, uniqueness: true, 
+  validates :confirmation_code, uniqueness: true,
                                 allow_nil:  true
-  
+
   def full_name
     "#{first_name} #{last_name}"
-  end 
-  
+  end
+
   def confirm_account(code)
     return false unless self.confirmed_at.nil? && code == confirmation_code
-    update(confirmation_code: nil, confirmed_at: Time.now.utc)
+    if Time.now.utc > (self.confirmation_sent_at + 1.hour)
+      self.resend_confirmation!
+    else
+      self.confirm!
+    end
+  end
+
+  def resend_mail
+    if self.confirmation_sent_at.nil?
+      self.resend_confirmation!
+    elsif self..confirmaed_at.nil?
+      self.send_confirmation_code
+    else
+      raise_user_verified
+    end
   end
 
   def send_confirmation_code
-    UserMailer.account_confirmation(self).deliver
+    UserMailer.account_confirmation(self).deliver_later(wait: 1.second)
+    update(confirmation_sent_at: Time.now.utc)
   end
-  
+
   def set_confirmation_code
-    self.confirmation_code = SecureRandom.rand.to_s[2..5]
-    self.confirmation_sent_at = Time.now.utc
+    self.confirmation_code = generate_confirmation_code
+  end
+
+  def confirm!
+    update(confirmation_code: nil, confirmed_at: Time.now.utc)
+  end
+
+  def resend_confirmation!
+    update(confirmation_code: generate_confirmation_code)
+    send_confirmation_code
+  end
+
+  private
+
+  def generate_confirmation_code
+    loop do
+      code = SecureRandom.rand.to_s[2..5]
+      break code if User.find_by(confirmation_code: code).nil?
+    end
   end
 end

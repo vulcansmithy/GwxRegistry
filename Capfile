@@ -11,3 +11,5 @@ require 'capistrano/puma'
 install_plugin Capistrano::Puma
 
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
+
+require 'appsignal/capistrano'

@@ -1,6 +1,9 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-  before_action :set_user, only: %i[create show edit update check_player]
-  before_action :check_player, only: [:create]
+  before_action :params_transform, only: [:create]
+  before_action :check_current_user
+  before_action only: [:create] do
+    check_player_publisher_account(@current_user, "player")
+  end
   before_action :set_player, only: %i[show edit update]
 
   def index
@@ -13,7 +16,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def create
-    @player = @user.create_player(player_params)
+    @player = @current_user.create_player(player_params)
 
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
@@ -42,18 +45,12 @@ class Api::V1::PlayersController < Api::V1::BaseController
     params.permit(:user_id, :username)
   end
 
-  def set_user
-    @user = User.find(params[:user_id])
-  end
-
   def set_player
-    @player = @user.player
-    @user.errors.add(:base, "Player account does not exist")
-    error_response("You don't have an existing player account", @user.errors.full_messages, :unprocessable_entity) unless @player
-  end
-
-  def check_player
-    @user.errors.add(:base, "player account already exist")
-    error_response('Player account already exist', @user.errors.full_messages, :unprocessable_entity) if @user.player
+    @player = @current_user.player
+    unless @player
+      error_response("You don't have an existing player account",
+                     "Player account does not exist",
+                     :unprocessable_entity)
+    end
   end
 end

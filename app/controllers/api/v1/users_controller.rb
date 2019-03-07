@@ -1,6 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_request, only: %i[create login test confirm]
-  before_action :set_user, only: %i[show edit update resend_code]
+  skip_before_action :authenticate_request, only: %i[create login confirm]
+  before_action :check_current_user, only: %i[show edit update]
+  before_action :params_transform, only: %i[create edit update]
 
   def index
     @users = User.all
@@ -8,7 +9,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    success_response(UserSerializer.new(@user).serialized_json)
+    success_response(UserSerializer.new(@current_user).serialized_json)
   end
 
   def create
@@ -22,26 +23,36 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def confirm
     return unless params[:code]
-    user = User.find_by!(confirmation_code: params[:code])
-    if user.confirm_account(params[:code])
-      render json: { message: 'Confirmed' }, status: :ok
+    if user = User.find_by(confirmation_code: params[:code])
+      if user.confirm_account(params[:code])
+        render json: { message: 'Confirmed' }, status: :ok
+      else
+        render json: { message: 'Expired confirmation code' }, status: :unprocessable_entity
+      end
     else
       render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
     end
   end
 
-  def resend_code 
-    raise_user_verified unless @current_user.confirmed_at.nil?
-    @current_user.send_confirmation_code
-    render json: { message: 'Sent' }, status: :ok
+  def resend_code
+    user = @current_user
+    if user.confirmation_sent_at.nil?
+      user.resend_confirmation!
+      render json: { message: 'Sent' }, status: :ok
+    elsif user.confirmed_at.nil?
+      user.send_confirmation_code
+      render json: { message: 'Sent' }, status: :ok
+    else
+      raise_user_verified
+    end
   end
 
   def update
-    if @user.update(update_user_params)
-      success_response(UserSerializer.new(@user).serialized_json)
+    if @current_user.update(update_user_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
-                     @user.errors.full_messages,
+                     @current_user.errors.full_messages,
                      :unprocessable_entity)
     end
   end
@@ -58,10 +69,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
 
   def update_account_params
     params.permit(
@@ -99,7 +106,6 @@ class Api::V1::UsersController < Api::V1::BaseController
       if command.success
         response = command.result
         response[:message] = 'Login Successful'
-
         success_response(response)
       end
     rescue
@@ -108,6 +114,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def raise_user_verified
-    raise ExceptionHandler::UserVerified, "User has already been verified" 
+    raise ExceptionHandler::UserVerified, "User has already been verified"
   end
 end

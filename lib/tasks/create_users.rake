@@ -3,7 +3,6 @@ namespace :create_users do
     puts "\n How many users should we create?"
     answer = STDIN.gets.chomp
 
-
     1..answer.to_i.times do |i|
       user = User.create!(first_name: "test#{i}",
                          last_name: "user",
