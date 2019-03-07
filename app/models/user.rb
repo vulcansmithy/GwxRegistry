@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_code
-    UserMailer.account_confirmation(self).deliver_later(wait: 1.minute)
+    UserMailer.account_confirmation(self).deliver_later(wait: 1.second)
     update(confirmation_sent_at: Time.now.utc)
   end
 
