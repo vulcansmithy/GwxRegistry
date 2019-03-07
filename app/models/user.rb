@@ -12,19 +12,15 @@ class User < ApplicationRecord
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
 
-  validates :email, presence: true,
-                    uniqueness: true,
+  validates :email, presence: true, uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
-  validates :password, presence: true,
-                       length: { minimum: 8 },
+  validates :password, presence: true, length: { minimum: 8 },
                        if: :password_digest_changed?
 
-  validates :mac_address, uniqueness: true,
-                          allow_nil: true
+  validates :mac_address, uniqueness: true, allow_nil: true
 
-  validates :confirmation_code, uniqueness: true,
-                                allow_nil:  true
+  validates :confirmation_code, uniqueness: true, allow_nil: true
 
   def full_name
     "#{first_name} #{last_name}"

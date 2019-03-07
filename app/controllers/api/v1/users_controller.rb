@@ -1,7 +1,7 @@
-class Api::V1::UsersController < Api::V1::BaseController
+class Api::V2::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
   before_action :check_current_user, only: %i[show edit update]
-  before_action :params_transform, only: %i[create edit update]
+  before_action :transform_params, only: %i[create edit update]
 
   def index
     @users = User.all
@@ -17,7 +17,8 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.save
       authenticate user_params[:email], user_params[:password]
     else
-      error_response("Unable to create user account.", @user.errors, :unprocessable_entity)
+      error_response("Unable to create user account.", @user.errors,
+                     :unprocessable_entity)
     end
   end
 
@@ -30,7 +31,8 @@ class Api::V1::UsersController < Api::V1::BaseController
         render json: { message: 'Expired confirmation code' }, status: :unprocessable_entity
       end
     else
-      render json: { message: 'Wrong confirmation code' }, status: :unprocessable_entity
+      render json: { message: 'Wrong confirmation code' },
+             status: :unprocessable_entity
     end
   end
 
@@ -52,8 +54,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
-                     @current_user.errors.full_messages,
-                     :unprocessable_entity)
+                     @current_user.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -101,7 +102,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   def authenticate(email, password)
     begin
       command = AuthenticateUser.call(email, password)
-
       if command.success
         response = command.result
         response[:message] = 'Login Successful'

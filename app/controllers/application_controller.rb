@@ -15,16 +15,16 @@ class ApplicationController < ActionController::API
     begin
       @current_user = AuthorizeApiRequest.call(request.headers).result
     rescue
-      render json: { error: "Unauthorized: Access is denied" }, status: :unauthorized
+      render json: { error: "Unauthorized: Access is denied" },
+             status: :unauthorized
     end
   end
 
   def check_player_publisher_account(user, account)
-    if user.send("#{account}")
-      error_response("Unable to create account",
-                     "#{account.capitalize} account already exist",
-                     :unprocessable_entity)
-    end
+    return unless user.send("{account}")
+    error_response("Unable to create account",
+                   "#{account.capitalize} account already exist",
+                   :unprocessable_entity)
   end
 
   def check_current_user
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::API
     @current_user == User.find(params[:user_id] || params[:id])
   end
 
-  def params_transform
+  def transform_params
     params.transform_keys!(&:underscore)
   end
 end

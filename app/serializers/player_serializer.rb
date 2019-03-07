@@ -4,11 +4,11 @@ class PlayerSerializer < ActiveModel::Serializer
   set_key_transform :camel_lower
 
   attributes :user_id,
-    :first_name,
-    :last_name,
-    :email,
-    :username,
-    :wallet_address
+             :first_name,
+             :last_name,
+             :email,
+             :username,
+             :wallet_address
 
   attribute :first_name do |player|
     player.user.first_name
@@ -25,5 +25,4 @@ class PlayerSerializer < ActiveModel::Serializer
   attribute :wallet_address do |player|
     player.user.wallet_address
   end
-
 end
