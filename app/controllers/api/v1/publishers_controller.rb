@@ -46,10 +46,11 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def set_publisher
-    unless @publisher = @current_user.publisher
-    error_response("You don't have an existing publisher account",
-                   "Publisher account does not exist",
-                   :unprocessable_entity)
+    @publisher = @current_user.publisher
+    unless @publisher
+      error_response("You don't have an existing publisher account",
+                     "Publisher account does not exist",
+                     :unprocessable_entity)
     end
   end
 end
