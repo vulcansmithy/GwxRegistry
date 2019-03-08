@@ -1,4 +1,4 @@
-class Api::V2::UsersController < Api::V1::BaseController
+class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
   before_action :check_current_user, only: %i[show edit update]
   before_action :transform_params, only: %i[create edit update]
