@@ -23,7 +23,7 @@ module ExceptionHandler
   end
 
   def unprocessable(e)
-   render json: { message: e.message }, status: :unprocessable_entity
+    render json: { message: e.message }, status: :unprocessable_entity
   end
 
   def unauthorized(e)

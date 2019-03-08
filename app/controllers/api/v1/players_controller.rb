@@ -1,7 +1,7 @@
 class Api::V1::PlayersController < Api::V1::BaseController
-  before_action :params_transform, only: [:create]
+  before_action :transform_params, only: :create
   before_action :check_current_user
-  before_action only: [:create] do
+  before_action only: :create do
     check_player_publisher_account(@current_user, "player")
   end
   before_action :set_player, only: %i[show edit update]
@@ -22,7 +22,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
     else
       error_response("Unable to create player account",
-        @player.errors.full_messages, :unprocessable_entity)
+                     @player.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -35,7 +35,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
       success_response(PlayerSerializer.new(@player).serialized_json)
     else
       error_response("Unable to update player account",
-        @player.errors.full_messages, :unprocessable_entity)
+                     @player.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -49,8 +49,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
     @player = @current_user.player
     unless @player
       error_response("You don't have an existing player account",
-                     "Player account does not exist",
-                     :unprocessable_entity)
+                     "Player account does not exist", :unprocessable_entity)
     end
   end
 end

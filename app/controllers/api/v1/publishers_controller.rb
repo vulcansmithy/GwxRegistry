@@ -1,7 +1,7 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  before_action :params_transform, only: [:create, :edit, :update]
+  before_action :transform_params, only: %i[create edit update]
   before_action :check_current_user
-  before_action only: [:create] do
+  before_action only: :create do
     check_player_publisher_account(@current_user, "publisher")
   end
   before_action :set_publisher, only: %i[edit update show]
@@ -19,10 +19,11 @@ class Api::V1::PublishersController < Api::V1::BaseController
     @publisher = @current_user.create_publisher(publisher_params)
 
     if @publisher.save
-      success_response(PublisherSerializer.new(@publisher).serialized_json, :created)
+      success_response(PublisherSerializer.new(@publisher).serialized_json,
+                       :created)
     else
       error_response("Unable to create publisher account",
-        @publisher.errors.full_messages, :unprocessable_entity)
+                     @publisher.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -35,7 +36,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
       success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
       error_response("Unable to update publisher account",
-        @current_user.errors.full_messages, :unprocessable_entity)
+                     @current_user.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -49,8 +50,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
     @publisher = @current_user.publisher
     unless @publisher
       error_response("You don't have an existing publisher account",
-                     "Publisher account does not exist",
-                     :unprocessable_entity)
+                     "Publisher account does not exist", :unprocessable_entity)
     end
   end
 end
