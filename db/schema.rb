@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_27_084629) do
+ActiveRecord::Schema.define(version: 2019_03_12_020239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2019_02_27_084629) do
     t.string "encrypted_pk"
     t.string "encrypted_pk_iv"
     t.string "mac_address"
+    t.string "device_token"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end
