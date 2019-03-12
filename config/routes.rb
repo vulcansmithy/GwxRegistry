@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       collection do
         get '/confirm/:code', to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
+        post '/:id/send_notification/:wallet_address', to: 'users#send_notification'
       end
     end
 

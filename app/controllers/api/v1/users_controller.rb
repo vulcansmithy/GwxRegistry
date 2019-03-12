@@ -1,7 +1,8 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :check_current_user, only: %i[show edit update]
+  before_action :check_current_user, only: %i[show edit update send_notification]
   before_action :transform_params, only: %i[create edit update]
+  before_action :set_recipient, only: :send_notification
 
   def index
     @users = User.all
@@ -68,7 +69,24 @@ class Api::V1::UsersController < Api::V1::BaseController
     }
   end
 
+  def send_notification
+    @fcm_service = FCMService.new
+    if @fcm_service.send([@recipient.device_token], notification_params)
+      success_response({ message: 'Notification sent' })
+    else
+      error_response('Failure on sending notifications', {}, :unprocessable_entity)
+    end
+  end
+
   private
+
+  def set_recipient
+    @recipient = User.find_by(wallet_address: params[:wallet_address])
+  end
+
+  def notification_params
+    params.permit(:options)
+  end
 
   def update_account_params
     params.permit(
@@ -82,7 +100,8 @@ class Api::V1::UsersController < Api::V1::BaseController
       :first_name,
       :last_name,
       :wallet_address,
-      :pk
+      :pk,
+      :device_token
     )
   end
 
