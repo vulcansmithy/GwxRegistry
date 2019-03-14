@@ -71,7 +71,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def send_notification
     @fcm_service = FCMService.new
-    if @fcm_service.send([@recipient.device_token], notification_params)
+    if @fcm_service.notify([@recipient.device_token], notification_params)
       success_response({ message: 'Notification sent' })
     else
       error_response('Failure on sending notifications', {}, :unprocessable_entity)
