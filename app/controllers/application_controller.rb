@@ -21,7 +21,7 @@ class ApplicationController < ActionController::API
   end
 
   def check_player_publisher_account(user, account)
-    return unless user.send("{account}")
+    return unless user.send("#{account}")
     error_response("Unable to create account",
                    "#{account.capitalize} account already exist",
                    :unprocessable_entity)
