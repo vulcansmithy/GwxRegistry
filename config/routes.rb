@@ -14,12 +14,12 @@ Rails.application.routes.draw do
     post 'login', to: 'users#login'
     post 'register', to: 'users#create'
     get 'user', to: 'users#show'
+    post 'notify', to: 'users#send_notification'
 
     resources :users, :except => [:destroy, :index, :show] do
       collection do
         get '/confirm/:code', to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
-        post '/:id/send_notification/:wallet_address', to: 'users#send_notification'
       end
     end
 
