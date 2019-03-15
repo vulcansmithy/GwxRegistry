@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :check_current_user, only: %i[show edit update send_notification]
+  before_action :check_current_user, only: %i[edit update send_notification]
   before_action :transform_params, only: %i[create edit update]
   before_action :set_recipient, only: :send_notification
 
