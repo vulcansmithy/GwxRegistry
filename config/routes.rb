@@ -12,9 +12,11 @@ Rails.application.routes.draw do
 
     get 'test', to: 'users#test'
     post 'login', to: 'users#login'
-    post 'register' => 'users#create'
+    post 'register', to: 'users#create'
+    get 'user', to: 'users#show'
+    post 'notify', to: 'users#send_notification'
 
-    resources :users, :except => [:destroy, :index] do
+    resources :users, :except => [:destroy, :index, :show] do
       collection do
         get '/confirm/:code', to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'

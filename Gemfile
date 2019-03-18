@@ -17,6 +17,7 @@ gem 'rswag', '2.0.5'                        # https://github.com/domaindrivendev
 gem 'rspec-core'
 gem 'simple_command'                        # https://github.com/nebulab/simple_command
 gem 'versionist', '1.7.0'                   # https://github.com/bploetz/versionist
+gem 'fcm'                                   # https://github.com/spacialdb/fcm
 
 group :development, :test do
   gem 'awesome_print', '1.8.0'              # https://github.com/awesome-print/awesome_print
