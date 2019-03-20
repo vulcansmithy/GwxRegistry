@@ -38,7 +38,7 @@ class User < ApplicationRecord
   def resend_mail
     if self.confirmation_sent_at.nil?
       self.resend_confirmation!
-    elsif self..confirmaed_at.nil?
+    elsif self.confirmed_at.nil?
       self.send_confirmation_code
     else
       raise_user_verified
