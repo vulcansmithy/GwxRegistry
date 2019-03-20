@@ -6,6 +6,8 @@ module ExceptionHandler
   class ExpiredSignature < StandardError; end
   class MissingToken < StandardError; end
   class UserVerified < StandardError; end
+  class ExpiredCode < StandardError; end
+  class WrongCode < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized
@@ -14,6 +16,8 @@ module ExceptionHandler
     rescue_from ExceptionHandler::MissingToken, with: :unprocessable
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from ExceptionHandler::UserVerified, with: :unprocessable
+    rescue_from ExceptionHandler::ExpiredCode, with: :unprocessable
+    rescue_from ExceptionHandler::WrongCode, with: :unprocessable
   end
 
   private
