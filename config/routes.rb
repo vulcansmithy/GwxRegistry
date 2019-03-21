@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, :except => [:show, :destroy, :index] do
+    resources :players, :except => [:show, :destroy] do
       collection do
         get   '/:user_id', to: 'players#show'
         patch '/:user_id', to: 'players#update'
