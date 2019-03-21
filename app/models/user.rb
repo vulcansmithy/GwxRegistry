@@ -27,22 +27,18 @@ class User < ApplicationRecord
   end
 
   def confirm_account(code)
-    return false unless self.confirmed_at.nil? && code == confirmation_code
-    if Time.now.utc > (self.confirmation_sent_at + 1.hour)
-      self.resend_confirmation!
-    else
-      self.confirm!
+    return false unless code == confirmation_code
+    if Time.now.utc > (confirmation_sent_at + 1.hour)
+      raise_expired_code
+      resend_confirmation!
     end
+    confirm!
   end
 
   def resend_mail
-    if self.confirmation_sent_at.nil?
-      self.resend_confirmation!
-    elsif self..confirmaed_at.nil?
-      self.send_confirmation_code
-    else
-      raise_user_verified
-    end
+    return raise_user_verified unless confirmation_sent_at.nil? && confirmation_code.nil?
+    return send_confirmation_code unless confirmation_sent_at.nil?
+    resend_confirmation!
   end
 
   def send_confirmation_code
@@ -70,5 +66,13 @@ class User < ApplicationRecord
       code = SecureRandom.rand.to_s[2..5]
       break code if User.find_by(confirmation_code: code).nil?
     end
+  end
+
+  def raise_user_verified
+    raise ExceptionHandler::UserVerified, "User has already been verified"
+  end
+
+  def raise_expired_code
+    raise ExceptionHandler::ExpiredCode, "Expired confirmation code"
   end
 end

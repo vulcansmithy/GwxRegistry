@@ -24,30 +24,15 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def confirm
-    return unless params[:code]
     if user = User.find_by(confirmation_code: params[:code])
-      if user.confirm_account(params[:code])
-        render json: { message: 'Confirmed' }, status: :ok
-      else
-        render json: { message: 'Expired confirmation code' }, status: :unprocessable_entity
-      end
+      render json: { message: 'Confirmed' }, status: :ok if user.confirm_account(params[:code])
     else
-      render json: { message: 'Wrong confirmation code' },
-             status: :unprocessable_entity
+      raise_wrong_code
     end
   end
 
   def resend_code
-    user = @current_user
-    if user.confirmation_sent_at.nil?
-      user.resend_confirmation!
-      render json: { message: 'Sent' }, status: :ok
-    elsif user.confirmed_at.nil?
-      user.send_confirmation_code
-      render json: { message: 'Sent' }, status: :ok
-    else
-      raise_user_verified
-    end
+    render json: { message: 'Sent' }, status: :ok if @current_user.resend_mail
   end
 
   def update
@@ -131,7 +116,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  def raise_user_verified
-    raise ExceptionHandler::UserVerified, "User has already been verified"
+  def raise_wrong_code
+    raise ExceptionHandler::WrongCode, "Wrong confirmation code"
   end
 end
