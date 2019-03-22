@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get 'user', to: 'users#show'
     post 'notify', to: 'users#send_notification'
 
-    resources :users, :except => [:destroy, :index, :show] do
+    resources :users, :except => [:destroy, :show] do
       collection do
         get '/confirm/:code', to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, :except => [:show, :destroy, :index] do
+    resources :players, :except => [:show, :destroy] do
       collection do
         get   '/:user_id', to: 'players#show'
         patch '/:user_id', to: 'players#update'
