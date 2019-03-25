@@ -23,6 +23,11 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def find_player
+    user = User.find_by(wallet_address: params[:wallet_address])
+    success_response(UserSerializer.new(user).serialized_json)
+  end
+
   def confirm
     if user = User.find_by(confirmation_code: params[:code])
       render json: { message: 'Confirmed' }, status: :ok if user.confirm_account(params[:code])

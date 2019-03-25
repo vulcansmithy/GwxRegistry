@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       collection do
         get '/confirm/:code',   to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
+        get '/:wallet_address', to: 'users#find_player'
       end
     end
 
