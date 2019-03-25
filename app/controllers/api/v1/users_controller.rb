@@ -32,7 +32,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def resend_code
-    render json: { message: 'Sent' }, status: :ok if @current_user.resend_mail
+    if @current_user.resend_mail
+      render json: { message: 'Sent' }, status: :ok
+    else
+      raise_user_verified
+    end
   end
 
   def update
@@ -118,5 +122,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def raise_wrong_code
     raise ExceptionHandler::WrongCode, "Wrong confirmation code"
+  end
+
+  def raise_user_verified
+    raise ExceptionHandler::UserVerified, "User has already been verified"
   end
 end

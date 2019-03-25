@@ -5,9 +5,6 @@ class User < ApplicationRecord
 
   attr_encrypted :pk, key: Rails.application.secrets.pk_key
 
-  before_create :set_confirmation_code
-  after_create :send_confirmation_code
-
   has_one :player,    dependent: :destroy
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
@@ -36,18 +33,12 @@ class User < ApplicationRecord
   end
 
   def resend_mail
-    return raise_user_verified unless confirmation_sent_at.nil? && confirmation_code.nil?
-    return send_confirmation_code unless confirmation_sent_at.nil?
-    resend_confirmation!
+    resend_confirmation! if confirmed_at.nil?
   end
 
   def send_confirmation_code
     UserMailer.account_confirmation(self).deliver_later(wait: 1.second)
     update(confirmation_sent_at: Time.now.utc)
-  end
-
-  def set_confirmation_code
-    self.confirmation_code = generate_confirmation_code
   end
 
   def confirm!
@@ -66,10 +57,6 @@ class User < ApplicationRecord
       code = SecureRandom.rand.to_s[2..5]
       break code if User.find_by(confirmation_code: code).nil?
     end
-  end
-
-  def raise_user_verified
-    raise ExceptionHandler::UserVerified, "User has already been verified"
   end
 
   def raise_expired_code
