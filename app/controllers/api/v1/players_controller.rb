@@ -8,10 +8,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     @players = Player.all
+    success_response(PlayerSerializer.new(@players).serialized_json)
   end
 
   def show
-    @player.username
     success_response(PlayerSerializer.new(@player).serialized_json)
   end
 
