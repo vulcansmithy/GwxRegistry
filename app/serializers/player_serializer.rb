@@ -25,4 +25,8 @@ class PlayerSerializer < ActiveModel::Serializer
   attribute :wallet_address do |player|
     player.user.wallet_address
   end
+
+  attribute :game_wallet_address do |player|
+    player.wallet.wallet_address
+  end
 end
