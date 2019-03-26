@@ -11,12 +11,13 @@ Rails.application.routes.draw do
     :defaults  => { :format => "json" },
     :default   => true) do
 
-    get  'public_key', to: 'services#public_key'  
+    get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
     post 'login',      to: 'users#login'
     post 'register',   to: 'users#create'
     get  'user',       to: 'users#show'
     post 'notify',     to: 'users#send_notification'
+    get 'player',      to: 'players#my_player'
 
     resources :users, :except => [:destroy, :show] do
       collection do
