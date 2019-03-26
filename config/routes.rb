@@ -10,15 +10,15 @@ Rails.application.routes.draw do
     :defaults  => { :format => "json" },
     :default   => true) do
 
-    get 'test', to: 'users#test'
-    post 'login', to: 'users#login'
+    get  'test',     to: 'users#test'
+    post 'login',    to: 'users#login'
     post 'register', to: 'users#create'
-    get 'user', to: 'users#show'
-    post 'notify', to: 'users#send_notification'
+    get  'user',     to: 'users#show'
+    post 'notify',   to: 'users#send_notification'
 
     resources :users, :except => [:destroy, :show] do
       collection do
-        get '/confirm/:code', to: 'users#confirm'
+        get '/confirm/:code',   to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
       end
     end
