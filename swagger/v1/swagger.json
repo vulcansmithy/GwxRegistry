@@ -1015,7 +1015,7 @@
         }
       }
     },
-    "/players/{userId}": {
+    "/players/{playerId}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
@@ -1027,9 +1027,9 @@
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "playerId",
             "in": "path",
-            "description": "'id' of the User profile being retrieved",
+            "description": "'id' of the Player profile being retrieved",
             "required": true,
             "type": "integer"
           },
@@ -1068,7 +1068,9 @@
             "description": "Unauthorized: Access is denied"
           }
         }
-      },
+      }
+    },
+    "/players/{userId}": {
       "patch": {
         "summary": "Update Player profile",
         "tags": [

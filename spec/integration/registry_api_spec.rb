@@ -736,14 +736,14 @@ describe "Gameworks Registry API" do
     end
   end
   
-  # GET /players/:userId
-  path "/players/{userId}" do
+  # GET /players/:playerId
+  path "/players/{playerId}" do
 
     get "Retrieve a specific Player" do
       tags        "Players"
       description "Retrieve a specific player by specifying its 'userId'."
       produces    "application/json"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :playerId,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "player found." do
