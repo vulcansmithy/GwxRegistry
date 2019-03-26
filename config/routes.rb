@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
 
@@ -10,15 +11,16 @@ Rails.application.routes.draw do
     :defaults  => { :format => "json" },
     :default   => true) do
 
-    get 'test', to: 'users#test'
-    post 'login', to: 'users#login'
-    post 'register', to: 'users#create'
-    get 'user', to: 'users#show'
-    post 'notify', to: 'users#send_notification'
+    get  'public_key', to: 'services#public_key'  
+    get  'test',       to: 'users#test'
+    post 'login',      to: 'users#login'
+    post 'register',   to: 'users#create'
+    get  'user',       to: 'users#show'
+    post 'notify',     to: 'users#send_notification'
 
     resources :users, :except => [:destroy, :show] do
       collection do
-        get '/confirm/:code', to: 'users#confirm'
+        get '/confirm/:code',   to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
       end
     end
