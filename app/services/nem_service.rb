@@ -1,47 +1,42 @@
-require 'nem'
-require 'securerandom'
-# require_relative './ed25519.rb'
+# require 'nem'
+# require 'securerandom'
+require_relative './ed25519.rb'
 require 'base32'
+# require 'digest/sha3'
 
 class NemService
-  def self.generate_account
-    private_key = SecureRandom.random_bytes(32)
-    pk = ED25519.publickey(private_key.reverse)
-    hex_pk = to_hex(pk)
-  end
+  class << self
+    def create
+      private_key = to_hex(SecureRandom.random_bytes(32))
+      puts('private_key: ', private_key)
+      address = generate_wallet_address(private_key)
+      puts('address: ', address)
+    end
 
-  def to_hex(data)
-    [data].unpack('H*').first
-  end
+    private
 
-  private
+    def to_hex(data)
+      data.unpack1('H*')
+    end
 
-  def to_bin(data)
-    [data].pack('H*')
-  end
-
-  def hash_rmd
-    rmd_pk = Digest::RMD160.hexdigest(sha3_pk)
-  end
-
-  def mainnet
-    versioned_pk = "98" + rmd_pk
-  end
-
-  def testnet
-    versioned_pk = "68" + rmd_pk
-  end
-
-  def hash_sha3
-    checksum = Digest::SHA3.hexdigest(to_bin(versioned_pk),256)[0..7]
-  end
-
-  def concat_result
-    bin_address = to_bin(versioned_pk + checksum)
-  end
-
-  def encode_base32
-    Base32.encode bin_address
->>>>>>> Creates wallet generation
+    def to_bin(data)
+      [data].pack('H*')
+    end
+    
+    def generate_wallet_address(private_key)
+      pk = ED25519.publickey(private_key.reverse)
+      sha3_pk = to_bin(Digest::SHA3.hexdigest(pk, 256))
+      rmd_pk = Digest::RMD160.hexdigest(sha3_pk)
+     
+      # testnet wallet address
+      versioned_pk = "98" + rmd_pk
+      
+      # mainnet wallet_address
+      # versioned_pk = "68" + rmd_pk
+      
+      checksum = Digest::SHA3.hexdigest(to_bin(versioned_pk), 256)[0..7]
+      bin_address = to_bin(versioned_pk + checksum)
+      Base32.encode bin_address
+    end
   end
 end
