@@ -10,4 +10,8 @@ class UserSerializer < ActiveModel::Serializer
              :wallet_address,
              :confirmed_at,
              :confirmation_sent_at
+
+  attribute :wallet_address do |user|
+    user.wallet.wallet_address
+  end
 end

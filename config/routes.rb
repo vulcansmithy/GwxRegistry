@@ -41,5 +41,11 @@ Rails.application.routes.draw do
         put   '/:user_id', to: 'players#update'
       end
     end
+
+    resources :wallets, :except => [:show] do
+      collection do
+        get '/:wallet_address', to: 'wallets#show'
+      end
+    end
   end
 end
