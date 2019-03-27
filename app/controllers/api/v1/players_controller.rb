@@ -1,6 +1,6 @@
 class Api::V1::PlayersController < Api::V1::BaseController
   before_action :transform_params, only: :create
-  before_action :check_current_user, except: %i[index show my_player]
+  before_action :check_current_user, except: %i[index show create my_player]
   before_action only: :create do
     check_player_publisher_account(@current_user, "player")
   end
