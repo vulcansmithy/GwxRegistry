@@ -4,8 +4,10 @@ ruby '2.5.1'
 gem 'active_model_serializers', '0.10.8'    # https://github.com/rails-api/active_model_serializers
 gem 'appsignal'
 gem 'attr_encrypted', '3.1.0'               # https://github.com/attr-encrypted/attr_encrypted
+gem 'base32'
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'bootsnap', '>= 1.1.0', require: false       
+gem 'digest-sha3'
 gem 'fast_jsonapi', '1.3'                   # https://github.com/Netflix/fast_jsonap
 gem 'jwt', '2.1.0'                          # https://github.com/jwt/ruby-jwt
 gem 'nem-ruby'                              # https://github.com/44uk/nem-ruby
