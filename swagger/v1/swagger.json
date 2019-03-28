@@ -872,15 +872,11 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "integer"
-                },
                 "username": {
                   "type": "string"
                 }
               },
               "required": [
-                "userId",
                 "username"
               ]
             }
@@ -1011,6 +1007,54 @@
                 ]
               }
             }
+          }
+        }
+      }
+    },
+    "/player": {
+      "get": {
+        "summary": "Retrieve Player profile",
+        "tags": [
+          "Players"
+        ],
+        "description": "Retrieve player profile.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "627",
+                  "type": "player",
+                  "attributes": {
+                    "userId": 1265,
+                    "firstName": "Wyatt",
+                    "lastName": "Ullrich",
+                    "email": "wyatt.ullrich@example.com",
+                    "username": "wyatt.ullrich",
+                    "walletAddress": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
