@@ -1,6 +1,7 @@
-require 'digest/sha3'
+require 'digest/sha3' # gem install digest-sha3
+# Port of http://ed25519.cr.yp.to/python/ed25519.py
 
-class ED25519
+class Ed25519
   @b = 256
   @q = 2**255 - 19
   @l = 2**252 + 27_742_317_777_372_353_535_851_937_790_883_648_493
