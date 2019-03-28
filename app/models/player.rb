@@ -1,8 +1,7 @@
 class Player < ApplicationRecord
-  after_commit :create_account, on: :create
-
-  belongs_to :user, optional: true
-  has_one :wallet,  as: :account
+  after_commit  :create_account, on: :create
+  belongs_to    :user,           optional: true
+  has_one       :wallet,         as: :account
 
   validates_uniqueness_of :username
   validates_presence_of   :username

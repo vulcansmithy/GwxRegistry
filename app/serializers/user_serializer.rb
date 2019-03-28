@@ -7,7 +7,10 @@ class UserSerializer < ActiveModel::Serializer
              :first_name,
              :last_name,
              :email,
-             :wallet_address,
              :confirmed_at,
              :confirmation_sent_at
+
+  attribute :wallet_address do |user|
+    user.wallet.try(:wallet_address)
+  end
 end
