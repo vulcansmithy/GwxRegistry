@@ -8,7 +8,6 @@ gem 'base32'
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'bootsnap', '>= 1.1.0', require: false       
 gem 'digest-sha3'
-gem 'ed25519'
 gem 'fast_jsonapi', '1.3'                   # https://github.com/Netflix/fast_jsonap
 gem 'jwt', '2.1.0'                          # https://github.com/jwt/ruby-jwt
 gem 'nem-ruby'                              # https://github.com/44uk/nem-ruby
