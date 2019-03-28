@@ -89,6 +89,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     params.permit(
       :first_name,
       :last_name,
+      :wallet_address,
       :pk,
       :device_token
     )

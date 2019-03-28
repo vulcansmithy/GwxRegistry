@@ -54,7 +54,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
     @player = @current_user.player
     unless @player
       error_response("You don't have an existing player account",
-                     "Player account does not exist", :unprocessable_entity)
+                     "Player account does not exist", :not_found)
     end
   end
 end
