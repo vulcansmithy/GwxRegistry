@@ -8,4 +8,12 @@ class PublisherSerializer < ActiveModel::Serializer
              :wallet_address,
              :description,
              :user_id
+
+  attribute :wallet_address do |publisher|
+    publisher.user.wallet_address
+  end
+
+  attribute :game_wallet_address do |publisher|
+    publisher.wallet.wallet_address
+  end
 end
