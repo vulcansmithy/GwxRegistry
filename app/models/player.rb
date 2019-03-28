@@ -10,11 +10,11 @@ class Player < ApplicationRecord
   private
 
   def create_account
-    account = NemService.generate_account
+    account = NemService.create_account
 
     self.create_wallet(
-      wallet_address: account.address,
-      pk: account.private_key
+      wallet_address: account[:address],
+      pk: account[:priv_key]
     )
   end
 end
