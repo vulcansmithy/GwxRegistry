@@ -10,7 +10,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    success_response(UserWalletSerializer.new(@current_user).serialized_json)
+    success_response(UserSerializer.new(@current_user).serialized_json)
   end
 
   def create
@@ -42,7 +42,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update
     if @current_user.update(update_user_params)
       user_wallet if params[:wallet_address] && params[:pk]
-      success_response(UserWalletSerializer.new(@current_user).serialized_json)
+      success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
                      @current_user.errors.full_messages, :unprocessable_entity)
