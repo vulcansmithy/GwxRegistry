@@ -612,10 +612,9 @@ describe "Gameworks Registry API" do
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          userId:  { type: :integer },
-          username: { type: :string  },
+          username: { type: :string  }
         },
-        required: [ "userId", "username" ]
+        required: [ "username" ]
       }
       parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
@@ -647,7 +646,47 @@ describe "Gameworks Registry API" do
         run_test!
       end
     end
+ 
+  # GET /player
+  path "/player" do
+
+    get "Retrieve Player profile" do
+      tags        "Players"
+      description "Retrieve player profile."
+      produces    "application/json"
+      # parameter   name: :playerId,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
+      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "player found." do
+
+        examples "application/json" => {
+              "data" => {
+                          "id" => "627",
+                        "type" => "player",
+                  "attributes" => {
+                             "userId" => 1265,
+                          "firstName" => "Wyatt",
+                           "lastName" => "Ullrich",
+                               "email" => "wyatt.ullrich@example.com",
+                            "username" => "wyatt.ullrich",
+                      "walletAddress" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
+                  }
+              }
+          }
+
+        run_test!
+      end
+
+      response "404", "player not found." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
   end
+ end
 
  # GET /players
   path "/players" do
