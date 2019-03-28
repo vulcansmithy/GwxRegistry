@@ -104,9 +104,7 @@ describe Api::V1::PlayersController do
 
     # prepare the params to be passed
     params = {
-      userId:        user.id,
       username:       "PROUDCLOUD",
-      walletAddress: Faker::Crypto.sha256
     }.as_json
 
     # call the API endpoint
@@ -120,6 +118,7 @@ describe Api::V1::PlayersController do
 
     # make sure the Player actually exist
     expect(result["data"]["id"].to_i).to eq Player.first.id
+    expect(result["data"]["attributes"]["gameWalletAddress"]).to eq Player.first.wallet.wallet_address
   end
 
 end

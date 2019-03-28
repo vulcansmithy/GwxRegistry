@@ -1,7 +1,7 @@
 require 'base32'
 
 class NemService
-  default_network = Rails.env.production? ? "mainnet" : "testnet"
+  DEFAULT_NETWORK = Rails.env.production? ? "mainnet" : "testnet"
 
   NETWORKS = {
     TESTNET: '98',
@@ -9,7 +9,7 @@ class NemService
   }
 
   class << self
-    def create_account(network = default_network)
+    def create_account(network = DEFAULT_NETWORK)
       private_key = SecureRandom.random_bytes(32)
       wallet = generate_wallet(private_key, network)
     end
