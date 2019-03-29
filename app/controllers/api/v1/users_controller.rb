@@ -41,6 +41,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def update
     if @current_user.update(update_user_params)
+      user_wallet if params[:wallet_address] && params[:pk]
       success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
@@ -118,6 +119,14 @@ class Api::V1::UsersController < Api::V1::BaseController
     rescue
       error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
     end
+  end
+
+  def user_wallet
+    @current_user.create_wallet(
+      wallet_address: params[:wallet_address],
+      encrypted_pk: @current_user.encrypted_pk,
+      encrypted_pk_iv: @current_user.encrypted_pk_iv
+    )
   end
 
   def raise_wrong_code
