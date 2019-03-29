@@ -41,7 +41,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def update
     if @current_user.update(update_user_params)
-      user_wallet if params[:wallet_address] && params[:pk]
+      user_wallet if @current_user.wallet.nil? &&
+                     params[:wallet_address] && params[:pk]
       success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
