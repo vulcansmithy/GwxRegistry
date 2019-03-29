@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :wallets, :except => [:show] do
       collection do
         get '/:wallet_address', to: 'wallets#show'
+        get '/:wallet_address/balance', to: 'wallets#balance'
       end
     end
   end
