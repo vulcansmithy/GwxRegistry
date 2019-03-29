@@ -16,7 +16,7 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      node = Nem::Node.new
+      node = Nem::Node.new(host: 'bigalice2.nem.ninja')
       endpoint = Nem::Endpoint::Account.new(node)
       endpoint.find(wallet_address).balance.to_f / 1000000
     end
