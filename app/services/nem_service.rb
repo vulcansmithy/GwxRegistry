@@ -1,4 +1,5 @@
 require 'base32'
+require 'nem'
 
 class NemService
   DEFAULT_NETWORK = Rails.env.production? ? "mainnet" : "testnet"
@@ -14,6 +15,12 @@ class NemService
       wallet = generate_wallet(private_key, network)
     end
 
+    def check_balance(wallet_address)
+      node = Nem::Node.new
+      endpoint = Nem::Endpoint::Account.new(node)
+      endpoint.find(wallet_address).balance.to_f / 1000000
+    end
+
     private
 
     def to_hex(data)
@@ -23,7 +30,7 @@ class NemService
     def to_bin(data)
       [data].pack('H*')
     end
-    
+
     def generate_wallet(private_key, network)
       pk = Ed25519.publickey(private_key.reverse)
       sha3_pk = to_bin(Digest::SHA3.hexdigest(pk, 256))
