@@ -17,7 +17,8 @@ Rails.application.routes.draw do
     post 'register',   to: 'users#create'
     get  'user',       to: 'users#show'
     post 'notify',     to: 'users#send_notification'
-    get 'player',      to: 'players#my_player'
+    get  'player',     to: 'players#my_player'
+    get  'publisher',  to: 'publishers#show'
 
     resources :users, :except => [:destroy, :show] do
       collection do
