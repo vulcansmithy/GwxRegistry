@@ -7,8 +7,7 @@ class PlayerSerializer < ActiveModel::Serializer
              :first_name,
              :last_name,
              :email,
-             :username,
-             :wallet_address
+             :username
 
   attribute :first_name do |player|
     player.user.first_name
