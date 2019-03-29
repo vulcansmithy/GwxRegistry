@@ -32,9 +32,6 @@
                 "email": {
                   "type": "string"
                 },
-                "walletAddress": {
-                  "type": "string"
-                },
                 "password": {
                   "type": "string"
                 },
@@ -1250,6 +1247,90 @@
           },
           "401": {
             "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/wallets/{wallet_address}": {
+      "get": {
+        "summary": "Retrieve a specific wallet",
+        "tags": [
+          "Wallets"
+        ],
+        "description": "Retrieve a specific wallet info by specifying its 'wallet_address'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "wallet_address",
+            "in": "path",
+            "description": "'wallet_address' of the User being retrieved",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "5",
+                  "type": "wallet",
+                  "attributes": {
+                    "wallet_address": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW",
+                    "encrypted_pk": "m3Nce3oc_DeV9o_kLY3TfM-nTXsh9xtmUrFxZjUclfZ6YgYNFM_Mm24-noz_wsedODhydz6btus5tjGqtfYYGsPgHq4585pOFmfkgqFriPo=",
+                    "nonce": "L6Eu_tKAcjlHG8tDZ50-__KBibgk76-x"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{wallet_address}/balance": {
+      "get": {
+        "summary": "Retrieve the balance of a specific wallet",
+        "tags": [
+          "Wallets"
+        ],
+        "description": "Retrieve the balance of a specific wallet info by specifying its 'wallet_address'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "wallet_address",
+            "in": "path",
+            "description": "'wallet_address' of the User being retrieved",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "examples": {
+              "application/json": {
+                "balance": 692.289674
+              }
+            }
           }
         }
       }

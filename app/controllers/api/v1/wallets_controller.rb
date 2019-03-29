@@ -7,6 +7,6 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
   def balance
     @bal = NemService.check_balance(params[:wallet_address])
-    success_response(@bal)
+    success_response({balance: @bal})
   end
 end
