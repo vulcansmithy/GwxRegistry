@@ -15,9 +15,8 @@ describe "Gameworks Registry API" do
         properties: {
                      firstName: { type: :string },
                       lastName: { type: :string },
-                          email: { type: :string },
-                 walletAddress: { type: :string },
-                       password: { type: :string },
+                         email: { type: :string },
+                      password: { type: :string },
           passwordConfirmation: { type: :string },
         },
         required: [ "email", "walletAddress", "password", "passwordConfirmation" ]
@@ -225,7 +224,7 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+
   # GET /users/:id
   path "/users/{id}" do
 
@@ -646,7 +645,7 @@ describe "Gameworks Registry API" do
         run_test!
       end
     end
- 
+
   # GET /player
   path "/player" do
 
@@ -774,7 +773,7 @@ describe "Gameworks Registry API" do
       end
     end
   end
-  
+
   # GET /players/:playerId
   path "/players/{playerId}" do
 
@@ -910,6 +909,54 @@ describe "Gameworks Registry API" do
       end
 
       response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  ## WALLETS
+  # GET /wallets/:wallet_address
+  path "/wallets/{wallet_address}" do
+    get "Retrieve a specific wallet" do
+      tags        "Wallets"
+      description "Retrieve a specific wallet info by specifying its 'wallet_address'."
+      produces    "application/json"
+      parameter   name: :wallet_address, in: :path, description: "'wallet_address' of the User being retrieved", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "ok" do
+
+        examples "application/json" => {
+              "data" => {
+                      "id" => "5",
+                    "type" => "wallet",
+              "attributes" => {
+                "wallet_address" => "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW",
+                  "encrypted_pk" => "m3Nce3oc_DeV9o_kLY3TfM-nTXsh9xtmUrFxZjUclfZ6YgYNFM_Mm24-noz_wsedODhydz6btus5tjGqtfYYGsPgHq4585pOFmfkgqFriPo=",
+                         "nonce" => "L6Eu_tKAcjlHG8tDZ50-__KBibgk76-x"
+                }
+            }
+        }
+
+        run_test!
+      end
+    end
+  end
+
+  path "/wallets/{wallet_address}/balance" do
+    get "Retrieve the balance of a specific wallet" do
+      tags        "Wallets"
+      description "Retrieve the balance of a specific wallet info by specifying its 'wallet_address'."
+      produces    "application/json"
+      parameter   name: :wallet_address, in: :path, description: "'wallet_address' of the User being retrieved", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "ok" do
+
+        examples "application/json" => {
+                  "balance" => 692.289674
+        }
+
         run_test!
       end
     end

@@ -7,8 +7,7 @@ class PlayerSerializer < ActiveModel::Serializer
              :first_name,
              :last_name,
              :email,
-             :username,
-             :wallet_address
+             :username
 
   attribute :first_name do |player|
     player.user.first_name
@@ -23,10 +22,10 @@ class PlayerSerializer < ActiveModel::Serializer
   end
 
   attribute :wallet_address do |player|
-    player.user.wallet_address
+    player.user.try(:wallet_address)
   end
 
   attribute :game_wallet_address do |player|
-    player.wallet.wallet_address
+    player.wallet.try(:wallet_address)
   end
 end
