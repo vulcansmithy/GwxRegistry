@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
 
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
@@ -50,4 +51,5 @@ Rails.application.routes.draw do
       end
     end
   end
+  root :to => 'home#index'
 end

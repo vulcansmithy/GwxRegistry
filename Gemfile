@@ -21,6 +21,7 @@ gem 'simple_command'                        # https://github.com/nebulab/simple_
 gem 'versionist', '1.7.0'                   # https://github.com/bploetz/versionist
 gem 'fcm'                                   # https://github.com/spacialdb/fcm
 gem "rbnacl", "6.0.1"                       # https://github.com/crypto-rb/rbnacl
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'awesome_print', '1.8.0'              # https://github.com/awesome-print/awesome_print
