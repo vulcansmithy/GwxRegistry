@@ -1,9 +1,5 @@
 class Api::V2::PlayersController < Api::V2::BaseController
   before_action :transform_params, only: :create
-  before_action :check_current_user, except: %i[index show create my_player]
-  before_action only: :create do
-    check_player_publisher_account(@current_user, "player")
-  end
 
   def index
     @players = Player.all
@@ -20,7 +16,8 @@ class Api::V2::PlayersController < Api::V2::BaseController
   end
 
   def create
-    @player = @current_user.create_player(player_params)
+    user = User.find(params[:user_id])
+    @player = user.create_player(player_params)
 
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
