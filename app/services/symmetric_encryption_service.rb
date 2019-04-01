@@ -3,16 +3,19 @@ class SymmetricEncryptionService
   def encrypt(payload)
 Rails.logger.debug("Rails.application.secrets.registry_secret_key: '#{Rails.application.secrets.registry_secret_key}'")
     secret_key = Base64.urlsafe_decode64(Rails.application.secrets.registry_secret_key)
-Rails.logger.debug("{__LINE__}   MARKED")  
+Rails.logger.debug("L:6   MARKED")  
 
     secret_box = RbNaCl::SecretBox.new(secret_key)
-Rails.logger.debug("{__LINE__}   secret_box.nil?: #{secret_box.nil?}") 
+Rails.logger.debug("L:9   secret_box.nil?: #{secret_box.nil?}") 
     
-    nonce = RbNaCl::Random.random_bytes(secret_box.nonce_bytes)
-Rails.logger.debug("{__LINE__}   nonce='#{nonce}'")     
-    
+r = secret_box.nonce_bytes
+Rails.logger.debug "secret_box.nonce_bytes: '#{secret_box.nonce_bytes}'"    
+    nonce = RbNaCl::Random.random_bytes(r)
+Rails.logger.debug("L:14   nonce='#{nonce}'")     
+  
+Rails.logger.debug "L:16  payload='#{payload}'"   
     encrypted_payload = secret_box.encrypt(nonce, payload)
-Rails.logger.debug("{__LINE__}   MARKED") 
+Rails.logger.debug("L:18   MARKED") 
     
     return Base64.urlsafe_encode64(encrypted_payload), Base64.urlsafe_encode64(nonce) 
   end
