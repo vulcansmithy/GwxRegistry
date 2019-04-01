@@ -4,10 +4,7 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
-    # Put your resource owner authentication logic here.
-    # Example implementation:
-    #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
+    User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 
   # resource_owner_from_credentials do |routes|
@@ -26,14 +23,14 @@ Doorkeeper.configure do
   #   # }
   # end
 
-  grant_flows %w['client_credentials']
+  grant_flows %w[authorization_code client_credentials]
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
   # every time somebody will try to access the admin web interface.
   #
-  # admin_authenticator do
+  admin_authenticator do
   #   # Put your admin authentication logic here.
   #   # Example implementation:
   #
@@ -43,6 +40,7 @@ Doorkeeper.configure do
   #     redirect_to sign_in_url
   #   end
   # end
+  end
 
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
   # want to use API mode that will skip all the views management and change the way how
