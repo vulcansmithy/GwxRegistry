@@ -4,7 +4,6 @@ class Api::V2::PlayersController < Api::V2::BaseController
   before_action only: :create do
     check_player_publisher_account(@current_user, "player")
   end
-  before_action :set_player, only: %i[show edit update]
 
   def index
     @players = Player.all
