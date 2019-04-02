@@ -1,5 +1,5 @@
-class Api::V1::BaseController < ApplicationController
-  before_action :authenticate_request
+class Api::V2::BaseController < ApplicationController
+  before_action :doorkeeper_authorize!
 
   attr_reader :current_user
 

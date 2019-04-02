@@ -2,7 +2,6 @@ class AuthenticateUser
   prepend SimpleCommand
   attr_accessor :email, :password, :result, :success, :errors
 
-  #this is where parameters are taken when the command is called
   def initialize(email, password)
     @email = email
     @password = password
@@ -10,8 +9,7 @@ class AuthenticateUser
     @success = false
     @errors = nil
   end
-  
-  #this is where the result gets returned
+
   def call
     auth_user = user
     @result = {

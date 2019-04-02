@@ -10,6 +10,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "rails/test_unit/railtie"
+require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
 
@@ -17,7 +18,7 @@ module GwxRegistryApi
   class Application < Rails::Application
     config.load_defaults 5.2
 
-    config.api_only = true
+    config.api_only = false
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
@@ -25,6 +26,10 @@ module GwxRegistryApi
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+
+    config.middleware.use ActionDispatch::Flash
+
+    config.action_controller.allow_forgery_protection = false
 
     config.eager_load_paths << Rails.root.join('services')
 
