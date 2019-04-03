@@ -21,9 +21,13 @@ class NemService
       xem = endpoint.find(wallet_address).balance.to_f / 1000000
       mosaic = endpoint.mosaic_owned(wallet_address)
       account = mosaic.find_by_namespace_id('gameworkss')
-      gwx = account.attachments.first.quantity.to_f / 1000000
-      { xem: xem,
-        gwx: gwx }
+      if account.attachments.empty?
+        { xem: xem }
+      else
+        gwx = account.attachments.first.quantity.to_f / 1000000
+        { xem: xem,
+          gwx: gwx }
+      end
     end
 
     private
