@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Api::V1::PlayersController do
+describe Api::V2::PlayersController do
 
   it "should implement the endpoint GET /players" do
 

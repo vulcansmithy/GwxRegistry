@@ -36,7 +36,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
       success_response(PublisherSerializer.new(@publisher).serialized_json)
     else
       error_response("Unable to update publisher account",
-                     @current_user.errors.full_messages, :unprocessable_entity)
+                     @publisher.errors.full_messages, :unprocessable_entity)
     end
   end
 
@@ -50,7 +50,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
     @publisher = @current_user.publisher
     unless @publisher
       error_response("You don't have an existing publisher account",
-                     "Publisher account does not exist", :unprocessable_entity)
+                     "Publisher account does not exist", :not_found)
     end
   end
 end
