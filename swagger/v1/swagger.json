@@ -1328,7 +1328,10 @@
             "description": "ok",
             "examples": {
               "application/json": {
-                "balance": 692.289674
+                "balance": {
+                  "xem": 692.289674,
+                  "gwx": 99084
+                }
               }
             }
           }
