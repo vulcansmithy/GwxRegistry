@@ -2,12 +2,16 @@ require 'base32'
 require 'nem'
 
 class NemService
-  DEFAULT_NETWORK = Rails.env.production? ? "mainnet" : "testnet"
+  DEFAULT_NETWORK = Rails.env.production? ? 'mainnet' : 'testnet'
 
   NETWORKS = {
     TESTNET: '98',
     MAINNET: '68'
   }
+
+  NODE = Rails.env.production? ? 'bigalice2.nem.ninja' : 'hugealice3.nem.ninja'
+
+  NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
 
   class << self
     def create_account(network = DEFAULT_NETWORK)
@@ -16,11 +20,11 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      node = Nem::Node.new(host: 'bigalice2.nem.ninja')
+      node = Nem::Node.new(host: NODE)
       endpoint = Nem::Endpoint::Account.new(node)
       xem = endpoint.find(wallet_address).balance.to_f / 1000000
       mosaic = endpoint.mosaic_owned(wallet_address)
-      account = mosaic.find_by_namespace_id('gameworkss')
+      account = mosaic.find_by_namespace_id(NAMESPACE)
       if account.attachments.empty?
         { xem: xem }
       else
