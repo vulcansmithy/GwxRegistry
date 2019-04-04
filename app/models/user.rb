@@ -5,6 +5,9 @@ class User < ApplicationRecord
 
   attr_encrypted :pk, key: Rails.application.secrets.pk_key
 
+  before_create :set_confirmation_code
+  after_create :send_confirmation_code
+
   has_one :player,    dependent: :destroy
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
@@ -55,6 +58,10 @@ class User < ApplicationRecord
 
   def confirm!
     update(confirmation_code: nil, confirmed_at: Time.now.utc)
+  end
+
+  def set_confirmation_code
+    self.confirmation_code = generate_confirmation_code
   end
 
   def resend_confirmation!
