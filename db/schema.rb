@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_25_052926) do
+ActiveRecord::Schema.define(version: 2019_04_04_043432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2019_03_25_052926) do
     t.string "encrypted_pk_iv"
     t.index ["account_type", "account_id"], name: "index_wallets_on_account_type_and_account_id"
     t.index ["encrypted_pk_iv"], name: "index_wallets_on_encrypted_pk_iv", unique: true
+    t.index ["wallet_address"], name: "index_wallets_on_wallet_address", unique: true
   end
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
