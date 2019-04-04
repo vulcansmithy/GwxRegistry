@@ -4,10 +4,13 @@ class UserSerializer < ActiveModel::Serializer
   set_key_transform :camel_lower
 
   attributes :id,
-    :first_name,
-    :last_name,
-    :email,
-    :wallet_address,
-    :confirmed_at,
-    :confirmation_sent_at
+             :first_name,
+             :last_name,
+             :email,
+             :confirmed_at,
+             :confirmation_sent_at
+
+  attribute :wallet_address do |user|
+    user.wallet.try(:wallet_address)
+  end
 end

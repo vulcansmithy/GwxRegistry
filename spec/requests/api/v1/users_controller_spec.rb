@@ -79,7 +79,7 @@ describe Api::V1::UsersController do
     expect(result["user"]["data"]["attributes"]["email"]).to eq email
   end
 
-  it "should implement the endpoint GET users/:id" do
+  it "should implement the endpoint GET user" do
     # setup test user
     user = create(:user)
 
@@ -87,7 +87,7 @@ describe Api::V1::UsersController do
     result = JSON.parse(response.body)
 
     # call the API endpoint
-    get "/users/#{user.id}", headers: {Authorization: "#{result["token"]}"}
+    get "/user", headers: {Authorization: "#{result["token"]}"}
 
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)

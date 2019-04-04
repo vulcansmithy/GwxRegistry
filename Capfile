@@ -8,6 +8,7 @@ require 'capistrano/rails/migrations'
 require 'capistrano/rbenv'
 require 'capistrano/rbenv_install'
 require 'capistrano/puma'
+require 'capistrano/rails/assets'
 install_plugin Capistrano::Puma
 
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

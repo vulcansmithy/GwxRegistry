@@ -5,12 +5,17 @@ class User < ApplicationRecord
 
   attr_encrypted :pk, key: Rails.application.secrets.pk_key
 
-  before_create :set_confirmation_code
-  after_create :send_confirmation_code
-
   has_one :player,    dependent: :destroy
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
+
+  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all # or :destroy if you need callbacks
+
+  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all # or :destroy if you need callbacks
 
   validates :email, presence: true,
                     uniqueness: true,
@@ -24,38 +29,28 @@ class User < ApplicationRecord
                           allow_nil: true
 
   validates :confirmation_code, uniqueness: true,
-                                allow_nil:  true
+                                allow_nil: true
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
   def confirm_account(code)
-    return false unless self.confirmed_at.nil? && code == confirmation_code
-    if Time.now.utc > (self.confirmation_sent_at + 1.hour)
-      self.resend_confirmation!
-    else
-      self.confirm!
+    return false unless code == confirmation_code
+    if Time.now.utc > (confirmation_sent_at + 1.hour)
+      raise_expired_code
+      resend_confirmation!
     end
+    confirm!
   end
 
   def resend_mail
-    if self.confirmation_sent_at.nil?
-      self.resend_confirmation!
-    elsif self..confirmaed_at.nil?
-      self.send_confirmation_code
-    else
-      raise_user_verified
-    end
+    resend_confirmation! if confirmed_at.nil?
   end
 
   def send_confirmation_code
     UserMailer.account_confirmation(self).deliver_later(wait: 1.second)
     update(confirmation_sent_at: Time.now.utc)
-  end
-
-  def set_confirmation_code
-    self.confirmation_code = generate_confirmation_code
   end
 
   def confirm!
@@ -74,5 +69,9 @@ class User < ApplicationRecord
       code = SecureRandom.rand.to_s[2..5]
       break code if User.find_by(confirmation_code: code).nil?
     end
+  end
+
+  def raise_expired_code
+    raise ExceptionHandler::ExpiredCode, "Expired confirmation code"
   end
 end
