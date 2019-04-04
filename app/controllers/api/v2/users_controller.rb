@@ -1,6 +1,6 @@
 class Api::V2::UsersController < Api::V2::BaseController
   before_action :doorkeeper_authorize!, except: %i[create login confirm edit update show]
-  before_action :check_current_user, only: %i[edit update show]
+  before_action :check_current_user, only: %i[edit update]
   before_action :transform_params, only: %i[create edit update send_notification]
   before_action :set_recipient, only: :send_notification
 

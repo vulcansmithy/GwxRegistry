@@ -4,9 +4,6 @@ class PlayerSerializer < ActiveModel::Serializer
   set_key_transform :camel_lower
 
   attributes :user_id,
-             :first_name,
-             :last_name,
-             :email,
              :username
 
   attribute :first_name do |player|
