@@ -9,10 +9,10 @@ class PublisherSerializer < ActiveModel::Serializer
              :user_id
 
   attribute :wallet_address do |publisher|
-    publisher.user.wallet_address
+    publisher.user.try(:wallet_address)
   end
 
   attribute :game_wallet_address do |publisher|
-    publisher.wallet.wallet_address
+    publisher.wallet.try(:wallet_address)
   end
 end
