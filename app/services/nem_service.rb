@@ -20,7 +20,7 @@ class NemService
       endpoint = Nem::Endpoint::Account.new(node)
       xem = endpoint.find(wallet_address).balance.to_f / 1000000
       mosaic = endpoint.mosaic_owned(wallet_address)
-      account = mosaic.find_by_namespace_id('gameworkss')
+      account = mosaic.find_by_namespace_id('gameworks')
       if account.attachments.empty?
         { xem: xem }
       else
