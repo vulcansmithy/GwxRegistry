@@ -954,7 +954,10 @@ describe "Gameworks Registry API" do
       response "200", "ok" do
 
         examples "application/json" => {
-                  "balance" => 692.289674
+                  "balance" => {
+                    "xem" => 692.289674,
+                    "gwx" => 99084
+                  }
         }
 
         run_test!
