@@ -9,7 +9,7 @@ class NemService
     MAINNET: '68'
   }
 
-  NODE = Rails.env.production? ? 'bigalice2.nem.ninja' : 'hugealice3.nem.ninja'
+  NODE = Rails.env.production? ? 'hugealice3.nem.ninja' : 'bigalice2.nem.ninja'
 
   NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
 
