@@ -2,6 +2,8 @@ require 'base32'
 require 'nem'
 
 class NemService
+  attr_accessor :node, :account_endpoint
+
   DEFAULT_NETWORK = Rails.env.production? ? 'mainnet' : 'testnet'
 
   NETWORKS = {
@@ -10,8 +12,10 @@ class NemService
   }
 
   NODE = Rails.env.production? ? 'hugealice3.nem.ninja' : 'bigalice2.nem.ninja'
-
   NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
+
+  NEM_NODE = Nem::Node.new(host: NODE)
+  ACCOUNT_ENDPOINT = Nem::Endpoint::Account.new(NEM_NODE)
 
   class << self
     def create_account(network = DEFAULT_NETWORK)
@@ -20,10 +24,8 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      node = Nem::Node.new(host: NODE)
-      endpoint = Nem::Endpoint::Account.new(node)
-      xem = endpoint.find(wallet_address).balance.to_f / 1000000
-      mosaic = endpoint.mosaic_owned(wallet_address)
+      xem = ACCOUNT_ENDPOINT.find(wallet_address).balance.to_f / 1000000
+      mosaic = ACCOUNT_ENDPOINT.mosaic_owned(wallet_address)
       account = mosaic.find_by_namespace_id(NAMESPACE)
       if account.attachments.empty?
         { xem: xem }
@@ -32,6 +34,22 @@ class NemService
         { xem: xem,
           gwx: gwx }
       end
+    end
+
+    def unconfirmed_transactions(source_wallet, destination_wallet, mosaic_name = 'gwx')
+      unconfirmed_transactions = ACCOUNT_ENDPOINT.transfers_unconfirmed(source_wallet)
+      filter_by_destination = unconfirmed_transactions.select { |tx| tx.recipient == destination_wallet }
+      total_quantity = nil
+
+      if mosaic_name == 'xem'
+        total_quantity = filter_by_destination.map(&:amount)
+      else
+        total_quantity = filter_by_destination.map do |tx|
+          tx.mosaics.select { |mosaic| mosaic.name == mosaic_name }.first.quantity
+        end
+      end
+
+      total_quantity.sum.to_f / 1000000
     end
 
     private
