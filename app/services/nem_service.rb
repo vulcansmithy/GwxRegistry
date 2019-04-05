@@ -24,13 +24,21 @@ class NemService
     end
 
     def check_balance(wallet_address)
+      puts ">>>>>>>> Wallet Address: #{wallet_address}"
       xem = ACCOUNT_ENDPOINT.find(wallet_address).balance.to_f / 1000000
+      puts ">>>>>>>>>>> XEM #{xem}"
       mosaic = ACCOUNT_ENDPOINT.mosaic_owned(wallet_address)
+      puts ">>>>>>>>>>> Mosaic #{mosaic}"
       account = mosaic.find_by_namespace_id(NAMESPACE)
+      puts ">>>>>>>>>>> account #{account}"
+
       if account.attachments.empty?
+        puts ">>>>>>>>>>> attachments empty"
         { xem: xem }
       else
+        puts ">>>>>>>>>>> attachemnts exists"
         gwx = account.attachments.first.quantity.to_f / 1000000
+        puts ">>>>>>>>>>>>>>>>>> #{gwx}"
         { xem: xem,
           gwx: gwx }
       end
