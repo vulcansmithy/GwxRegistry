@@ -1,4 +1,6 @@
 class Api::V2::WalletsController < Api::V2::BaseController
+  before_action :transform_params
+
   def show
     @wallet = Wallet.find_by(wallet_address: params[:wallet_address])
     if @wallet
@@ -12,10 +14,7 @@ class Api::V2::WalletsController < Api::V2::BaseController
     @bal = NemService.check_balance(params[:wallet_address])
     wallet = Wallet.find_by(wallet_address: params[:wallet_address])
 
-    puts ">>>>>>>> Wallet Account Type: #{wallet.account_type}"
-    puts ">>>>>>>> Game Wallet Address: #{params[:game_wallet_address]}"
     if wallet.account_type == 'Player' && params[:game_wallet_address]
-      puts ">>>>> Wallet Account is player and game wallet address params is present"
       player_wallet = wallet.wallet_address
       user_wallet = wallet.account.user.wallet.wallet_address
       game_wallet = params[:game_wallet_address]
@@ -49,7 +48,6 @@ class Api::V2::WalletsController < Api::V2::BaseController
         available_gwx: available_gwx
       }.merge(@bal)
 
-      puts ">>>>>>>>>>>>> Response: #{response}"
       success_response({ balance: response })
     else
       success_response({balance: @bal})
