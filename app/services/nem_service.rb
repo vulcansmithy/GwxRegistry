@@ -2,8 +2,6 @@ require 'base32'
 require 'nem'
 
 class NemService
-  attr_accessor :node, :account_endpoint
-
   DEFAULT_NETWORK = Rails.env.production? ? 'mainnet' : 'testnet'
 
   NETWORKS = {
@@ -11,10 +9,30 @@ class NemService
     MAINNET: '68'
   }
 
-  NODE = Rails.env.production? ? 'hugealice3.nem.ninja' : 'bigalice2.nem.ninja'
+  NEM_NODE =
+    if Rails.env.production?
+      Nem::NodePool.new([
+        Nem::Node.new(host: '62.75.251.134'),
+        Nem::Node.new(host: '62.75.163.236'),
+        Nem::Node.new(host: '209.126.98.204'),
+        Nem::Node.new(host: '108.61.182.27'),
+        Nem::Node.new(host: '27.134.245.213'),
+        Nem::Node.new(host: '104.168.152.37')
+      ])
+    else
+      Nem::NodePool.new([
+        Nem::Node.new(host: '23.228.67.85'),
+        Nem::Node.new(host: '104.128.226.60'),
+        Nem::Node.new(host: '150.95.145.157'),
+        Nem::Node.new(host: '80.93.182.146'),
+        Nem::Node.new(host: '82.196.9.187'),
+        Nem::Node.new(host: '82.196.9.187'),
+        Nem::Node.new(host: '88.166.14.34')
+      ])
+    end
+
   NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
 
-  NEM_NODE = Nem::Node.new(host: NODE)
   ACCOUNT_ENDPOINT = Nem::Endpoint::Account.new(NEM_NODE)
 
   class << self
@@ -24,21 +42,14 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      puts ">>>>>>>> Wallet Address: #{wallet_address}"
       xem = ACCOUNT_ENDPOINT.find(wallet_address).balance.to_f / 1000000
-      puts ">>>>>>>>>>> XEM #{xem}"
       mosaic = ACCOUNT_ENDPOINT.mosaic_owned(wallet_address)
-      puts ">>>>>>>>>>> Mosaic #{mosaic}"
       account = mosaic.find_by_namespace_id(NAMESPACE)
-      puts ">>>>>>>>>>> account #{account}"
 
       if account.attachments.empty?
-        puts ">>>>>>>>>>> attachments empty"
         { xem: xem }
       else
-        puts ">>>>>>>>>>> attachemnts exists"
         gwx = account.attachments.first.quantity.to_f / 1000000
-        puts ">>>>>>>>>>>>>>>>>> #{gwx}"
         { xem: xem,
           gwx: gwx }
       end
