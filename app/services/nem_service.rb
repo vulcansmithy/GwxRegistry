@@ -12,12 +12,18 @@ class NemService
   NEM_NODE =
     if Rails.env.production?
       Nem::NodePool.new([
-        Nem::Node.new(host: '62.75.251.134'),
-        Nem::Node.new(host: '62.75.163.236'),
-        Nem::Node.new(host: '209.126.98.204'),
-        Nem::Node.new(host: '108.61.182.27'),
-        Nem::Node.new(host: '27.134.245.213'),
-        Nem::Node.new(host: '104.168.152.37')
+        Nem::Node.new(host: '62.75.251.134', timeout: 15),
+        Nem::Node.new(host: '62.75.163.236', timeout: 15),
+        Nem::Node.new(host: '209.126.98.204', timeout: 15),
+        Nem::Node.new(host: '108.61.182.27', timeout: 15),
+        Nem::Node.new(host: '27.134.245.213', timeout: 15),
+        Nem::Node.new(host: '104.168.152.37', timeout: 15),
+        Nem::Node.new(host: '122.116.90.171', timeout: 15),
+        Nem::Node.new(host: '153.122.86.201', timeout: 15),
+        Nem::Node.new(host: '150.95.213.212', timeout: 15),
+        Nem::Node.new(host: '163.44.170.40', timeout: 15),
+        Nem::Node.new(host: '153.126.157.201', timeout: 15),
+        Nem::Node.new(host: '45.76.192.220', timeout: 15)
       ])
     else
       Nem::NodePool.new([
@@ -33,8 +39,6 @@ class NemService
 
   NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
 
-  ACCOUNT_ENDPOINT = Nem::Endpoint::Account.new(NEM_NODE)
-
   class << self
     def create_account(network = DEFAULT_NETWORK)
       private_key = SecureRandom.random_bytes(32)
@@ -42,8 +46,9 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      xem = ACCOUNT_ENDPOINT.find(wallet_address).balance.to_f / 1000000
-      mosaic = ACCOUNT_ENDPOINT.mosaic_owned(wallet_address)
+      account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
+      xem = account_endpoint.find(wallet_address).balance.to_f / 1000000
+      mosaic = account_endpoint.mosaic_owned(wallet_address)
       account = mosaic.find_by_namespace_id(NAMESPACE)
 
       if account.attachments.empty?
@@ -56,7 +61,8 @@ class NemService
     end
 
     def unconfirmed_transactions(source_wallet, destination_wallet, mosaic_name = 'gwx')
-      unconfirmed_transactions = ACCOUNT_ENDPOINT.transfers_unconfirmed(source_wallet)
+      account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
+      unconfirmed_transactions = account_endpoint.transfers_unconfirmed(source_wallet)
       filter_by_destination = unconfirmed_transactions.select { |tx| tx.recipient == destination_wallet }
       total_quantity = nil
 
