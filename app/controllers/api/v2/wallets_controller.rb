@@ -1,4 +1,6 @@
 class Api::V2::WalletsController < Api::V2::BaseController
+  before_action :transform_params
+
   def show
     @wallet = Wallet.find_by(wallet_address: params[:wallet_address])
     if @wallet
@@ -37,7 +39,7 @@ class Api::V2::WalletsController < Api::V2::BaseController
 
       current_gwx_balance = @bal[:gwx] || 0 + unconfirmed_rewards + unconfirmed_cashin - unconfirmed_bets
       available_gwx = @bal[:gwx] || 0
-      
+
       response = {
         unconfirmed_bets: unconfirmed_bets,
         unconfirmed_rewards: unconfirmed_rewards,

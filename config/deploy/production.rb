@@ -1,2 +1,3 @@
-server "13.229.58.101", user: "ubuntu", roles: %w{app web}
+server "54.254.230.189", user: "ubuntu", roles: %w{app web}
+set :rails_env, :production
 set :branch, 'master'

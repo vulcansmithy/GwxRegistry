@@ -2,8 +2,6 @@ require 'base32'
 require 'nem'
 
 class NemService
-  attr_accessor :node, :account_endpoint
-
   DEFAULT_NETWORK = Rails.env.production? ? 'mainnet' : 'testnet'
 
   NETWORKS = {
@@ -11,11 +9,37 @@ class NemService
     MAINNET: '68'
   }
 
-  NODE = Rails.env.production? ? 'hugealice3.nem.ninja' : 'bigalice2.nem.ninja'
-  NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
+  TIMEOUT = 15
 
-  NEM_NODE = Nem::Node.new(host: NODE)
-  ACCOUNT_ENDPOINT = Nem::Endpoint::Account.new(NEM_NODE)
+  NEM_NODE =
+    if Rails.env.production?
+      Nem::NodePool.new([
+        Nem::Node.new(host: '62.75.251.134', timeout: TIMEOUT),
+        Nem::Node.new(host: '62.75.163.236', timeout: TIMEOUT),
+        Nem::Node.new(host: '209.126.98.204', timeout: TIMEOUT),
+        Nem::Node.new(host: '108.61.182.27', timeout: TIMEOUT),
+        Nem::Node.new(host: '27.134.245.213', timeout: TIMEOUT),
+        Nem::Node.new(host: '104.168.152.37', timeout: TIMEOUT),
+        Nem::Node.new(host: '122.116.90.171', timeout: TIMEOUT),
+        Nem::Node.new(host: '153.122.86.201', timeout: TIMEOUT),
+        Nem::Node.new(host: '150.95.213.212', timeout: TIMEOUT),
+        Nem::Node.new(host: '163.44.170.40', timeout: TIMEOUT),
+        Nem::Node.new(host: '153.126.157.201', timeout: TIMEOUT),
+        Nem::Node.new(host: '45.76.192.220', timeout: TIMEOUT)
+      ])
+    else
+      Nem::NodePool.new([
+        Nem::Node.new(host: '23.228.67.85', timeout: TIMEOUT),
+        Nem::Node.new(host: '104.128.226.60', timeout: TIMEOUT),
+        Nem::Node.new(host: '150.95.145.157', timeout: TIMEOUT),
+        Nem::Node.new(host: '80.93.182.146', timeout: TIMEOUT),
+        Nem::Node.new(host: '82.196.9.187', timeout: TIMEOUT),
+        Nem::Node.new(host: '82.196.9.187', timeout: TIMEOUT),
+        Nem::Node.new(host: '88.166.14.34', timeout: TIMEOUT)
+      ])
+    end
+
+  NAMESPACE = Rails.env.production? ? 'gameworks' : 'gameworkss'
 
   class << self
     def create_account(network = DEFAULT_NETWORK)
@@ -24,9 +48,11 @@ class NemService
     end
 
     def check_balance(wallet_address)
-      xem = ACCOUNT_ENDPOINT.find(wallet_address).balance.to_f / 1000000
-      mosaic = ACCOUNT_ENDPOINT.mosaic_owned(wallet_address)
+      account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
+      xem = account_endpoint.find(wallet_address).balance.to_f / 1000000
+      mosaic = account_endpoint.mosaic_owned(wallet_address)
       account = mosaic.find_by_namespace_id(NAMESPACE)
+
       if account.attachments.empty?
         { xem: xem }
       else
@@ -37,7 +63,8 @@ class NemService
     end
 
     def unconfirmed_transactions(source_wallet, destination_wallet, mosaic_name = 'gwx')
-      unconfirmed_transactions = ACCOUNT_ENDPOINT.transfers_unconfirmed(source_wallet)
+      account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
+      unconfirmed_transactions = account_endpoint.transfers_unconfirmed(source_wallet)
       filter_by_destination = unconfirmed_transactions.select { |tx| tx.recipient == destination_wallet }
       total_quantity = nil
 
