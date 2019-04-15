@@ -1,7 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm forgot]
-  before_action :check_current_user, only: %i[edit update update_password]
-  before_action :transform_params, only: %i[create edit update update_password send_notification]
+  before_action :check_current_user, only: %i[edit update]
+  before_action :transform_params, only: %i[create edit update send_notification]
   before_action :set_recipient, only: :send_notification
 
   def index
@@ -60,12 +60,6 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  def update_password
-    if @current_user.update(password_params)
-      success_response(UserSerializer.new(@current_user).serialized_json)
-    end
-  end
-
   def update
     if @current_user.update(update_user_params)
       user_wallet if @current_user.wallet.nil? &&
@@ -107,20 +101,15 @@ class Api::V1::UsersController < Api::V1::BaseController
     params.permit(:wallet_address, { :options => {} })
   end
 
-  def password_params
-    params.permit(
-      :password,
-      :password_confirmation
-    )
-  end
-
   def update_user_params
     params.permit(
       :first_name,
       :last_name,
       :wallet_address,
       :pk,
-      :device_token
+      :device_token,
+      :password,
+      :password_confirmation
     )
   end
 
