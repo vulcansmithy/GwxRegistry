@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     post 'login',      to: 'users#login'
     post 'register',   to: 'users#create'
     get  'user',       to: 'users#show'
+    post 'forgot',     to: 'users#forgot'
     post 'notify',     to: 'users#send_notification'
     get  'player',     to: 'players#my_player'
     get  'publisher',  to: 'publishers#show'
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
         get '/confirm/:code',   to: 'users#confirm'
         get '/:id/resend_code', to: 'users#resend_code'
         get '/:wallet_address', to: 'users#find_player'
+        put '/:id/update_password', to: 'users#update_password'
       end
     end
 

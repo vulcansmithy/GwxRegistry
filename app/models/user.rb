@@ -69,7 +69,22 @@ class User < ApplicationRecord
     send_confirmation_code
   end
 
+  def reset_password!
+    update(temporary_password: generate_temporary_password)
+    update(password: temporary_password, password_confirmation: temporary_password)
+    send_temporary_password
+  end
+
+  def send_temporary_password
+    UserMailer.reset_password(self).deliver_later(wait: 1.second)
+    update(reset_password_sent_at: Time.now.utc)
+  end
+
   private
+
+  def generate_temporary_password
+    SecureRandom.alphanumeric(8)
+  end
 
   def generate_confirmation_code
     loop do
@@ -79,6 +94,6 @@ class User < ApplicationRecord
   end
 
   def raise_expired_code
-    raise ExceptionHandler::ExpiredCode, "Expired confirmation code"
+    raise ExceptionHandler::ExpiredCode, 'Expired confirmation code'
   end
 end

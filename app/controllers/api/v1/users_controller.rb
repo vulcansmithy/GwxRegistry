@@ -1,7 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_request, only: %i[create login confirm]
-  before_action :check_current_user, only: %i[edit update]
-  before_action :transform_params, only: %i[create edit update send_notification]
+  skip_before_action :authenticate_request, only: %i[create login confirm forgot]
+  before_action :check_current_user, only: %i[edit update update_password]
+  before_action :transform_params, only: %i[create edit update update_password send_notification]
   before_action :set_recipient, only: :send_notification
 
   def index
@@ -42,6 +42,27 @@ class Api::V1::UsersController < Api::V1::BaseController
       render json: { message: 'Sent' }, status: :ok
     else
       raise_user_verified
+    end
+  end
+
+  def forgot
+    if params[:email].blank?
+      error_response('', "Email can't be blank", :unprocessable_entity)
+    end
+
+    user = User.find_by(email: params[:email])
+
+    if user.present?
+      user.reset_password!
+      render json: { message: 'Sent' }, status: :ok
+    else
+      error_response('', 'Email address not found', :not_found)
+    end
+  end
+
+  def update_password
+    if @current_user.update(password_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
     end
   end
 
@@ -86,7 +107,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     params.permit(:wallet_address, { :options => {} })
   end
 
-  def update_account_params
+  def password_params
     params.permit(
       :password,
       :password_confirmation
