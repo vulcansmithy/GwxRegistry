@@ -1,6 +1,8 @@
 # Asymmetric Encryption
 class PublicKeyEncryptionService
   
+  # @TODO add method to generate the public key from the private key
+  
   def encrypt(payload)
 
     # retrieve Registry private key

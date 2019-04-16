@@ -5,13 +5,31 @@ RSpec.describe PublicKeyEncryptionService, type: :service do
   it "should be able to use Public-Key Encryption to encrypt a payload" do
     public_key_encryption = PublicKeyEncryptionService.new
     
-    encrypted_payload, nonce = public_key_encryption.encrypt("lorem ipsum")
+    # setup the plaintext payload
+    plaintext_payload = "lorem ipsum"
     
-    puts "@DEBUG L:#{__LINE__}   encrypted_payload... '#{encrypted_payload}'"
-    puts "@DEBUG L:#{__LINE__}               nonce... '#{nonce            }'"
+    # encrypt the plaintext payload
+    encrypted_payload, nonce = public_key_encryption.encrypt(plaintext_payload)
     
-    expect(encrypted_payload.nil?).to eq false
-    expect(nonce.nil?).to eq false
+    # make sure the encrypted payload is correctly decrypted
+    expect(decrypt(encrypted_payload, nonce)).to eq plaintext_payload
   end
+  
+  def decrypt(encrypted_payload, nonce)
     
+    # decode the base64 public key of Registry
+    registry_public_key = RbNaCl::PublicKey.new(Base64.urlsafe_decode64(Rails.application.secrets.registry_public_key))
+    
+    # decode the base64 private key of Cashier
+    cashier_private_key = RbNaCl::PublicKey.new(Base64.urlsafe_decode64("LSHtsZqVQiygbf97PyYjedu_ts5i9vJabw0R6saRP9Y="))
+    
+    # setup a Test Box
+    test_box = RbNaCl::Box.new(registry_public_key, cashier_private_key)
+
+    # decrypt the encrypted payload
+    decrypted_payload = test_box.decrypt(Base64.urlsafe_decode64(nonce), Base64.urlsafe_decode64(encrypted_payload))
+
+
+    return decrypted_payload
+  end  
 end
