@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  use_doorkeeper
+  use_doorkeeper do
+    controllers :applications => 'oauth/applications'
+  end
 
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?

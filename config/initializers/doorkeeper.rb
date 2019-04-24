@@ -7,6 +7,10 @@ Doorkeeper.configure do
     User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 
+  # Set to true to require applications to be related to user
+  enable_application_owner :confirmation => true
+
+
   # resource_owner_from_credentials do |routes|
   #   user = User.find_by_email params[:email]
   #   if user

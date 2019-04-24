@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_one :publisher, dependent: :destroy
   has_one :wallet,    as: :account
 
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
+
   has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
                            foreign_key: :resource_owner_id,
                            dependent: :delete_all # or :destroy if you need callbacks
