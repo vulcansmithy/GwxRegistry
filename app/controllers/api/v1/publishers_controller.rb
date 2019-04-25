@@ -1,10 +1,5 @@
 class Api::V1::PublishersController < Api::V1::BaseController
   before_action :transform_params, only: %i[create edit update]
-  before_action :check_current_user, except: %i[index show create]
-  before_action only: :create do
-    check_player_publisher_account(@current_user, "publisher")
-  end
-  before_action :set_publisher, only: %i[edit update show]
 
   def index
     @publishers = Publisher.all
