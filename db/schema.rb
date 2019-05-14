@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_041918) do
+ActiveRecord::Schema.define(version: 2019_05_14_022401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "publisher_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publisher_id"], name: "index_games_on_publisher_id"
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
@@ -112,11 +121,15 @@ ActiveRecord::Schema.define(version: 2019_04_17_041918) do
     t.datetime "updated_at", null: false
     t.string "encrypted_pk"
     t.string "encrypted_pk_iv"
+    t.string "encrypted_custodian_key"
+    t.string "encrypted_custodian_key_iv"
     t.index ["account_type", "account_id"], name: "index_wallets_on_account_type_and_account_id"
+    t.index ["encrypted_custodian_key_iv"], name: "index_wallets_on_encrypted_custodian_key_iv", unique: true
     t.index ["encrypted_pk_iv"], name: "index_wallets_on_encrypted_pk_iv", unique: true
     t.index ["wallet_address"], name: "index_wallets_on_wallet_address", unique: true
   end
 
+  add_foreign_key "games", "publishers"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "players", "users"
