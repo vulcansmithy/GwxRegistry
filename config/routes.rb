@@ -54,6 +54,10 @@ Rails.application.routes.draw do
         get '/:wallet_address/balance', to: 'wallets#balance'
       end
     end
+
+    resources :games do
+      resources :actions
+    end
   end
   root :to => 'home#index'
 
