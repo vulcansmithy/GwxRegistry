@@ -1,16 +1,19 @@
 class Api::V1::GamesController < Api::V1::BaseController
+  skip_before_action :doorkeeper_authorize!
+  before_action :set_publisher, only: :create
+  before_action :set_game, only: %i[show update]
+
   def index
     @games = Games.all
     success_response(GameSerializer.new(@games).serialized_json)
   end
 
   def show
-    @game = Game.find(params[:game_id])
     success_response(GameSerializer.new(@game).serialized_json)
   end
 
   def create
-    @game = @current_user.create(game_params)
+    @game = @publisher.games.new(game_params)
     if @game.save
       success_response(GameSerializer.new(@game).serialized_json)
     else
@@ -18,7 +21,7 @@ class Api::V1::GamesController < Api::V1::BaseController
                      :unprocessable_entity)
     end
   end
-  
+
   def edit
     success_response(GameSerializer.new(@game).serialized_json)
   end
@@ -36,5 +39,16 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def game_params
     params.permit(:name, :description)
+  end
+
+  def set_publisher
+    @publisher = @current_user.publisher
+    unless @publisher
+      error_response("", "Publisher account does not exist", :unauthorized)
+    end
+  end
+
+  def set_game
+    @game = @publisher.games.find(params[:id])
   end
 end

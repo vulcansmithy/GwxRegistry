@@ -3,7 +3,9 @@ class GameSerializer < ActiveModel::Serializer
 
   set_key_transform :camel_lower
 
-  attributes :user_id, 
+  attributes :id,
              :name,
              :description
+
+  belongs_to :publisher
 end

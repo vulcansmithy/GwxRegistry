@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get  'user',       to: 'users#show'
     post 'forgot',     to: 'users#forgot'
     post 'notify',     to: 'users#send_notification'
-    get  'player',     to: 'players#my_player'
+    get  'player',     to: 'player_profiles#my_player'
     get  'publisher',  to: 'publishers#show'
 
     resources :users, :except => [:destroy, :show] do
@@ -40,11 +40,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, :except => [:show, :destroy] do
+    resources :player_profiles, :except => [:show, :destroy] do
       collection do
-        get   '/:user_id', to: 'players#show'
-        patch '/:user_id', to: 'players#update'
-        put   '/:user_id', to: 'players#update'
+        get   '/:user_id', to: 'player_profiles#show'
+        patch '/:user_id', to: 'player_profiles#update'
+        put   '/:user_id', to: 'player_profiles#update'
       end
     end
 
