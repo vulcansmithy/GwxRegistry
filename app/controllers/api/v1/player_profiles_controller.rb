@@ -26,10 +26,6 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     end
   end
 
-  def edit
-    render json: { player: PlayerSerializer.new(@player).serialized_json }
-  end
-
   def update
     if @player.update(player_params)
       success_response(PlayerSerializer.new(@player).serialized_json)

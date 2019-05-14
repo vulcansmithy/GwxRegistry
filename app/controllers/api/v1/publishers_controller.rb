@@ -1,5 +1,5 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  before_action :transform_params, only: %i[create edit update]
+  before_action :transform_params, only: %i[create update]
 
   def index
     @publishers = Publisher.all
@@ -20,10 +20,6 @@ class Api::V1::PublishersController < Api::V1::BaseController
       error_response("Unable to create publisher account",
                      @publisher.errors.full_messages, :unprocessable_entity)
     end
-  end
-
-  def edit
-    success_response(PublisherSerializer.new(@publisher).serialized_json)
   end
 
   def update

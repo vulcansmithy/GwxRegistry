@@ -4,7 +4,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   before_action :set_game, only: %i[show update]
 
   def index
-    @games = Games.all
+    @games = Game.all
     success_response(GameSerializer.new(@games).serialized_json)
   end
 
@@ -20,10 +20,6 @@ class Api::V1::GamesController < Api::V1::BaseController
       error_response("Unable to create game", @game.errors.full_messages,
                      :unprocessable_entity)
     end
-  end
-
-  def edit
-    success_response(GameSerializer.new(@game).serialized_json)
   end
 
   def update
