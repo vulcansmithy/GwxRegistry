@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_022401) do
+ActiveRecord::Schema.define(version: 2019_05_14_033512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,14 +69,14 @@ ActiveRecord::Schema.define(version: 2019_05_14_022401) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "players", force: :cascade do |t|
+  create_table "player_profiles", force: :cascade do |t|
     t.string "username"
     t.decimal "balance", precision: 8, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.index ["user_id"], name: "index_players_on_user_id"
-    t.index ["username"], name: "index_players_on_username", unique: true
+    t.index ["user_id"], name: "index_player_profiles_on_user_id"
+    t.index ["username"], name: "index_player_profiles_on_username", unique: true
   end
 
   create_table "publishers", force: :cascade do |t|
@@ -132,6 +132,6 @@ ActiveRecord::Schema.define(version: 2019_05_14_022401) do
   add_foreign_key "games", "publishers"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "players", "users"
+  add_foreign_key "player_profiles", "users"
   add_foreign_key "publishers", "users"
 end

@@ -1,4 +1,4 @@
-class Api::V1::PlayersController < Api::V1::BaseController
+class Api::V1::PlayerProfilesController < Api::V1::BaseController
   before_action :transform_params, only: :create
 
   def index
@@ -24,10 +24,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
       error_response("Unable to create player account",
                      @player.errors.full_messages, :unprocessable_entity)
     end
-  end
-
-  def edit
-    render json: { player: PlayerSerializer.new(@player).serialized_json }
   end
 
   def update
