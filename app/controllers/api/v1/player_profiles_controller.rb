@@ -1,4 +1,4 @@
-class Api::V1::PlayersController < Api::V1::BaseController
+class Api::V1::PlayerProfilesController < Api::V1::BaseController
   before_action :transform_params, only: :create
 
   def index
