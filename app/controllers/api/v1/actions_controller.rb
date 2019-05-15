@@ -6,32 +6,31 @@ class Api::V1::ActionsController < Api::V1::BaseController
   before_action :set_action, only: %i[show update destroy]
 
   def index
-    actions = @game.actions
-    success_response ActionSerializer.new(actions).serialized_json
+    @actions = @game.actions
+    success_response ActionSerializer.new(@actions).serialized_json
   end
 
   def show
-    action = @game.actions.find params[:id]
-    success_response ActionSerializer.new(action).serialized_json
+    success_response ActionSerializer.new(@action).serialized_json
   end
 
   def create
-    action = @game.actions.new action_params
-    if action.save
-      success_response ActionSerializer.new(action).serialized_json
+    @action = @game.actions.new action_params
+    if @action.save
+      success_response ActionSerializer.new(@action).serialized_json
     else
       error_response "Unable to create action",
-                     action.errors.full_messages,
+                     @action.errors.full_messages,
                      :unprocessable_entity
     end
   end
 
   def update
     if @action.update action_params
-      success_response ActionSerializer.new(action).serialized_json
+      success_response ActionSerializer.new(@action).serialized_json
     else
       error_response "Unable to update action",
-                     action.errors.full_messages,
+                     @action.errors.full_messages,
                      :unprocessable_entity
     end
   end

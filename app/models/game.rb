@@ -2,7 +2,8 @@ class Game < ApplicationRecord
   after_commit :create_account, on: :create
   belongs_to  :publisher
   has_one :wallet, as: :account
-  
+  has_many :actions
+
   private
 
   def create_account
