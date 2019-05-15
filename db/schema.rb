@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_033512) do
+ActiveRecord::Schema.define(version: 2019_05_14_053147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.float "fixed_amount"
+    t.float "unit_fee"
+    t.boolean "fixed"
+    t.boolean "rate"
+    t.bigint "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_actions_on_game_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -129,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_05_14_033512) do
     t.index ["wallet_address"], name: "index_wallets_on_wallet_address", unique: true
   end
 
+  add_foreign_key "actions", "games"
   add_foreign_key "games", "publishers"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
