@@ -17,7 +17,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
   def create
     @action = @game.actions.new action_params
     if @action.save
-      success_response ActionSerializer.new(@action).serialized_json
+      success_response ActionSerializer.new(@action).serialized_json, :created
     else
       error_response "Unable to create action",
                      @action.errors.full_messages,
@@ -59,18 +59,18 @@ class Api::V1::ActionsController < Api::V1::BaseController
     )
   end
 
+  def set_publisher
+    @publisher = @current_user.publisher
+    unless @publisher
+      error_response("", "Publisher account does not exist", :unauthorized)
+    end
+  end
+
   def set_game
     @game = @publisher.games.find params[:game_id]
   end
 
   def set_action
     @action = @game.actions.find params[:id]
-  end
-
-  def set_publisher
-    @publisher = @current_user.publisher
-    unless @publisher
-      error_response("", "Publisher account does not exist", :unauthorized)
-    end
   end
 end
