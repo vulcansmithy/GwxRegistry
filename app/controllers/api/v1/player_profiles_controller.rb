@@ -21,7 +21,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     if @player_profile.save
       success_response(PlayerProfileSerializer.new(@player_profile).serialized_json, :created)
     else
-      error_response("Unable to create player account",
+      error_response('Unable to create player account',
                      @player_profile.errors.full_messages, :unprocessable_entity)
     end
   end
@@ -30,7 +30,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     if @player_profile.update(player_profile_params)
       success_response(PlayerProfileSerializer.new(@player_profile).serialized_json)
     else
-      error_response("Unable to update player profile",
+      error_response('Unable to update player profile',
                      @player_profile.errors.full_messages, :unprocessable_entity)
     end
   end
@@ -44,8 +44,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   def set_player_profile
     @player_profile = @current_user.player_profile
     unless @player_profile
-      error_response("You don't have an existing player profile",
-                     "Player profile does not exist", :not_found)
+      error_response('', 'Player profile does not exist', :not_found)
     end
   end
 end

@@ -16,4 +16,5 @@ class Publisher < ApplicationRecord
       wallet_address: account[:address],
       pk: account[:priv_key]
     )
+  end
 end

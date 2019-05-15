@@ -5,7 +5,10 @@
                       password: "password",
                       wallet_address: "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW")
 
-  user.create_player(username: "player#{i}")
   user.create_publisher(publisher_name: "test_publisher_#{i}",
                         wallet_address: "TB52BO2NECER6ZJSNZM6AUTYXNCT53KLZBNI4Z32")
 end
+
+  game = Publisher.last.games.create!(name: "space invaders", description: "shooting game")
+
+  player_profile = User.last.player_profiles.create!(username: "player", game_id: Game.last.id)
