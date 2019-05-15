@@ -1,22 +1,21 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
-  before_action :transform_params, only: :create
+  skip_before_action :doorkeeper_authorize!
+  before_action :transform_params, only: %i[create update]
+  before_action :set_player_profile, only: %i[show update]
 
   def index
-    @player_profiles = PlayerProfile.all
+    @player_profiles = @current_user.player_profiles
     success_response(PlayerProfileSerializer.new(@player_profiles).serialized_json)
   end
 
   def show
-    @player_profile = PlayerProfile.find(params[:user_id])
-    success_response(PlayerProfileSerializer.new(@player).serialized_json)
-  end
-
-  def my_player_profile
-    success_response(PlayerProfileSerializer.new(@current_user.player_profile).serialized_json)
+    @player_profile = PlayerProfile.find(params[:id])
+    success_response(PlayerProfileSerializer.new(@player_profile).serialized_json)
   end
 
   def create
-    @player_profile = @current_user.player_profiles.create(player_profile_params)
+    @game = Game.find(params[:game_id])
+    @player_profile = @current_user.player_profiles.new(profile_params.merge(game_id: @game.id))
 
     if @player_profile.save
       success_response(PlayerProfileSerializer.new(@player_profile).serialized_json, :created)
@@ -27,7 +26,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   end
 
   def update
-    if @player_profile.update(player_profile_params)
+    if @player_profile.update(profile_params)
       success_response(PlayerProfileSerializer.new(@player_profile).serialized_json)
     else
       error_response('Unable to update player profile',
@@ -37,14 +36,11 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
 
   private
 
-  def player_profile_params
-    params.permit(:user_id, username)
+  def profile_params
+    params.permit(:username)
   end
 
   def set_player_profile
-    @player_profile = @current_user.player_profile
-    unless @player_profile
-      error_response('', 'Player profile does not exist', :not_found)
-    end
+    @player_profile = @current_user.player_profiles.find params[:id]
   end
 end

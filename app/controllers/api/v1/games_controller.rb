@@ -1,7 +1,7 @@
 class Api::V1::GamesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :set_publisher, only: :create
-  before_action :set_game, only: %i[show update]
+  before_action :set_game, only: %i[show update player_profiles]
   before_action :transform_params, only: :create
 
   def index
@@ -30,6 +30,11 @@ class Api::V1::GamesController < Api::V1::BaseController
       error_response('Unable to update game details',
                      @game.errors.full_messages, :unprocessable_entity)
     end
+  end
+
+  def player_profiles
+    @player_profiles = @game.player_profiles
+    success_response(PlayerProfileSerializer.new(@player_profiles).serialized_json)
   end
 
   private
