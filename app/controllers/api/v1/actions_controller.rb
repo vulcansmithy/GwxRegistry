@@ -17,22 +17,22 @@ class Api::V1::ActionsController < Api::V1::BaseController
 
   def create
     action = @game.actions.new action_params
-
     if action.save
       success_response ActionSerializer.new(action).serialized_json
     else
-      error_response(
-        "Unable to create action",
-        action.errors.full_messages,
-        :unprocessable_entity
-      )
+      error_response "Unable to create action",
+                     action.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
   def update
     if @action.update action_params
-      success_response(ActionSerializer.new(action).serialized_json)
+      success_response ActionSerializer.new(action).serialized_json
     else
+      error_response "Unable to update action",
+                     action.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
@@ -40,11 +40,9 @@ class Api::V1::ActionsController < Api::V1::BaseController
     if @action.destroy
       render status: :no_content
     else
-      error_response(
-        "Unable to create action",
-        @action.errors.full_messages,
-        :unprocessable_entity
-      )
+      error_response "Unable to create action",
+                     @action.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
