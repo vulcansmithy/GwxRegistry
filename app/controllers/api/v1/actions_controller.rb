@@ -1,5 +1,7 @@
 class Api::V1::ActionsController < Api::V1::BaseController
+  skip_before_action :doorkeeper_authorize
   before_action :transform_params
+  before_action :set_publisher
   before_action :set_game
   before_action :set_action, only: %i[show update destroy]
 
@@ -61,10 +63,17 @@ class Api::V1::ActionsController < Api::V1::BaseController
   end
 
   def set_game
-    @game = Game.find params[:game_id]
+    @game = @publisher.games.find params[:game_id]
   end
 
   def set_action
     @action = @game.actions.find params[:id]
+  end
+
+  def set_publisher
+    @publisher = @current_user.publisher
+    unless @publisher
+      error_response("", "Publisher account does not exist", :unauthorized)
+    end
   end
 end
