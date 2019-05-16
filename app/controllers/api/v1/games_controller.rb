@@ -1,7 +1,8 @@
 class Api::V1::GamesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :set_publisher, only: :create
-  before_action :set_game, only: %i[show update]
+  before_action :set_game, only: %i[show update player_profiles]
+  before_action :transform_params, only: :create
 
   def index
     @games = Game.all
@@ -17,7 +18,7 @@ class Api::V1::GamesController < Api::V1::BaseController
     if @game.save
       success_response(GameSerializer.new(@game).serialized_json)
     else
-      error_response("Unable to create game", @game.errors.full_messages,
+      error_response('Unable to create game', @game.errors.full_messages,
                      :unprocessable_entity)
     end
   end
@@ -26,9 +27,14 @@ class Api::V1::GamesController < Api::V1::BaseController
     if @game.update(game_params)
       success_response(GameSerializer.new(@game).serialized_json)
     else
-      error_response("Unable to update game details",
+      error_response('Unable to update game details',
                      @game.errors.full_messages, :unprocessable_entity)
     end
+  end
+
+  def player_profiles
+    @player_profiles = @game.player_profiles
+    success_response(PlayerProfileSerializer.new(@player_profiles).serialized_json)
   end
 
   private
@@ -40,7 +46,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   def set_publisher
     @publisher = @current_user.publisher
     unless @publisher
-      error_response("", "Publisher account does not exist", :unauthorized)
+      error_response('', 'Publisher account does not exist', :unauthorized)
     end
   end
 

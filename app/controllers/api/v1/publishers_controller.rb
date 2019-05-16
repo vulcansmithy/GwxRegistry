@@ -1,4 +1,6 @@
 class Api::V1::PublishersController < Api::V1::BaseController
+  skip_before_action :doorkeeper_authorize!
+
   before_action :transform_params, only: %i[create update]
 
   def index

@@ -40,13 +40,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :player_profiles, :except => [:show, :destroy] do
-      collection do
-        get   '/:user_id', to: 'player_profiles#show'
-        patch '/:user_id', to: 'player_profiles#update'
-        put   '/:user_id', to: 'player_profiles#update'
-      end
-    end
+    resources :player_profiles, :except => [:new, :edit]
 
     resources :wallets, :except => [:show] do
       collection do
@@ -57,6 +51,9 @@ Rails.application.routes.draw do
 
     resources :games do
       resources :actions
+      collection do
+        get '/player_profiles', to: 'games#player_profiles'
+      end
     end
   end
   root :to => 'home#index'
