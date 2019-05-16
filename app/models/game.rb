@@ -3,7 +3,7 @@ class Game < ApplicationRecord
   belongs_to :publisher
   has_many :player_profiles
   has_one :wallet, as: :account
-  has_many :actions
+  has_many :actions, dependent: :destroy
 
   private
 
