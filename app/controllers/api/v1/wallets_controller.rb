@@ -1,4 +1,5 @@
 class Api::V1::WalletsController < Api::V1::BaseController
+  skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request, only: :show
   before_action :transform_params
 
@@ -40,7 +41,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
       current_gwx_balance = (@bal[:gwx] || 0) + unconfirmed_rewards + unconfirmed_cashin - unconfirmed_bets
       available_gwx = @bal[:gwx] || 0
-      
+
       response = {
         unconfirmed_bets: unconfirmed_bets,
         unconfirmed_rewards: unconfirmed_rewards,
