@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
 
-  # api_version(
-  #   :module    => "Api::V1",
-  #   :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
-  #   :parameter => { :name   => "version", :value => "1" },
-  #   :path      => { :value  => "v1"   },
-  #   :defaults  => { :format => "json" },
-  #   :default   => true) do
+  api_version(
+    :module    => "Api::V1",
+    :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
+    :parameter => { :name   => "version", :value => "1" },
+    :path      => { :value  => "v1"   },
+    :defaults  => { :format => "json" },
+    :default   => true) do
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
@@ -68,8 +68,8 @@ Rails.application.routes.draw do
         get '/player_profiles', to: 'games#player_profiles'
       end
     end
-  # end
-  # root :to => 'home#index'
+  end
+  root :to => 'home#index'
 
   # api_version(
   #   :module    => "Api::V2",

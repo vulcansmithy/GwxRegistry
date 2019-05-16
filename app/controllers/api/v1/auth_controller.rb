@@ -9,7 +9,7 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
   
   def register
-    @user = User.create(user_params)
+    @user = User.new(user_params)
     if @user.save
       authenticate user_params[:email], user_params[:password]
     else
