@@ -55,6 +55,8 @@ Rails.application.routes.draw do
         get '/player_profiles', to: 'games#player_profiles'
       end
     end
+
+    resources :triggers, :only => [:create]
   end
   root :to => 'home#index'
 
@@ -104,6 +106,8 @@ Rails.application.routes.draw do
         get '/:wallet_address/balance', to: 'wallets#balance'
       end
     end
+
+
   end
   root :to => 'home#index'
 end
