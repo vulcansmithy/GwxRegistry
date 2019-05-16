@@ -32,6 +32,15 @@ class Api::V1::GamesController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    if @game.destroy
+      render status: :no_content
+    else
+      error_response('', 'Unable to delete game',
+                     @game.errors.full_messages, :unprocessable_entity)
+    end
+  end
+
   def player_profiles
     @player_profiles = @game.player_profiles
     success_response(PlayerProfileSerializer.new(@player_profiles).serialized_json)
