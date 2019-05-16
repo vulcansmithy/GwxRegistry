@@ -16,6 +16,6 @@ class Api::V1::TriggersController < Api::V1::BaseController
 
   private
   def trigger_params
-    params.permit(:game_id, :player_profile_id)
+    params.permit(:action_id, :player_profile_id)
   end
 end
