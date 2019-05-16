@@ -2,10 +2,16 @@ require "rails_helper"
 
 describe Api::V1::ActionsController do
   let!(:user) { create(:user) }
+  let!(:player_user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
+  let!(:player_profile) { create(:player_profile, user: player_user, game: game) }
   let!(:actions) { create_list(:action, 3, game: game) }
   let!(:action) { build(:action) }
+  let!(:triggers) do
+    create_list :trigger, 5, action: Action.first,
+                             player_profile: player_profile
+  end
   let!(:valid_headers) { generate_headers(user) }
 
   let(:action_params) do
@@ -82,7 +88,7 @@ describe Api::V1::ActionsController do
   describe "GET /games/:game_id/actions/:id" do
     context "when action exists" do
       before do
-        get "/v1/games/#{game.id}/actions/#{Action.last.id}",
+        get "/v1/games/#{game.id}/actions/#{Action.first.id}",
             params: {},
             headers: valid_headers
       end
@@ -108,7 +114,7 @@ describe Api::V1::ActionsController do
   describe "PUT /games/:game_id/actions/:id" do
     context "and action params are valid" do
       before do
-        put "/v1/games/#{game.id}/actions/#{Action.last.id}",
+        put "/v1/games/#{game.id}/actions/#{Action.first.id}",
             params: { name: "New name" }.to_json,
             headers: valid_headers
       end
@@ -124,13 +130,40 @@ describe Api::V1::ActionsController do
 
     context "and action params are invalid" do
       before do
-        put "/v1/games/#{game.id}/actions/#{Action.last.id}",
+        put "/v1/games/#{game.id}/actions/#{Action.first.id}",
             params: { name: nil }.to_json,
             headers: valid_headers
       end
 
       it "should return status 422" do
         expect(response.status).to eq 422
+      end
+    end
+  end
+
+  describe 'GET /actions/:id/triggers' do
+    context 'when action is found' do
+      before do
+        get "/v1/actions/#{Action.first.id}/triggers",
+            params: {},
+            headers: valid_headers
+      end
+
+      it 'should return status 200' do
+        expect(response.status).to eq 200
+      end
+
+      it 'should return correct triggers result' do
+        expect(json['data'].count).to eq 5
+      end
+    end
+
+    context 'when action is not found' do
+      before do
+        get '/v1/actions/-1/triggers', params: {}, headers: valid_headers
+      end
+      it 'should return status 404' do
+        expect(response).to have_http_status :not_found
       end
     end
   end
