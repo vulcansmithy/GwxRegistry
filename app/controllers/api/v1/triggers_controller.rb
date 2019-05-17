@@ -7,7 +7,7 @@ class Api::V1::TriggersController < Api::V1::BaseController
 
     if @trigger.save
       process_trigger(trigger) unless Rails.env.test?
-      success_response TriggerSerializer.new(@trigger).serialized_json
+      success_response TriggerSerializer.new(@trigger).serialized_json,
                        :created
     else
       error_response "Unable to create trigger",
