@@ -4,6 +4,7 @@ describe Api::V1::GamesController do
   let!(:user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
+  let!(:games) { create_list(:game, 2, publisher: publisher_user) }
   let!(:valid_headers) { generate_headers(user) }
 
   let!(:game_params) do
@@ -23,12 +24,16 @@ describe Api::V1::GamesController do
     it "should return status 200" do
       expect(response.status).to eq 200
     end
+
+    it "should return correct results" do
+      expect(json['data'].count).to eq 3
+    end
   end
 
   describe "POST /games/" do
     context "when game params are valid" do
       before do
-        post "/v1/games/",
+        post "/v1/games",
              params: game_params.to_json,
              headers: valid_headers
       end
@@ -44,13 +49,39 @@ describe Api::V1::GamesController do
 
     context "when game params are invalid" do
       before do
-        post "/v1/games/",
+        post "/v1/games",
              params: game_params.except(:name).to_json,
              headers: valid_headers
       end
 
       it "should return status 422" do
         expect(response.status).to eq 422
+      end
+    end
+  end
+
+  describe "GET /games/:id" do
+    context "when game exists" do
+      before do
+        get "/v1/games/#{Game.last.id}",
+            params: {},
+            headers: valid_headers
+      end
+
+      it "should return status 200" do
+        expect(response.status).to eq 200
+      end
+    end
+
+    context "when action doesn't exists" do
+      before do
+        get "/v1/games/-1",
+            params: {},
+            headers: valid_headers
+      end
+
+      it "should return status 404" do
+        expect(response.status).to eq 404
       end
     end
   end
@@ -74,7 +105,7 @@ describe Api::V1::GamesController do
 
     context "when game params are invalid" do
       before do
-        put "/v1/games#{Game.last.id}",
+        put "/v1/games/#{Game.last.id}",
           params: { name: nil }.to_json,
           headers: valid_headers
       end
@@ -87,7 +118,7 @@ describe Api::V1::GamesController do
 
   describe "DELETE /games/:id" do
     before do
-      delete "/v1/games/#{id}",
+      delete "/v1/games/#{Game.last.id}",
              params: {},
              headers: valid_headers
     end
@@ -95,17 +126,9 @@ describe Api::V1::GamesController do
     it "should return status 204" do
       expect(response.status).to eq 204
     end
-  end
-
-  describe "GET /games/:id/player_profiles" do
-    before do
-      get "/v1/games/player_profiles ",
-          params: {},
-          headers: valid_headers
-    end
-
-    it "should return status 200" do
-      expect(response.status).to eq 200
+ 
+    it "should delete the record" do
+      expect(Game.all.count).to eq 2
     end
   end
 end
