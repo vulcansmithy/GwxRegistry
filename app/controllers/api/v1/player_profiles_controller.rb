@@ -1,7 +1,7 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :transform_params, only: %i[create update]
-  before_action :set_player_profile, only: %i[show update destroy]
+  before_action :set_player_profile, only: %i[show update destroy triggers]
 
   def index
     @player_profiles = @current_user.player_profiles
@@ -41,6 +41,11 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
       error_response('Unable to delete player profile',
                      @player_profile.errors.full_messages, :unprocessable_entity)
     end
+  end
+
+  def triggers
+    @triggers = @player_profile.triggers
+    success_response TriggerSerializer.new(@triggers).serialized_json
   end
 
   private

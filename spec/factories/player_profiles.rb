@@ -1,8 +1,7 @@
 FactoryBot.define do
-
-  factory :player do
-    user     # define User association
+  factory :player_profile do
+    user
+    game
     username { "#{user.first_name}.#{user.last_name}".downcase }
   end
-  
 end

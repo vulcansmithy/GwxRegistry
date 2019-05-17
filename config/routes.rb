@@ -46,7 +46,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :player_profiles, :except => [:new, :edit]
+    resources :player_profiles, :except => [:new, :edit] do
+      member do
+        get '/triggers', to: 'player_profiles#triggers'
+      end
+    end
 
     resources :wallets, :except => [:show] do
       collection do
@@ -57,8 +61,14 @@ Rails.application.routes.draw do
 
     resources :games do
       resources :actions
-      collection do
+      member do
         get '/player_profiles', to: 'games#player_profiles'
+      end
+    end
+
+    resources :actions, only: [] do
+      member do
+        get '/triggers', to: 'actions#triggers'
       end
     end
 

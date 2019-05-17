@@ -2,7 +2,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :transform_params
   before_action :set_publisher
-  before_action :set_game
+  before_action :set_game, except: :triggers
   before_action :set_action, only: %i[show update destroy]
 
   def index
@@ -43,6 +43,12 @@ class Api::V1::ActionsController < Api::V1::BaseController
                      @action.errors.full_messages,
                      :unprocessable_entity
     end
+  end
+
+  def triggers
+    @action = Action.find params[:id]
+    @triggers = @action.triggers
+    success_response TriggerSerializer.new(@triggers).serialized_json
   end
 
   private
