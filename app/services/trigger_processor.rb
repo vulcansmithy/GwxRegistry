@@ -18,7 +18,7 @@ class TriggerProcessor
 
     body = {
       source_wallet_address: @source_wallet,
-      destination_wallet_address: @destination_wallte,
+      destination_wallet_address: @destination_wallet,
       quantity: @quantity
     }.to_json
 
