@@ -6,16 +6,23 @@ class Api::V1::TriggersController < Api::V1::BaseController
     @trigger = Trigger.new(trigger_params)
 
     if @trigger.save
-      success_response(TriggerSerializer.new(@trigger).serialized_json,
-                       :created)
+      process_trigger(trigger) unless Rails.env.test?
+      success_response TriggerSerializer.new(@trigger).serialized_json
+                       :created
     else
-      error_response("Unable to create trigger",
-                     @trigger.errors.full_messages, :unprocessable_entity)
+      error_response "Unable to create trigger",
+                     @trigger.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
   private
+
   def trigger_params
-    params.permit(:action_id, :player_profile_id)
+    params.permit(:action_id, :player_profile_id, :quantity)
+  end
+
+  def process_trigger(trigger)
+    TriggerProcessor.new(@trigger, {quantity: params[:quantity]})
   end
 end
