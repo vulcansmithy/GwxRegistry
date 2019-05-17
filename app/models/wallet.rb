@@ -7,7 +7,7 @@ class Wallet < ApplicationRecord
   TYPES = %w[Game User PlayerProfile Publisher].freeze
 
   validates_uniqueness_of :wallet_address
-  validates :account_type, inclusion: { in: TYPE }
+  validates :account_type, inclusion: { in: TYPES }
 
   def type
     account_type
