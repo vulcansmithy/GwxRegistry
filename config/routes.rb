@@ -38,11 +38,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :publishers, :except => [:show, :update, :destroy, :index] do
+    resources :publishers, :except => [:update, :destroy] do
       collection do
-        get   '/:user_id', to: 'publishers#show'
-        patch '/:user_id', to: 'publishers#update'
-        put   '/:user_id', to: 'publishers#update'
+        put   '/me',        to: 'publishers#update'
+        get   '/me/games',  to: 'publishers#games'
       end
     end
 
