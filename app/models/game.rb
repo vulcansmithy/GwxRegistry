@@ -5,6 +5,8 @@ class Game < ApplicationRecord
   has_one :wallet, as: :account
   has_many :actions, dependent: :destroy
 
+  validates_presence_of :name, :description
+
   private
 
   def create_account
