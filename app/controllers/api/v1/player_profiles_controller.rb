@@ -5,12 +5,11 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
 
   def index
     @player_profiles = @current_user.player_profiles
-    success_response(PlayerProfileSerializer.new(@player_profiles).serialized_json)
+    success_response PlayerProfileSerializer.new(@player_profiles).serialized_json
   end
 
   def show
-    @player_profile = PlayerProfile.find(params[:id])
-    success_response(PlayerProfileSerializer.new(@player_profile).serialized_json)
+    success_response PlayerProfileSerializer.new(@player_profile).serialized_json
   end
 
   def create
@@ -18,19 +17,20 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     @player_profile = @current_user.player_profiles.new(profile_params.merge(game_id: @game.id))
 
     if @player_profile.save
-      success_response(PlayerProfileSerializer.new(@player_profile).serialized_json, :created)
+      success_response PlayerProfileSerializer.new(@player_profile).serialized_json, :created
     else
-      error_response('Unable to create player account',
-                     @player_profile.errors.full_messages, :unprocessable_entity)
+      error_response 'Unable to create player account',
+                     @player_profile.errors.full_messages, :unprocessable_entity
     end
   end
 
   def update
     if @player_profile.update(profile_params)
-      success_response(PlayerProfileSerializer.new(@player_profile).serialized_json)
+      success_response PlayerProfileSerializer.new(@player_profile).serialized_json
     else
-      error_response('Unable to update player profile',
-                     @player_profile.errors.full_messages, :unprocessable_entity)
+      error_response 'Unable to update player profile',
+                     @player_profile.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
@@ -38,8 +38,9 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     if @player_profile.destroy
       render status: :no_content
     else
-      error_response('Unable to delete player profile',
-                     @player_profile.errors.full_messages, :unprocessable_entity)
+      error_response 'Unable to delete player profile',
+                     @player_profile.errors.full_messages,
+                     :unprocessable_entity
     end
   end
 
