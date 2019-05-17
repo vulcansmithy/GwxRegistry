@@ -30,7 +30,10 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def me
-    success_response(UserSerializer.new(@current_user).serialized_json)
+    success_response UserSerializer.new(
+      @current_user,
+      include: [:publisher, :player_profiles]
+    ).serialized_json
   end
 
   def confirm

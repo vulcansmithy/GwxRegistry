@@ -13,4 +13,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :wallet_address do |user|
     user.wallet.try(:wallet_address)
   end
+
+  has_one :publisher
+  has_many :player_profiles
 end

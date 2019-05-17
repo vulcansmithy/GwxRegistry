@@ -108,11 +108,18 @@ describe Api::V1::AuthController do
     before do
       get '/v1/auth/me', params: {}, headers: valid_headers
     end
+
     it 'should return status 200' do
       expect(response.status).to eq 200
     end
+
     it 'should return correct result' do
       expect(json['data']['attributes']['firstName']).to eq user2.first_name
+    end
+
+    it 'should include relationship payload' do
+      expect(json['data']['relationships'].keys.include?('publisher')).to be_truthy
+      expect(json['data']['relationships'].keys.include?('playerProfiles')).to be_truthy
     end
   end
 
