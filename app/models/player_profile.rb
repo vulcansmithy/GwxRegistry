@@ -1,11 +1,12 @@
-class Publisher < ApplicationRecord
+class PlayerProfile < ApplicationRecord
   after_commit :create_account, on: :create
   belongs_to :user, optional: true
-  has_many :games
+  belongs_to :game
   has_one :wallet, as: :account
 
-  validates_uniqueness_of :publisher_name
-  validates_presence_of :publisher_name
+  validates_uniqueness_of :username
+  validates_presence_of :username
+  validates_format_of :username, with: /^[A-Za-z0-9_\.]+$/, multiline: true
 
   private
 

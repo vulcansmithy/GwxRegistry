@@ -8,15 +8,17 @@ class User < ApplicationRecord
   before_create :set_confirmation_code
   after_create :send_confirmation_code
 
-  has_one :player,    dependent: :destroy
   has_one :publisher, dependent: :destroy
-  has_one :wallet,    as: :account
+  has_many :player_profiles, dependent: :destroy
+  has_one :wallet, as: :account
 
-  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
+
+  has_many :access_grants, class_name: 'Doorkeeper::AccessGrant',
                            foreign_key: :resource_owner_id,
                            dependent: :delete_all # or :destroy if you need callbacks
 
-  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+  has_many :access_tokens, class_name: 'Doorkeeper::AccessToken',
                            foreign_key: :resource_owner_id,
                            dependent: :delete_all # or :destroy if you need callbacks
 
@@ -40,6 +42,7 @@ class User < ApplicationRecord
 
   def confirm_account(code)
     return false unless code == confirmation_code
+
     if Time.now.utc > (confirmation_sent_at + 1.hour)
       raise_expired_code
       resend_confirmation!
@@ -69,7 +72,23 @@ class User < ApplicationRecord
     send_confirmation_code
   end
 
+  def reset_password!
+    update(temporary_password: generate_temporary_password)
+    update(password: temporary_password,
+           password_confirmation: temporary_password)
+    send_temporary_password
+  end
+
+  def send_temporary_password
+    UserMailer.reset_password(self).deliver_later(wait: 1.second)
+    update(reset_password_sent_at: Time.now.utc)
+  end
+
   private
+
+  def generate_temporary_password
+    SecureRandom.alphanumeric(8)
+  end
 
   def generate_confirmation_code
     loop do
@@ -79,6 +98,6 @@ class User < ApplicationRecord
   end
 
   def raise_expired_code
-    raise ExceptionHandler::ExpiredCode, "Expired confirmation code"
+    raise ExceptionHandler::ExpiredCode, 'Expired confirmation code'
   end
 end

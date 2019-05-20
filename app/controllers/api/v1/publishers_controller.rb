@@ -1,10 +1,7 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  before_action :transform_params, only: %i[create edit update]
-  before_action :check_current_user, except: %i[index show create]
-  before_action only: :create do
-    check_player_publisher_account(@current_user, "publisher")
-  end
-  before_action :set_publisher, only: %i[edit update show]
+  skip_before_action :doorkeeper_authorize!
+  before_action :set_publisher, only: %i[show update]
+  before_action :transform_params, only: %i[create update]
 
   def index
     @publishers = Publisher.all
@@ -25,10 +22,6 @@ class Api::V1::PublishersController < Api::V1::BaseController
       error_response("Unable to create publisher account",
                      @publisher.errors.full_messages, :unprocessable_entity)
     end
-  end
-
-  def edit
-    success_response(PublisherSerializer.new(@publisher).serialized_json)
   end
 
   def update

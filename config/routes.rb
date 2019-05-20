@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  use_doorkeeper
+  use_doorkeeper do
+    controllers :applications => 'oauth/applications'
+  end
 
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
@@ -17,8 +19,9 @@ Rails.application.routes.draw do
     post 'login',      to: 'users#login'
     post 'register',   to: 'users#create'
     get  'user',       to: 'users#show'
+    post 'forgot',     to: 'users#forgot'
     post 'notify',     to: 'users#send_notification'
-    get  'player',     to: 'players#my_player'
+    get  'player',     to: 'player_profiles#my_player'
     get  'publisher',  to: 'publishers#show'
 
     resources :users, :except => [:destroy, :show] do
@@ -37,18 +40,19 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, :except => [:show, :destroy] do
-      collection do
-        get   '/:user_id', to: 'players#show'
-        patch '/:user_id', to: 'players#update'
-        put   '/:user_id', to: 'players#update'
-      end
-    end
+    resources :player_profiles, :except => [:new, :edit]
 
     resources :wallets, :except => [:show] do
       collection do
         get '/:wallet_address', to: 'wallets#show'
         get '/:wallet_address/balance', to: 'wallets#balance'
+      end
+    end
+
+    resources :games do
+      resources :actions
+      collection do
+        get '/player_profiles', to: 'games#player_profiles'
       end
     end
   end

@@ -2,6 +2,81 @@ require "swagger_helper"
 
 describe "Gameworks Registry API" do
 =begin
+  ## OAUTH
+  path "/oauth/applications" do
+    post "Create Oauth application" do
+      tags        "Oauth"
+      description "Get authorization to access registry api"
+      produces    "application/json"
+      parameter   name: :token, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :oauth,  in: :body, schema: {
+        type: :object,
+        properties: {
+                  name: { type: :string },
+          redirect_uri: { type: :string },
+          confidential: { type: :string },
+                scopes: { type: :string}
+        }
+      }
+
+      response "200", "ok" do
+
+        examples "application/json" => {
+              "id": 19,
+              "name": "testingOauth",
+              "uid": "b64a513e0797763169baab1e114a253f2b979320165ffa5013b94f32a263f8f9",
+              "secret": "728f82398b0f7271afcf4a35405e578794cc7c8be84d3d0caf7edf95d15bd224",
+              "redirect_uri": "http://localhost:4000",
+              "scopes": [],
+              "confidential": true,
+              "created_at": "2019-04-25T05:18:52.456Z",
+              "updated_at": "2019-04-25T05:18:52.456Z",
+              "owner_id": 30,
+              "owner_type": "User"
+        }
+
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  path "/oauth/token" do
+    post "Create Access Token" do
+      tags        "Oauth"
+      description "Request access token by providing 'client_id' and 'client_secret'"
+      produces    "application/json"
+      parameter   name: :token, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :oauth,  in: :body, schema: {
+        type: :object,
+        properties: {
+              client_id: { type: :string },
+          client_secret: { type: :string },
+             grant_type: { type: :string }
+        }
+      }
+
+      response "200", "ok" do
+
+        examples "application/json" => {
+          "access_token": "3fa138e6c43bfed999a320d5acf1c80a5c891ac60f5086bbababd294b3804337",
+          "token_type": "Bearer",
+          "expires_in": 7200,
+          "created_at": 1556167217
+        }
+
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
   ## Users
   # POST /users
   path "/register" do
