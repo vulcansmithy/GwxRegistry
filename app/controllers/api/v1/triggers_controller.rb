@@ -6,7 +6,7 @@ class Api::V1::TriggersController < Api::V1::BaseController
     @trigger = Trigger.new(trigger_params)
 
     if @trigger.save
-      process_trigger(trigger) unless Rails.env.test?
+      process_trigger(@trigger) unless Rails.env.test?
       success_response TriggerSerializer.new(@trigger).serialized_json,
                        :created
     else
