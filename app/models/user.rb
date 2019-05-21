@@ -9,7 +9,8 @@ class User < ApplicationRecord
   after_create :send_confirmation_code
 
   has_one :publisher, dependent: :destroy
-  has_many :player_profiles, dependent: :destroy
+  # has_many :player_profiles, dependent: :destroy
+  has_one :player, dependent: :destroy
   has_one :wallet, as: :account
 
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
