@@ -2,18 +2,22 @@ require "rails_helper"
 
 describe Api::V1::PlayerProfilesController do
   let!(:user) { create(:user) }
+  let!(:player_user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
-  let!(:player_profile) { create(:player_profile, game: game) }
-  let!(:valid_headers) { generate_headers(user) }
+  let!(:player_profile) { build(:player_profile, user: player_user, game: game) }
+  let!(:valid_headers) { generate_headers(player_user) }
 
-  let!(:profile_params) do
-    { username: player_profile.username }
+  let!(:player_profile_params) do
+    {
+      username: player_profile.username,
+      game_id: game.id
+    }
   end
 
-  describe "GET /player_profiles/" do
+  describe "GET /player_profiles" do
     before do
-      get "/v1/player_profiles/",
+      get "/v1/player_profiles",
           params: {},
           headers: valid_headers
     end
@@ -21,13 +25,17 @@ describe Api::V1::PlayerProfilesController do
     it "should return status 200" do
       expect(response.status).to eq 200
     end
+
+    it "should return correct results" do
+      expect(json['data'].count).to eq 0
+    end
   end
 
-  describe "POST /player_profiles/" do
-    context "when profile_params are valid" do
+  describe "POST /player_profiles" do
+    context "when player_profile params are valid" do
       before do
         post "/v1/player_profiles",
-             params: profile_params.to_json,
+             params: player_profile_params.to_json,
              headers: valid_headers
       end
 
@@ -40,10 +48,10 @@ describe Api::V1::PlayerProfilesController do
       end
     end
 
-    context "when profile params are invalid" do
+    context "when player_profile params are invalid" do
       before do
         post "/v1/player_profiles",
-             params: profile_params.except(:username).to_json,
+             params: player_profile_params.except(:username).to_json,
              headers: valid_headers
       end
 
@@ -56,7 +64,7 @@ describe Api::V1::PlayerProfilesController do
   describe "GET /player_profiles/:id" do
     context "when player_profile exists" do
       before do
-        get "/v1/player_profiles/#{PlayerProfile.last.id}",
+        get "/v1/player_profiles/#{player_profile.id}",
             params: {},
             headers: valid_headers
       end
@@ -82,8 +90,8 @@ describe Api::V1::PlayerProfilesController do
   describe "PUT /player_profiles/:id" do
     context "when player_profile params are valid" do
       before do
-        put "/v1/player_profiles/#{PlayerProfile.last.id}",
-            params: { username: "New name" }.to_json,
+        put "/v1/player_profiles/#{player_profile.id}",
+            params: { username: "username" }.to_json,
             headers: valid_headers
       end
 
@@ -92,13 +100,13 @@ describe Api::V1::PlayerProfilesController do
       end
 
       it "should update the record" do
-        expect(json['data']['attributes']['username']). to eq "New name"
+        expect(json['data']['attributes']['username']). to eq "username"
       end
     end
 
     context "when player_profile params are invalid" do
       before do
-        put "/v1/player_profiles/#{PlayerProfile.last.id}",
+        put "/v1/player_profiles/#{player_profile.id}",
           params: { username: nil }.to_json,
           headers: valid_headers
       end
@@ -111,7 +119,7 @@ describe Api::V1::PlayerProfilesController do
 
   describe "DELETE /player_profiles/:id" do
     before do
-      delete "/v1/player_profiles/#{PlayerProfile.last.id}",
+      delete "/v1/player_profiles/#{player_profile.id}",
              params: {},
              headers: valid_headers
     end
@@ -119,7 +127,7 @@ describe Api::V1::PlayerProfilesController do
     it "should return status 204" do
       expect(response.status).to eq 204
     end
- 
+
     it "should delete the record" do
       expect(PlayerProfile.all.count).to eq 0
     end
