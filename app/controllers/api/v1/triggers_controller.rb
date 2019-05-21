@@ -23,6 +23,6 @@ class Api::V1::TriggersController < Api::V1::BaseController
   end
 
   def process_trigger(trigger)
-    TriggerProcessor.new(@trigger, {quantity: params[:quantity]})
+    TriggerProcessor.new(trigger, {quantity: params[:quantity]})
   end
 end
