@@ -1,4 +1,4 @@
-class PlayerProfileSerializer < ActiveModel::Serializer
+class PlayerSerializer < ActiveModel::Serializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower
