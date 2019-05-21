@@ -30,11 +30,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, :except => [:destroy, :show, :new, :edit] do
-      collection do
-        get '/:wallet_address', to: 'users#find_player'
-      end
-    end
+    resources :users, :except => [:destroy, :new, :edit]
 
     resources :publishers, :except => [:update, :destroy, :new, :edit] do
       collection do
