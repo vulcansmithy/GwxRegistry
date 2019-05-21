@@ -9,7 +9,6 @@ describe Api::V1::PublishersController do
   let!(:valid_headers2) { generate_headers(user2) }
   let!(:games) { create_list(:game, 4, publisher: publisher) }
 
-
   let(:publisher_params) do
     {
       publisherName: "test_name",

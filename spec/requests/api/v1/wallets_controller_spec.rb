@@ -1,37 +1,39 @@
 require "rails_helper"
 
 describe Api::V1::WalletsController do
+  let(:nem_account) { NemService.create_account }
+  let!(:user) { create(:user) }
+  let!(:wallet) do
+    user.create_wallet(
+      wallet_address: nem_account[:address],
+      pk: nem_account[:priv_key]
+    )
+  end
+  let(:valid_headers) { generate_headers(user) }
 
-  it "should implement the enpoint GET /:wallet_address" do
-    # setup a test player with wallet account
-    user = create(:user)
-    wallet = user.create_wallet(wallet_address: 'TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW', pk: '4004d8f417a93c3197e5fb55ce5fdeec1bc161f3a4f207c7c3ada30edb5094a0')
+  describe 'GET /:wallet_address' do
+    context 'when wallet_address exists' do
+      before { get "/wallets/#{wallet.wallet_address}" }
 
-    # login created user
-    post "/login", params: { email: user.email, password: "password" }
-    result = JSON.parse(response.body)
+      it 'should return status 200' do
+        expect(response).to have_http_status :ok
+      end
+    end
 
-    get "/wallets/#{user.wallet.wallet_address}"
-    result = JSON.parse(response.body)
+    context 'when wallet_address does not exists' do
+      before { get "/wallets/ASDASDKASLKDA" }
 
-    expect(result['data']['attributes']['wallet_address']).to eq user.wallet.wallet_address
+      it 'should return status 404' do
+        expect(response).to have_http_status :not_found
+      end
+    end
   end
 
-  it "should implement the enpoint GET /:wallet_address/balance" do
-    # setup a test player with wallet account
-    user = create(:user)
-    wallet = user.create_wallet(wallet_address: 'TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW', pk: '4004d8f417a93c3197e5fb55ce5fdeec1bc161f3a4f207c7c3ada30edb5094a0')
-    xem_balance = 692.289674
-    gwx_balance = 99084
+  describe 'GET /:wallet_address/balance' do
+    before { get "/wallets/#{wallet.wallet_address}" }
 
-    # login created user
-    post "/login", params: { email: user.email, password: "password" }
-    result = JSON.parse(response.body)
-
-    get "/wallets/#{user.wallet.wallet_address}/balance", headers: {Authorization: result['token']}
-    result = JSON.parse(response.body)
-
-    expect(result['balance']['xem']).to eq xem_balance
-    expect(result['balance']['gwx']).to eq gwx_balance
+    it 'should return 200' do
+      expect(response).to have_http_status :ok
+    end
   end
 end
