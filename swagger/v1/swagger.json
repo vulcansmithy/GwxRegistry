@@ -127,11 +127,11 @@
         }
       }
     },
-    "/register": {
+    "/auth/register": {
       "post": {
         "summary": "Create a User account",
         "tags": [
-          "Users"
+          "Auth"
         ],
         "description": "Create a user account.",
         "consumes": [
@@ -198,11 +198,11 @@
         }
       }
     },
-    "/login": {
+    "/auth/login": {
       "post": {
         "summary": "Login",
         "tags": [
-          "Users"
+          "Auth"
         ],
         "description": "Successfully login to api",
         "consumes": [
@@ -261,18 +261,146 @@
         }
       }
     },
-    "/users": {
-      "post": {
-        "summary": "Create a User account",
+    "/auth/confirm/{code}": {
+      "get": {
+        "summary": "Confirm user account",
         "tags": [
-          "Users"
+          "Auth"
         ],
-        "description": "Create a user account.",
+        "description": "Confirm user account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "confirmation code sent on email",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmed",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "confirmationCode": "1111"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Wrong confirmation code"
+          }
+        }
+      }
+    },
+    "/auth/resend": {
+      "get": {
+        "summary": "Resend code",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Resend code",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Retrieve a specific User account",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Retrieve a specific User account by specifying its 'id'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the User being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user found.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "354",
+                  "type": "user",
+                  "attributes": {
+                    "id": 354,
+                    "firstName": "Chuck",
+                    "lastName": "Aufderhar",
+                    "email": "chuck.aufderhar@example.com",
+                    "walletAddress": "fd4a56104d30c289ae217dfa24eb4e58ca7ac4306ca69b0aee9c4652c74d0c01"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a User profile",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Update an existing User profile.",
         "consumes": [
           "application/json",
           "application/xml"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the User profile being updated",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "user",
             "in": "body",
@@ -285,55 +413,55 @@
                 "lastName": {
                   "type": "string"
                 },
-                "email": {
+                "pk": {
                   "type": "string"
                 },
                 "walletAddress": {
                   "type": "string"
-                },
-                "password": {
-                  "type": "string"
-                },
-                "passwordConfirmation": {
-                  "type": "string"
                 }
-              },
-              "required": [
-                "email",
-                "walletAddress",
-                "password",
-                "passwordConfirmation"
-              ]
+              }
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "user created.",
+            "description": "user updated.",
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "158",
+                  "id": "375",
                   "type": "user",
                   "attributes": {
-                    "id": 158,
-                    "firstName": "Mohammed",
-                    "lastName": "Graham",
-                    "email": "mohammed.graham@example.com",
-                    "walletAddress": "c646a0c68644fafb5eecb901104f59cbd45f26f5b1b852fde5841d75e16ce882"
+                    "id": 375,
+                    "firstName": "Lesley",
+                    "lastName": "Reichert",
+                    "email": "latasha.harris@example.com",
+                    "walletAddress": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
                   }
                 }
               }
             }
           },
+          "404": {
+            "description": "User not found."
+          },
           "422": {
-            "description": "Unable to create user account."
+            "description": "Unable to update user profile."
           },
           "401": {
             "description": "Unauthorized: Access is denied"
           }
         }
-      },
+      }
+    },
+    "/users": {
       "get": {
         "summary": "Retrieve all User accounts",
         "tags": [
@@ -475,229 +603,6 @@
             "description": "Unauthorized: Access is denied"
           }
         }
-      },
-      "patch": {
-        "summary": "Update a User profile",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User profile.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the User profile being updated",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "type": "string"
-                },
-                "lastName": {
-                  "type": "string"
-                },
-                "pk": {
-                  "type": "string"
-                },
-                "walletAddress": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "375",
-                  "type": "user",
-                  "attributes": {
-                    "id": 375,
-                    "firstName": "Lesley",
-                    "lastName": "Reichert",
-                    "email": "latasha.harris@example.com",
-                    "walletAddress": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
-          },
-          "422": {
-            "description": "Unable to update user profile."
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a User profile",
-        "tags": [
-          "Users"
-        ],
-        "description": "Update an existing User profile.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "'id' of the User profile being updated",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "type": "string"
-                },
-                "lastName": {
-                  "type": "string"
-                },
-                "pk": {
-                  "type": "string"
-                },
-                "walletAddress": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "375",
-                  "type": "user",
-                  "attributes": {
-                    "id": 375,
-                    "firstName": "Lesley",
-                    "lastName": "Reichert",
-                    "email": "latasha.harris@example.com",
-                    "walletAddress": "586171e81886c41bcff7223ab38bd21dfc60b425bd67f8d1a9cb26f1ccd9e43f"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found."
-          },
-          "422": {
-            "description": "Unable to update user profile."
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      }
-    },
-    "/users/confirm/{code}": {
-      "get": {
-        "summary": "Confirm user account",
-        "tags": [
-          "Users"
-        ],
-        "description": "Confirm user account",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "code",
-            "in": "path",
-            "description": "confirmation code sent on email",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Confirmed",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "confirmationCode": "1111"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Wrong confirmation code"
-          }
-        }
-      }
-    },
-    "/users/{id}/resend_code": {
-      "get": {
-        "summary": "Resend code",
-        "tags": [
-          "Users"
-        ],
-        "description": "Resend code",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sent"
-          }
-        }
       }
     },
     "/publishers": {
@@ -774,7 +679,7 @@
         }
       }
     },
-    "/publishers/{userId}": {
+    "/publishers/{id}": {
       "get": {
         "summary": "Retrieve a specific Publisher",
         "tags": [
@@ -821,77 +726,6 @@
           },
           "404": {
             "description": "publisher not found."
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update Publisher account",
-        "tags": [
-          "Publishers"
-        ],
-        "description": "Update an existing Publisher account.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "'id' of the User profile being retrieved",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "publisher",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "publisherName": {
-                  "type": "string"
-                },
-                "walletAddress": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "publisher updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "54",
-                  "type": "publisher",
-                  "attributes": {
-                    "id": 54,
-                    "publisherName": "Testing01",
-                    "description": "Ducimus quisquam ipsam inventore.",
-                    "walletAddress": "f64789142671fec9435dbe5847bd334a4baed571b1ac647d82fda152e2b645f6",
-                    "userId": 55
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unable to update publisher account."
           },
           "401": {
             "description": "Unauthorized: Access is denied"
@@ -961,9 +795,6 @@
               }
             }
           },
-          "404": {
-            "description": "Publisher not found."
-          },
           "422": {
             "description": "Unable to update publisher account."
           },
@@ -973,73 +804,11 @@
         }
       }
     },
-    "/players": {
-      "post": {
-        "summary": "Create a Player profile",
-        "tags": [
-          "Players"
-        ],
-        "description": "Create a player profile. The requirement is that a User account should be already exist.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "username"
-              ]
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "player created.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "629",
-                  "type": "player",
-                  "attributes": {
-                    "userId": 1267,
-                    "firstName": "Kenya",
-                    "lastName": "Mertz",
-                    "email": "kenya.mertz@example.com",
-                    "username": "leeroy.jenkins",
-                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unable to create a new User"
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      },
+    "/player_profiles": {
       "get": {
         "summary": "Retrieve all Player profiles",
         "tags": [
-          "Players"
+          "Player Profile"
         ],
         "description": "Retrieve all existing Player profiles.",
         "produces": [
@@ -1128,13 +897,75 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "Create a Player profile",
+        "tags": [
+          "Player Profile"
+        ],
+        "description": "Create a player profile. The requirement is that a User account should be already exist.",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "player",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username"
+              ]
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "player created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "629",
+                  "type": "player",
+                  "attributes": {
+                    "userId": 1267,
+                    "firstName": "Kenya",
+                    "lastName": "Mertz",
+                    "email": "kenya.mertz@example.com",
+                    "username": "leeroy.jenkins",
+                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create a new User"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
       }
     },
     "/player": {
       "get": {
         "summary": "Retrieve Player profile",
         "tags": [
-          "Players"
+          "Player Profile"
         ],
         "description": "Retrieve player profile.",
         "produces": [
@@ -1178,11 +1009,11 @@
         }
       }
     },
-    "/players/{playerId}": {
+    "/player_profiles/{id}": {
       "get": {
         "summary": "Retrieve a specific Player",
         "tags": [
-          "Players"
+          "Player Profile"
         ],
         "description": "Retrieve a specific player by specifying its 'userId'.",
         "produces": [
@@ -1231,82 +1062,11 @@
             "description": "Unauthorized: Access is denied"
           }
         }
-      }
-    },
-    "/players/{userId}": {
-      "patch": {
-        "summary": "Update Player profile",
-        "tags": [
-          "Players"
-        ],
-        "description": "Update an existing Player profile.",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "'id' of the User profile being retrieved",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "player",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player updated.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "633",
-                  "type": "player",
-                  "attributes": {
-                    "userId": 1271,
-                    "firstName": "Marcellus",
-                    "lastName": "Luettgen",
-                    "email": "marcellus.luettgen@example.com",
-                    "username": "leeroy.jenkins",
-                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Player not found."
-          },
-          "422": {
-            "description": "Unable to update player account"
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
       },
       "put": {
         "summary": "Update Player profile",
         "tags": [
-          "Players"
+          "Player Profile"
         ],
         "description": "Update an existing Player profile.",
         "consumes": [
@@ -1456,6 +1216,809 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/games": {
+      "get": {
+        "summary": "Retrieve all games",
+        "tags": [
+          "Games"
+        ],
+        "description": "Retrieve all available games",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
+          "200": {
+            "description": "ok",
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "id": "2",
+                    "type": "game",
+                    "attributes": {
+                      "id": 2,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "id": "1",
+                    "type": "game",
+                    "attributes": {
+                      "id": 1,
+                      "name": "snake",
+                      "description": "boooooo"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a game",
+        "tags": [
+          "Games"
+        ],
+        "description": "Create a game",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "game",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "description"
+              ]
+            }
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "publisher created.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "47",
+                  "type": "publisher",
+                  "attributes": {
+                    "id": 47,
+                    "publisherName": "PROUDCLOUD",
+                    "description": "hello",
+                    "walletAddress": "23a74c34da0e74eafcbc94a101f30b95ed7b5b8d92556c216ccc66af33eebdd7",
+                    "userId": 48
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create publisher account."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/games/{id}": {
+      "get": {
+        "summary": "Retrieve game",
+        "tags": [
+          "Games"
+        ],
+        "description": "Retrieve a specific game by specifying its id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "game found",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "game",
+                  "attributes": {
+                    "id": 1,
+                    "name": "snake",
+                    "description": "boooooo"
+                  },
+                  "relationships": {
+                    "publisher": {
+                      "data": {
+                        "id": "1",
+                        "type": "publisher"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update game",
+        "tags": [
+          "Games"
+        ],
+        "description": "Update game successfully",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "game",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "game updated",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "1",
+                  "type": "game",
+                  "attributes": {
+                    "id": 1,
+                    "name": "snake",
+                    "description": "boooooo"
+                  },
+                  "relationships": {
+                    "publisher": {
+                      "data": {
+                        "id": "1",
+                        "type": "publisher"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete game",
+        "tags": [
+          "Games"
+        ],
+        "description": "Delete selected game",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "examples": {
+              "application/json": {
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/games/{id}/player_profiles": {
+      "get": {
+        "summary": "Retrieve player profiles",
+        "tags": [
+          "Games"
+        ],
+        "description": "Retrieve all player profiles of the selected game",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player profiles",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "629",
+                  "type": "player",
+                  "attributes": {
+                    "userId": 1267,
+                    "firstName": "Kenya",
+                    "lastName": "Mertz",
+                    "email": "kenya.mertz@example.com",
+                    "username": "leeroy.jenkins",
+                    "walletAddress": "578ab32461f9b4818d43b6fe758b77cc4945ccedcfd1dfdf772af15d6a8875a5"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create a new User"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/games/{game_id}/actions": {
+      "get": {
+        "summary": "Retrieve all actions",
+        "tags": [
+          "Actions"
+        ],
+        "description": "Retrieve all available actions",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "'game_id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "id": "3",
+                    "type": "action",
+                    "attributes": {
+                      "id": 3,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls",
+                      "fixedAmount": 10,
+                      "unitFee": 5,
+                      "fixed": false,
+                      "rate": true
+                    },
+                    "relationships": {
+                      "game": {
+                        "data": {
+                          "id": "1",
+                          "type": "game"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create action",
+        "tags": [
+          "Actions"
+        ],
+        "description": "Create an action for the selected game",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "'game_id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "action",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "fixedAmount": {
+                  "type": "integer"
+                },
+                "unitFee": {
+                  "type": "integer"
+                },
+                "fixed": {
+                  "type": "boolean"
+                },
+                "rate": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "name",
+                "description",
+                "fixedAmount",
+                "unitFee",
+                "fixed",
+                "rate"
+              ]
+            }
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "3",
+                  "type": "action",
+                  "attributes": {
+                    "id": 3,
+                    "name": "snake",
+                    "description": "ajlsdkfjalksjfls",
+                    "fixedAmount": 10,
+                    "unitFee": 5,
+                    "fixed": false,
+                    "rate": true
+                  },
+                  "relationships": {
+                    "game": {
+                      "data": {
+                        "id": "1",
+                        "type": "game"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/games/{game_id}/actions/{id}": {
+      "get": {
+        "summary": "Retrieve action",
+        "tags": [
+          "Actions"
+        ],
+        "description": "Retrieve a specific action by specifying its id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "'game_id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the action being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "action found",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "5",
+                  "type": "action",
+                  "attributes": {
+                    "id": 5,
+                    "name": "register",
+                    "description": "string",
+                    "fixedAmount": 0,
+                    "unitFee": 0,
+                    "fixed": true,
+                    "rate": true
+                  },
+                  "relationships": {
+                    "game": {
+                      "data": {
+                        "id": "7",
+                        "type": "game"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update action",
+        "tags": [
+          "Actions"
+        ],
+        "description": "Update action successfully",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "'game_id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the action being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "fixedAmount": {
+                  "type": "integer"
+                },
+                "unitFee": {
+                  "type": "integer"
+                },
+                "fixed": {
+                  "type": "boolean"
+                },
+                "rate": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "action updated",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "2",
+                  "type": "action",
+                  "attributes": {
+                    "id": 2,
+                    "name": "cotton candy",
+                    "description": "falskdjflkasdjflkj",
+                    "fixedAmount": 2,
+                    "unitFee": 3,
+                    "fixed": false,
+                    "rate": true
+                  },
+                  "relationships": {
+                    "game": {
+                      "data": {
+                        "id": "1",
+                        "type": "game"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete action",
+        "tags": [
+          "Actions"
+        ],
+        "description": "Delete selected action",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "'game_id' of the game being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the action being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "examples": {
+              "application/json": {
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/triggers": {
+      "post": {
+        "summary": "Create trigger",
+        "tags": [
+          "Triggers"
+        ],
+        "description": "Create a trigger",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "trigger",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "integer"
+                },
+                "actionId": {
+                  "type": "integer"
+                },
+                "playerProfileId": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "quantity",
+                "actionId",
+                "playerProfileId"
+              ]
+            }
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "trigger created",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "3",
+                  "type": "trigger",
+                  "attributes": {
+                    "id": 3,
+                    "actionId": 3,
+                    "playerProfileId": 3,
+                    "createdAt": "2019-05-21 04:02:26 UTC"
+                  },
+                  "relationships": {
+                    "action": {
+                      "data": {
+                        "id": "3",
+                        "type": "action"
+                      }
+                    },
+                    "playerProfile": {
+                      "data": {
+                        "id": "3",
+                        "type": "playerProfile"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unable to create a trigger."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
           }
         }
       }
