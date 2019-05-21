@@ -1,7 +1,7 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :transform_params, only: %i[create update]
-  before_action :set_player_profile, only: %i[show update destroy triggers]
+  before_action :set_player_profile, only: %i[update destroy triggers]
 
   def index
     @player_profiles = @current_user.player_profiles
@@ -51,7 +51,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   private
 
   def profile_params
-    params.permit(:username)
+    params.permit(:username, :game_id)
   end
 
   def set_player_profile

@@ -16,8 +16,6 @@ Rails.application.routes.draw do
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
-    get  'player',     to: 'player_profiles#my_player'
-    get  'publisher',  to: 'publishers#show'
 
     resources :auth, :only => [] do
       collection do
@@ -32,13 +30,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, :except => [:destroy, :show] do
-      collection do
-        get '/:wallet_address', to: 'users#find_player'
-      end
-    end
+    resources :users, :except => [:destroy, :new, :edit]
 
-    resources :publishers, :except => [:update, :destroy] do
+    resources :publishers, :except => [:update, :destroy, :new, :edit] do
       collection do
         put   '/me',        to: 'publishers#update'
         get   '/me/games',  to: 'publishers#games'
@@ -51,15 +45,15 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :wallets, :except => [:show] do
+    resources :wallets, :except => [:show, :new, :edit] do
       collection do
         get '/:wallet_address', to: 'wallets#show'
         get '/:wallet_address/balance', to: 'wallets#balance'
       end
     end
 
-    resources :games do
-      resources :actions
+    resources :games, :except => [:new, :edit] do
+      resources :actions, :except => [:new, :edit]
       member do
         get '/player_profiles', to: 'games#player_profiles'
       end
@@ -71,7 +65,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :triggers, :only => [:create]
+    resources :triggers, only: :create
   end
   root :to => 'home#index'
 
