@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, :except => [:destroy, :new, :edit]
+    resources :users, :only => [:show, :index]
 
     resources :publishers, :except => [:update, :destroy, :new, :edit] do
       collection do
@@ -67,7 +67,6 @@ Rails.application.routes.draw do
 
     resources :triggers, only: :create
   end
-  root :to => 'home#index'
 
   api_version(
     :module    => "Api::V2",
@@ -115,8 +114,5 @@ Rails.application.routes.draw do
         get '/:wallet_address/balance', to: 'wallets#balance'
       end
     end
-
-
   end
-  root :to => 'home#index'
 end
