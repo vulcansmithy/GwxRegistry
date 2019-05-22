@@ -5,12 +5,12 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def index
     @users = User.all.paginate(page: params[:page])
-    serialized_users = UserSerializer.new(@users).serializable_hash
+    serialized_users = PublicUserSerializer.new(@users).serializable_hash
     success_response paginate_result(serialized_users, @users)
   end
 
   def show
     @user = User.find params[:id]
-    success_response(UserSerializer.new(@user).serialized_json)
+    success_response(PublicUserSerializer.new(@user).serialized_json)
   end
 end
