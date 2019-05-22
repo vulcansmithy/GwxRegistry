@@ -1,7 +1,7 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
   before_action :transform_params, only: %i[create update]
-  before_action :set_player_profile, only: %i[update destroy triggers]
+  before_action :set_player_profile, except: %i[index create]
 
   def index
     @player_profiles = @current_user.player_profiles

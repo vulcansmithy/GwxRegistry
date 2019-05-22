@@ -3,13 +3,17 @@ require "rails_helper"
 describe Api::V1::PlayerProfilesController do
   let!(:user) { create(:user) }
   let!(:player_user) { create(:user) }
+  let!(:other_player_user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
   let!(:player_profile) { build(:player_profile, user: player_user, game: game) }
+  let!(:other_player_profile) { create(:player_profile, user: other_player_user, game: game) }
   let!(:valid_headers) { generate_headers(player_user) }
+  let!(:other_valid_headers) { generate_headers(other_player_user) }
 
   let!(:player_profile_params) do
     {
+      user_id: player_user.id,
       username: player_profile.username,
       game_id: game.id
     }
@@ -90,9 +94,9 @@ describe Api::V1::PlayerProfilesController do
   describe "PUT /player_profiles/:id" do
     context "when player_profile params are valid" do
       before do
-        put "/v1/player_profiles/#{player_profile.id}",
+        put "/v1/player_profiles/#{other_player_profile.id}",
             params: { username: "username" }.to_json,
-            headers: valid_headers
+            headers: other_valid_headers
       end
 
       it "should return status 200" do
@@ -106,9 +110,9 @@ describe Api::V1::PlayerProfilesController do
 
     context "when player_profile params are invalid" do
       before do
-        put "/v1/player_profiles/#{player_profile.id}",
-          params: { username: nil }.to_json,
-          headers: valid_headers
+        put "/v1/player_profiles/#{other_player_profile.id}",
+            params: { username: nil }.to_json,
+            headers: other_valid_headers
       end
 
       it "should return status 422" do
@@ -119,9 +123,9 @@ describe Api::V1::PlayerProfilesController do
 
   describe "DELETE /player_profiles/:id" do
     before do
-      delete "/v1/player_profiles/#{player_profile.id}",
+      delete "/v1/player_profiles/#{other_player_profile.id}",
              params: {},
-             headers: valid_headers
+             headers: other_valid_headers
     end
 
     it "should return status 204" do
