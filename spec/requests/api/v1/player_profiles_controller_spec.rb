@@ -1,124 +1,139 @@
 require "rails_helper"
 
-describe Api::V1::PlayersController do
+describe Api::V1::PlayerProfilesController do
+  let!(:user) { create(:user) }
+  let!(:player_user) { create(:user) }
+  let!(:other_player_user) { create(:user) }
+  let!(:publisher_user) { create(:publisher, user: user) }
+  let!(:game) { create(:game, publisher: publisher_user) }
+  let!(:player_profile) { build(:player_profile, user: player_user, game: game) }
+  let!(:other_player_profile) { create(:player_profile, user: other_player_user, game: game) }
+  let!(:valid_headers) { generate_headers(player_user) }
+  let!(:other_valid_headers) { generate_headers(other_player_user) }
 
-  it "should implement the endpoint GET /players" do
+  let!(:player_profile_params) do
+    {
+      user_id: player_user.id,
+      username: player_profile.username,
+      game_id: game.id
+    }
+  end
 
-    # setup the no. of test players
-    no_of_players = 5
-
-    # setup test players to be returned
-    no_of_players.times do
-      player = create(:player, user: create(:user))
+  describe "GET /player_profiles" do
+    before do
+      get "/v1/player_profiles",
+          params: {},
+          headers: valid_headers
     end
 
-    user = User.first
-    post "/login", params: { email: user.email, password: "password" }
-    result = JSON.parse(response.body)
+    it "should return status 200" do
+      expect(response.status).to eq 200
+    end
 
-    # call the API endpoint
-    get "/players", headers: { Authorization: "#{result['token']}" }
-
-    # make sure the HTTP response code was returned :ok
-    expect(response).to have_http_status(:ok)
-
-    # retrieve the return data by the API endpoint
-    result = JSON.parse(response.body)
-
-    # make sure the no. of players matches to the set no_of_players
-    expect(result["data"].length).to eq no_of_players
+    it "should return correct results" do
+      expect(json['data'].count).to eq 0
+    end
   end
 
-  it "should implement the endpoint GET /players/:userId" do
+  describe "POST /player_profiles" do
+    context "when player_profile params are valid" do
+      before do
+        post "/v1/player_profiles",
+             params: player_profile_params.to_json,
+             headers: valid_headers
+      end
 
-    # setup a test player
-    player = create(:player, user: create(:user))
+      it "should return status 201" do
+        expect(response.status).to eq 201
+      end
 
-    post "/login", params: { email: player.user.email, password: "password" }
-    result = JSON.parse(response.body)
+      it "should return correct result" do
+        expect(json['data']['attributes']['username']).to eq player_profile.username
+      end
+    end
 
-    # call the API endpoint
-    get "/players/#{player.user_id}", headers: { Authorization: "#{result['token']}" }
+    context "when player_profile params are invalid" do
+      before do
+        post "/v1/player_profiles",
+             params: player_profile_params.except(:username).to_json,
+             headers: valid_headers
+      end
 
-    # make sure the HTTP response code was returned :ok
-    expect(response).to have_http_status(:ok)
-
-    # retrieve the return data by the API endpoint
-    result = JSON.parse(response.body)
-
-    # make sure the result matches to the created test player
-    expect(result["data"]["id"].to_i).to eq player.id
+      it "should return status 422" do
+        expect(response.status).to eq 422
+      end
+    end
   end
 
-  it "should be able to return 404 response code for GET /players/:userId" do
+  describe "GET /player_profiles/:id" do
+    context "when player_profile exists" do
+      before do
+        get "/v1/player_profiles/#{player_profile.id}",
+            params: {},
+            headers: valid_headers
+      end
 
-    user = create(:user)
+      it "should return status 200" do
+        expect(response.status).to eq 200
+      end
+    end
 
-    post "/login", params: { email: user.email, password: "password" }
-    result = JSON.parse(response.body)
+    context "when action doesn't exists" do
+      before do
+        get "/v1/player_profiles/-1",
+            params: {},
+            headers: valid_headers
+      end
 
-    # call the API endpoint
-    get "/players/999", headers: { Authorization: "#{result['token']}" }
-
-    # make sure the HTTP response code was :not_found
-    expect(response).to have_http_status(:not_found)
+      it "should return status 404" do
+        expect(response.status).to eq 404
+      end
+    end
   end
 
-  it "should implement the endpoint PATCH/PUT /players/:user_id" do
+  describe "PUT /player_profiles/:id" do
+    context "when player_profile params are valid" do
+      before do
+        put "/v1/player_profiles/#{other_player_profile.id}",
+            params: { username: "username" }.to_json,
+            headers: other_valid_headers
+      end
 
-    # setup test player
-    player  = create(:player, user: create(:user))
-    userId = player.user_id
+      it "should return status 200" do
+        expect(response.status).to eq 200
+      end
 
-    post "/login", params: {email: player.user.email, password: "password" }
-    result = JSON.parse(response.body)
+      it "should update the record" do
+        expect(json['data']['attributes']['username']). to eq "username"
+      end
+    end
 
-    # setup a new name
-    new_username = "leeroy.jenkins"
+    context "when player_profile params are invalid" do
+      before do
+        put "/v1/player_profiles/#{other_player_profile.id}",
+            params: { username: nil }.to_json,
+            headers: other_valid_headers
+      end
 
-    # prepare the params to be passed
-    params = {
-      username: new_username
-    }
-
-    # call the API endpoint
-    patch "/players/#{player.user_id}", params: params, headers: { Authorization: "#{result['token']}" }
-
-    # make sure the HTTP response code was returned :ok
-    expect(response).to have_http_status(:ok)
-
-    # retrieve the return data by the API endpoint
-    result = JSON.parse(response.body)
-
-    # make sure the 'username' was change to the new username
-    expect(result["data"]["attributes"]["username"]).to eq new_username
+      it "should return status 422" do
+        expect(response.status).to eq 422
+      end
+    end
   end
 
-  it "should implement the endpoint POST /players" do
+  describe "DELETE /player_profiles/:id" do
+    before do
+      delete "/v1/player_profiles/#{other_player_profile.id}",
+             params: {},
+             headers: other_valid_headers
+    end
 
-    # setup test player
-    user = create(:user)
+    it "should return status 204" do
+      expect(response.status).to eq 204
+    end
 
-    post "/login", params: { email: user.email, password: "password" }
-    result = JSON.parse(response.body)
-
-    # prepare the params to be passed
-    params = {
-      username:       "PROUDCLOUD",
-    }.as_json
-
-    # call the API endpoint
-    post "/players/", params: params, headers: { Authorization: "#{result['token']}" }
-
-    # make sure the HTTP response code was returned :created
-    expect(response).to have_http_status(:created)
-
-    # retrieve the return data by the API endpoint
-    result = JSON.parse(response.body)
-
-    # make sure the Player actually exist
-    expect(result["data"]["id"].to_i).to eq Player.first.id
-    expect(result["data"]["attributes"]["gameWalletAddress"]).to eq Player.first.wallet.wallet_address
+    it "should delete the record" do
+      expect(PlayerProfile.all.count).to eq 0
+    end
   end
-
 end
