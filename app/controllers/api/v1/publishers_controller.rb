@@ -5,7 +5,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   before_action :transform_params, only: %i[create update]
 
   def index
-    @publishers = Publisher.all
+    @publishers = Publisher.all.paginate(page: params[:page])
     success_response PublisherSerializer.new(@publishers).serialized_json
   end
 
@@ -38,7 +38,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def games
-    @games = @publisher.games
+    @games = @publisher.games.paginate(page: params[:page])
     success_response GameSerializer.new(@games).serialized_json
   end
 

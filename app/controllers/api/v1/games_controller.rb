@@ -5,7 +5,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   before_action :set_game, except: %i[index create]
 
   def index
-    @games = Game.all
+    @games = Game.all.paginate(page: params[:page])
     success_response GameSerializer.new(@games).serialized_json
   end
 
@@ -45,7 +45,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def player_profiles
-    @player_profiles = @game.player_profiles
+    @player_profiles = @game.player_profiles.paginate(page: params[:page])
     success_response PlayerProfileSerializer.new(@player_profiles).serialized_json
   end
 

@@ -6,7 +6,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
   before_action :set_action, only: %i[show update destroy]
 
   def index
-    @actions = @game.actions
+    @actions = @game.actions.paginate(page: params[:page])
     success_response ActionSerializer.new(@actions).serialized_json
   end
 
@@ -47,7 +47,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
 
   def triggers
     @action = Action.find params[:id]
-    @triggers = @action.triggers
+    @triggers = @action.triggers.paginate(page: params[:page])
     success_response TriggerSerializer.new(@triggers).serialized_json
   end
 
