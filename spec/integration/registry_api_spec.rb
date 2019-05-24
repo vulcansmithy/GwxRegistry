@@ -7,7 +7,7 @@ describe "Gameworks Registry API" do
       tags        "Oauth"
       description "Get authorization to access registry api"
       produces    "application/json"
-      parameter   name: :token, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
       parameter   name: :oauth,  in: :body, schema: {
         type: :object,
         properties: {
@@ -48,7 +48,7 @@ describe "Gameworks Registry API" do
       tags        "Oauth"
       description "Request access token by providing 'client_id' and 'client_secret'"
       produces    "application/json"
-      parameter   name: :token, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
       parameter   name: :oauth,  in: :body, schema: {
         type: :object,
         properties: {
@@ -780,7 +780,7 @@ describe "Gameworks Registry API" do
       parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
       parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
-      response "200", "player deleted." do
+      response "204", "player deleted." do
 
         examples "application/json" => {
           "data" => {
@@ -824,7 +824,7 @@ describe "Gameworks Registry API" do
       parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
       parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
-      response "200", "player deleted." do
+      response "200", "trigger(s) found." do
 
         examples "application/json" => {
           "data" => {

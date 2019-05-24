@@ -17,7 +17,7 @@
         ],
         "parameters": [
           {
-            "name": "token",
+            "name": "authorizationjwt",
             "in": "header",
             "description": "token provided to user upon log in",
             "required": true,
@@ -84,7 +84,7 @@
         ],
         "parameters": [
           {
-            "name": "token",
+            "name": "authorizationjwt",
             "in": "header",
             "description": "token provided to user upon log in",
             "required": true,
@@ -1083,7 +1083,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "player deleted.",
             "examples": {
               "application/json": {
@@ -1142,7 +1142,7 @@
         ],
         "responses": {
           "200": {
-            "description": "player deleted.",
+            "description": "trigger(s) found.",
             "examples": {
               "application/json": {
                 "data": {
