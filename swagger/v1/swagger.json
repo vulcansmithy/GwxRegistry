@@ -261,6 +261,65 @@
         }
       }
     },
+    "/auth/forgot": {
+      "post": {
+        "summary": "Forgot password",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Forgot password",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Invalid Credentials"
+          },
+          "200": {
+            "description": "sent",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
+                  "user": {
+                    "data": {
+                      "id": "8",
+                      "type": "user",
+                      "attributes": {
+                        "id": 8,
+                        "firstName": "sample",
+                        "lastName": "one",
+                        "email": "sample_one@gmail.com",
+                        "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                      }
+                    }
+                  },
+                  "message": "Login Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/confirm/{code}": {
       "post": {
         "summary": "Confirm user account",

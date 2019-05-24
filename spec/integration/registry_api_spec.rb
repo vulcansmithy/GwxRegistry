@@ -171,6 +171,34 @@ describe "Gameworks Registry API" do
     end
   end
 
+  # POST /auth/forgot
+  path "/auth/forgot" do
+    post "Forgot password" do
+      tags "Auth"
+      description "Forgot password"
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+                email: { type: :string },
+        },
+        required: [ "email" ]
+      }
+
+      response "200", "sent" do
+        examples "application/json" => {
+          "message": "Sent"
+        }
+
+        run_test!
+
+        response "401", "Invalid Credentials" do
+          run_test!
+        end
+      end
+    end
+  end
+
   # GET /auth/confirm/:code
   path "/auth/confirm/{code}" do
 
@@ -827,18 +855,30 @@ describe "Gameworks Registry API" do
       response "200", "trigger(s) found." do
 
         examples "application/json" => {
-          "data" => {
-              "id"   => "633",
-              "type" => "player",
-              "attributes" => {
-                       "userId" => 1271,
-                    "firstName" => "Marcellus",
-                     "lastName" => "Luettgen",
-                         "email" => "marcellus.luettgen@example.com",
-                      "username" => "leeroy.jenkins",
-                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+            "data": {
+              "id": "8",
+              "type": "trigger",
+              "attributes": {
+                "id": 8,
+                "actionId": 7,
+                "playerProfileId": 31,
+                "createdAt": "2019-05-24 01:01:21 UTC"
+              },
+              "relationships": {
+                "action": {
+                  "data": {
+                    "id": "7",
+                    "type": "action"
+                  }
+                },
+                "playerProfile": {
+                  "data": {
+                    "id": "31",
+                    "type": "playerProfile"
+                  }
+                }
               }
-          }
+            }
         }
 
         run_test!
