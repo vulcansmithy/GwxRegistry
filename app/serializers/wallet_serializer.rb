@@ -1,7 +1,7 @@
 class WalletSerializer < ActiveModel::Serializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :wallet_address
+  attributes :wallet_address, :account_type
 
   attribute :encrypted_pk do |wallet|
     # re-encrypt the pk

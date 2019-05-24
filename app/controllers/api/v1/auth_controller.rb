@@ -123,8 +123,7 @@ class Api::V1::AuthController < Api::V1::BaseController
   def user_wallet
     @current_user.create_wallet(
       wallet_address: params[:wallet_address],
-      encrypted_pk: @current_user.encrypted_pk,
-      encrypted_pk_iv: @current_user.encrypted_pk_iv
+      pk: params[:pk]
     )
   end
 
