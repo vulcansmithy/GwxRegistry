@@ -1,6 +1,7 @@
 require "swagger_helper"
 
 describe "Gameworks Registry API" do
+=begin
   ## OAUTH
   path "/oauth/applications" do
     post "Create Oauth application" do
@@ -455,7 +456,7 @@ describe "Gameworks Registry API" do
         properties: {
           walletAddress: { type: :string },
           publisherName: { type: :string },
-             description: { type: :string }
+            description: { type: :string }
         },
         required: [ "userId", "publisherName", "description" ]
       }
@@ -566,6 +567,130 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Unable to update publisher account." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  path "/publishers/me/games" do
+
+    get "Retrieve a games of publishers" do
+      tags        "Publishers"
+      description "Retrieve a games of publisher account"
+      produces    "application/json"
+      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "publisher's games found." do
+
+        examples "application/json" => {
+          "data": [
+              {
+                  "id": "1",
+                  "type": "game",
+                  "attributes": {
+                      "id": 1,
+                      "name": "bean",
+                      "description": "beeeeea"
+                  },
+                  "relationships": {
+                      "publisher": {
+                          "data": {
+                              "id": "1",
+                              "type": "publisher"
+                          }
+                      }
+                  }
+              },
+              {
+                  "id": "2",
+                  "type": "game",
+                  "attributes": {
+                      "id": 2,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls"
+                  },
+                  "relationships": {
+                      "publisher": {
+                          "data": {
+                              "id": "1",
+                              "type": "publisher"
+                          }
+                      }
+                  }
+              }
+          ]
+        }
+
+        run_test!
+      end
+
+      response "404", "publisher not found." do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  path "/publishers/{id}/games" do
+
+    get "Retrieve a games of publishers" do
+      tags        "Publishers"
+      description "Retrieve a games of publisher account"
+      produces    "application/json"
+      parameter   name: :id,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
+
+      response "200", "publisher's games found." do
+
+        examples "application/json" => {
+          "data": [
+              {
+                  "id": "1",
+                  "type": "game",
+                  "attributes": {
+                      "id": 1,
+                      "name": "bean",
+                      "description": "beeeeea"
+                  },
+                  "relationships": {
+                      "publisher": {
+                          "data": {
+                              "id": "1",
+                              "type": "publisher"
+                          }
+                      }
+                  }
+              },
+              {
+                  "id": "2",
+                  "type": "game",
+                  "attributes": {
+                      "id": 2,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls"
+                  },
+                  "relationships": {
+                      "publisher": {
+                          "data": {
+                              "id": "1",
+                              "type": "publisher"
+                          }
+                      }
+                  }
+              }
+          ]
+        }
+
+        run_test!
+      end
+
+      response "404", "publisher not found." do
         run_test!
       end
 
@@ -1503,4 +1628,5 @@ describe "Gameworks Registry API" do
       end
     end
   end
+=end
 end

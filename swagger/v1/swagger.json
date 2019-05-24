@@ -831,6 +831,150 @@
         }
       }
     },
+    "/publishers/me/games": {
+      "get": {
+        "summary": "Retrieve a games of publishers",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Retrieve a games of publisher account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher's games found.",
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "id": "1",
+                    "type": "game",
+                    "attributes": {
+                      "id": 1,
+                      "name": "bean",
+                      "description": "beeeeea"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "type": "game",
+                    "attributes": {
+                      "id": 2,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "publisher not found."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/publishers/{id}/games": {
+      "get": {
+        "summary": "Retrieve a games of publishers",
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Retrieve a games of publisher account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the Player profile being retrieved",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "publisher's games found.",
+            "examples": {
+              "application/json": {
+                "data": [
+                  {
+                    "id": "1",
+                    "type": "game",
+                    "attributes": {
+                      "id": 1,
+                      "name": "bean",
+                      "description": "beeeeea"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "type": "game",
+                    "attributes": {
+                      "id": 2,
+                      "name": "snake",
+                      "description": "ajlsdkfjalksjfls"
+                    },
+                    "relationships": {
+                      "publisher": {
+                        "data": {
+                          "id": "1",
+                          "type": "publisher"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "publisher not found."
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
     "/player_profiles": {
       "get": {
         "summary": "Retrieve all Player profiles",
@@ -1134,23 +1278,7 @@
         ],
         "responses": {
           "204": {
-            "description": "player deleted.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "633",
-                  "type": "player",
-                  "attributes": {
-                    "userId": 1271,
-                    "firstName": "Marcellus",
-                    "lastName": "Luettgen",
-                    "email": "marcellus.luettgen@example.com",
-                    "username": "leeroy.jenkins",
-                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
-                  }
-                }
-              }
-            }
+            "description": "player deleted."
           },
           "404": {
             "description": "Player not found."
@@ -1377,15 +1505,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "401": {
             "description": "Unauthorized: Access is denied"
@@ -1518,13 +1637,6 @@
             "description": "'id' of the game being retrieved",
             "required": true,
             "type": "integer"
-          },
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1655,11 +1767,7 @@
         ],
         "responses": {
           "204": {
-            "description": "",
-            "examples": {
-              "application/json": {
-              }
-            }
+            "description": ""
           },
           "401": {
             "description": "Unauthorized: Access is denied"
@@ -2071,11 +2179,7 @@
         ],
         "responses": {
           "204": {
-            "description": "",
-            "examples": {
-              "application/json": {
-              }
-            }
+            "description": ""
           },
           "401": {
             "description": "Unauthorized: Access is denied"
