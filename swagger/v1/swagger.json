@@ -478,19 +478,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          },
           "200": {
             "description": "user(s) found.",
             "examples": {
@@ -575,13 +563,6 @@
             "description": "'id' of the User being retrieved",
             "required": true,
             "type": "integer"
-          },
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -605,9 +586,6 @@
           },
           "404": {
             "description": "User not found"
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
           }
         }
       }
@@ -630,9 +608,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "integer"
-                },
                 "walletAddress": {
                   "type": "string"
                 },
@@ -698,7 +673,7 @@
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "id",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -738,7 +713,9 @@
             "description": "Unauthorized: Access is denied"
           }
         }
-      },
+      }
+    },
+    "/publishers/me": {
       "put": {
         "summary": "Update Publisher account",
         "tags": [
@@ -750,13 +727,6 @@
           "application/xml"
         ],
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "'id' of the User profile being retrieved",
-            "required": true,
-            "type": "integer"
-          },
           {
             "name": "publisher",
             "in": "body",
@@ -924,6 +894,9 @@
               "properties": {
                 "username": {
                   "type": "string"
+                },
+                "gameId": {
+                  "type": "integer"
                 }
               },
               "required": [
@@ -968,78 +941,23 @@
         }
       }
     },
-    "/player": {
-      "get": {
-        "summary": "Retrieve Player profile",
-        "tags": [
-          "Player Profile"
-        ],
-        "description": "Retrieve player profile.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "player found.",
-            "examples": {
-              "application/json": {
-                "data": {
-                  "id": "627",
-                  "type": "player",
-                  "attributes": {
-                    "userId": 1265,
-                    "firstName": "Wyatt",
-                    "lastName": "Ullrich",
-                    "email": "wyatt.ullrich@example.com",
-                    "username": "wyatt.ullrich",
-                    "walletAddress": "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "player not found."
-          },
-          "401": {
-            "description": "Unauthorized: Access is denied"
-          }
-        }
-      }
-    },
     "/player_profiles/{id}": {
       "get": {
-        "summary": "Retrieve a specific Player",
+        "summary": "Retrieve a specific public Player Profile",
         "tags": [
           "Player Profile"
         ],
-        "description": "Retrieve a specific player by specifying its 'userId'.",
+        "description": "Retrieve a specific player by specifying its 'id'.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "playerId",
+            "name": "id",
             "in": "path",
             "description": "'id' of the Player profile being retrieved",
             "required": true,
             "type": "integer"
-          },
-          {
-            "name": "authorizationjwt",
-            "in": "header",
-            "description": "token provided to user upon log in",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1082,7 +1000,7 @@
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "id",
             "in": "path",
             "description": "'id' of the User profile being retrieved",
             "required": true,
@@ -1133,6 +1051,120 @@
           },
           "422": {
             "description": "Unable to update player account"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Player profile",
+        "tags": [
+          "Player Profile"
+        ],
+        "description": "Delete a Player profile.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the player profile being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player deleted.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "userId": 1271,
+                    "firstName": "Marcellus",
+                    "lastName": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          },
+          "422": {
+            "description": "Unable to delete player profile"
+          },
+          "401": {
+            "description": "Unauthorized: Access is denied"
+          }
+        }
+      }
+    },
+    "/player_profiles/{id}/triggers": {
+      "get": {
+        "summary": "Retrieve Player profile triggers",
+        "tags": [
+          "Player Profile"
+        ],
+        "description": "Retrieve triggers of a Player profile.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' of the player profile being retrieved",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "token provided to user upon log in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player deleted.",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "633",
+                  "type": "player",
+                  "attributes": {
+                    "userId": 1271,
+                    "firstName": "Marcellus",
+                    "lastName": "Luettgen",
+                    "email": "marcellus.luettgen@example.com",
+                    "username": "leeroy.jenkins",
+                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Player not found."
+          },
+          "422": {
+            "description": "Unable to delete player profile"
           },
           "401": {
             "description": "Unauthorized: Access is denied"

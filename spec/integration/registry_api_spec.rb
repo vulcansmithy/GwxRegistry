@@ -313,7 +313,6 @@ describe "Gameworks Registry API" do
       tags        "Users"
       description "Retrieve all User accounts."
       produces    "application/json"
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user(s) found." do
 
@@ -378,10 +377,6 @@ describe "Gameworks Registry API" do
         }
 
         run_test!
-
-        response "401", "Unauthorized: Access is denied" do
-          run_test!
-        end
       end
     end
   end
@@ -394,7 +389,6 @@ describe "Gameworks Registry API" do
       description "Retrieve a specific User account by specifying its 'id'."
       produces    "application/json"
       parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :integer
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "user found." do
 
@@ -418,10 +412,6 @@ describe "Gameworks Registry API" do
       response "404", "User not found" do
         run_test!
       end
-
-      response "401", "Unauthorized: Access is denied" do
-        run_test!
-      end
     end
   end
 
@@ -434,7 +424,6 @@ describe "Gameworks Registry API" do
       parameter   name: :publisher, in: :body, schema: {
         type: :object,
         properties: {
-                 userId: { type: :integer },
           walletAddress: { type: :string },
           publisherName: { type: :string },
              description: { type: :string }
@@ -478,7 +467,7 @@ describe "Gameworks Registry API" do
       tags        "Publishers"
       description "Retrieve a specific publisher by specifying its 'userId'."
       produces    "application/json"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "200", "publisher found." do
@@ -510,13 +499,13 @@ describe "Gameworks Registry API" do
     end
   end
 
-  path "/publishers/{id}" do
+  # PUT /publishers/me
+  path "/publishers/me" do
 
     put "Update Publisher account" do
       tags        "Publishers"
       description "Update an existing Publisher account."
       consumes    "application/json", "application/xml"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :publisher, in: :body, schema: {
         type: :object,
         properties: {
@@ -655,11 +644,12 @@ describe "Gameworks Registry API" do
       parameter   name: :player, in: :body, schema: {
         type: :object,
         properties: {
-          username: { type: :string  }
+          username: { type: :string  },
+          gameId:   { type: :integer }
         },
         required: [ "username" ]
       }
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "201", "player created." do
 
@@ -689,57 +679,16 @@ describe "Gameworks Registry API" do
         run_test!
       end
     end
-
-  # GET /player
-  path "/player" do
-
-    get "Retrieve Player profile" do
-      tags        "Player Profile"
-      description "Retrieve player profile."
-      produces    "application/json"
-      # parameter   name: :playerId,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
-
-      response "200", "player found." do
-
-        examples "application/json" => {
-              "data" => {
-                          "id" => "627",
-                        "type" => "player",
-                  "attributes" => {
-                             "userId" => 1265,
-                          "firstName" => "Wyatt",
-                           "lastName" => "Ullrich",
-                               "email" => "wyatt.ullrich@example.com",
-                            "username" => "wyatt.ullrich",
-                      "walletAddress" => "8239e8047a5f2ea5e601106810948bfe9f2226f6112dab8ce764770b4f449687"
-                  }
-              }
-          }
-
-        run_test!
-      end
-
-      response "404", "player not found." do
-        run_test!
-      end
-
-      response "401", "Unauthorized: Access is denied" do
-        run_test!
-      end
-    end
   end
- end
 
-  # GET /players/:id
+  # GET /player_profiles/:id
   path "/player_profiles/{id}" do
 
-    get "Retrieve a specific Player" do
+    get "Retrieve a specific public Player Profile" do
       tags        "Player Profile"
-      description "Retrieve a specific player by specifying its 'userId'."
+      description "Retrieve a specific player by specifying its 'id'."
       produces    "application/json"
-      parameter   name: :playerId,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :id,   in: :path, description: "'id' of the Player profile being retrieved", required: true, type: :integer
 
       response "200", "player found." do
 
@@ -778,7 +727,7 @@ describe "Gameworks Registry API" do
       tags        "Player Profile"
       description "Update an existing Player profile."
       consumes    "application/json", "application/xml"
-      parameter   name: :userId,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
+      parameter   name: :id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
       parameter   name: :player,  in: :body, schema: {
         type: :object,
         properties: {
@@ -812,6 +761,94 @@ describe "Gameworks Registry API" do
       end
 
       response "422", "Unable to update player account" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  # DELETE /player_profiles/:id
+  path "/player_profiles/{id}" do
+
+    delete "Delete Player profile" do
+      tags        "Player Profile"
+      description "Delete a Player profile."
+      produces    "application/json"
+      parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
+      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "player deleted." do
+
+        examples "application/json" => {
+          "data" => {
+              "id"   => "633",
+              "type" => "player",
+              "attributes" => {
+                       "userId" => 1271,
+                    "firstName" => "Marcellus",
+                     "lastName" => "Luettgen",
+                         "email" => "marcellus.luettgen@example.com",
+                      "username" => "leeroy.jenkins",
+                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+              }
+          }
+        }
+
+        run_test!
+      end
+
+      response "404", "Player not found." do
+        run_test!
+      end
+
+      response "422", "Unable to delete player profile" do
+        run_test!
+      end
+
+      response "401", "Unauthorized: Access is denied" do
+        run_test!
+      end
+    end
+  end
+
+  # GET /player_profiles/:id/triggers
+  path "/player_profiles/{id}/triggers" do
+
+    get "Retrieve Player profile triggers" do
+      tags        "Player Profile"
+      description "Retrieve triggers of a Player profile."
+      produces    "application/json"
+      parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
+      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+
+      response "200", "player deleted." do
+
+        examples "application/json" => {
+          "data" => {
+              "id"   => "633",
+              "type" => "player",
+              "attributes" => {
+                       "userId" => 1271,
+                    "firstName" => "Marcellus",
+                     "lastName" => "Luettgen",
+                         "email" => "marcellus.luettgen@example.com",
+                      "username" => "leeroy.jenkins",
+                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+              }
+          }
+        }
+
+        run_test!
+      end
+
+      response "404", "Player not found." do
+        run_test!
+      end
+
+      response "422", "Unable to delete player profile" do
         run_test!
       end
 
