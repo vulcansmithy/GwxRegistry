@@ -927,6 +927,7 @@ describe "Gameworks Registry API" do
     end
   end
 
+  # GET /wallets/:wallet_address/balance
   path "/wallets/{wallet_address}/balance" do
     get "Retrieve the balance of a specific wallet" do
       tags        "Wallets"
@@ -944,6 +945,41 @@ describe "Gameworks Registry API" do
                   }
         }
 
+        run_test!
+      end
+    end
+  end
+
+  # GET /wallets/:wallet_address/account
+  path "/wallets/{wallet_address}/account" do
+    get "Retrieve a specific player account" do
+      tags        "Wallets"
+      description "Retrieve a specific player account by specifying its 'wallet_address'."
+      produces    "application/json"
+      parameter   name: :wallet_address, in: :path, description: "'wallet_address' of the User being retrieved", required: true, type: :string
+
+      response "200", "player account found" do
+
+        examples "application/json" => {
+          "data": {
+                "id": "31",
+                "type": "playerProfile",
+                "attributes": {
+                    "userId": 8,
+                    "username": "rapshit",
+                    "firstName": null,
+                    "lastName": null,
+                    "email": "proudcloud1@gmail.com",
+                    "walletAddress": null,
+                    "gameWalletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                }
+            }
+        }
+
+        run_test!
+      end
+
+      response "404", "Account not found" do
         run_test!
       end
     end

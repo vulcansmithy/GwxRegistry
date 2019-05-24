@@ -52,7 +52,16 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
       success_response({ balance: response })
     else
-      success_response({balance: @bal})
+      success_response({ balance: @bal })
+    end
+  end
+
+  def account
+    @wallet = Wallet.find_by(wallet_address: params[:wallet_address])
+    if @wallet&.account_type == "PlayerProfile"
+      success_response PlayerProfileSerializer.new(@wallet.account).serialized_json
+    else
+      error_response("", "Account not found", :unprocessable_entity)
     end
   end
 end

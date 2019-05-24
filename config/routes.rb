@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       collection do
         get '/:wallet_address', to: 'wallets#show'
         get '/:wallet_address/balance', to: 'wallets#balance'
+        get '/:wallet_address/account', to: 'wallets#account'
       end
     end
 
