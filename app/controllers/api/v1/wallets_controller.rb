@@ -1,6 +1,6 @@
 class Api::V1::WalletsController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: :show
+  skip_before_action :authenticate_request
   before_action :transform_params
 
   def show
