@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_16_081830) do
+ActiveRecord::Schema.define(version: 2019_05_24_052336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 2019_05_16_081830) do
     t.bigint "publisher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "oauth_application_id"
+    t.index ["oauth_application_id"], name: "index_games_on_oauth_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
 
@@ -154,6 +156,7 @@ ActiveRecord::Schema.define(version: 2019_05_16_081830) do
   end
 
   add_foreign_key "actions", "games"
+  add_foreign_key "games", "oauth_applications"
   add_foreign_key "games", "publishers"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
