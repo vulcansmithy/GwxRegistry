@@ -36,7 +36,10 @@ Rails.application.routes.draw do
     resources :publishers, :except => [:update, :destroy, :new, :edit] do
       collection do
         put   '/me',        to: 'publishers#update'
-        get   '/me/games',  to: 'publishers#games'
+        get   '/me/games',  to: 'publishers#my_games'
+      end
+      member do
+        get '/games', to: 'publishers#games'
       end
     end
 
