@@ -180,10 +180,11 @@ describe "Gameworks Registry API" do
       parameter   name: :user, in: :body, schema: {
         type: :object,
         properties: {
-                email: { type: :string },
+                email: { type: :string }
         },
         required: [ "email" ]
       }
+      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
 
       response "200", "sent" do
         examples "application/json" => {
@@ -809,22 +810,6 @@ describe "Gameworks Registry API" do
       parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
 
       response "204", "player deleted." do
-
-        examples "application/json" => {
-          "data" => {
-              "id"   => "633",
-              "type" => "player",
-              "attributes" => {
-                       "userId" => 1271,
-                    "firstName" => "Marcellus",
-                     "lastName" => "Luettgen",
-                         "email" => "marcellus.luettgen@example.com",
-                      "username" => "leeroy.jenkins",
-                "walletAddress" => "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
-              }
-          }
-        }
-
         run_test!
       end
 
@@ -967,10 +952,10 @@ describe "Gameworks Registry API" do
                 "attributes": {
                     "userId": 8,
                     "username": "rapshit",
-                    "firstName": null,
-                    "lastName": null,
+                    "firstName": "wat",
+                    "lastName": "wat",
                     "email": "proudcloud1@gmail.com",
-                    "walletAddress": null,
+                    "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW",
                     "gameWalletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
                 }
             }
@@ -992,7 +977,6 @@ describe "Gameworks Registry API" do
       tags  "Games"
       description "Retrieve all available games"
       produces  "application/json"
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
 
       response "200", "ok" do
         examples "application/json" => {
@@ -1095,7 +1079,6 @@ describe "Gameworks Registry API" do
       description "Retrieve a specific game by specifying its id"
       produces  "application/json"
       parameter name: :id, in: :path, description: "'id' of the game being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
 
       response "200", "game found" do
         examples "application/json" => {
@@ -1183,9 +1166,6 @@ describe "Gameworks Registry API" do
       parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
 
       response "204", "" do
-        examples "application/json" => {
-        }
-
         run_test!
       end
 
@@ -1452,9 +1432,6 @@ describe "Gameworks Registry API" do
       parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
 
       response "204", "" do
-        examples "application/json" => {
-        }
-
         run_test!
       end
 

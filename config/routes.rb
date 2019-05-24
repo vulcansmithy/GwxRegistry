@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     end
 
     resources :triggers, only: :create
+    resources :transfers
   end
 
   api_version(

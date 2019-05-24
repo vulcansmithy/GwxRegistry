@@ -287,6 +287,13 @@
                 "email"
               ]
             }
+          },
+          {
+            "name": "authorizationjwt",
+            "in": "header",
+            "description": "JWT Authorization Token provided to user upon log in",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -297,23 +304,7 @@
             "description": "sent",
             "examples": {
               "application/json": {
-                "data": {
-                  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
-                  "user": {
-                    "data": {
-                      "id": "8",
-                      "type": "user",
-                      "attributes": {
-                        "id": 8,
-                        "firstName": "sample",
-                        "lastName": "one",
-                        "email": "sample_one@gmail.com",
-                        "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
-                      }
-                    }
-                  },
-                  "message": "Login Successful"
-                }
+                "message": "Sent"
               }
             }
           }
@@ -1205,15 +1196,27 @@
             "examples": {
               "application/json": {
                 "data": {
-                  "id": "633",
-                  "type": "player",
+                  "id": "8",
+                  "type": "trigger",
                   "attributes": {
-                    "userId": 1271,
-                    "firstName": "Marcellus",
-                    "lastName": "Luettgen",
-                    "email": "marcellus.luettgen@example.com",
-                    "username": "leeroy.jenkins",
-                    "walletAddress": "1579d6dc85134d90b66cf82fbdc6b4f25768fb0221dd0313ae9db0f964eef1dc"
+                    "id": 8,
+                    "actionId": 7,
+                    "playerProfileId": 31,
+                    "createdAt": "2019-05-24 01:01:21 UTC"
+                  },
+                  "relationships": {
+                    "action": {
+                      "data": {
+                        "id": "7",
+                        "type": "action"
+                      }
+                    },
+                    "playerProfile": {
+                      "data": {
+                        "id": "31",
+                        "type": "playerProfile"
+                      }
+                    }
                   }
                 }
               }
@@ -1314,6 +1317,52 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/wallets/{wallet_address}/account": {
+      "get": {
+        "summary": "Retrieve a specific player account",
+        "tags": [
+          "Wallets"
+        ],
+        "description": "Retrieve a specific player account by specifying its 'wallet_address'.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "wallet_address",
+            "in": "path",
+            "description": "'wallet_address' of the User being retrieved",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player account found",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "id": "31",
+                  "type": "playerProfile",
+                  "attributes": {
+                    "userId": 8,
+                    "username": "rapshit",
+                    "firstName": "wat",
+                    "lastName": "wat",
+                    "email": "proudcloud1@gmail.com",
+                    "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW",
+                    "gameWalletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found"
           }
         }
       }
