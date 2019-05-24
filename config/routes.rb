@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  use_doorkeeper do
-    controllers :applications => 'oauth/applications'
-  end
 
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
@@ -13,6 +10,10 @@ Rails.application.routes.draw do
     :path      => { :value  => "v1"   },
     :defaults  => { :format => "json" },
     :default   => true) do
+
+    use_doorkeeper do
+      controllers :applications => 'oauth/applications'
+    end
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
