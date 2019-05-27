@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 2019_05_24_052336) do
     t.bigint "publisher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "oauth_application_id"
-    t.index ["oauth_application_id"], name: "index_games_on_oauth_application_id"
+    t.integer "game_application_id"
+    t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
 
@@ -156,7 +156,6 @@ ActiveRecord::Schema.define(version: 2019_05_24_052336) do
   end
 
   add_foreign_key "actions", "games"
-  add_foreign_key "games", "oauth_applications"
   add_foreign_key "games", "publishers"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
