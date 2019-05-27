@@ -6,7 +6,9 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def index
     @games = Game.all.paginate(page: params[:page])
-    success_response GameSerializer.new(@games).serialized_json
+    serialized_games = GameSerializer.new(@games).serializable_hash
+    game_list = serialized_games.merge(pagination: pagination(@games))
+    success_response game_list
   end
 
   def show
@@ -46,7 +48,9 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def player_profiles
     @player_profiles = @game.player_profiles.paginate(page: params[:page])
-    success_response PlayerProfileSerializer.new(@player_profiles).serialized_json
+    serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
+    player_profile_list = serialized_player_profiles.merge(pagination: pagination(@player_profiles))
+    success_response player_profile_list
   end
 
   private
