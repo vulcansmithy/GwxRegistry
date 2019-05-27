@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   after_commit :create_account, on: :create
   belongs_to :publisher
-  belongs_to :game_application
+  belongs_to :game_application, optional: true
   has_many :player_profiles
   has_one :wallet, as: :account
   has_many :actions, dependent: :destroy

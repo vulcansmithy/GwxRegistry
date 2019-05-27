@@ -19,7 +19,7 @@ class Api::V1::GamesController < Api::V1::BaseController
     @game = @publisher.games.new game_params
     @game_application = GameApplication.new(
       name: @game.name,
-      redirect_uri: "http://localhost:8080",
+      redirect_uri: "https://localhost:8080",
       owner: @current_user,
       game: @game
     )
