@@ -17,8 +17,15 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def create
     @game = @publisher.games.new game_params
-    if @game.save
-      success_response GameSerializer.new(@game).serialized_json, :created
+    @game_application = GameApplication.new(
+      name: @game.name,
+      redirect_uri: "http://localhost:8080",
+      owner: @current_user,
+      game: @game
+    )
+
+    if @game_application.save && @game.save
+      success_response AuthGameSerializer.new(@game, include: [:publisher, :game_application]).serialized_json, :created
     else
       error_response 'Unable to create game',
                      @game.errors.full_messages,
