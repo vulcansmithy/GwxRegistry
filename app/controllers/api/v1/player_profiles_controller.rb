@@ -4,8 +4,10 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   before_action :set_player_profile, except: %i[index create]
 
   def index
-    @player_profiles = @current_user.player_profiles
-    success_response PlayerProfileSerializer.new(@player_profiles).serialized_json
+    @player_profiles = @current_user.player_profiles.paginate(page: params[:page])
+    serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
+    player_profile_list = serialized_player_profiles.merge(pagination: pagination(@player_profiles))
+    success_response player_profile_list
   end
 
   def show
@@ -45,8 +47,10 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   end
 
   def triggers
-    @triggers = @player_profile.triggers
-    success_response TriggerSerializer.new(@triggers).serialized_json
+    @triggers = @player_profile.triggers.paginate(page: params[:page])
+    serialized_triggers = TriggerSerializer.new(@triggers).serializable_hash
+    trigger_list = serialized_triggers.merge(pagination: pagination(@triggers))
+    success_response trigger_list
   end
 
   private

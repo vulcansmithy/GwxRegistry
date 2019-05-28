@@ -5,8 +5,10 @@ class Api::V1::PublishersController < Api::V1::BaseController
   before_action :transform_params, only: %i[create update]
 
   def index
-    @publishers = Publisher.all
-    success_response PublisherSerializer.new(@publishers).serialized_json
+    @publishers = Publisher.all.paginate(page: params[:page])
+    serializable_publishers = PublisherSerializer.new(@publishers).serialized_hash
+    publisher_list = serialized_publishers.merge(pagination: pagination(@publishers)) 
+    success_response publisher_list
   end
 
   def show
@@ -38,8 +40,10 @@ class Api::V1::PublishersController < Api::V1::BaseController
   end
 
   def games
-    @games = @publisher.games
-    success_response GameSerializer.new(@games).serialized_json
+    @games = @publisher.games.paginate(page: params[:page])
+    serialized_games = GameSerializer.new(@games).serializable_hash
+    game_list = serialized_games.merge(pagination: pagination(@games))
+    success_response game_list
   end
 
   private
