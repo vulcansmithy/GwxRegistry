@@ -6,8 +6,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   def index
     @player_profiles = @current_user.player_profiles.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
-    player_profile_list = serialized_player_profiles.merge(pagination: pagination(@player_profiles))
-    success_response player_profile_list
+    success_response paginate_result(serialized_player_profiles, @player_profiles)
   end
 
   def show
@@ -49,8 +48,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   def triggers
     @triggers = @player_profile.triggers.paginate(page: params[:page])
     serialized_triggers = TriggerSerializer.new(@triggers).serializable_hash
-    trigger_list = serialized_triggers.merge(pagination: pagination(@triggers))
-    success_response trigger_list
+    success_response paginate_result(serialized_triggers, @triggers)
   end
 
   private

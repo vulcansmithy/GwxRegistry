@@ -5,7 +5,6 @@ class PublicKeyEncryptionService
 
     # retrieve Registry private key
     registry_private_key = RbNaCl::PrivateKey.new(decode_from_base64(Rails.application.secrets.registry_private_key))
-    
     return encode_to_base64(registry_private_key.public_key)
   end  
   

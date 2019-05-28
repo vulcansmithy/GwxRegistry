@@ -7,9 +7,8 @@ class Api::V1::ActionsController < Api::V1::BaseController
 
   def index
     @actions = @game.actions.paginate(page: params[:page])
-    serialized_actions = ActionSerializer.new(@actions).serialized_hash
-    action_list = serialized_actions.merge(pagination: pagination(@actions))
-    success_response action_list
+    serialized_actions = ActionSerializer.new(@actions).serializable_hash
+    success_response paginate_result(serialized_actions, @actions)
   end
 
   def show
@@ -51,8 +50,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
     @action = Action.find params[:id]
     @triggers = @action.triggers.paginate(page: params[:page])
     serialized_triggers = TriggerSerializer.new(@triggers).serializable_hash
-    trigger_list = serialized_triggers.merge(pagination: pagination(@triggers))
-    success_response trigger_list
+    success_response paginate_result(serialized_triggers, @triggers)
   end
 
   private
