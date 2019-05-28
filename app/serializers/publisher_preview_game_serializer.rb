@@ -1,4 +1,4 @@
-class AuthGameSerializer < ActiveModel::Serializer
+class PublisherPreviewGameSerializer < ActiveModel::Serializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower
