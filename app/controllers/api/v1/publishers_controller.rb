@@ -41,7 +41,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def games
     @games = @publisher.games.paginate(page: params[:page])
-    serialized_games = GameSerializer.new(@games).serializable_hash
+    serialized_games = PublisherPreviewGameSerializer.new(@games, include: [:game_application]).serializable_hash
     game_list = serialized_games.merge(pagination: pagination(@games))
     success_response game_list
   end
