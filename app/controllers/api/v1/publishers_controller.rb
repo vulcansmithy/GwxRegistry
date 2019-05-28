@@ -6,9 +6,8 @@ class Api::V1::PublishersController < Api::V1::BaseController
 
   def index
     @publishers = Publisher.all.paginate(page: params[:page])
-    serializable_publishers = PublisherSerializer.new(@publishers).serialized_hash
-    publisher_list = serialized_publishers.merge(pagination: pagination(@publishers)) 
-    success_response publisher_list
+    serialized_publishers = PublisherSerializer.new(@publishers).serializable_hash
+    success_response paginate_result(serialized_publishers, @publishers)
   end
 
   def show
@@ -43,7 +42,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
     @games = @publisher.games.paginate(page: params[:page])
     serialized_games = PublisherPreviewGameSerializer.new(@games, include: [:game_application]).serializable_hash
     game_list = serialized_games.merge(pagination: pagination(@games))
-    success_response game_list
+    success_response paginate_result(serialized_games, @games)
   end
 
   private

@@ -1,5 +1,6 @@
 class Api::V1::GamesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
+  skip_before_action :authenticate_request, only: :index
   before_action :set_publisher, only: %i[create update show destroy]
   before_action :transform_params, only: :create
   before_action :set_game, except: %i[index create]
@@ -7,8 +8,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   def index
     @games = Game.all.paginate(page: params[:page])
     serialized_games = GameSerializer.new(@games).serializable_hash
-    game_list = serialized_games.merge(pagination: pagination(@games))
-    success_response game_list
+    success_response paginate_result(serialized_games, @games)
   end
 
   def show
@@ -56,8 +56,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   def player_profiles
     @player_profiles = @game.player_profiles.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
-    player_profile_list = serialized_player_profiles.merge(pagination: pagination(@player_profiles))
-    success_response player_profile_list
+    success_response paginate_result(serialized_player_profiles, @player_profiles)
   end
 
   private
