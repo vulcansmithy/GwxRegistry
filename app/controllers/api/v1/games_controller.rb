@@ -17,6 +17,7 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def create
     @game = @publisher.games.new game_params
+    @game.category_ids = params[:categories]
     @game_application = GameApplication.new(
       name: @game.name,
       redirect_uri: "https://localhost:8080",
