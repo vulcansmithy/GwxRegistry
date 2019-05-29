@@ -18,6 +18,7 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def create
     @game = @publisher.games.new game_params
+    create_tags
     @game.category_ids = params[:categories]
     @game_application = GameApplication.new(
       name: @game.name,
@@ -62,6 +63,15 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   private
+
+  def create_tags
+    tags = params[:tags]
+    tags.each do |t|
+      next if @game.tags.exists?(name: t)
+      tag = Tag.find_or_create_by(name: t)
+      @game.tags << tag
+    end
+  end
 
   def game_params
     params.permit(:name, :description)
