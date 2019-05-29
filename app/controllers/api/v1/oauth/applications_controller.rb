@@ -3,7 +3,7 @@ class Api::V1::Oauth::ApplicationsController < Doorkeeper::ApplicationsControlle
 
   def index
     @applications = @current_user.oauth_applications
-    success_response(@applications)
+    render json: { data: @applications }
   end
 
   # only needed if each application must have some owner

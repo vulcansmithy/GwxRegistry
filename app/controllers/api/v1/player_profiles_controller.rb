@@ -16,15 +16,6 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     success_response PlayerProfileSerializer.new(@player).serialized_json
   end
 
-  def my_profiles
-    @player_profiles = @current_user.player_profiles
-    success_response PlayerProfileSerializer.new(@player_profiles).serialized_json
-  end
-
-  def my_profie
-    success_response PlayerProfileSerializer.new(@player_profile).serialized_json
-  end
-
   def create
     @game = Game.find(params[:game_id])
     @player_profile = @current_user.player_profiles.new(profile_params.merge(game_id: @game.id))
