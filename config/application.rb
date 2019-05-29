@@ -5,6 +5,8 @@ require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
 require "active_storage/engine"
+require 'carrierwave'
+require 'carrierwave/orm/activerecord'
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
