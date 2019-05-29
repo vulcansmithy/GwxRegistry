@@ -5,6 +5,7 @@ class Game < ApplicationRecord
   has_many :player_profiles
   has_one :wallet, as: :account
   has_many :actions, dependent: :destroy
+  has_and_belongs_to_many :categories
 
   validates_presence_of :name, :description
 
