@@ -45,11 +45,6 @@ class Api::V1::PublishersController < Api::V1::BaseController
     success_response paginate_result(serialized_games, @games)
   end
 
-  def games
-    @games = Game.where(publisher_id: params[:id])
-    success_response GameSerializer.new(@games).serialized_json
-  end
-
   private
 
   def publisher_params
