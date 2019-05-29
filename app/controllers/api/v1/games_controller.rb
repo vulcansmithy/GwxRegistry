@@ -1,5 +1,5 @@
 class Api::V1::GamesController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   before_action :set_publisher, only: %i[create update show]
   before_action :set_game, only: %i[show update player_profiles]
   before_action :transform_params, only: :create

@@ -1,5 +1,5 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   before_action :set_publisher, only: %i[show update]
   before_action :transform_params, only: %i[create update]
 

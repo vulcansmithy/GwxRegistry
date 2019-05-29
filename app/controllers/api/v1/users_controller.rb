@@ -1,7 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[create login confirm forgot update]
   # before_action :doorkeeper_authorize!, except: %i[create login confirm update show forgot]
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   before_action :check_current_user, only: %i[update update_password]
   before_action :transform_params, only: %i[create update update_password send_notification]
   before_action :set_recipient, only: :send_notification
