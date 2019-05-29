@@ -1,8 +1,9 @@
-class Oauth::ApplicationsController < Doorkeeper::ApplicationsController
+class Api::V1::Oauth::ApplicationsController < Doorkeeper::ApplicationsController
   before_action :authenticate_request
 
   def index
     @applications = @current_user.oauth_applications
+    render json: { data: @applications }
   end
 
   # only needed if each application must have some owner
@@ -11,9 +12,12 @@ class Oauth::ApplicationsController < Doorkeeper::ApplicationsController
     @application.owner = @current_user if Doorkeeper.configuration.confirm_application_owner?
     if @application.save
       flash[:notice] = I18n.t(:notice, :scope => [:doorkeeper, :flash, :applications, :create])
-      redirect_to oauth_application_url(@application)
+      render json: { data: @application },
+                    status: :created
     else
-      render :new
+      render json: { error: 'Error in creating application',
+                     message: @application.errors.full_messages },
+                    status: :unprocessable_entity
     end
   end
 
@@ -34,7 +38,7 @@ class Oauth::ApplicationsController < Doorkeeper::ApplicationsController
     begin
       @current_user = AuthorizeApiRequest.call(request.headers).result
     rescue
-      render json: { error: "Unauthorized: Access is denied" },
+      render json: { error: 'Unauthorized: Access is denied' },
              status: :unauthorized
     end
   end

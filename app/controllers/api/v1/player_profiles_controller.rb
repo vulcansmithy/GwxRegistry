@@ -1,16 +1,19 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
+  skip_before_action :authenticate_request, only: :show
   before_action :transform_params, only: %i[create update]
   before_action :set_player_profile, except: %i[index create]
 
   def index
-    @player_profiles = @current_user.player_profiles.paginate(page: params[:page])
+    @game = Game.find params[:id]
+    @player_profiles = @game.player_profiles.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
     success_response paginate_result(serialized_player_profiles, @player_profiles)
   end
 
   def show
-    success_response PlayerProfileSerializer.new(@player_profile).serialized_json
+    @player = PlayerProfile.find params[:id]
+    success_response PlayerProfileSerializer.new(@player).serialized_json
   end
 
   def create

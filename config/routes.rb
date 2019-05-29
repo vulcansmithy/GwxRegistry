@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  use_doorkeeper do
-    controllers :applications => 'oauth/applications'
-  end
 
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
@@ -13,6 +10,10 @@ Rails.application.routes.draw do
     :path      => { :value  => "v1"   },
     :defaults  => { :format => "json" },
     :default   => true) do
+
+    use_doorkeeper do
+      controllers :applications => 'oauth/applications'
+    end
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
@@ -35,7 +36,10 @@ Rails.application.routes.draw do
     resources :publishers, :except => [:update, :destroy, :new, :edit] do
       collection do
         put   '/me',        to: 'publishers#update'
-        get   '/me/games',  to: 'publishers#games'
+        get   '/me/games',  to: 'publishers#my_games'
+      end
+      member do
+        get '/games', to: 'publishers#games'
       end
     end
 
@@ -49,6 +53,7 @@ Rails.application.routes.draw do
       collection do
         get '/:wallet_address', to: 'wallets#show'
         get '/:wallet_address/balance', to: 'wallets#balance'
+        get '/:wallet_address/account', to: 'wallets#account'
       end
     end
 
@@ -66,6 +71,7 @@ Rails.application.routes.draw do
     end
 
     resources :triggers, only: :create
+    resources :transfers
   end
 
   api_version(

@@ -19,10 +19,10 @@ class Api::V1::TriggersController < Api::V1::BaseController
   private
 
   def trigger_params
-    params.permit(:action_id, :player_profile_id, :quantity)
+    params.permit(:action_id, :player_profile_id)
   end
 
   def process_trigger(trigger)
-    TriggerProcessor.new(trigger, {quantity: params[:quantity]})
+    TriggerProcessor.new(trigger, { quantity: params[:quantity] })
   end
 end

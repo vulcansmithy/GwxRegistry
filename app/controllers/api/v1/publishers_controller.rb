@@ -1,7 +1,7 @@
 class Api::V1::PublishersController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: :index
-  before_action :set_publisher, only: %i[update games]
+  skip_before_action :authenticate_request, only: %i[index show games]
+  before_action :set_publisher, only: %i[update my_games]
   before_action :transform_params, only: %i[create update]
 
   def index

@@ -1,7 +1,7 @@
 class Api::V1::GamesController < Api::V1::BaseController
   skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: :index
-  before_action :set_publisher, only: %i[create update show destroy]
+  skip_before_action :authenticate_request, only: %i[index show]
+  before_action :set_publisher, only: %i[create update destroy]
   before_action :transform_params, only: :create
   before_action :set_game, except: %i[index create]
 
@@ -12,6 +12,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def show
+    @game = Game.find params[:id]
     success_response GameSerializer.new(@game).serialized_json
   end
 
