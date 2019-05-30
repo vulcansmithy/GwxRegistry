@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_29_043315) do
+ActiveRecord::Schema.define(version: 2019_05_29_060957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,12 @@ ActiveRecord::Schema.define(version: 2019_05_29_043315) do
     t.integer "game_application_id"
     t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
+  end
+
+  create_table "games_tags", id: false, force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["game_id", "tag_id"], name: "index_games_tags_on_game_id_and_tag_id", unique: true
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -118,6 +124,12 @@ ActiveRecord::Schema.define(version: 2019_05_29_043315) do
     t.string "publisher_name"
     t.index ["publisher_name"], name: "index_publishers_on_publisher_name", unique: true
     t.index ["user_id"], name: "index_publishers_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "triggers", force: :cascade do |t|
