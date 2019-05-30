@@ -91,7 +91,8 @@ class Api::V1::AuthController < Api::V1::BaseController
       :pk,
       :device_token,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :avatar
     )
   end
 
@@ -104,7 +105,8 @@ class Api::V1::AuthController < Api::V1::BaseController
       :mac_address,
       :email,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :avatar
     )
   end
 
