@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  mount_uploader :game_avatar, GameAvatarUploader
+
   after_commit :create_account, on: :create
   belongs_to :publisher
   belongs_to :game_application, optional: true
