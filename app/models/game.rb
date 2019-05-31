@@ -12,6 +12,9 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :tags
 
   validates_presence_of :name, :description
+  validates :game_platforms
+
+  PLATFORMS = %w(Console Windows MacOs Android Ios).freeze
 
   private
 
