@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  mount_uploader :game_avatar, GameAvatarUploader
+  mount_uploader :icon, AvatarUploader
 
   after_commit :create_account, on: :create
   belongs_to :publisher

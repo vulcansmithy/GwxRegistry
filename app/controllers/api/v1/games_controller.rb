@@ -17,7 +17,6 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def create
-    binding.pry
     @game = @publisher.games.new game_params
     create_tags
     @game.category_ids = params[:categories]
@@ -75,7 +74,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def game_params
-    params.permit(:name, :description, :avatar)
+    params.permit(:name, :description, :icon)
   end
 
   def set_publisher
