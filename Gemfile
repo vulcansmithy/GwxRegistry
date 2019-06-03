@@ -25,6 +25,7 @@ gem 'versionist', '1.7.0'                   # https://github.com/bploetz/version
 gem 'doorkeeper'
 gem 'will_paginate', '~> 3.1.0'
 gem 'carrierwave', '~> 1.0'
+gem 'fog-aws'
 
 group :development, :test do
   gem 'awesome_print', '1.8.0'              # https://github.com/awesome-print/awesome_print
