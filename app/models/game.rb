@@ -12,7 +12,7 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :tags
 
   validates_presence_of :name, :description
-  validates :game_platforms
+  # validates :game_platforms
 
   PLATFORMS = %w(Console Windows MacOs Android Ios).freeze
 
@@ -25,5 +25,9 @@ class Game < ApplicationRecord
       wallet_address: account[:address],
       pk: account[:priv_key]
     )
+  end
+
+  def game_platforms
+    binding.pry
   end
 end
