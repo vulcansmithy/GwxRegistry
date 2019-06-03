@@ -7,7 +7,7 @@ CarrierWave.configure do |config|
       aws_secret_access_key: Rails.application.secrets.aws_secret_access_key,
       region: 'ap-southeast-1'
     }
-    config.fog_directory = Rails.application.s3_bucket_name
+    config.fog_directory = Rails.application.secrets.s3_bucket_name
     config.storage = :fog
   else
     config.storage = :file
