@@ -74,7 +74,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def game_params
-    params.permit(:name, :description)
+    params.permit(:name, :description, :icon, :url)
   end
 
   def set_publisher
