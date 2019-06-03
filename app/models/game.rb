@@ -12,9 +12,9 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :tags
 
   validates_presence_of :name, :description
-  # validates :game_platforms
+  validate :validate_platforms
 
-  PLATFORMS = %w(Console Windows MacOs Android Ios).freeze
+  PLATFORMS = %w(console windows macos android ios).freeze
 
   private
 
@@ -27,7 +27,11 @@ class Game < ApplicationRecord
     )
   end
 
-  def game_platforms
-    binding.pry
+  def validate_platforms
+    game_platform = platforms.map { |p| PLATFORMS.include?(p.downcase) }
+    unless game_platform.include?(false) == false
+      errors[:base] << "Unknown Platform"
+      return true
+    end
   end
 end

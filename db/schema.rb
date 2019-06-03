@@ -47,9 +47,10 @@ ActiveRecord::Schema.define(version: 2019_06_03_021845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_application_id"
-    t.string "icon"
-    t.json "images"
     t.text "platforms", default: [], array: true
+    t.json "images"
+    t.string "icon"
+    t.string "url"
     t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
