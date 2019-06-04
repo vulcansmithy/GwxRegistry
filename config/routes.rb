@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine  => "/api-docs" if Rails.env.development? || Rails.env.staging?
   mount Rswag::Api::Engine => "/api-docs" if Rails.env.development? || Rails.env.staging?
 
+  use_doorkeeper do
+    controllers :applications => 'oauth/applications'
+  end
+
   api_version(
     :module    => "Api::V1",
     :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
@@ -10,10 +14,6 @@ Rails.application.routes.draw do
     :path      => { :value  => "v1"   },
     :defaults  => { :format => "json" },
     :default   => true) do
-
-    use_doorkeeper do
-      controllers :applications => 'oauth/applications'
-    end
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'
