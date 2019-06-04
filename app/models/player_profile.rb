@@ -1,5 +1,4 @@
-# class PlayerProfile < ApplicationRecord
-class Player < ApplicationRecord
+class PlayerProfile < ApplicationRecord
   after_commit :create_account, on: :create
   belongs_to   :user, optional: true
   belongs_to   :game
