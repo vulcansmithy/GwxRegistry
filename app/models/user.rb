@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  mount_uploader :avatar, AvatarUploader
   include ActiveModel::SecurePassword
 
   has_secure_password

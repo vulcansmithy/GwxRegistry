@@ -8,9 +8,13 @@ class UserSerializer < ActiveModel::Serializer
              :last_name,
              :email,
              :confirmed_at,
-             :confirmation_sent_at
+             :confirmation_sent_at,
+             :avatar
 
   attribute :wallet_address do |user|
     user.wallet.try(:wallet_address)
   end
+
+  has_one :publisher
+  has_many :player_profiles
 end

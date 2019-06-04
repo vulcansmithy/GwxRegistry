@@ -2,12 +2,13 @@ class Api::V1::ActionsController < Api::V1::BaseController
   # skip_before_action :doorkeeper_authorize!
   before_action :transform_params
   before_action :set_publisher
-  before_action :set_game
+  before_action :set_game, except: :triggers
   before_action :set_action, only: %i[show update destroy]
 
   def index
-    @actions = @game.actions
-    success_response ActionSerializer.new(@actions).serialized_json
+    @actions = @game.actions.paginate(page: params[:page])
+    serialized_actions = ActionSerializer.new(@actions).serializable_hash
+    success_response paginate_result(serialized_actions, @actions)
   end
 
   def show
@@ -43,6 +44,13 @@ class Api::V1::ActionsController < Api::V1::BaseController
                      @action.errors.full_messages,
                      :unprocessable_entity
     end
+  end
+
+  def triggers
+    @action = Action.find params[:id]
+    @triggers = @action.triggers.paginate(page: params[:page])
+    serialized_triggers = TriggerSerializer.new(@triggers).serializable_hash
+    success_response paginate_result(serialized_triggers, @triggers)
   end
 
   private
