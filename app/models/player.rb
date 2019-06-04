@@ -1,9 +1,10 @@
 # class PlayerProfile < ApplicationRecord
 class Player < ApplicationRecord
   after_commit :create_account, on: :create
-  belongs_to :user, optional: true
-  # belongs_to :game
-  has_one :wallet, as: :account
+  belongs_to   :user, optional: true
+  belongs_to   :game
+  has_one      :wallet, as: :account
+  has_many     :triggers
 
   validates_uniqueness_of :username
   validates_presence_of :username

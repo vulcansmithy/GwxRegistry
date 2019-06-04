@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_16_030952) do
+ActiveRecord::Schema.define(version: 2019_06_03_021845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,13 +28,37 @@ ActiveRecord::Schema.define(version: 2019_05_16_030952) do
     t.index ["game_id"], name: "index_actions_on_game_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categories_games", id: false, force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "game_id", null: false
+    t.index ["category_id", "game_id"], name: "index_categories_games_on_category_id_and_game_id", unique: true
+  end
+
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.bigint "publisher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "game_application_id"
+    t.text "platforms", default: [], array: true
+    t.json "images"
+    t.string "icon"
+    t.string "url"
+    t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
+  end
+
+  create_table "games_tags", id: false, force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["game_id", "tag_id"], name: "index_games_tags_on_game_id_and_tag_id", unique: true
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -106,6 +130,21 @@ ActiveRecord::Schema.define(version: 2019_05_16_030952) do
     t.index ["user_id"], name: "index_publishers_on_user_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "triggers", force: :cascade do |t|
+    t.bigint "player_profile_id"
+    t.bigint "action_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_id"], name: "index_triggers_on_action_id"
+    t.index ["player_profile_id"], name: "index_triggers_on_player_profile_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -123,6 +162,7 @@ ActiveRecord::Schema.define(version: 2019_05_16_030952) do
     t.string "device_token"
     t.datetime "reset_password_sent_at"
     t.string "temporary_password"
+    t.string "avatar"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end
@@ -151,4 +191,6 @@ ActiveRecord::Schema.define(version: 2019_05_16_030952) do
   add_foreign_key "player_profiles", "games"
   add_foreign_key "player_profiles", "users"
   add_foreign_key "publishers", "users"
+  add_foreign_key "triggers", "actions"
+  add_foreign_key "triggers", "player_profiles"
 end

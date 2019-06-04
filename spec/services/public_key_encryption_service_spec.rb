@@ -20,14 +20,15 @@ RSpec.describe PublicKeyEncryptionService, type: :service do
     # make sure the retrieved Registry Public Key matches  
     expect(PublicKeyEncryptionService.new.registry_public_key).to eq "jhSTM7K2hzdSg0M1nYkNLPI_4JSI188qDgwu7C0cHS8="
   end
-  
+
+
   def decrypt(encrypted_payload, nonce)
     
     # decode the base64 public key of Registry
     registry_public_key = RbNaCl::PublicKey.new(Base64.urlsafe_decode64(PublicKeyEncryptionService.new.registry_public_key))
     
     # decode the base64 private key of Cashier
-    cashier_private_key = RbNaCl::PublicKey.new(Base64.urlsafe_decode64("LSHtsZqVQiygbf97PyYjedu_ts5i9vJabw0R6saRP9Y="))
+    cashier_private_key = RbNaCl::PublicKey.new(Base64.urlsafe_decode64("hSD15OgU6Ew1X_MM6iVP2eivLKqPV2S1s93HH3lRDBA="))
     
     # setup a Test Box
     test_box = RbNaCl::Box.new(registry_public_key, cashier_private_key)
