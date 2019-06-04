@@ -1,5 +1,5 @@
 class Api::V1::ActionsController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   before_action :transform_params
   before_action :set_publisher
   before_action :set_game, except: :triggers

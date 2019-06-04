@@ -16,7 +16,9 @@ class Api::V2::PlayersController < Api::V2::BaseController
   end
 
   def create
-    @player = @current_user.create_player(player_params)
+    # @player = @current_user.create_player(player_params)
+    @user = User.find params[:user_id]
+    @plater = @user.create_player(player_params)
 
     if @player.save
       success_response(PlayerSerializer.new(@player).serialized_json, :created)
