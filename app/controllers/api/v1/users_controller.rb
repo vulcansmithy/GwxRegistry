@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   # before_action :doorkeeper_authorize!, except: %i[create login confirm update show forgot]
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request
 
   def index
