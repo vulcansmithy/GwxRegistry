@@ -8,6 +8,7 @@ module ExceptionHandler
   class UserVerified < StandardError; end
   class ExpiredCode < StandardError; end
   class WrongCode < StandardError; end
+  class InvalidArgs < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized
@@ -18,6 +19,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::UserVerified, with: :unprocessable
     rescue_from ExceptionHandler::ExpiredCode, with: :unprocessable
     rescue_from ExceptionHandler::WrongCode, with: :unprocessable
+    rescue_from ExceptionHandler::InvalidArgs, with: :bad_request
   end
 
   private
@@ -32,5 +34,9 @@ module ExceptionHandler
 
   def unauthorized(e)
     render json: { message: e.message }, status: :unauthorized
+  end
+
+  def bad_request(e)
+    render json: { message: e.message }, status: :bad_request
   end
 end
