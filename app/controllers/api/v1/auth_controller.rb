@@ -1,6 +1,6 @@
 class Api::V1::AuthController < Api::V1::BaseController
   # skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: %i[login register confirm]
+  skip_before_action :authenticate_request, only: %i[login register confirm forgot]
   before_action :transform_params, only: %i[update notify]
   before_action :set_recipient, only: :notify
   before_action :validate_email, only: :forgot

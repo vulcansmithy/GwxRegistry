@@ -31,7 +31,7 @@ describe Api::V1::PlayerProfilesController do
     end
 
     it "should return correct results" do
-      expect(json['data'].count).to eq 0
+      expect(json['data'].count).to eq 1
     end
   end
 
