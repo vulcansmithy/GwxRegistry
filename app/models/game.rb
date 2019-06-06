@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
   mount_uploader  :icon,   AvatarUploader
   mount_uploaders :images, ImageUploader
+  mount_uploader  :cover,  CoverUploader
 
   after_commit :create_account, on: :create
   belongs_to :publisher
