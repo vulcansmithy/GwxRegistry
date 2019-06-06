@@ -22,7 +22,6 @@ gem 'rswag', '2.0.5'                        # https://github.com/domaindrivendev
 gem 'rspec-core'
 gem 'simple_command'                        # https://github.com/nebulab/simple_command
 gem 'versionist', '1.7.0'                   # https://github.com/bploetz/versionist
-gem 'doorkeeper'
 gem 'will_paginate', '~> 3.1.0'
 gem 'carrierwave', '~> 1.0'
 gem 'fog-aws'
