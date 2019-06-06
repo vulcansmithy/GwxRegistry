@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_021845) do
+ActiveRecord::Schema.define(version: 2019_06_06_064136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,10 +47,11 @@ ActiveRecord::Schema.define(version: 2019_06_03_021845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_application_id"
-    t.text "platforms", default: [], array: true
     t.json "images"
+    t.text "platforms", default: [], array: true
     t.string "icon"
     t.string "url"
+    t.string "cover"
     t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
@@ -160,8 +161,6 @@ ActiveRecord::Schema.define(version: 2019_06_03_021845) do
     t.string "encrypted_pk_iv"
     t.string "mac_address"
     t.string "device_token"
-    t.datetime "reset_password_sent_at"
-    t.string "temporary_password"
     t.string "avatar"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
