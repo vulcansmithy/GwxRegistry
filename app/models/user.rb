@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   has_one :publisher, dependent: :destroy
   has_many :player_profiles, dependent: :destroy
+  has_many :games, through: :player_profiles
   has_one :wallet, as: :account
 
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
