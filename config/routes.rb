@@ -71,6 +71,10 @@ Rails.application.routes.draw do
     end
 
     resources :triggers, only: :create
-    resources :transfers, only: [:create, :show]
+    resources :transfers, only: [:create, :show] do
+      collection do
+        post '/seamless', to: 'transfers#seamless_transfer'
+      end
+    end
   end
 end
