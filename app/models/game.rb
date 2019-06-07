@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  include Walletable
+
   mount_uploader  :icon,   AvatarUploader
   mount_uploaders :images, ImageUploader
   mount_uploader  :cover,  CoverUploader
@@ -18,15 +20,6 @@ class Game < ApplicationRecord
   PLATFORMS = %w(console windows macos android ios).freeze
 
   private
-
-  def create_account
-    account = NemService.create_account
-
-    self.create_wallet(
-      wallet_address: account[:address],
-      pk: account[:priv_key]
-    )
-  end
 
   def validate_platforms
     game_platform = platforms.map { |p| PLATFORMS.include?(p.downcase) }
