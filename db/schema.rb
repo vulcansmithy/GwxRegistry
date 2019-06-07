@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_064136) do
+ActiveRecord::Schema.define(version: 2019_06_07_033756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_06_06_064136) do
     t.bigint "action_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "transaction_id"
     t.index ["action_id"], name: "index_triggers_on_action_id"
     t.index ["player_profile_id"], name: "index_triggers_on_player_profile_id"
   end
@@ -161,6 +162,8 @@ ActiveRecord::Schema.define(version: 2019_06_06_064136) do
     t.string "encrypted_pk_iv"
     t.string "mac_address"
     t.string "device_token"
+    t.datetime "reset_password_sent_at"
+    t.string "temporary_password"
     t.string "avatar"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
