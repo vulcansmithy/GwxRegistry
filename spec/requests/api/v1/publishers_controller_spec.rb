@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::PublishersController do
+describe Api::V1::PublishersController, fake_name: true do
+  before { mock_nem_service }
+
   let!(:user) { create(:user) }
   let!(:user2) { create(:user) }
   let!(:publisher) { create(:publisher, user: user) }

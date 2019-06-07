@@ -48,11 +48,11 @@ group :development do
 end
 
 group :test do
-  gem 'database_cleaner'
   gem 'factory_bot_rails', '4.11.1'           # https://github.com/thoughtbot/factory_bot_rails
   gem 'faker', '1.9.1'                        # https://github.com/stympy/faker
   gem 'shoulda-matchers'
   gem 'simplecov', '0.16.1', require: false   # https://github.com/colszowka/simplecov
+  gem 'database_rewinder'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
