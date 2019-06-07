@@ -5,8 +5,7 @@ class Api::V1::TriggersController < Api::V1::BaseController
   def create
     @trigger = Trigger.new(trigger_params)
 
-    if @trigger.save
-      process_trigger(@trigger) unless Rails.env.test?
+    if @trigger.save && process_trigger(@trigger)
       success_response TriggerSerializer.new(@trigger).serialized_json,
                        :created
     else
@@ -23,6 +22,10 @@ class Api::V1::TriggersController < Api::V1::BaseController
   end
 
   def process_trigger(trigger)
-    TriggerProcessor.new(trigger, { quantity: params[:quantity] })
+    return true if Rails.env.test?
+
+    res = TriggerProcessor.new(trigger, { quantity: params[:quantity] })
+    trigger.transaction_id = res["data"]["attributes"]["id"]
+    trigger.save
   end
 end
