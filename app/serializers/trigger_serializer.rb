@@ -9,7 +9,15 @@ class TriggerSerializer < ActiveModel::Serializer
              :created_at
   
   attribute :transaction_details do |trigger|
-    Cashier.new.find_transaction(trigger.transaction_id)
+    if trigger.transaction_id.present?
+      res = CashierService.new.find_transaction(trigger.transaction_id)
+      {
+        transactionHash: res["data"]["attributes"]["txHash"],
+        status: res["data"]["attributes"]["status"],
+        quantity: res["data"]["attributes"]["quantity"],
+        details: res["data"]["attributes"]["transaction_details"]
+      }
+    end
   end
 
   belongs_to :action

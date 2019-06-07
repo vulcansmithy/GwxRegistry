@@ -24,8 +24,8 @@ class Api::V1::TriggersController < Api::V1::BaseController
   def process_trigger(trigger)
     return true if Rails.env.test?
 
-    res = TriggerProcessor.new(trigger, { quantity: params[:quantity] })
-    trigger.transaction_id = res["data"]["attributes"]["id"]
+    res = TriggerProcessor.new(trigger, { quantity: params[:quantity] }).process
+    trigger.transaction_id = res["data"]["attributes"]["id"].to_i
     trigger.save
   end
 end
