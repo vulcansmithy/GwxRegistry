@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_021845) do
+ActiveRecord::Schema.define(version: 2019_06_07_033756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,10 +47,11 @@ ActiveRecord::Schema.define(version: 2019_06_03_021845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_application_id"
-    t.text "platforms", default: [], array: true
     t.json "images"
+    t.text "platforms", default: [], array: true
     t.string "icon"
     t.string "url"
+    t.string "cover"
     t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
@@ -141,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_06_03_021845) do
     t.bigint "action_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "transaction_id"
     t.index ["action_id"], name: "index_triggers_on_action_id"
     t.index ["player_profile_id"], name: "index_triggers_on_player_profile_id"
   end

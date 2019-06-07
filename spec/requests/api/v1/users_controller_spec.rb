@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::UsersController do
+describe Api::V1::UsersController, fake_nem: true do
+  before { mock_nem_service }
+
   let!(:users) { create_list(:user, 5) }
 
   describe 'GET /users' do

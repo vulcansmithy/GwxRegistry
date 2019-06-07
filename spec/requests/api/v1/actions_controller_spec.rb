@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::ActionsController do
+describe Api::V1::ActionsController, fake_nem: true do
+  before { mock_nem_service }
+
   let!(:user) { create(:user) }
   let!(:player_user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }

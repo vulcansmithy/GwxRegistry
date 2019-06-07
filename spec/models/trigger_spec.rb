@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Trigger, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to(:player_profile) }
+  it { should belong_to(:action) }
 end

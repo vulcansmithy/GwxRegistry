@@ -24,9 +24,7 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.infer_spec_type_from_file_location!
 
@@ -35,4 +33,16 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Requests::JsonHelpers, type: :request
   config.include Requests::HeaderHelpers, type: :request
+
+  config.before(:suite) do
+    DatabaseRewinder.clean_all
+  end
+
+  config.after(:each) do
+    DatabaseRewinder.clean
+  end
+
+  config.before(:each) do |example|
+    config.include NemHelper if example.metadata[:fake_nem]
+  end
 end

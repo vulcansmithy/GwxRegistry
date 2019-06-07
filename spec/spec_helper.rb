@@ -1,6 +1,7 @@
-require "simplecov"
-SimpleCov.start "rails"
-puts "required simplecov"
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start "rails"
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe Api::V1::TriggersController do
+describe Api::V1::TriggersController, fake_nem: true do
+  before { mock_nem_service }
+
   let!(:player) { create(:user, first_name: 'Player') }
   let!(:user) { create(:user, first_name: 'Publisher') }
   let!(:publisher) { create(:publisher, user: user) }

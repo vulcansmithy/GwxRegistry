@@ -1,5 +1,5 @@
 class Api::V1::PublishersController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request, only: %i[index show games]
   before_action :set_publisher, only: %i[update my_games]
   before_action :transform_params, only: %i[create update]
@@ -38,10 +38,16 @@ class Api::V1::PublishersController < Api::V1::BaseController
     end
   end
 
-  def games
+  def my_games
     @games = @publisher.games.paginate(page: params[:page])
     serialized_games = PublisherPreviewGameSerializer.new(@games, include: [:game_application]).serializable_hash
-    game_list = serialized_games.merge(pagination: pagination(@games))
+    success_response paginate_result(serialized_games, @games)
+  end
+
+  def games
+    @publisher = Publisher.find params[:id]
+    @games = @publisher.games.paginate(page: params[:page])
+    serialized_games = GameSerializer.new(@games).serializable_hash
     success_response paginate_result(serialized_games, @games)
   end
 
