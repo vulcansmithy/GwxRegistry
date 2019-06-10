@@ -55,6 +55,11 @@ jobs:
         name: Restore bundle cache
         key: gwx-registry-api-{{ checksum "Gemfile.lock" }}
       - run:
+          name: Get bundler version
+          command: |
+            BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")
+            gem install bundler --version=$BUNDLER_VERSION
+      - run:
           name: Bundle
           command: bundle check || bundle install
       - run:
