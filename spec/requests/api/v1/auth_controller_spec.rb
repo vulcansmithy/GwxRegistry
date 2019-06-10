@@ -1,9 +1,16 @@
 require 'rails_helper'
 
 describe Api::V1::AuthController do
+  let!(:nem_account) { NemService.create_account }
   let!(:user) { build(:user) }
   let!(:user2) { create(:user) }
-  let!(:valid_headers) { generate_headers(user2) }
+  let!(:wallet) do
+    user2.create_wallet(
+      wallet_address: nem_account[:address],
+      pk: nem_account[:priv_key]
+    )
+  end
+  let(:valid_headers) { generate_headers(user2) }
 
   let(:user_params) do
     {
@@ -72,7 +79,41 @@ describe Api::V1::AuthController do
       end
     end
   end
-  
+
+  describe 'POST /console_login' do
+    context 'when credentials are valid' do
+      before do
+        post '/v1/auth/console_login',
+             params: {
+               wallet_addres: user2.wallet.wallet_address
+             },
+             headers: {}
+      end
+
+      it 'should return status 200' do
+        expect(response.status).to eq 200
+      end
+
+      it 'should return JWT token' do
+        expect(json['token']).not_to eq nil
+      end
+    end
+
+    context 'when credentials are invalid' do
+      before do
+        post '/v1/auth/console_login',
+             params: {
+               wallet_addres: ''
+             },
+             headers: {}
+      end
+
+      it 'should return status 401' do
+        expect(response.status).to eq 401
+      end
+    end
+  end
+ 
   describe 'POST /forgot' do
     context 'when email is found' do
       before do
