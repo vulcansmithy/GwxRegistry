@@ -38,7 +38,7 @@ class Api::V1::ActionsController < Api::V1::BaseController
 
   def destroy
     if @action.destroy
-      render status: :no_content
+      success_response message: 'Successfully deleted action '
     else
       error_response "Unable to create action",
                      @action.errors.full_messages,

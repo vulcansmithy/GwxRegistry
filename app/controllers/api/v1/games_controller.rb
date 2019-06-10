@@ -48,7 +48,7 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def destroy
     if @game.destroy
-      render status: :no_content
+      success_response message: 'Successfully deleted'
     else
       error_response 'Unable to delete game',
                      @game.errors.full_messages,

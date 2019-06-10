@@ -125,8 +125,8 @@ describe Api::V1::GamesController, fake_name: true do
              headers: valid_headers
     end
 
-    it "should return status 204" do
-      expect(response.status).to eq 204
+    it "should return status 200" do
+      expect(response.status).to eq 200
     end
  
     it "should delete the record" do

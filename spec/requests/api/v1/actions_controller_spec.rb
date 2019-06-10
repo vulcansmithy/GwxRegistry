@@ -177,8 +177,8 @@ describe Api::V1::ActionsController, fake_nem: true do
              headers: valid_headers
     end
 
-    it "should return status 204" do
-      expect(response.status).to eq 204
+    it "should return status 200" do
+      expect(response.status).to eq 200
     end
 
     it "should delete the record" do
