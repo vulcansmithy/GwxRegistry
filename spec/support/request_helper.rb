@@ -14,7 +14,7 @@ module Requests
       token = JsonWebToken.encode(user_id: user.id)
       {
         'Content-Type': 'application/json',
-        'Authorization': "#{token}"
+        'Authorization': "Basic #{token}"
       }
     end
   end
