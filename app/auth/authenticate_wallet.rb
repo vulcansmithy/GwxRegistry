@@ -10,18 +10,18 @@ class AuthenticateWallet
   end
 
   def call
-    auth_user = wallet
+    auth_user = wallet_user
     @result = {
-      token: JsonWebToken.encode(wallet_address: auth_wallet.wallet_address),
-      wallet: WalletSerializer.new(auth_wallet).serializable_hash
+      token: JsonWebToken.encode(user_id: auth_user.id),
+      user: UserSerializer.new(auth_user).serializable_hash
     }
   end
 
   private
 
-  def wallet
-    wallet = Wallet.find_by(wallet_address: params[:wallet_address], account_type: "User").account
-    if wallet
+  def wallet_user
+    user = Wallet.find_by(wallet_address: @wallet_address, account_type: "User")&.account
+    if user
       @success = true
       return user
     end

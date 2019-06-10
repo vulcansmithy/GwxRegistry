@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :auth, :only => [] do
       collection do
         post 'login', to: 'auth#login'
-        post 'console', to: 'auth#console'
+        post 'console_login', to: 'auth#console_login'
         post 'register', to: 'auth#register'
         post 'forgot', to: 'auth#forgot'
         get 'me', to: 'auth#me'
