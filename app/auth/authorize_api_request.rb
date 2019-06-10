@@ -6,7 +6,7 @@ class AuthorizeApiRequest
   end
 
   def call
-    user || wallet
+    user
   end
 
   private
@@ -16,11 +16,6 @@ class AuthorizeApiRequest
   def user
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
     @user || errors.add(:token, 'Invalid token') && nil
-  end
-
-  def wallet
-    @wallet ||= Wallet.find(decoded_auth_token[:wallet_address]) if decoded_auth_token
-    @wallet || errors.add(:token, 'Invalid token') && nil
   end
 
   def decoded_auth_token
