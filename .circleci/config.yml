@@ -46,7 +46,7 @@ jobs:
   deploy:
     working_directory: ~/gwx-registry-api
     docker:
-      - image: circleci/ruby:2.5-node-browsers-legacy
+      - image: circleci/ruby:2.5.1-stretch
         environment:
           BUNDLER_VERSION: 2.0.1
     steps:
