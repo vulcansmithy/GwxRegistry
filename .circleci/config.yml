@@ -1,69 +1,50 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2
 jobs:
   build:
+    working_directory: ~/gwx-registry-api
     docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.5-node-browsers-legacy
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+      - image: circleci/ruby:2.5.1-stretch
+        environment:
+          BUNDLER_VERSION: 2.0.1
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+      - image: circleci/postgres:9.6.10-alpine
+        environtment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: gwx_registry_api_test
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
+      - type: cache-restore
+        name: Restore bundle cache
+        key: gwx-registry-api-{{ checksum "Gemfile.lock" }}
       - run:
-          name: install dependencies
+          name: Get bundler version
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
-      # run tests!
+            BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")
+            gem install bundler --version=$BUNDLER_VERSION
       - run:
-          name: run tests
+          name: Install Ruby Dependencies
+          command: bundle install --path vendor/bundle
+      - type: cache-save
+        name: Store bundle cache
+        key: gwx-registry-api-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: install libsodium
           command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+            sudo apt-get install libsodium-dev
+      - run:
+          name: Create DB
+          command: bundle exec rake db:create db:schema:load
+      - run:
+          name: Run RSpec
+          command: |
+            bundle exec rspec spec
 
   deploy:
-    working_directory: ~/repo
+    working_directory: ~/gwx-registry-api
     docker:
       - image: circleci/ruby:2.5-node-browsers-legacy
     steps:
