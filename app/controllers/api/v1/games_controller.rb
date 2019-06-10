@@ -22,7 +22,7 @@ class Api::V1::GamesController < Api::V1::BaseController
     @game.category_ids = params[:categories]
     @game_application = GameApplication.new(
       name: @game.name,
-      redirect_uri: "https://localhost:8080",
+      redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
       owner: @current_user,
       game: @game
     )
