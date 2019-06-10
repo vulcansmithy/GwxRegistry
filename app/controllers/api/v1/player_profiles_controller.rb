@@ -39,7 +39,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
 
   def destroy
     if @player_profile.destroy
-      render status: :no_content
+      success_response message: 'Successfully deleted'
     else
       error_response 'Unable to delete player profile',
                      @player_profile.errors.full_messages,
