@@ -5,10 +5,12 @@ describe Api::V1::PublishersController, fake_name: true do
 
   let!(:user) { create(:user) }
   let!(:user2) { create(:user) }
+  let!(:user3) { create(:user) }
   let!(:publisher) { create(:publisher, user: user) }
   let!(:publisher2) { create(:publisher, user: user2) }
   let!(:valid_headers) { generate_headers(user) }
   let!(:valid_headers2) { generate_headers(user2) }
+  let!(:valid_headers3) { generate_headers(user3) }
   let!(:games) { create_list(:game, 4, publisher: publisher) }
 
   let(:publisher_params) do
@@ -42,7 +44,7 @@ describe Api::V1::PublishersController, fake_name: true do
       before do
         post "/v1/publishers",
             params: publisher_params.to_json,
-            headers: valid_headers
+            headers: valid_headers3
       end
 
       it "should return status 201" do
@@ -59,6 +61,18 @@ describe Api::V1::PublishersController, fake_name: true do
         post "/v1/publishers",
             params: publisher_params.except(:publisherName).to_json,
             headers: valid_headers2
+      end
+
+      it "should return status 422" do
+        expect(response.status).to eq 422
+      end
+    end
+
+    context "when user has already a publisher" do
+      before do
+        post "/v1/publishers",
+            params: publisher_params.to_json,
+            headers: valid_headers
       end
 
       it "should return status 422" do

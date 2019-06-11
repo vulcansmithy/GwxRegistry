@@ -3,6 +3,7 @@ class Api::V1::PublishersController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[index show games]
   before_action :set_publisher, only: %i[update my_games]
   before_action :transform_params, only: %i[create update]
+  before_action :validate_user_publisher, only: :create
 
   def index
     @publishers = Publisher.all.paginate(page: params[:page])
@@ -63,6 +64,14 @@ class Api::V1::PublishersController < Api::V1::BaseController
       error_response "You don't have an existing publisher account",
                      'Publisher account does not exist',
                      :not_found
+    end
+  end
+
+  def validate_user_publisher
+    if @current_user.publisher.present?
+      return error_response "You already have a publisher",
+                            [],
+                            :unprocessable_entity
     end
   end
 end
