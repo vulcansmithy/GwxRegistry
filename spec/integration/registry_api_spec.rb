@@ -8,7 +8,7 @@ describe "Gameworks Registry API" do
       tags        "Oauth"
       description "Get authorization to access registry api"
       produces    "application/json"
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
       parameter   name: :oauth,  in: :body, schema: {
         type: :object,
         properties: {
@@ -49,7 +49,7 @@ describe "Gameworks Registry API" do
       tags        "Oauth"
       description "Request access token by providing 'client_id' and 'client_secret'"
       produces    "application/json"
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
       parameter   name: :oauth,  in: :body, schema: {
         type: :object,
         properties: {
@@ -172,6 +172,51 @@ describe "Gameworks Registry API" do
     end
   end
 
+  # POST /auth/console_login
+  path "/auth/console_login" do
+    post "Console Login" do
+      tags "Auth"
+      description "Successfully login from console to api"
+      consumes    "application/json", "application/xml"
+      parameter   name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+             wallet_address: { type: :string }
+        },
+        required: [ "wallet_address" ]
+      }
+
+      response "200", "Login Successful" do
+        examples "application/json" => {
+          "data" =>
+            {
+              "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
+              "user": {
+                  "data": {
+                      "id": "8",
+                      "type": "user",
+                      "attributes": {
+                          "id": 8,
+                          "firstName": "sample",
+                          "lastName": "one",
+                          "email": "sample_one@gmail.com",
+                          "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                      }
+                  }
+              },
+              "message": "Login Successful"
+            }
+        }
+
+        run_test!
+
+        response "401", "Invalid Credentials" do
+          run_test!
+        end
+      end
+    end
+  end
+
   # POST /auth/forgot
   path "/auth/forgot" do
     post "Forgot password" do
@@ -185,7 +230,7 @@ describe "Gameworks Registry API" do
         },
         required: [ "email" ]
       }
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "sent" do
         examples "application/json" => {
@@ -209,7 +254,7 @@ describe "Gameworks Registry API" do
       description "Confirm user account"
       produces "application/json"
       parameter   name: :code,   in: :path, description: "confirmation code sent on email", required: true, type: :string
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "Confirmed" do
 
@@ -236,7 +281,7 @@ describe "Gameworks Registry API" do
       description "Resend code"
       produces    "application/json"
       parameter   name: :id,   in: :path, description: "id", required: true, type: :integer
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "Sent" do
         run_test!
@@ -251,7 +296,7 @@ describe "Gameworks Registry API" do
       description "Retrieve a specific User account by specifying its 'id'."
       produces    "application/json"
       parameter   name: :id, in: :path, description: "'id' of the User being retrieved", required: true, type: :integer
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "user found." do
 
@@ -299,7 +344,7 @@ describe "Gameworks Registry API" do
            walletAddress: { type: :string }
         },
       }
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "user updated." do
 
@@ -460,7 +505,7 @@ describe "Gameworks Registry API" do
         },
         required: [ "userId", "publisherName", "description" ]
       }
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "201", "publisher created." do
 
@@ -498,7 +543,7 @@ describe "Gameworks Registry API" do
       description "Retrieve a specific publisher by specifying its 'userId'."
       produces    "application/json"
       parameter   name: :id,   in: :path, description: "'id' of the User profile being retrieved", required: true, type: :integer
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "publisher found." do
 
@@ -544,7 +589,7 @@ describe "Gameworks Registry API" do
           description:    { type: :string }
         }
       }
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "publisher updated." do
 
@@ -582,7 +627,7 @@ describe "Gameworks Registry API" do
       tags        "Publishers"
       description "Retrieve a games of publisher account"
       produces    "application/json"
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "publisher's games found." do
 
@@ -708,7 +753,7 @@ describe "Gameworks Registry API" do
        tags        "Player Profile"
        description "Retrieve all existing Player profiles."
        produces    "application/json"
-       parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+       parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
        response "200", "player(s) found." do
 
@@ -803,7 +848,7 @@ describe "Gameworks Registry API" do
         },
         required: [ "username" ]
       }
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "201", "player created." do
 
@@ -888,7 +933,7 @@ describe "Gameworks Registry API" do
           username: { type: :string },
         }
       }
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "player updated." do
 
@@ -932,7 +977,7 @@ describe "Gameworks Registry API" do
       description "Delete a Player profile."
       produces    "application/json"
       parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "204", "player deleted." do
         run_test!
@@ -960,7 +1005,7 @@ describe "Gameworks Registry API" do
       description "Retrieve triggers of a Player profile."
       produces    "application/json"
       parameter   name: :id,   in: :path, description: "'id' of the player profile being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "trigger(s) found." do
 
@@ -1016,7 +1061,7 @@ describe "Gameworks Registry API" do
       description "Retrieve a specific wallet info by specifying its 'wallet_address'."
       produces    "application/json"
       parameter   name: :wallet_address, in: :path, description: "'wallet_address' of the User being retrieved", required: true, type: :string
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "ok" do
 
@@ -1044,7 +1089,7 @@ describe "Gameworks Registry API" do
       description "Retrieve the balance of a specific wallet info by specifying its 'wallet_address'."
       produces    "application/json"
       parameter   name: :wallet_address, in: :path, description: "'wallet_address' of the User being retrieved", required: true, type: :string
-      parameter   name: :authorizationjwt, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter   name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "ok" do
 
@@ -1166,7 +1211,7 @@ describe "Gameworks Registry API" do
         },
         required: [ "name", "description" ]
       }
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "201", "publisher created." do
 
@@ -1249,7 +1294,7 @@ describe "Gameworks Registry API" do
           description: { type: :string }
         }
       }
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "game updated" do
         examples "application/json" => {
@@ -1288,7 +1333,7 @@ describe "Gameworks Registry API" do
       description "Delete selected game"
       produces  "application/json"
       parameter name: :id, in: :path, description: "'id' of the game being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "204", "" do
         run_test!
@@ -1307,7 +1352,7 @@ describe "Gameworks Registry API" do
       tags        "Games"
       description "Retrieve all player profiles of the selected game"
       produces    "application/json"
-      parameter name: :authorization, in: :header, description: "token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "player profiles" do
 
@@ -1347,7 +1392,7 @@ describe "Gameworks Registry API" do
       description "Retrieve all available actions"
       produces "application/json"
       parameter name: :game_id, in: :path, description: "'game_id' of the game being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "ok" do
         examples "application/json" => {
@@ -1404,7 +1449,7 @@ describe "Gameworks Registry API" do
         },
         required: ["name", "description", "fixedAmount", "unitFee", "fixed", "rate"]
       }
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "201", "ok" do
         examples "application/json" => {
@@ -1448,7 +1493,7 @@ describe "Gameworks Registry API" do
       produces "application/json"
       parameter name: :game_id, in: :path, description: "'game_id' of the game being retrieved", required: true, type: :integer
       parameter name: :id, in: :path, description: "'id' of the action being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "200", "action found" do
         examples "application/json" => {
@@ -1496,7 +1541,7 @@ describe "Gameworks Registry API" do
       consumes "application/json", "application/xml"
       parameter name: :game_id, in: :path, description: "'game_id' of the game being retrieved", required: true, type: :integer
       parameter name: :id, in: :path, description: "'id' of the action being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
       parameter name: :action, in: :body, schema: {
         type: :object,
         properties: {
@@ -1554,7 +1599,7 @@ describe "Gameworks Registry API" do
       description "Delete selected action"
       parameter name: :game_id, in: :path, description: "'game_id' of the game being retrieved", required: true, type: :integer
       parameter name: :id, in: :path, description: "'id' of the action being retrieved", required: true, type: :integer
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "204", "" do
         run_test!
@@ -1586,7 +1631,7 @@ describe "Gameworks Registry API" do
         },
         required: ["quantity", "actionId", "playerProfileId"]
       }
-      parameter name: :authorizationjwt, in: :header, description: "JWT Authorization Token provided to user upon log in", required: true, type: :string
+      parameter name: :authorization, in: :header, description: "Basic 'token' provided to user upon log in", required: true, type: :string
 
       response "201", "trigger created" do
         examples "application/json" => {
