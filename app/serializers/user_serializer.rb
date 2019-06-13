@@ -9,6 +9,7 @@ class UserSerializer < ActiveModel::Serializer
              :email,
              :confirmed_at,
              :confirmation_sent_at,
+             :reset_password_sent_at,
              :avatar
 
   attribute :wallet_address do |user|

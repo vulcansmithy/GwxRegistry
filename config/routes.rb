@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         post 'confirm/:code', to: 'auth#confirm'
         get 'resend', to: 'auth#resend'
         put 'me', to: 'auth#update'
+        put 'update_password', to: 'auth#update_password'
         post 'notify/:wallet_address', to: 'auth#notify'
       end
     end

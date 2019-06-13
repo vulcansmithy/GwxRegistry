@@ -64,6 +64,15 @@ class Api::V1::AuthController < Api::V1::BaseController
     end
   end
 
+  def update_password
+    if @current_user.update_password(update_user_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
+    else
+      error_response("Unable to update password",
+                     @current_user.errors.full_messages, :unprocessable_entity)
+    end
+  end
+
   def notify
     @fcm = FCMService.new
     if @fcm.notify([@recipient.device_token], notification_params[:options])
