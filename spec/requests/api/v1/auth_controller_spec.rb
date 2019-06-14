@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe Api::V1::AuthController do
+describe Api::V1::AuthController, fake_nem: true do
+  before { mock_nem_service }
+
   let!(:nem_account) { NemService.create_account }
   let!(:user) { build(:user) }
   let!(:user2) { create(:user) }
