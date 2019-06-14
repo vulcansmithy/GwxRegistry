@@ -85,7 +85,7 @@ describe Api::V1::AuthController do
       before do
         post '/v1/auth/console_login',
              params: {
-               wallet_addres: user2.wallet.wallet_address
+               wallet_address: user2.wallet.wallet_address
              },
              headers: {}
       end
@@ -103,7 +103,7 @@ describe Api::V1::AuthController do
       before do
         post '/v1/auth/console_login',
              params: {
-               wallet_addres: ''
+          wallet_addres: user2.wallet.wallet_address
              },
              headers: {}
       end
