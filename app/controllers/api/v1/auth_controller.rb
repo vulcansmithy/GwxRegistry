@@ -1,12 +1,16 @@
 class Api::V1::AuthController < Api::V1::BaseController
   # skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: %i[login register confirm forgot]
+  skip_before_action :authenticate_request, except: %i[me resend update notify]
   before_action :transform_params, only: %i[update notify]
   before_action :set_recipient, only: :notify
   before_action :validate_email, only: :forgot
 
   def login
     authenticate params[:email], params[:password]
+  end
+
+  def console_login
+    authenticate_by_wallet params[:wallet_address]
   end
 
   def register
@@ -129,6 +133,19 @@ class Api::V1::AuthController < Api::V1::BaseController
       end
     rescue
       error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
+    end
+  end
+
+  def authenticate_by_wallet(wallet_address)
+    begin
+      command = AuthenticateWallet.call(wallet_address)
+      if command.success
+        response = command.result
+        response[:message] = 'Login successful'
+        success_response(response)
+      end
+    rescue
+      error_response("Login unsuccessful", "Invalid wallet_address", :unauthorized)
     end
   end
 
