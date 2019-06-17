@@ -1,12 +1,11 @@
 class Api::V1::PlayerProfilesController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request, only: :show
   before_action :transform_params, only: %i[create update]
-  before_action :set_player_profile, except: %i[index create]
+  before_action :set_player_profile, except: %i[index create show]
 
   def index
-    @game = Game.find params[:id]
-    @player_profiles = @game.player_profiles.paginate(page: params[:page])
+    @player_profiles = PlayerProfile.all.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
     success_response paginate_result(serialized_player_profiles, @player_profiles)
   end
@@ -40,7 +39,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
 
   def destroy
     if @player_profile.destroy
-      render status: :no_content
+      success_response message: 'Successfully deleted'
     else
       error_response 'Unable to delete player profile',
                      @player_profile.errors.full_messages,

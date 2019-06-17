@@ -17,9 +17,9 @@
         ],
         "parameters": [
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           },
@@ -84,9 +84,9 @@
         ],
         "parameters": [
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           },
@@ -261,6 +261,65 @@
         }
       }
     },
+    "/auth/console_login": {
+      "post": {
+        "summary": "Console Login",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Successfully login from console to api",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "wallet_address": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "wallet_address"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Invalid Credentials"
+          },
+          "200": {
+            "description": "Login Successful",
+            "examples": {
+              "application/json": {
+                "data": {
+                  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE1NTA1Mzk2ODB9.Qsi7FKd-ju76sB3TqwPvqbxOLyjfCqRo1JO13G7mYLQ",
+                  "user": {
+                    "data": {
+                      "id": "8",
+                      "type": "user",
+                      "attributes": {
+                        "id": 8,
+                        "firstName": "sample",
+                        "lastName": "one",
+                        "email": "sample_one@gmail.com",
+                        "walletAddress": "TCP33TIK2FSSFWXUIBHWXNUZDGISPTCZE5YSSTJW"
+                      }
+                    }
+                  },
+                  "message": "Login Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/forgot": {
       "post": {
         "summary": "Forgot password",
@@ -289,9 +348,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -330,9 +389,9 @@
             "type": "string"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -373,9 +432,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -406,9 +465,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -480,9 +539,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -676,9 +735,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -730,9 +789,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -796,9 +855,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -843,9 +902,9 @@
         ],
         "parameters": [
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -987,9 +1046,9 @@
         ],
         "parameters": [
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1099,9 +1158,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1213,9 +1272,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1269,9 +1328,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1311,9 +1370,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1381,9 +1440,9 @@
             "type": "string"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1427,9 +1486,9 @@
             "type": "string"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1585,9 +1644,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1703,9 +1762,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1758,9 +1817,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1789,7 +1848,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "description": "token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1842,9 +1901,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -1939,9 +1998,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -2007,9 +2066,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -2077,9 +2136,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           },
@@ -2170,9 +2229,9 @@
             "type": "integer"
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }
@@ -2226,9 +2285,9 @@
             }
           },
           {
-            "name": "authorizationjwt",
+            "name": "authorization",
             "in": "header",
-            "description": "JWT Authorization Token provided to user upon log in",
+            "description": "Basic 'token' provided to user upon log in",
             "required": true,
             "type": "string"
           }

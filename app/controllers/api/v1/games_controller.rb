@@ -1,9 +1,9 @@
 class Api::V1::GamesController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request, only: %i[index show]
   before_action :set_publisher, only: %i[create update destroy]
   before_action :transform_params, only: :create
-  before_action :set_game, except: %i[index create]
+  before_action :set_game, except: %i[index create show]
 
   def index
     @games = Game.all.paginate(page: params[:page])
@@ -22,7 +22,7 @@ class Api::V1::GamesController < Api::V1::BaseController
     @game.category_ids = params[:categories]
     @game_application = GameApplication.new(
       name: @game.name,
-      redirect_uri: "https://localhost:8080",
+      redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
       owner: @current_user,
       game: @game
     )
@@ -48,7 +48,7 @@ class Api::V1::GamesController < Api::V1::BaseController
 
   def destroy
     if @game.destroy
-      render status: :no_content
+      success_response message: 'Successfully deleted'
     else
       error_response 'Unable to delete game',
                      @game.errors.full_messages,
@@ -65,6 +65,8 @@ class Api::V1::GamesController < Api::V1::BaseController
   private
 
   def create_tags
+    return unless params[:tags].is_a? Array
+
     tags = params[:tags]
     tags.each do |t|
       next if @game.tags.exists?(name: t)
@@ -74,7 +76,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def game_params
-    params.permit(:name, :description, :icon, :url, { images: [], platforms: [] })
+    params.permit(:name, :description, :icon, :url, :cover, { images: [], platforms: [] })
   end
 
   def set_publisher

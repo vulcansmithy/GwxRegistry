@@ -5,7 +5,12 @@ class GameSerializer < ActiveModel::Serializer
 
   attributes :id,
              :name,
-             :description
+             :description,
+             :platforms,
+             :icon,
+             :images,
+             :cover,
+             :url
 
   belongs_to :publisher
 end

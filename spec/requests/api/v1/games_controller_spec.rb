@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::GamesController do
+describe Api::V1::GamesController, fake_name: true do
+  before { mock_nem_service }
+
   let!(:user) { create(:user) }
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
@@ -123,8 +125,8 @@ describe Api::V1::GamesController do
              headers: valid_headers
     end
 
-    it "should return status 204" do
-      expect(response.status).to eq 204
+    it "should return status 200" do
+      expect(response.status).to eq 200
     end
  
     it "should delete the record" do

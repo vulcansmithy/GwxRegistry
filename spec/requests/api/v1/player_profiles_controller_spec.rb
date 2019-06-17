@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::PlayerProfilesController do
+describe Api::V1::PlayerProfilesController, fake_name: true do
+  before { mock_nem_service }
+
   let!(:user) { create(:user) }
   let!(:player_user) { create(:user) }
   let!(:other_player_user) { create(:user) }
@@ -31,7 +33,7 @@ describe Api::V1::PlayerProfilesController do
     end
 
     it "should return correct results" do
-      expect(json['data'].count).to eq 0
+      expect(json['data'].count).to eq 1
     end
   end
 
@@ -128,8 +130,8 @@ describe Api::V1::PlayerProfilesController do
              headers: other_valid_headers
     end
 
-    it "should return status 204" do
-      expect(response.status).to eq 204
+    it "should return status 200" do
+      expect(response.status).to eq 200
     end
 
     it "should delete the record" do

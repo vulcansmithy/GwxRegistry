@@ -1,12 +1,16 @@
 class Api::V1::AuthController < Api::V1::BaseController
-  skip_before_action :doorkeeper_authorize!
-  skip_before_action :authenticate_request, only: %i[login register confirm]
+  # skip_before_action :doorkeeper_authorize!
+  skip_before_action :authenticate_request, except: %i[me resend update notify]
   before_action :transform_params, only: %i[update notify]
   before_action :set_recipient, only: :notify
   before_action :validate_email, only: :forgot
 
   def login
     authenticate params[:email], params[:password]
+  end
+
+  def console_login
+    authenticate_by_wallet params[:wallet_address]
   end
 
   def register
@@ -33,7 +37,7 @@ class Api::V1::AuthController < Api::V1::BaseController
   def me
     success_response UserSerializer.new(
       @current_user,
-      include: [:publisher, :player_profiles]
+      include: [:publisher, :player_profiles, :games]
     ).serialized_json
   end
 
@@ -60,6 +64,15 @@ class Api::V1::AuthController < Api::V1::BaseController
       success_response(UserSerializer.new(@current_user).serialized_json)
     else
       error_response("Unable to update user profile",
+                     @current_user.errors.full_messages, :unprocessable_entity)
+    end
+  end
+
+  def update_password
+    if @current_user.update_password(update_user_params)
+      success_response(UserSerializer.new(@current_user).serialized_json)
+    else
+      error_response("Unable to update password",
                      @current_user.errors.full_messages, :unprocessable_entity)
     end
   end
@@ -120,6 +133,19 @@ class Api::V1::AuthController < Api::V1::BaseController
       end
     rescue
       error_response("Login Unsuccessful", "Invalid Credentials", :unauthorized)
+    end
+  end
+
+  def authenticate_by_wallet(wallet_address)
+    begin
+      command = AuthenticateWallet.call(wallet_address)
+      if command.success
+        response = command.result
+        response[:message] = 'Login successful'
+        success_response(response)
+      end
+    rescue
+      error_response("Login unsuccessful", "Invalid wallet_address", :unauthorized)
     end
   end
 

@@ -1,6 +1,8 @@
 require "rails_helper"
 
-describe Api::V1::WalletsController do
+describe Api::V1::WalletsController, fake_nem: true do
+  before { mock_nem_service }
+
   let(:nem_account) { NemService.create_account }
   let!(:user) { create(:user) }
   let!(:wallet) do
