@@ -4,7 +4,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
   before_action :transform_params
 
   def show
-    @wallet = Wallet.find_by(wallet_address: params[:wallet_address])
+    @wallet = Wallet.find_by(wallet_query_params)
     if @wallet
       success_response(WalletSerializer.new(@wallet).serialized_json)
     else
@@ -62,6 +62,19 @@ class Api::V1::WalletsController < Api::V1::BaseController
       success_response PlayerProfileSerializer.new(@wallet.account).serialized_json
     else
       error_response("", "Account not found", :unprocessable_entity)
+    end
+  end
+
+  private
+
+  def wallet_query_params
+    if params[:account_type]
+      {
+        account_id: params[:wallet_address],
+        account_type: params[:account_type].capitalize
+      }
+    else
+      { wallet_address: params[:wallet_address] }
     end
   end
 end
