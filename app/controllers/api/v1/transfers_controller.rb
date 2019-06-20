@@ -35,7 +35,13 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
   
   def transfer_params
-    params.permit(:source_wallet, :destination_wallet, :quantity)
+    params.permit(
+      :source_user_id,
+      :destination_user_id,
+      :source_wallet,
+      :destination_wallet,
+      :quantity
+    )
   end
 
   def set_user_wallet_address
