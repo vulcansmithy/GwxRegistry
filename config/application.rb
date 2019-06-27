@@ -36,5 +36,6 @@ module GwxRegistryApi
     config.eager_load_paths << Rails.root.join('services')
 
     config.autoload_paths << Rails.root.join('services')
+    config.autoload_paths << Rails.root.join('app', 'forms')
   end
 end

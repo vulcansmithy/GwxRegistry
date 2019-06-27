@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         post 'login', to: 'auth#login'
         post 'console_login', to: 'auth#console_login'
         post 'register', to: 'auth#register'
+        post 'register-with-wallet', to: 'auth#register_with_wallet'
         post 'forgot', to: 'auth#forgot'
         get 'me', to: 'auth#me'
         post 'confirm/:code', to: 'auth#confirm'
