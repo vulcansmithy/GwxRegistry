@@ -24,6 +24,17 @@ class Api::V1::AuthController < Api::V1::BaseController
     end
   end
 
+  def register_with_wallet
+    @user_form = UserWithWalletForm.new(user_params)
+    if @user_form.save
+      authenticate @user_form.email, @user_form.password
+    else
+      error_response "Unable to create user account.",
+                     @user_form.errors,
+                     :unprocessable_entity
+    end
+  end
+
   def forgot
     user = User.find_by(email: params[:email])
     if user.present?

@@ -46,6 +46,20 @@ describe Api::V1::AuthController, fake_nem: true do
     end
   end
 
+  describe 'POST /register-with-wallet' do
+    before do
+      post '/v1/auth/register-with-wallet',
+           params: user_params,
+           headers: {}
+    end
+
+    context 'when params are valid' do
+      it 'should return status 200' do
+        expect(response.status).to eq 200
+      end
+    end
+  end
+
   describe 'POST /login' do
     context 'when credentials are valid' do
       before do
