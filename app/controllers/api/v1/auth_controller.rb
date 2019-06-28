@@ -148,15 +148,19 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def authenticate_by_wallet(wallet_address)
-    begin
-      command = AuthenticateWallet.call(wallet_address)
-      if command.success
-        response = command.result
-        response[:message] = 'Login successful'
-        success_response(response)
+    if params[:wallet_address].blank?
+      error_response('', "Wallet address can't be blank", :bad_request)
+    else
+      begin
+        command = AuthenticateWallet.call(wallet_address)
+        if command.success
+          response = command.result
+          response[:message] = 'Login successful'
+          success_response(response)
+        end
+      rescue
+        error_response("Login unsuccessful", "Invalid wallet_address", :unauthorized)
       end
-    rescue
-      error_response("Login unsuccessful", "Invalid wallet_address", :unauthorized)
     end
   end
 
