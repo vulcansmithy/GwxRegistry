@@ -1,23 +1,27 @@
 class JsonWebToken
-  class << self
-    def encode(payload, exp = 6.hours.from_now)
-      # set token expiration time 
-      payload[:exp] = exp.to_i
-      
-       # this encodes the user data(payload) with our secret key
-      JWT.encode(payload, Rails.application.secret_key_base)
-    end
+  JWT_DECODE_ERROR = "JWT is invalid and cannot be decoded.".freeze
+  JWT_EXPIRED_ERROR = "JWT is expired, please try logging in again!".freeze
+  JWT_VERIFICATION_ERROR = "JWT cannot be verified.".freeze
+  
+  def self.encode(payload, exp: 6.hours.from_now)
+    payload[:exp] = exp.to_i
+    token = JWT.encode(payload, jwt_secret)
+  end
 
-    def decode(token)
-      #decodes the token to get user data (payload)
-      body = JWT.decode(token, Rails.application.secret_key_base)[0]
-      HashWithIndifferentAccess.new body
+  def self.decode(token:)
+    error_message = begin
+                      decoded_token  = JWT.decode(token, jwt_secret, true)
+                      nil
+                    rescue JWT::ExpiredSignature then JWT_EXPIRED_ERROR
+                    rescue JWT::VerificationError then JWT_VERIFICATION_ERROR
+                    rescue JWT::DecodeError then JWT_DECODE_ERROR
+                    end
+    OpenStruct.new(payload: decoded_token&.first, error_message: error_message)
+  end
 
-    # raise custom error to be handled by custom handler
-    rescue JWT::ExpiredSignature, JWT::VerificationError => e
-      raise ExceptionHandler::ExpiredSignature, e.message
-    rescue JWT::DecodeError, JWT::VerificationError => e
-      raise ExceptionHandler::DecodeError, e.message
-    end
+  private
+  
+  def self.jwt_secret
+    Rails.application.secret_key_base
   end
 end

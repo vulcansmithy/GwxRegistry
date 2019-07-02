@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         put 'me', to: 'auth#update'
         put 'update_password', to: 'auth#update_password'
         post 'notify/:wallet_address', to: 'auth#notify'
+        get 'ensure_access', to: 'auth#ensure_access'
       end
     end
 
