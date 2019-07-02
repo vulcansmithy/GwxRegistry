@@ -14,7 +14,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
   def balance
     @bal = NemService.check_balance(params[:wallet_address])
-    wallet = Wallet.find_by(wallet_address: params[:wallet_address])
+    wallet = Wallet.find_by!(wallet_address: params[:wallet_address])
 
     if wallet.account_type == 'Player' && params[:game_wallet_address]
       player_wallet = wallet.wallet_address
@@ -57,7 +57,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
   end
 
   def account
-    @wallet = Wallet.find_by(wallet_address: params[:wallet_address])
+    @wallet = Wallet.find_by!(wallet_address: params[:wallet_address])
     if @wallet&.account_type == "PlayerProfile"
       success_response PlayerProfileSerializer.new(@wallet.account).serialized_json
     else
