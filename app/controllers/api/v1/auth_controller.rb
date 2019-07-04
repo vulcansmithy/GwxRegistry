@@ -14,7 +14,7 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def ensure_access
-    return unless request.headers["Authorization"] =~ /Basic (.+)/
+    return unless params[:access_token] =~ /Basic (.+)/
     token = Regexp.last_match(1)
     decoded_token = JsonWebToken.decode(token: token)
     if decoded_token.error_message.present?
