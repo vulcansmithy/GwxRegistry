@@ -57,6 +57,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def player_profiles
+    @game = Game.find params[:id]
     @player_profiles = @game.player_profiles.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
     success_response paginate_result(serialized_player_profiles, @player_profiles)
