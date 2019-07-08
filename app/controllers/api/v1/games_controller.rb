@@ -3,7 +3,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   skip_before_action :authenticate_request, only: %i[index show]
   before_action :set_publisher, only: %i[create update destroy]
   before_action :transform_params, only: :create
-  before_action :set_game, except: %i[index create show]
+  before_action :set_game, except: %i[index create show player_profiles]
 
   def index
     @games = Game.all.paginate(page: params[:page])
@@ -57,6 +57,7 @@ class Api::V1::GamesController < Api::V1::BaseController
   end
 
   def player_profiles
+    @game = Game.find params[:id]
     @player_profiles = @game.player_profiles.paginate(page: params[:page])
     serialized_player_profiles = PlayerProfileSerializer.new(@player_profiles).serializable_hash
     success_response paginate_result(serialized_player_profiles, @player_profiles)

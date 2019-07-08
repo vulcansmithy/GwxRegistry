@@ -46,6 +46,20 @@ describe Api::V1::AuthController, fake_nem: true do
     end
   end
 
+  describe 'POST /register-with-wallet' do
+    before do
+      post '/v1/auth/register-with-wallet',
+           params: user_params,
+           headers: {}
+    end
+
+    context 'when params are valid' do
+      it 'should return status 200' do
+        expect(response.status).to eq 200
+      end
+    end
+  end
+
   describe 'POST /login' do
     context 'when credentials are valid' do
       before do
@@ -83,7 +97,7 @@ describe Api::V1::AuthController, fake_nem: true do
   end
 
   describe 'POST /console_login' do
-    context 'when credentials are valid' do
+    context 'when wallet_address is valid' do
       before do
         post '/v1/auth/console_login',
              params: {
@@ -101,11 +115,25 @@ describe Api::V1::AuthController, fake_nem: true do
       end
     end
 
-    context 'when credentials are invalid' do
+    context 'when wallet_address is blank' do
+      before do
+        post '/v1/auth/console_login',
+             params: { 
+               wallet_address: "" 
+             }.to_json,
+             headers: {}
+      end
+
+      it 'should return status 400' do
+        expect(response.status).to eq 400
+      end
+    end
+
+    context 'when wallet_address is invalid' do
       before do
         post '/v1/auth/console_login',
              params: {
-          wallet_addres: user2.wallet.wallet_address
+              wallet_address: "wallet_address"
              },
              headers: {}
       end
