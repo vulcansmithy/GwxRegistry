@@ -11,7 +11,7 @@ gem 'digest-sha3'
 gem 'doorkeeper'
 gem 'fast_jsonapi', '1.3'                   # https://github.com/Netflix/fast_jsonap
 gem 'fcm'                                   # https://github.com/spacialdb/fcm
-gem 'jwt', '2.1.0'                          # https://github.com/jwt/ruby-jwt
+gem 'jwt'                          # https://github.com/jwt/ruby-jwt
 gem 'nem-ruby'                              # https://github.com/44uk/nem-ruby
 gem 'rails', '~> 5.2.2'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -19,7 +19,6 @@ gem 'puma', '~> 3.11'
 gem 'rack-cors', '1.0.2', require: 'rack/cors'
 gem "rbnacl", "6.0.1"                       # https://github.com/crypto-rb/rbnacl
 gem 'rswag', '2.0.5'                        # https://github.com/domaindrivendev/rswag
-gem 'rspec-core'
 gem 'simple_command'                        # https://github.com/nebulab/simple_command
 gem 'versionist', '1.7.0'                   # https://github.com/bploetz/versionist
 gem 'will_paginate', '~> 3.1.0'
@@ -31,7 +30,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'guard-rspec', '4.7.3'              # https://github.com/guard/guard-rspec
   gem 'pry'
-  gem 'rspec-rails', '3.8.1'              # https://github.com/rspec/rspec-rails
+  gem 'rspec-rails', '~> 3.8'              # https://github.com/rspec/rspec-rails
 end
 
 group :development do
