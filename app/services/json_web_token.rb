@@ -10,12 +10,14 @@ class JsonWebToken
       token = JWT.encode(payload, SECRET_KEY)
     end
 
-    def decode(token)
-      decoded_token = JWT.decode(token, SECRET_KEY)
-      nil
-    rescue JWT::ExpiredSignature then JWT_EXPIRED_ERROR
-    rescue JWT::VerificationError then JWT_VERIFICATION_ERROR
-    rescue JWT::DecodeError then JWT_DECODE_ERROR
+    def decode(token:)
+      error_message = begin
+                        decoded_token = JWT.decode(token, SECRET_KEY)
+                        nil
+                      rescue JWT::ExpiredSignature then JWT_EXPIRED_ERROR
+                      rescue JWT::VerificationError then JWT_VERIFICATION_ERROR
+                      rescue JWT::DecodeError then JWT_DECODE_ERROR
+                      end
       OpenStruct.new(payload: decoded_token&.first, error_message: error_message)
     end
   end
