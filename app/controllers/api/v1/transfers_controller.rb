@@ -1,4 +1,5 @@
 class Api::V1::TransfersController < Api::V1::BaseController
+  skip_before_action :doorkeeper_authorize!
   skip_before_action :authenticate_request
 
   before_action :set_game_wallet_address, only: :seamless_transfer

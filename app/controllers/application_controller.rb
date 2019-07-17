@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::API
   WillPaginate.per_page = 10
+  
+  def doorkeeper_unauthorized_render_options(error: nil)
+    { json: { message: "Unauthorized OAuth Access" } }
+  end
 
   protected
     def paginate_result(hash, collection)
