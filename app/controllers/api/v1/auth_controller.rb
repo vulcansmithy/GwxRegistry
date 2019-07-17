@@ -14,13 +14,16 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def ensure_access
-    return unless params[:access_token] =~ /Basic (.+)/
-    token = Regexp.last_match(1)
-    decoded_token = JsonWebToken.decode(token: token)
-    if decoded_token.error_message.present?
-      error_response('', decoded_token.error_message, :unauthorized)
+    if params[:access_token] =~ /Basic (.+)/
+      token = Regexp.last_match(1)
+      decoded_token = JsonWebToken.decode(token: token)
+      if decoded_token.error_message.present?
+        error_response('', decoded_token.error_message, :unauthorized)
+      else
+        render json: { message: 'Active' }, status: :ok
+      end
     else
-      render json: { message: 'Active' }, status: :ok
+      render json: { message: 'Wrong token' }, status: :unprocessable_entity 
     end
   end
 
