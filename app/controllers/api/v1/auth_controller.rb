@@ -13,6 +13,20 @@ class Api::V1::AuthController < Api::V1::BaseController
     authenticate_by_wallet params[:wallet_address]
   end
 
+  def ensure_access
+    if params[:access_token] =~ /Basic (.+)/
+      token = Regexp.last_match(1)
+      decoded_token = JsonWebToken.decode(token: token)
+      if decoded_token.error_message.present?
+        error_response('', decoded_token.error_message, :unauthorized)
+      else
+        render json: { message: 'Active' }, status: :ok
+      end
+    else
+      render json: { message: 'Wrong token' }, status: :unprocessable_entity 
+    end
+  end
+
   def register
     @user = User.new(user_params)
     if @user.save
