@@ -3,8 +3,13 @@ Doorkeeper.configure do
   orm :active_record
 
   # This block will be called to check whether the resource owner is authenticated or not.
-  resource_owner_authenticator do
-    User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+  resource_owner_authenticator do |controller|
+    state = controller.params[:state]
+    state_type = state.split('-').first
+    state_id = state.split('-').last
+    klass = state_type.capitalize.constantize
+    resource_owner = klass.find state_id
+    resource_owner.user if state_type == 'publisher'
   end
 
   # Set to true to require applications to be related to user
@@ -18,7 +23,7 @@ Doorkeeper.configure do
   #   end
 
   #   # If authentication is successful, the response would return:
-  #   # {
+  #   # { 
   #   #   "access_token": {{ token }},
   #   #   "token_type": "Bearer",
   #   #   "expires_in": 7200,
@@ -27,7 +32,7 @@ Doorkeeper.configure do
   #   # }
   # end
 
-  grant_flows %w[authorization_code client_credentials]
+  grant_flows %w[authorization_code client_credentials refresh_token]
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for

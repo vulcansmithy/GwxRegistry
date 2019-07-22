@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resources :auth, :only => [] do
       collection do
+        post 'doorkeeper_protected', to: 'auth#doorkeeper_protected'
         post 'login', to: 'auth#login'
         post 'console_login', to: 'auth#console_login'
         post 'register', to: 'auth#register'
