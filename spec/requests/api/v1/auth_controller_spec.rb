@@ -118,8 +118,8 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when wallet_address is blank' do
       before do
         post '/v1/auth/console_login',
-             params: { 
-               wallet_address: "" 
+             params: {
+               wallet_address: ""
              }.to_json,
              headers: {}
       end
@@ -143,7 +143,7 @@ describe Api::V1::AuthController, fake_nem: true do
       end
     end
   end
- 
+
   describe 'POST /forgot' do
     context 'when email is found' do
       before do
@@ -169,8 +169,8 @@ describe Api::V1::AuthController, fake_nem: true do
              },
              headers: {}
       end
-      it 'should return status 404' do
-        expect(response.status).to eq 404
+      it 'should return status 400' do
+        expect(response.status).to eq 400
       end
     end
   end

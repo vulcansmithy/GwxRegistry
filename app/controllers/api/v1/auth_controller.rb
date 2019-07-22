@@ -50,13 +50,10 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def forgot
-    user = User.find_by(email: params[:email])
-    if user.present?
-      user.reset_password!
-      render json: { message: 'Sent' }, status: :ok
-    else
-      error_response('', 'Email address not found', :not_found)
-    end
+    user = User.find_by!(email: params[:email])
+    user.reset_password!
+
+    render json: { message: 'Sent' }, status: :ok
   end
 
   def me

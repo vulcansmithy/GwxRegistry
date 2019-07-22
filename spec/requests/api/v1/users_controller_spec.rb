@@ -29,8 +29,8 @@ describe Api::V1::UsersController, fake_nem: true do
     context 'when user does not exists' do
       before { get '/v1/users/-1' }
 
-      it 'should return status 404' do
-        expect(response).to have_http_status :not_found
+      it 'should return status 400' do
+        expect(response).to have_http_status :bad_request
       end
     end
   end

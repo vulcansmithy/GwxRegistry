@@ -82,8 +82,8 @@ describe Api::V1::GamesController, fake_name: true do
             headers: valid_headers
       end
 
-      it "should return status 404" do
-        expect(response.status).to eq 404
+      it "should return status 400" do
+        expect(response.status).to eq 400
       end
     end
   end
