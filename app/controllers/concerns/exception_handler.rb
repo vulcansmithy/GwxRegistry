@@ -25,7 +25,7 @@ module ExceptionHandler
   private
 
   def not_found(e)
-    render json: { errors: e.message }, status: :not_found
+    render json: { errors: e.message }, status: :bad_request
   end
 
   def unprocessable(e)
