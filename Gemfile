@@ -24,13 +24,13 @@ gem 'versionist', '1.7.0'                   # https://github.com/bploetz/version
 gem 'will_paginate', '~> 3.1.0'
 gem 'carrierwave', '~> 1.0'
 gem 'fog-aws'
+gem 'rspec-rails', '~> 3.8'              # https://github.com/rspec/rspec-rails
 
 group :development, :test do
   gem 'awesome_print', '1.8.0'              # https://github.com/awesome-print/awesome_print
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'guard-rspec', '4.7.3'              # https://github.com/guard/guard-rspec
   gem 'pry'
-  gem 'rspec-rails', '~> 3.8'              # https://github.com/rspec/rspec-rails
 end
 
 group :development do
