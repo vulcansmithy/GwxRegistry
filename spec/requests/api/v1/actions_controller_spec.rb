@@ -51,8 +51,8 @@ describe Api::V1::ActionsController, fake_nem: true do
             headers: valid_headers
       end
 
-      it "should return status 404" do
-        expect(response.status).to eq 404
+      it "should return status 400" do
+        expect(response.status).to eq 400
       end
     end
   end
@@ -107,8 +107,8 @@ describe Api::V1::ActionsController, fake_nem: true do
             headers: valid_headers
       end
 
-      it "should return status 404" do
-        expect(response.status).to eq 404
+      it "should return status 400" do
+        expect(response.status).to eq 400
       end
     end
   end
@@ -164,8 +164,8 @@ describe Api::V1::ActionsController, fake_nem: true do
       before do
         get '/v1/actions/-1/triggers', params: {}, headers: valid_headers
       end
-      it 'should return status 404' do
-        expect(response).to have_http_status :not_found
+      it 'should return status 400' do
+        expect(response).to have_http_status :bad_request
       end
     end
   end

@@ -169,8 +169,8 @@ describe Api::V1::AuthController, fake_nem: true do
              },
              headers: {}
       end
-      it 'should return status 404' do
-        expect(response.status).to eq 404
+      it 'should return status 400' do
+        expect(response.status).to eq 400
       end
     end
   end
