@@ -118,8 +118,8 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when wallet_address is blank' do
       before do
         post '/v1/auth/console_login',
-             params: { 
-               wallet_address: "" 
+             params: {
+               wallet_address: ""
              }.to_json,
              headers: {}
       end
@@ -143,7 +143,7 @@ describe Api::V1::AuthController, fake_nem: true do
       end
     end
   end
- 
+
   describe 'POST /forgot' do
     context 'when email is found' do
       before do

@@ -25,18 +25,18 @@ module ExceptionHandler
   private
 
   def not_found(e)
-    render json: { message: e.message }, status: :not_found
+    render json: { errors: e.message }, status: :not_found
   end
 
   def unprocessable(e)
-    render json: { message: e.message }, status: :unprocessable_entity
+    render json: { errors: e.message }, status: :unprocessable_entity
   end
 
   def unauthorized(e)
-    render json: { message: e.message }, status: :unauthorized
+    render json: { errors: e.message }, status: :unauthorized
   end
 
   def bad_request(e)
-    render json: { message: e.message }, status: :bad_request
+    render json: { errors: e.message }, status: :bad_request
   end
 end
