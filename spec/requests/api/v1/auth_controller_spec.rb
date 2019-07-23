@@ -242,4 +242,52 @@ describe Api::V1::AuthController, fake_nem: true do
       end
     end
   end
+
+  describe 'PUT /update_password' do
+    context 'when params are valid' do
+      before do
+        put '/v1/auth/update_password',
+             params: {
+               password: 'newpassword',
+               password_confirmation: 'newpassword'
+             }.to_json,
+             headers: valid_headers
+      end
+
+      it 'should return status 200' do
+        expect(response.status).to eq 200
+      end
+    end
+
+    context 'when params are invalid' do
+      context 'and password confirmation is missing' do
+        before do
+          put '/v1/auth/update_password',
+               params: {
+                 password: 'newpassword'
+               }.to_json,
+               headers: valid_headers
+        end
+
+        it 'should return status 422' do
+          expect(response.status).to eq 422
+        end
+      end
+
+      context 'and passwords doesnt match' do
+        before do
+          put '/v1/auth/update_password',
+               params: {
+                 password: 'newpassword',
+                 password_confirmation: 'newpass123'
+               }.to_json,
+               headers: valid_headers
+        end
+
+        it 'should return status 422' do
+          expect(response.status).to eq 422
+        end
+      end
+    end
+  end
 end
