@@ -29,9 +29,9 @@ class User < ApplicationRecord
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
-  validates :password, presence: true,
-                       length: { minimum: 8 },
-                       if: :password_digest_changed?
+  validates :password, :password_confirmation, presence: true,
+                                               length: { minimum: 8 },
+                                               if: :password_digest_changed?
 
   validates :mac_address, uniqueness: true,
                           allow_nil: true
