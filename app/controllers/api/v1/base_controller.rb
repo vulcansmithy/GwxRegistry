@@ -21,11 +21,10 @@ class Api::V1::BaseController < ApplicationController
   private
 
   def authenticate_request
-    begin
-      @current_user = AuthorizeApiRequest.call(request.headers).result
-    rescue
-      render json: { error: "Unauthorized: Access is denied" },
-             status: :unauthorized
+    if doorkeeper_token&.resource_owner_id
+      @current_user = User.find doorkeeper_token.resource_owner_id
+    else
+      error_response '', 'Unauthorize access', :unauthorized
     end
   end
 

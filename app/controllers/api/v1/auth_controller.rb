@@ -4,10 +4,6 @@ class Api::V1::AuthController < Api::V1::BaseController
   before_action :set_recipient, only: :notify
   before_action :validate_email, only: :forgot
 
-  def doorkeeper_protected
-    binding.pry
-  end
-
   def login
     authenticate params[:email], params[:password]
   end
