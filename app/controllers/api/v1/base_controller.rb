@@ -18,6 +18,11 @@ class Api::V1::BaseController < ApplicationController
     render json: { message: message, errors: errors }, status: status_code
   end
 
+  def doorkeeper_authorize!
+    super
+    binding.pry
+  end
+
   private
 
   def authenticate_request

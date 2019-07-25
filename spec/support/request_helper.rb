@@ -17,5 +17,12 @@ module Requests
         'Authorization': "Basic #{token}"
       }
     end
+
+    def generate_auth_header(token)
+      {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer #{token}"
+      }
+    end
   end
 end

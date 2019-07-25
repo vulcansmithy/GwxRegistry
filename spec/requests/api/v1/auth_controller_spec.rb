@@ -2,18 +2,19 @@ require 'rails_helper'
 
 describe Api::V1::AuthController, fake_nem: true do
   before { mock_nem_service }
-
+  let!(:application) { create(:application) }
+  let!(:token) { create(:access_token, application: application) }
   let!(:nem_account) { NemService.create_account }
   let!(:user) { build(:user) }
   let!(:user2) { create(:user) }
+  let(:valid_headers) { generate_headers(user2) }
+  let(:credential_headers) { generate_auth_header(token) }
   let!(:wallet) do
     user2.create_wallet(
       wallet_address: nem_account[:address],
       pk: nem_account[:priv_key]
     )
   end
-  let(:valid_headers) { generate_headers(user2) }
-
   let(:user_params) do
     {
       first_name: user.first_name,
@@ -26,7 +27,11 @@ describe Api::V1::AuthController, fake_nem: true do
 
   describe 'POST /register' do
     context 'when params are valid' do
-      before { post '/v1/auth/register', params: user_params, headers: {} }
+      before do
+        post '/v1/auth/register',
+             params: user_params.to_json,
+             headers: credential_headers
+      end
 
       it 'should return status 200' do
         expect(response.status).to eq 200
