@@ -10,18 +10,19 @@ module Requests
   end
 
   module HeaderHelpers
-    def generate_headers(user)
-      token = JsonWebToken.encode(user_id: user.id)
+    def generate_headers(user, app)
+      token = FactoryBot.create :access_token, application: app,
+                                               resource_owner_id: user.id
       {
         'Content-Type': 'application/json',
-        'Authorization': "Basic #{token}"
+        'Authorization': "Bearer #{token.token}"
       }
     end
 
     def generate_auth_header(token)
       {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer #{token}"
+        'content-type': 'application/json',
+        'Authorization': "Bearer #{token.token}"
       }
     end
   end
