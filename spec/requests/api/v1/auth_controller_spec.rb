@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe Api::V1::AuthController, fake_nem: true do
   before { mock_nem_service }
-  let!(:application) { create(:application) }
-  let!(:token) { create(:access_token, application: application) }
-  let!(:nem_account) { NemService.create_account }
-  let!(:user) { build(:user) }
-  let!(:user2) { create(:user) }
-  let(:valid_headers) { generate_headers(user2, application) }
-  let(:credential_headers) { generate_auth_header(token) }
+  let!(:application)        { create(:application) }
+  let!(:token)              { create(:access_token, application: application) }
+  let!(:nem_account)        { NemService.create_account }
+  let!(:user)               { build(:user) }
+  let!(:user2)              { create(:user) }
+  let(:valid_headers)       { generate_headers(user2, application) }
+  let(:credential_headers)  { generate_auth_headers(token) }
   let!(:wallet) do
     user2.create_wallet(
       wallet_address: nem_account[:address],
@@ -73,17 +73,12 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when credentials are valid' do
       before do
         post '/v1/auth/login',
-             params: {
-               email: user2.email,
-               password: 'password'
-             }.to_json,
+             params: { email: user2.email, password: 'password' }.to_json,
              headers: credential_headers
       end
-
       it 'should return status 200' do
         expect(response.status).to eq 200
       end
-
       it 'should return JWT token' do
         expect(json['token']).not_to eq nil
       end
@@ -92,10 +87,7 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when credentials are invalid' do
       before do
         post '/v1/auth/login',
-             params: {
-               email: user2.email,
-               password: 'password1'
-             }.to_json,
+             params: { email: user2.email, password: 'password1' }.to_json,
              headers: credential_headers
       end
 
@@ -109,16 +101,12 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when wallet_address is valid' do
       before do
         post '/v1/auth/console_login',
-             params: {
-               wallet_address: user2.wallet.wallet_address
-             }.to_json,
+             params: { wallet_address: user2.wallet.wallet_address }.to_json,
              headers: credential_headers
       end
-
       it 'should return status 200' do
         expect(response.status).to eq 200
       end
-
       it 'should return JWT token' do
         expect(json['token']).not_to eq nil
       end
@@ -127,12 +115,9 @@ describe Api::V1::AuthController, fake_nem: true do
     context 'when wallet_address is blank' do
       before do
         post '/v1/auth/console_login',
-             params: {
-               wallet_address: ''
-             }.to_json,
+             params: { wallet_address: '' }.to_json,
              headers: credential_headers
       end
-
       it 'should return status 400' do
         expect(response.status).to eq 400
       end
@@ -182,15 +167,12 @@ describe Api::V1::AuthController, fake_nem: true do
     before do
       get '/v1/auth/me', params: {}, headers: valid_headers
     end
-
     it 'should return status 200' do
       expect(response.status).to eq 200
     end
-
     it 'should return correct result' do
       expect(json['data']['attributes']['firstName']).to eq user2.first_name
     end
-
     it 'should include relationship payload' do
       expect(json['data']['relationships'].keys.include?('publisher')).to be_truthy
       expect(json['data']['relationships'].keys.include?('playerProfiles')).to be_truthy
@@ -207,7 +189,6 @@ describe Api::V1::AuthController, fake_nem: true do
       it 'should return status 200' do
         expect(response.status).to eq 200
       end
-
       it 'should return message Confirmed' do
         expect(json['message']).to eq 'Confirmed'
       end
@@ -215,7 +196,7 @@ describe Api::V1::AuthController, fake_nem: true do
 
     context 'when code is invalid' do
       before do
-        post "/v1/auth/confirm/0000",
+        post '/v1/auth/confirm/0000',
              params: {},
              headers: credential_headers
       end
@@ -227,7 +208,6 @@ describe Api::V1::AuthController, fake_nem: true do
 
   describe 'GET /resend' do
     before { get '/v1/auth/resend', params: {}, headers: valid_headers }
-
     it 'should return status 200' do
       expect(response.status).to eq 200
     end
