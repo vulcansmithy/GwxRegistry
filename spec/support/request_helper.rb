@@ -19,7 +19,7 @@ module Requests
       }
     end
 
-    def generate_auth_header(token)
+    def generate_auth_headers(token)
       {
         'content-type': 'application/json',
         'Authorization': "Bearer #{token.token}"
