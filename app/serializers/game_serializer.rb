@@ -12,5 +12,9 @@ class GameSerializer < ActiveModel::Serializer
              :cover,
              :url
 
+  attribute :game_wallet_address do |game|
+    game.wallet.try(:wallet_address)
+  end
+
   belongs_to :publisher
 end
