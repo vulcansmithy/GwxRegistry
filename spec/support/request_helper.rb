@@ -25,5 +25,13 @@ module Requests
         'Authorization': "Bearer #{token.token}"
       }
     end
+
+    def generate_jwt_headers(user)
+      token = JsonWebToken.encode(user_id: user.id)
+      {
+        'Content-Type': 'application/json',
+        'Authorization': "Basic #{token}"
+      }
+    end
   end
 end
