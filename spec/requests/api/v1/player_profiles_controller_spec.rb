@@ -10,8 +10,8 @@ describe Api::V1::PlayerProfilesController, fake_name: true do
   let!(:game) { create(:game, publisher: publisher_user) }
   let!(:player_profile) { build(:player_profile, user: player_user, game: game) }
   let!(:other_player_profile) { create(:player_profile, user: other_player_user, game: game) }
-  let!(:valid_headers) { generate_headers(player_user) }
-  let!(:other_valid_headers) { generate_headers(other_player_user) }
+  let!(:valid_headers) { generate_jwt_headers(player_user) }
+  let!(:other_valid_headers) { generate_jwt_headers(other_player_user) }
 
   let!(:player_profile_params) do
     {

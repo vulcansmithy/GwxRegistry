@@ -9,7 +9,7 @@ describe Api::V1::TriggersController, fake_nem: true do
   let!(:game) { create(:game, publisher: publisher) }
   let!(:player_profile) { create(:player_profile, game: game, user: player) }
   let!(:action) { create(:action, game: game) }
-  let(:valid_headers) { generate_headers(player) } 
+  let(:valid_headers) { generate_jwt_headers(player) } 
 
   describe 'POST /triggers' do
     context 'when params are valid' do

@@ -7,7 +7,7 @@ describe Api::V1::GamesController, fake_name: true do
   let!(:publisher_user) { create(:publisher, user: user) }
   let!(:game) { create(:game, publisher: publisher_user) }
   let!(:games) { create_list(:game, 2, publisher: publisher_user) }
-  let!(:valid_headers) { generate_headers(user) }
+  let!(:valid_headers) { generate_jwt_headers(user) }
 
   let!(:game_params) do
     {

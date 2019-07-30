@@ -3,8 +3,9 @@ Doorkeeper.configure do
   orm :active_record
 
   # This block will be called to check whether the resource owner is authenticated or not.
-  resource_owner_authenticator do
-    User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+  resource_owner_authenticator do |controller|
+    jwt = controller.params[:jwt]
+    User.find JsonWebToken.decode(jwt)[:user_id]
   end
 
   # Set to true to require applications to be related to user
@@ -18,7 +19,7 @@ Doorkeeper.configure do
   #   end
 
   #   # If authentication is successful, the response would return:
-  #   # {
+  #   # { 
   #   #   "access_token": {{ token }},
   #   #   "token_type": "Bearer",
   #   #   "expires_in": 7200,
@@ -27,7 +28,7 @@ Doorkeeper.configure do
   #   # }
   # end
 
-  grant_flows %w[authorization_code client_credentials]
+  grant_flows %w[authorization_code client_credentials refresh_token]
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -134,7 +135,7 @@ Doorkeeper.configure do
   # Check out https://github.com/doorkeeper-gem/doorkeeper/wiki/Changing-how-clients-are-authenticated
   # for more information on customization
   #
-  # client_credentials :from_basic, :from_params
+  client_credentials :from_params
 
   # Change the way access token is authenticated from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then
@@ -142,7 +143,7 @@ Doorkeeper.configure do
   # Check out https://github.com/doorkeeper-gem/doorkeeper/wiki/Changing-how-clients-are-authenticated
   # for more information on customization
   #
-  access_token_methods :from_basic_authorization
+  access_token_methods :from_bearer_authorization
 
   # Change the native redirect uri for client apps
   # When clients register with the following redirect uri, they won't be redirected to any server and
@@ -232,9 +233,10 @@ Doorkeeper.configure do
   # so that the user skips the authorization step.
   # For example if dealing with a trusted application.
   #
-  # skip_authorization do |resource_owner, client|
-  #   client.superapp? or resource_owner.admin?
-  # end
+  skip_authorization do |resource_owner, client|
+    # client.superapp? or resource_owner.admin?
+    true
+  end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
   #
