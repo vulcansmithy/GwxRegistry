@@ -1,4 +1,4 @@
-class Api::V1::TransfersController < Api::V1::BaseController
+class Api::V2::TransfersController < Api::V2::BaseController
   skip_before_action :authenticate_request
 
   before_action :set_game_wallet_address, only: :seamless_transfer

@@ -1,4 +1,4 @@
-class Api::V1::WalletsController < Api::V1::BaseController
+class Api::V2::WalletsController < Api::V2::BaseController
   skip_before_action :authenticate_request
   before_action :transform_params
 

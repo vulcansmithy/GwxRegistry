@@ -1,4 +1,4 @@
-class Api::V1::GamesController < Api::V1::BaseController
+class Api::V2::GamesController < Api::V2::BaseController
   skip_before_action :authenticate_request, only: %i[index show]
   before_action :set_publisher, only: %i[create update destroy]
   before_action :transform_params, only: :create

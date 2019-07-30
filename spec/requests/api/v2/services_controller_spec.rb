@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Api::V1::ServicesController do
+describe Api::V2::ServicesController do
   
   it "should be able to return Registry API public_key" do
     

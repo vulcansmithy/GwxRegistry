@@ -1,4 +1,4 @@
-class Api::V1::ActionsController < Api::V1::BaseController
+class Api::V2::ActionsController < Api::V2::BaseController
   before_action :transform_params
   before_action :set_publisher
   before_action :set_game, except: :triggers

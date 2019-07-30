@@ -1,4 +1,4 @@
-class Api::V1::PlayerProfilesController < Api::V1::BaseController
+class Api::V2::PlayerProfilesController < Api::V2::BaseController
   skip_before_action :authenticate_request, only: :show
   before_action :transform_params, only: %i[create update]
   before_action :set_player_profile, except: %i[index create show]

@@ -1,4 +1,4 @@
-class Api::V1::BaseController < ApplicationController
+class Api::V2::BaseController < ApplicationController
   before_action :doorkeeper_authorize!
   before_action :authenticate_request
 

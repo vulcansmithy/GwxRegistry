@@ -1,4 +1,4 @@
-class Api::V1::TriggersController < Api::V1::BaseController
+class Api::V2::TriggersController < Api::V2::BaseController
   before_action :transform_params
 
   def create

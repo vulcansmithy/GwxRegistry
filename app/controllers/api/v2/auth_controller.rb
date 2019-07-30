@@ -1,4 +1,4 @@
-class Api::V1::AuthController < Api::V1::BaseController
+class Api::V2::AuthController < Api::V2::BaseController
   skip_before_action :authenticate_request, except: %i[me resend update update_password notify]
   before_action :transform_params, only: %i[update notify]
   before_action :set_recipient, only: :notify

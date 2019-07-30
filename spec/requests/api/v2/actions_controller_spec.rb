@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Api::V1::ActionsController, fake_nem: true do
+describe Api::V2::ActionsController, fake_nem: true do
   before { mock_nem_service }
 
   let!(:application)        { create(:application) }

@@ -8,12 +8,12 @@ Rails.application.routes.draw do
   end
 
   api_version(
-    :module    => "Api::V1",
-    :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=1" },
-    :parameter => { :name   => "version", :value => "1" },
-    :path      => { :value  => "v1"   },
+    :module    => "Api::V2",
+    :header    => { :name   => "Accept",  :value => "application/vnd.gameworks.io; version=2" },
+    :parameter => { :name   => "version", :value => "2" },
+    :path      => { :value  => "v2"   },
     :defaults  => { :format => "json" },
-    :default   => true) do
+    :default   => false) do
 
     get  'public_key', to: 'services#public_key'
     get  'test',       to: 'users#test'

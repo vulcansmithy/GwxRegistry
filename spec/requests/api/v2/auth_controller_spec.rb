@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V1::AuthController, fake_nem: true do
+describe Api::V2::AuthController, fake_nem: true do
   before { mock_nem_service }
   let!(:application)        { create(:application) }
   let!(:token)              { create(:access_token, application: application) }
