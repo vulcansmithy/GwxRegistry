@@ -21,7 +21,7 @@ describe Api::V2::TriggersController, fake_nem: true do
   end
   describe 'POST /triggers' do
     context 'when params are valid' do
-      before { post '/v1/triggers', params: trigger_params.to_json, headers: valid_headers }
+      before { post '/v2/triggers', params: trigger_params.to_json, headers: valid_headers }
 
       it 'should return status 201' do
         expect(response).to have_http_status :created
@@ -34,7 +34,7 @@ describe Api::V2::TriggersController, fake_nem: true do
 
     context 'when params are invalid' do
       before do
-        post '/v1/triggers',
+        post '/v2/triggers',
              params: {},
              headers: valid_headers
       end

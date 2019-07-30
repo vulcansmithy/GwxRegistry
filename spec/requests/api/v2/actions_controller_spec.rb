@@ -31,7 +31,7 @@ describe Api::V2::ActionsController, fake_nem: true do
   describe 'GET /games/:game_id/actions' do
     context 'when game exists' do
       before do
-        get "/v1/games/#{game.id}/actions",
+        get "/v2/games/#{game.id}/actions",
             params: {},
             headers: valid_headers
       end
@@ -47,7 +47,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
     context 'when game does not exist' do
       before do
-        get '/v1/games/-1/actions',
+        get '/v2/games/-1/actions',
             params: {},
             headers: valid_headers
       end
@@ -61,7 +61,7 @@ describe Api::V2::ActionsController, fake_nem: true do
   describe 'POST /games/:game_id/actions' do
     context 'when action params are valid' do
       before do
-        post "/v1/games/#{game.id}/actions",
+        post "/v2/games/#{game.id}/actions",
              params: action_params.to_json,
              headers: valid_headers
       end
@@ -77,7 +77,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
     context 'when action params are invalid' do
       before do
-        post "/v1/games/#{game.id}/actions",
+        post "/v2/games/#{game.id}/actions",
              params: action_params.except(:name).to_json,
              headers: valid_headers
       end
@@ -91,7 +91,7 @@ describe Api::V2::ActionsController, fake_nem: true do
   describe 'GET /games/:game_id/actions/:id' do
     context 'when action exists' do
       before do
-        get "/v1/games/#{game.id}/actions/#{Action.first.id}",
+        get "/v2/games/#{game.id}/actions/#{Action.first.id}",
             params: {},
             headers: valid_headers
       end
@@ -103,7 +103,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
     context 'when action does not exists' do
       before do
-        get "/v1/games/#{game.id}/actions/-1",
+        get "/v2/games/#{game.id}/actions/-1",
             params: {},
             headers: valid_headers
       end
@@ -117,7 +117,7 @@ describe Api::V2::ActionsController, fake_nem: true do
   describe 'PUT /games/:game_id/actions/:id' do
     context 'and action params are valid' do
       before do
-        put "/v1/games/#{game.id}/actions/#{Action.first.id}",
+        put "/v2/games/#{game.id}/actions/#{Action.first.id}",
             params: { name: 'New name' }.to_json,
             headers: valid_headers
       end
@@ -133,7 +133,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
     context 'and action params are invalid' do
       before do
-        put "/v1/games/#{game.id}/actions/#{Action.first.id}",
+        put "/v2/games/#{game.id}/actions/#{Action.first.id}",
             params: { name: nil }.to_json,
             headers: valid_headers
       end
@@ -147,7 +147,7 @@ describe Api::V2::ActionsController, fake_nem: true do
   describe 'GET /actions/:id/triggers' do
     context 'when action is found' do
       before do
-        get "/v1/actions/#{Action.first.id}/triggers",
+        get "/v2/actions/#{Action.first.id}/triggers",
             params: {},
             headers: valid_headers
       end
@@ -163,7 +163,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
     context 'when action is not found' do
       before do
-        get '/v1/actions/-1/triggers', params: {}, headers: valid_headers
+        get '/v2/actions/-1/triggers', params: {}, headers: valid_headers
       end
       it 'should return status 400' do
         expect(response).to have_http_status :bad_request
@@ -173,7 +173,7 @@ describe Api::V2::ActionsController, fake_nem: true do
 
   describe 'DELETE /games/:game_id/actions/:id' do
     before do
-      delete "/v1/games/#{game.id}/actions/#{Action.last.id}",
+      delete "/v2/games/#{game.id}/actions/#{Action.last.id}",
              params: {},
              headers: valid_headers
     end

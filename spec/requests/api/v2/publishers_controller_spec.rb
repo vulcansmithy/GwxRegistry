@@ -28,7 +28,7 @@ describe Api::V2::PublishersController, fake_name: true do
   describe 'GET /publishers' do
     context 'when publishers exists' do
       before do
-        get '/v1/publishers',
+        get '/v2/publishers',
             params: {},
             headers: credential_headers
       end
@@ -46,7 +46,7 @@ describe Api::V2::PublishersController, fake_name: true do
   describe 'POST /publishers' do
     context 'when params are valid' do
       before do
-        post '/v1/publishers',
+        post '/v2/publishers',
              params: publisher_params.to_json,
              headers: valid_headers3
       end
@@ -62,7 +62,7 @@ describe Api::V2::PublishersController, fake_name: true do
 
     context 'when params is invalid' do
       before do
-        post '/v1/publishers',
+        post '/v2/publishers',
              params: publisher_params.except(:publisherName).to_json,
              headers: valid_headers2
       end
@@ -74,7 +74,7 @@ describe Api::V2::PublishersController, fake_name: true do
 
     context 'when user has already a publisher' do
       before do
-        post '/v1/publishers',
+        post '/v2/publishers',
              params: publisher_params.to_json,
              headers: valid_headers
       end
@@ -88,7 +88,7 @@ describe Api::V2::PublishersController, fake_name: true do
   describe 'GET /publishers/:id' do
     context 'when account exists' do
       before do
-        get "/v1/publishers/#{publisher.id}",
+        get "/v2/publishers/#{publisher.id}",
             params: {},
             headers: valid_headers
       end
@@ -100,7 +100,7 @@ describe Api::V2::PublishersController, fake_name: true do
 
     context 'when account does not exists' do
       before do
-        get '/v1/publishers/-1',
+        get '/v2/publishers/-1',
             params: {},
             headers: valid_headers
       end
@@ -114,7 +114,7 @@ describe Api::V2::PublishersController, fake_name: true do
   describe 'PUT /publishers/me' do
     context 'when params are valid' do
       before do
-        put '/v1/publishers/me',
+        put '/v2/publishers/me',
             params: { publisherName: 'new_name' }.to_json,
             headers: valid_headers
       end
@@ -130,7 +130,7 @@ describe Api::V2::PublishersController, fake_name: true do
 
     context 'when params are invalid' do
       before do
-        put '/v1/publishers/me',
+        put '/v2/publishers/me',
             params: { publisherName: publisher2.publisher_name }.to_json,
             headers: valid_headers
       end
@@ -144,7 +144,7 @@ describe Api::V2::PublishersController, fake_name: true do
   describe 'GET /publishers/me/games' do
     context 'when games exists' do
       before do
-        get '/v1/publishers/me/games',
+        get '/v2/publishers/me/games',
             params: {},
             headers: valid_headers
       end

@@ -5,7 +5,7 @@ describe Api::V2::ServicesController do
   it "should be able to return Registry API public_key" do
     
     # call the API endpoint
-    get "/public_key"
+    get "/v2/public_key"
     
     # make sure the response was :ok
     expect(response).to have_http_status(:ok)

@@ -9,7 +9,7 @@ describe Api::V2::UsersController, fake_nem: true do
   let!(:credential_headers) { generate_auth_headers(token) }
 
   describe 'GET /users' do
-    before { get '/v1/users', params: {}, headers: credential_headers }
+    before { get '/v2/users', params: {}, headers: credential_headers }
 
     it 'should return status 200' do
       expect(response).to have_http_status :ok
@@ -22,7 +22,7 @@ describe Api::V2::UsersController, fake_nem: true do
 
   describe 'GET /users/:id' do
     context 'when user exists' do
-      before { get "/v1/users/#{users.first.id}", params: {}, headers: credential_headers }
+      before { get "/v2/users/#{users.first.id}", params: {}, headers: credential_headers }
 
       it 'should return status 200' do
         expect(response).to have_http_status :ok
@@ -30,7 +30,7 @@ describe Api::V2::UsersController, fake_nem: true do
     end
 
     context 'when user does not exists' do
-      before { get '/v1/users/-1', params: {}, headers: credential_headers }
+      before { get '/v2/users/-1', params: {}, headers: credential_headers }
 
       it 'should return status 400' do
         expect(response).to have_http_status :bad_request

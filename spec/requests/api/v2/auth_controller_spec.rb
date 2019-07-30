@@ -28,7 +28,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'POST /register' do
     context 'when params are valid' do
       before do
-        post '/v1/auth/register',
+        post '/v2/auth/register',
              params: user_params.to_json,
              headers: credential_headers
       end
@@ -44,7 +44,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when params are invalid' do
       before do
-        post '/v1/auth/register',
+        post '/v2/auth/register',
              params: user_params.except(:email).to_json,
              headers: credential_headers
       end
@@ -57,7 +57,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
   describe 'POST /register-with-wallet' do
     before do
-      post '/v1/auth/register-with-wallet',
+      post '/v2/auth/register-with-wallet',
            params: user_params.to_json,
            headers: credential_headers
     end
@@ -72,7 +72,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'POST /login' do
     context 'when credentials are valid' do
       before do
-        post '/v1/auth/login',
+        post '/v2/auth/login',
              params: { email: user2.email, password: 'password' }.to_json,
              headers: credential_headers
       end
@@ -86,7 +86,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when credentials are invalid' do
       before do
-        post '/v1/auth/login',
+        post '/v2/auth/login',
              params: { email: user2.email, password: 'password1' }.to_json,
              headers: credential_headers
       end
@@ -100,7 +100,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'POST /console_login' do
     context 'when wallet_address is valid' do
       before do
-        post '/v1/auth/console_login',
+        post '/v2/auth/console_login',
              params: { wallet_address: user2.wallet.wallet_address }.to_json,
              headers: credential_headers
       end
@@ -114,7 +114,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when wallet_address is blank' do
       before do
-        post '/v1/auth/console_login',
+        post '/v2/auth/console_login',
              params: { wallet_address: '' }.to_json,
              headers: credential_headers
       end
@@ -125,7 +125,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when wallet_address is invalid' do
       before do
-        post '/v1/auth/console_login',
+        post '/v2/auth/console_login',
              params: { wallet_address: 'wallet_address' }.to_json,
              headers: credential_headers
       end
@@ -139,7 +139,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'POST /forgot' do
     context 'when email is found' do
       before do
-        post '/v1/auth/forgot',
+        post '/v2/auth/forgot',
              params: { email: user2.email }.to_json,
              headers: credential_headers
       end
@@ -153,7 +153,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when email is not found' do
       before do
-        post '/v1/auth/forgot',
+        post '/v2/auth/forgot',
              params: { email: 'noemail@email.com' }.to_json,
              headers: credential_headers
       end
@@ -165,7 +165,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
   describe 'GET /me' do
     before do
-      get '/v1/auth/me', params: {}, headers: valid_headers
+      get '/v2/auth/me', params: {}, headers: valid_headers
     end
     it 'should return status 200' do
       expect(response.status).to eq 200
@@ -182,7 +182,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'POST /confirm/:code' do
     context 'when code is valid' do
       before do
-        post "/v1/auth/confirm/#{user2.confirmation_code}",
+        post "/v2/auth/confirm/#{user2.confirmation_code}",
              params: {},
              headers: credential_headers
       end
@@ -196,7 +196,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
     context 'when code is invalid' do
       before do
-        post '/v1/auth/confirm/0000',
+        post '/v2/auth/confirm/0000',
              params: {},
              headers: credential_headers
       end
@@ -207,7 +207,7 @@ describe Api::V2::AuthController, fake_nem: true do
   end
 
   describe 'GET /resend' do
-    before { get '/v1/auth/resend', params: {}, headers: valid_headers }
+    before { get '/v2/auth/resend', params: {}, headers: valid_headers }
     it 'should return status 200' do
       expect(response.status).to eq 200
     end
@@ -216,7 +216,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'PUT /me' do
     context 'when params are valid' do
       before do
-        put '/v1/auth/me',
+        put '/v2/auth/me',
             params: { first_name: 'Noel' }.to_json,
             headers: valid_headers
       end
@@ -229,7 +229,7 @@ describe Api::V2::AuthController, fake_nem: true do
   describe 'PUT /update_password' do
     context 'when params are valid' do
       before do
-        put '/v1/auth/update_password',
+        put '/v2/auth/update_password',
              params: {
                password: 'newpassword',
                password_confirmation: 'newpassword'
@@ -245,7 +245,7 @@ describe Api::V2::AuthController, fake_nem: true do
     context 'when params are invalid' do
       context 'and password confirmation is missing' do
         before do
-          put '/v1/auth/update_password',
+          put '/v2/auth/update_password',
                params: {
                  password: 'newpassword'
                }.to_json,
@@ -259,7 +259,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
       context 'and passwords doesnt match' do
         before do
-          put '/v1/auth/update_password',
+          put '/v2/auth/update_password',
                params: {
                  password: 'newpassword',
                  password_confirmation: 'newpass123'

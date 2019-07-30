@@ -16,9 +16,9 @@ describe Api::V2::WalletsController, fake_nem: true do
   end
   let(:valid_headers) { generate_headers(user) }
 
-  describe 'GET /:wallet_address' do
+  describe 'GET /v2/:wallet_address' do
     context 'when wallet_address exists' do
-      before { get "/wallets/#{wallet.wallet_address}", params: {}, headers: credential_headers }
+      before { get "/v2/wallets/#{wallet.wallet_address}", params: {}, headers: credential_headers }
 
       it 'should return status 200' do
         expect(response).to have_http_status :ok
@@ -26,7 +26,7 @@ describe Api::V2::WalletsController, fake_nem: true do
     end
 
     context 'when wallet_address does not exists' do
-      before { get "/wallets/ASDASDKASLKDA", params: {}, headers: credential_headers }
+      before { get '/v2/wallets/ASDASDKASLKDA', params: {}, headers: credential_headers }
 
       it 'should return status 404' do
         expect(response).to have_http_status :not_found
@@ -34,7 +34,7 @@ describe Api::V2::WalletsController, fake_nem: true do
     end
 
     context 'when querying with account_id and account_type' do
-      before { get "/wallets/#{user.id}?account_type=user", params: {}, headers: credential_headers }
+      before { get "/v2/wallets/#{user.id}?account_type=user", params: {}, headers: credential_headers }
 
       it 'should return status 200' do
         expect(response).to have_http_status :ok
@@ -47,7 +47,7 @@ describe Api::V2::WalletsController, fake_nem: true do
   end
 
   describe 'GET /:wallet_address/balance' do
-    before { get "/wallets/#{wallet.wallet_address}", params: {}, headers: credential_headers }
+    before { get "/v2/wallets/#{wallet.wallet_address}", params: {}, headers: credential_headers }
 
     it 'should return 200' do
       expect(response).to have_http_status :ok

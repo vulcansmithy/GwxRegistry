@@ -20,7 +20,7 @@ describe Api::V2::GamesController, fake_name: true do
 
   describe 'GET /games/' do
     before do
-      get '/v1/games/',
+      get '/v2/games/',
           params: {},
           headers: credential_headers
     end
@@ -37,7 +37,7 @@ describe Api::V2::GamesController, fake_name: true do
   describe 'POST /games/' do
     context 'when game params are valid' do
       before do
-        post '/v1/games',
+        post '/v2/games',
              params: game_params.to_json,
              headers: valid_headers
       end
@@ -53,7 +53,7 @@ describe Api::V2::GamesController, fake_name: true do
 
     context 'when game params are invalid' do
       before do
-        post '/v1/games',
+        post '/v2/games',
              params: game_params.except(:name).to_json,
              headers: valid_headers
       end
@@ -67,7 +67,7 @@ describe Api::V2::GamesController, fake_name: true do
   describe 'GET /games/:id' do
     context 'when game exists' do
       before do
-        get "/v1/games/#{Game.last.id}",
+        get "/v2/games/#{Game.last.id}",
             params: {},
             headers: credential_headers
       end
@@ -79,7 +79,7 @@ describe Api::V2::GamesController, fake_name: true do
 
     context 'when action doesn not exists' do
       before do
-        get '/v1/games/-1',
+        get '/v2/games/-1',
             params: {},
             headers: credential_headers
       end
@@ -93,7 +93,7 @@ describe Api::V2::GamesController, fake_name: true do
   describe 'PUT /games/:id' do
     context 'when game params are valid' do
       before do
-        put "/v1/games/#{Game.last.id}",
+        put "/v2/games/#{Game.last.id}",
             params: { name: 'New name' }.to_json,
             headers: valid_headers
       end
@@ -109,7 +109,7 @@ describe Api::V2::GamesController, fake_name: true do
 
     context 'when game params are invalid' do
       before do
-        put "/v1/games/#{Game.last.id}",
+        put "/v2/games/#{Game.last.id}",
             params: { name: nil }.to_json,
             headers: valid_headers
       end
@@ -122,7 +122,7 @@ describe Api::V2::GamesController, fake_name: true do
 
   describe 'DELETE /games/:id' do
     before do
-      delete "/v1/games/#{Game.last.id}",
+      delete "/v2/games/#{Game.last.id}",
              params: {},
              headers: valid_headers
     end

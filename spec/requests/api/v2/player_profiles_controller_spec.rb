@@ -26,7 +26,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
 
   describe 'GET /player_profiles' do
     before do
-      get '/v1/player_profiles',
+      get '/v2/player_profiles',
           params: {},
           headers: valid_headers
     end
@@ -43,7 +43,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
   describe 'POST /player_profiles' do
     context 'when player_profile params are valid' do
       before do
-        post '/v1/player_profiles',
+        post '/v2/player_profiles',
              params: player_profile_params.to_json,
              headers: valid_headers
       end
@@ -59,7 +59,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
 
     context 'when player_profile params are invalid' do
       before do
-        post '/v1/player_profiles',
+        post '/v2/player_profiles',
              params: player_profile_params.except(:username).to_json,
              headers: valid_headers
       end
@@ -73,7 +73,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
   describe 'GET /player_profiles/:id' do
     context 'when player_profile exists' do
       before do
-        get "/v1/player_profiles/#{other_player_profile.id}",
+        get "/v2/player_profiles/#{other_player_profile.id}",
             params: {},
             headers: credential_headers
       end
@@ -85,7 +85,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
 
     context 'when action does not exists' do
       before do
-        get '/v1/player_profiles/-1',
+        get '/v2/player_profiles/-1',
             params: {},
             headers: credential_headers
       end
@@ -99,7 +99,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
   describe 'PUT /player_profiles/:id' do
     context 'when player_profile params are valid' do
       before do
-        put "/v1/player_profiles/#{other_player_profile.id}",
+        put "/v2/player_profiles/#{other_player_profile.id}",
             params: { username: 'username' }.to_json,
             headers: other_valid_headers
       end
@@ -115,7 +115,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
 
     context 'when player_profile params are invalid' do
       before do
-        put "/v1/player_profiles/#{other_player_profile.id}",
+        put "/v2/player_profiles/#{other_player_profile.id}",
             params: { username: nil }.to_json,
             headers: other_valid_headers
       end
@@ -128,7 +128,7 @@ describe Api::V2::PlayerProfilesController, fake_name: true do
 
   describe 'DELETE /player_profiles/:id' do
     before do
-      delete "/v1/player_profiles/#{other_player_profile.id}",
+      delete "/v2/player_profiles/#{other_player_profile.id}",
              params: {},
              headers: other_valid_headers
     end
