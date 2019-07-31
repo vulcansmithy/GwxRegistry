@@ -14,6 +14,9 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
   def balance
     @bal = NemService.check_balance(params[:wallet_address])
+    puts "@DEBUG L:#{__LINE__}   ***************************"
+    puts "@DEBUG L:#{__LINE__}   * #{@bal}"
+    puts "@DEBUG L:#{__LINE__}   ***************************"
     wallet = Wallet.find_by!(wallet_address: params[:wallet_address])
 
     if wallet.account_type == 'Player' && params[:game_wallet_address]
