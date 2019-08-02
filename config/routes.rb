@@ -80,6 +80,12 @@ Rails.application.routes.draw do
         post '/seamless', to: 'transfers#seamless_transfer'
       end
     end
+
+    resource :digital_win, only: [] do
+      collection do
+        post '/game_token', to: 'digital_win#game_token'
+      end
+    end
   end
 
   api_version(
