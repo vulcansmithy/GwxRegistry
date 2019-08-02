@@ -5,7 +5,7 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do |controller|
     jwt = controller.params[:jwt]
-    User.find JsonWebToken.decode(jwt)[:user_id]
+    User.find JsonWebToken.decode(token: jwt)[:user_id]
   end
 
   # Set to true to require applications to be related to user
