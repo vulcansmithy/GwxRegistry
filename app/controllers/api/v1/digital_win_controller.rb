@@ -1,4 +1,5 @@
 class Api::V1::DigitalWinController < Api::V1::BaseController
+  skip_before_action :authenticate_request, only: :game_token
 
   def game_token
     response = DigitalWinClient.get_game_token(game_token_params)
