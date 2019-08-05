@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :transfers, only: [:create, :show] do
       collection do
         post '/seamless', to: 'transfers#seamless_transfer'
+        get '/balance/:username', to: 'transfers#balance'
       end
     end
 
@@ -160,6 +161,7 @@ Rails.application.routes.draw do
     resources :transfers, only: [:create, :show] do
       collection do
         post '/seamless', to: 'transfers#seamless_transfer'
+        get '/balance/:username', to: 'transfers#balance'
       end
     end
   end

@@ -19,13 +19,21 @@ class Api::V2::TransfersController < Api::V2::BaseController
 
     source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game_wallet_address
     destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
+    balance = NemService.check_balance(source_wlt)
 
     response = CashierService.new.create_transaction(
       source_wallet: source_wlt,
       destination_wallet: destination_wlt,
       quantity: seamless_params[:quantity]
     )
-    success_response response
+
+    success_response(transaction: response, balance: balance)
+  end
+
+  def balance
+    player = PlayerProfile.find_by! username: params[:username]
+    balance = NemService.check_balance(player.user.wallet.wallet_address)
+    success_response(balance)
   end
 
   private
