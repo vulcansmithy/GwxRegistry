@@ -8,13 +8,13 @@ describe Api::V2::TransfersController, fake_name: true do
   let!(:credential_headers) { generate_auth_headers(token) }
   let(:nem_account)         { NemService.create_account }
   let!(:user)               { create(:user) }
-  let!(:player)             { create(:player_profile, user: user) }
   let!(:wallet) do
     user.create_wallet(
       wallet_address: nem_account[:address],
       pk: nem_account[:priv_key]
     )
   end
+  let!(:player) { create(:player_profile, user: user) }
 
   describe 'GET /transfers/balance/:username' do
     context 'when username exists' do
