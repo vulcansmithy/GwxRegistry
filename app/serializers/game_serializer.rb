@@ -17,4 +17,5 @@ class GameSerializer < ActiveModel::Serializer
   end
 
   belongs_to :publisher
+  has_many :player_profiles
 end
