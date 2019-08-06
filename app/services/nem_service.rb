@@ -57,6 +57,10 @@ class NemService
         { xem: xem }
       else
         gwx = account.attachments.first.quantity.to_f / 1000000
+        puts "@DEBUG L:#{__LINE__}   ***************************"
+        puts "@DEBUG L:#{__LINE__}   *   XEM: #{xem}           *"
+        puts "@DEBUG L:#{__LINE__}   *   GWX: #{gwx}           *"
+        puts "@DEBUG L:#{__LINE__}   ***************************"
         { xem: xem,
           gwx: gwx }
       end
