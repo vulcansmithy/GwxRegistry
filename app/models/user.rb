@@ -33,9 +33,6 @@ class User < ApplicationRecord
                                                length: { minimum: 8 },
                                                if: :password_digest_changed?
 
-  validates :mac_address, uniqueness: true,
-                          allow_nil: true
-
   validates :confirmation_code, uniqueness: true,
                                 allow_nil: true
 
