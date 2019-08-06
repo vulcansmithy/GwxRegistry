@@ -1,4 +1,4 @@
-class Api::V1::Oauth::ApplicationsController < Doorkeeper::ApplicationsController
+class Api::V2::Oauth::ApplicationsController < Doorkeeper::ApplicationsController
   before_action :authenticate_request
 
   def index

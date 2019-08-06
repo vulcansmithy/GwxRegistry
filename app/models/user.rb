@@ -33,13 +33,14 @@ class User < ApplicationRecord
                                                length: { minimum: 8 },
                                                if: :password_digest_changed?
 
-  validates :mac_address, uniqueness: true,
-                          allow_nil: true
-
   validates :confirmation_code, uniqueness: true,
                                 allow_nil: true
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def publisher?
+    publisher.present?
   end
 end

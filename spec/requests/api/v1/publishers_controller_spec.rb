@@ -8,9 +8,9 @@ describe Api::V1::PublishersController, fake_name: true do
   let!(:user3) { create(:user) }
   let!(:publisher) { create(:publisher, user: user) }
   let!(:publisher2) { create(:publisher, user: user2) }
-  let!(:valid_headers) { generate_headers(user) }
-  let!(:valid_headers2) { generate_headers(user2) }
-  let!(:valid_headers3) { generate_headers(user3) }
+  let!(:valid_headers) { generate_jwt_headers(user) }
+  let!(:valid_headers2) { generate_jwt_headers(user2) }
+  let!(:valid_headers3) { generate_jwt_headers(user3) }
   let!(:games) { create_list(:game, 4, publisher: publisher) }
 
   let(:publisher_params) do
