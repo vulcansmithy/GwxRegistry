@@ -4,6 +4,7 @@ ruby '2.5.1'
 gem 'active_model_serializers', '0.10.8'
 gem 'appsignal'
 gem 'attr_encrypted', '~> 3.1.0'
+gem 'aws-sdk-secretsmanager'
 gem 'base32'
 gem 'bcrypt'
 gem 'bootsnap', require: false
