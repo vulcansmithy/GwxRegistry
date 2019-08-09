@@ -8,8 +8,8 @@ class SecretsManager
       region_name = 'ap-southeast-1'
       client = Aws::SecretsManager::Client.new(
         region: region_name,
-        access_key_id: 'AKIA2X6IHDRGDOC2FO6G',
-        secret_access_key: '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'
+        access_key_id: 'AKIA2X6IHDRGHMLRI5WU',
+        secret_access_key: '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'
       )
 
       begin
