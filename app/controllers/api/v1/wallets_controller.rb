@@ -55,7 +55,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
 
       success_response({ balance: response })
     else
-      success_response({ balance: @bal })
+      success_response(balance: @bal)
     end
   end
 
