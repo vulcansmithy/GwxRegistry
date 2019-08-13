@@ -36,8 +36,38 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
   def balance
     player = PlayerProfile.find_by! username: params[:username]
-    balance = NemService.check_balance(player.user.wallet.wallet_address)
-    success_response(balance)
+    user_wallet = player.user.wallet.wallet_address
+    balance = NemService.check_balance(user_wallet)
+
+    if params[:game_id]
+      game_wallet = Game.find(params[:game_id]).wallet.wallet_address
+
+      unconfirmed_bets = NemService.unconfirmed_transactions(
+        user_wallet,
+        game_wallet,
+        'gwx'
+      )
+
+      unconfirmed_rewards = NemService.unconfirmed_transactions(
+        game_wallet,
+        user_wallet,
+        'gwx'
+      )
+
+      current_gwx_balance = (balance[:gwx] || 0) + unconfirmed_rewards - unconfirmed_bets
+      available_gwx = balance[:gwx] || 0
+
+      response = {
+        unconfirmed_bets: unconfirmed_bets,
+        unconfirmed_rewards: unconfirmed_rewards,
+        current_gwx_balance: current_gwx_balance,
+        available_gwx: available_gwx
+      }.merge(balance)
+
+      success_response(balance: response)
+    else
+      success_response(balance)
+    end
   end
 
   private
