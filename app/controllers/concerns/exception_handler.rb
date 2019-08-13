@@ -1,3 +1,5 @@
+require 'nem'
+
 module ExceptionHandler
   extend ActiveSupport::Concern
 
@@ -20,6 +22,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::ExpiredCode, with: :unprocessable
     rescue_from ExceptionHandler::WrongCode, with: :unprocessable
     rescue_from ExceptionHandler::InvalidArgs, with: :bad_request
+    rescue_from Nem::BadRequestError, with: :bad_request
   end
 
   private
