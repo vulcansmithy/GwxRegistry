@@ -21,11 +21,11 @@ class Api::V1::TransfersController < Api::V1::BaseController
     destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
     balance = NemService.check_balance(source_wlt)
 
-    if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity]
+    if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
       response = CashierService.new.create_transaction(
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
-        quantity: seamless_params[:quantity]
+        quantity: seamless_params[:quantity].to_f
       )
 
       success_response(transaction: response, balance: balance)
