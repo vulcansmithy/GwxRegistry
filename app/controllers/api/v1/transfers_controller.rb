@@ -19,7 +19,10 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
     source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game_wallet_address
     destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
-    balance = NemService.check_balance(source_wlt)
+    balance = NemService.check_game_balance(
+      wallet_address: source_wlt,
+      game_address: destination_wlt
+    )
 
     if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
       response = CashierService.new.create_transaction(
@@ -37,35 +40,18 @@ class Api::V1::TransfersController < Api::V1::BaseController
   def balance
     player = PlayerProfile.find_by! username: params[:username]
     user_wallet = player.user.wallet.wallet_address
-    balance = NemService.check_balance(user_wallet)
 
     if params[:game_id]
       game_wallet = Game.find(params[:game_id]).wallet.wallet_address
-
-      unconfirmed_bets = NemService.unconfirmed_transactions(
-        user_wallet,
-        game_wallet,
-        'gwx'
+      response = NemService.check_game_balance(
+        game_address: game_wallet,
+        wallet_address: user_wallet
       )
-
-      unconfirmed_rewards = NemService.unconfirmed_transactions(
-        game_wallet,
-        user_wallet,
-        'gwx'
-      )
-
-      current_gwx_balance = (balance[:gwx] || 0) + unconfirmed_rewards - unconfirmed_bets
-      available_gwx = balance[:gwx] || 0
-
-      response = {
-        unconfirmed_bets: unconfirmed_bets,
-        unconfirmed_rewards: unconfirmed_rewards,
-        current_gwx_balance: current_gwx_balance,
-        available_gwx: available_gwx
-      }.merge(balance)
 
       success_response(balance: response)
     else
+      balance = NemService.check_balance(user_wallet)
+
       success_response(balance)
     end
   end
