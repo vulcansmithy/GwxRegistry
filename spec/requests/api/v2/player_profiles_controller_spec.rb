@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Api::V2::PlayerProfilesController, fake_name: true do
+describe Api::V2::PlayerProfilesController, fake_nem: true do
   before { mock_nem_service }
 
   let!(:application)          { create(:application) }
