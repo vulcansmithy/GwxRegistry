@@ -83,6 +83,34 @@ class NemService
       total_quantity.sum.to_f / 1000000
     end
 
+    def check_game_balance(args)
+      game_address = args[:game_address]
+      wallet_address = args[:wallet_address]
+      balance = check_balance(wallet_address)
+
+      unconfirmed_bets = unconfirmed_transactions(
+        wallet_address,
+        game_address,
+        'gwx'
+      )
+
+      unconfirmed_rewards = unconfirmed_transactions(
+        game_address,
+        wallet_address,
+        'gwx'
+      )
+
+      available_balance = balance['gwx'] || 0
+      current_balance = available_balance + unconfirmed_rewards - unconfirmed_bets
+
+      {
+        unconfirmed_bets: unconfirmed_bets,
+        unconfirmed_rewards: unconfirmed_rewards,
+        current_gwx_balance: current_balance,
+        available_gwx: available_balance
+      }.merge(balance)
+    end
+
     private
 
     def to_hex(data)
