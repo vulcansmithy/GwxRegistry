@@ -100,7 +100,7 @@ class NemService
         'gwx'
       )
 
-      available_balance = balance['gwx'] || 0
+      available_balance = balance[:gwx] || 0
       current_balance = available_balance + unconfirmed_rewards - unconfirmed_bets
 
       {
