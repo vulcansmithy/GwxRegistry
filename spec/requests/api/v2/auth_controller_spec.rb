@@ -45,12 +45,14 @@ describe Api::V2::AuthController, fake_nem: true do
     context 'when params are invalid' do
       before do
         post '/v2/auth/register',
-             params: user_params.except(:email).to_json,
+             params: user_params.except(:email, :first_name, :last_name).to_json,
              headers: credential_headers
       end
 
       it 'should return status 422' do
         expect(response.status).to eq 422
+        expect(json['errors']['first_name']).to include("can't be blank")
+        expect(json['errors']['last_name']).to include("can't be blank")
       end
     end
   end
