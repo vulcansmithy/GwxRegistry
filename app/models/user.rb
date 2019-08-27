@@ -25,6 +25,8 @@ class User < ApplicationRecord
                            foreign_key: :resource_owner_id,
                            dependent: :delete_all # or :destroy if you need callbacks
 
+  validates :first_name, :last_name, presence: true
+
   validates :email, presence: true,
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
