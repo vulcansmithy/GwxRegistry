@@ -68,7 +68,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
       :destination_user_id,
       :source_wallet,
       :destination_wallet,
-      :quantity
+      :quantity,
+      :message
     )
   end
 
