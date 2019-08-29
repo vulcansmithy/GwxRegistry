@@ -20,8 +20,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
     source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game_wallet_address
     destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
     balance = NemService.check_game_balance(
-      wallet_address: source_wlt,
-      game_address: destination_wlt
+      wallet_address: @user_wallet_address,
+      game_address: @game_wallet_address
     )
 
     if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
