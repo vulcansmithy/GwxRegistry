@@ -47,22 +47,51 @@ class NemService
       wallet = generate_wallet(private_key, network)
     end
 
-    def check_balance(wallet_address)
+    def check_balance(wallet_address, mosaic_name = 'gwx')
       account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
-      xem = account_endpoint.find(wallet_address).balance.to_f / 1000000
+      xem = account_endpoint.find(wallet_address).balance.to_f / 1_000_000
       mosaic = account_endpoint.mosaic_owned(wallet_address)
       account = mosaic.find_by_namespace_id(NAMESPACE)
 
       if account.attachments.empty?
         { xem: xem }
       else
-        gwx = account.attachments.first.quantity.to_f / 1000000
+        gwx = account.attachments.select do |attachment|
+          attachment.name == mosaic_name
+        end.first.quantity.to_f / 1_000_000
+
+        unconfirmed = account_endpoint.transfers_unconfirmed(wallet_address)
+                                      .select do |transaction|
+                                        transaction.mosaics.select do |m|
+                                          m.name == mosaic_name
+                                        end.present?
+                                      end
+        incoming = unconfirmed.select { |tx| tx.recipient == wallet_address }
+        outgoing = unconfirmed - incoming
+
+        total_incoming = incoming.map do |tx|
+          tx.mosaics.select { |m| m.name == mosaic_name }.first.quantity
+        end.sum.to_f / 1_000_000
+
+        total_outgoing = outgoing.map do |tx|
+          tx.mosaics.select { |m| m.name == mosaic_name }.first.quantity
+        end.sum.to_f / 1_000_000
+
+        current_gwx_balance = gwx + total_incoming - total_outgoing
+
         puts "@DEBUG L:#{__LINE__}   ***************************"
         puts "@DEBUG L:#{__LINE__}   *   XEM: #{xem}           *"
         puts "@DEBUG L:#{__LINE__}   *   GWX: #{gwx}           *"
         puts "@DEBUG L:#{__LINE__}   ***************************"
-        { xem: xem,
-          gwx: gwx }
+
+        {
+          xem: xem,
+          gwx: gwx,
+          available_gwx: gwx,
+          current_gwx_balance: current_gwx_balance,
+          unconfirmed_incoming: total_incoming,
+          unconfirmed_outgoing: total_outgoing
+        }
       end
     end
 
