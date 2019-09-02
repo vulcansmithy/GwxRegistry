@@ -19,15 +19,22 @@ class Api::V2::TransfersController < Api::V2::BaseController
 
     source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game_wallet_address
     destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
-    balance = NemService.check_balance(source_wlt)
-
-    response = CashierService.new.create_transaction(
-      source_wallet: source_wlt,
-      destination_wallet: destination_wlt,
-      quantity: seamless_params[:quantity]
+    balance = NemService.check_game_balance(
+      wallet_address: @user_wallet_address,
+      game_address: @game_wallet_address
     )
 
-    success_response(transaction: response, balance: balance)
+    if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
+      response = CashierService.new.create_transaction(
+        source_wallet: source_wlt,
+        destination_wallet: destination_wlt,
+        quantity: seamless_params[:quantity].to_f
+      )
+
+      success_response(transaction: response, balance: balance)
+    else
+      error_response '', 'Insufficient balance', 422
+    end
   end
 
   def balance
@@ -41,14 +48,15 @@ class Api::V2::TransfersController < Api::V2::BaseController
   def seamless_params
     params.permit(:game_id, :username, :quantity, :type)
   end
-  
+
   def transfer_params
     params.permit(
       :source_user_id,
       :destination_user_id,
       :source_wallet,
       :destination_wallet,
-      :quantity
+      :quantity,
+      :message
     )
   end
 
