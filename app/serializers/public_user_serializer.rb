@@ -1,4 +1,4 @@
-class PublicUserSerializer < ActiveModel::Serializer
+class PublicUserSerializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower

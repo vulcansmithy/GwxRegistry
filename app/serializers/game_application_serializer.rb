@@ -1,4 +1,4 @@
-class GameApplicationSerializer < ActiveModel::Serializer
+class GameApplicationSerializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower

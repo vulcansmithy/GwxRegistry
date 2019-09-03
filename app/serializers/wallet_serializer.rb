@@ -1,4 +1,4 @@
-class WalletSerializer < ActiveModel::Serializer
+class WalletSerializer
   include FastJsonapi::ObjectSerializer
 
   attributes :wallet_address, :account_type
