@@ -1,4 +1,4 @@
-class TriggerSerializer < ActiveModel::Serializer
+class TriggerSerializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower
@@ -7,7 +7,7 @@ class TriggerSerializer < ActiveModel::Serializer
              :action_id,
              :player_profile_id,
              :created_at
-  
+
   attribute :transaction_details do |trigger|
     if trigger.transaction_id.present?
       res = CashierService.new.find_transaction(trigger.transaction_id)

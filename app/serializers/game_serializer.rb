@@ -18,4 +18,6 @@ class GameSerializer < ActiveModel::Serializer
 
   belongs_to :publisher
   has_many :player_profiles
+  has_many :tags
+  has_many :categories
 end
