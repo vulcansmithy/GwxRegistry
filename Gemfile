@@ -26,6 +26,8 @@ gem 'simple_command'
 gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
 gem 'trestle', '~> 0.8.13'
+gem 'trestle-auth'
+gem 'kaminari'
 
 group :development, :test do
   gem 'awesome_print'
