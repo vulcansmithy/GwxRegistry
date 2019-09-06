@@ -32,6 +32,10 @@ gem 'trestle', '~> 0.8.13'
 gem 'trestle-auth'
 gem 'trestle-search'
 
+gem 'execjs'
+gem 'therubyracer'
+
+
 
 group :development, :test do
   gem 'awesome_print'
