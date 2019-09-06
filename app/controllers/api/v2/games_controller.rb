@@ -6,7 +6,7 @@ class Api::V2::GamesController < Api::V2::BaseController
 
   def index
     @games = Game.all.includes(:player_profiles).paginate(page: params[:page])
-    serialized_games = GameSerializer.new(@games, include: [:player_profiles, :publisher]).serializable_hash
+    serialized_games = GameSerializer.new(@games, include: [:player_profiles, :publisher, :tags, :categories]).serializable_hash
     success_response paginate_result(serialized_games, @games)
   end
 

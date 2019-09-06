@@ -1,4 +1,4 @@
-class PublisherPreviewGameSerializer < ActiveModel::Serializer
+class PublisherPreviewGameSerializer
   include FastJsonapi::ObjectSerializer
 
   set_key_transform :camel_lower
