@@ -27,16 +27,6 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
     end
   end
 
-  def update
-    if @player_profile.update(profile_params)
-      success_response PlayerProfileSerializer.new(@player_profile).serialized_json
-    else
-      error_response 'Unable to update player profile',
-                     @player_profile.errors.full_messages,
-                     :unprocessable_entity
-    end
-  end
-
   def destroy
     if @player_profile.destroy
       success_response message: 'Successfully deleted'
@@ -56,7 +46,7 @@ class Api::V1::PlayerProfilesController < Api::V1::BaseController
   private
 
   def profile_params
-    params.permit(:username, :game_id)
+    params.permit(:game_id)
   end
 
   def set_player_profile
