@@ -31,6 +31,8 @@ class User < ApplicationRecord
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
+  validates_format_of :username, with: /^[A-Za-z0-9_\.]+$/, multiline: true, allow_nil: true
+
   validates :password, :password_confirmation, presence: true,
                                                length: { minimum: 8 },
                                                if: :password_digest_changed?
