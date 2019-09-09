@@ -14,7 +14,7 @@ describe Api::V2::TransfersController, fake_nem: true do
 
   describe 'GET /transfers/balance/:username' do
     context 'when username exists' do
-      before { get "/transfers/balance/#{user.username}" }
+      before { get "/transfers/balance/#{user.id}" }
 
       it 'should return status 200' do
         expect(response).to have_http_status :ok
