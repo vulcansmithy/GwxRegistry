@@ -179,7 +179,10 @@ ActiveRecord::Schema.define(version: 2019_09_05_103447) do
     t.string "temporary_password"
     t.string "avatar"
     t.string "username"
+<<<<<<< HEAD
     t.datetime "last_login"
+=======
+>>>>>>> Replaces rubyracer with mini-racer
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end

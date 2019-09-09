@@ -27,13 +27,14 @@ gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
 gem 'kaminari'
 
-#trestle
+# Trestle.io
 gem 'trestle', '~> 0.8.13'
 gem 'trestle-auth'
 gem 'trestle-search'
 
+# Javascript Runtime for Trestle.io
 gem 'execjs'
-gem 'therubyracer'
+gem 'mini_racer'
 
 
 
