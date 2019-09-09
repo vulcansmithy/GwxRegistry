@@ -38,7 +38,7 @@ class Api::V2::TransfersController < Api::V2::BaseController
   end
 
   def balance
-    user = User.find_by! username: params[:username]
+    user = User.find params[:username]
     balance = NemService.check_balance(user.wallet.wallet_address)
     success_response(balance)
   end
