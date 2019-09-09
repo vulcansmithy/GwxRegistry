@@ -19,7 +19,7 @@ describe Api::V2::TransfersController, fake_nem: true do
   describe 'GET /transfers/balance/:username' do
     context 'when username exists' do
       before do
-        get "/v2/transfers/balance/#{player.username}",
+        get "/v2/transfers/balance/#{user.username}",
             params: {},
             headers: credential_headers
       end
