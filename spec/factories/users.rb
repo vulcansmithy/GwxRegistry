@@ -7,6 +7,7 @@ FactoryBot.define do
     password              { "password"             }
     password_confirmation { "password"             }
     wallet_address        { Faker::Crypto.sha256   }
+    username              { "#{first_name}#{last_name}".gsub(/[^0-9A-Za-z]/, '') }
   end
 
 end
