@@ -38,8 +38,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def balance
-    player = PlayerProfile.find_by! username: params[:username]
-    user_wallet = player.user.wallet.wallet_address
+    user = User.find_by! username: params[:username]
+    user_wallet = user.wallet.wallet_address
 
     if params[:game_id]
       game_wallet = Game.find(params[:game_id]).wallet.wallet_address
@@ -75,7 +75,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
   def set_user_wallet_address
     player = PlayerProfile.find_by! username: seamless_params[:username],
-                                   game_id: seamless_params[:game_id]
+                                    game_id: seamless_params[:game_id]
 
     @user_wallet_address = player.user.wallet.wallet_address
   end
@@ -86,6 +86,6 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def valid_params?
-    ['debit', 'credit'].include? params[:type]
+    %w[debit credit].include? params[:type]
   end
 end

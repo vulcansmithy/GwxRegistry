@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_072759) do
+ActiveRecord::Schema.define(version: 2019_09_05_100100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_072759) do
   end
 
   create_table "player_profiles", force: :cascade do |t|
-    t.string "username"
     t.decimal "balance", precision: 8, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -116,7 +115,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_072759) do
     t.bigint "game_id"
     t.index ["game_id"], name: "index_player_profiles_on_game_id"
     t.index ["user_id"], name: "index_player_profiles_on_user_id"
-    t.index ["username"], name: "index_player_profiles_on_username", unique: true
   end
 
   create_table "publishers", force: :cascade do |t|
@@ -165,6 +163,7 @@ ActiveRecord::Schema.define(version: 2019_06_17_072759) do
     t.datetime "reset_password_sent_at"
     t.string "temporary_password"
     t.string "avatar"
+    t.string "username"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end
