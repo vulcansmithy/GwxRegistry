@@ -38,8 +38,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def balance
-    player = PlayerProfile.find_by! username: params[:username]
-    user_wallet = player.user.wallet.wallet_address
+    user = User.find_by! username: params[:username]
+    user_wallet = user.wallet.wallet_address
 
     if params[:game_id]
       game_wallet = Game.find(params[:game_id]).wallet.wallet_address
