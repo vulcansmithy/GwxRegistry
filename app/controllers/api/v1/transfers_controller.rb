@@ -10,7 +10,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
     if response.code == 200
       success_response response
     else
-      error_response response["message"], nil, response.code
+      error_response response['message'], nil, response.code
     end
   end
 
