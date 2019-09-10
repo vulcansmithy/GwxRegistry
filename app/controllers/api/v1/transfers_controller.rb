@@ -6,7 +6,12 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
   def create
     response = CashierService.new.create_transaction transfer_params
-    success_response response
+
+    if response.code == 200
+      success_response response
+    else
+      error_response response["message"], nil, response.code
+    end
   end
 
   def show
