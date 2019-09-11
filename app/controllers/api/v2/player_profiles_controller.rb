@@ -46,7 +46,7 @@ class Api::V2::PlayerProfilesController < Api::V2::BaseController
   private
 
   def profile_params
-    params.permit(:username, :game_id)
+    params.permit(:game_id)
   end
 
   def set_player_profile
