@@ -12,6 +12,8 @@ class AuthenticateUser
 
   def call
     auth_user = user
+    user.update(last_login: Time.now)
+
     @result = {
       token: JsonWebToken.encode(user_id: auth_user.id),
       user: UserSerializer.new(auth_user).serializable_hash

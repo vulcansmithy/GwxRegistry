@@ -11,7 +11,8 @@ class UserSerializer
              :confirmation_sent_at,
              :reset_password_sent_at,
              :avatar,
-             :username
+             :username,
+             :last_login
 
   attribute :wallet_address do |user|
     user.wallet.try(:wallet_address)
