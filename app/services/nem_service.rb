@@ -29,6 +29,17 @@ class NemService
       ])
     else
       Nem::NodePool.new([
+        Nem::Node.new(host: '69.30.222.140', timeout: TIMEOUT),
+        Nem::Node.new(host: '95.216.73.243', timeout: TIMEOUT),
+        Nem::Node.new(host: '104.238.116.254', timeout: TIMEOUT),
+        Nem::Node.new(host: '52.197.57.86', timeout: TIMEOUT),
+        Nem::Node.new(host: '110.134.77.58', timeout: TIMEOUT),
+        Nem::Node.new(host: '89.40.9.33', timeout: TIMEOUT),
+        Nem::Node.new(host: '13.113.197.44', timeout: TIMEOUT),
+        Nem::Node.new(host: '35.167.164.137', timeout: TIMEOUT),
+        Nem::Node.new(host: '13.114.231.114', timeout: TIMEOUT),
+        Nem::Node.new(host: '18.221.87.98', timeout: TIMEOUT),
+        Nem::Node.new(host: '35.229.29.156', timeout: TIMEOUT),
         Nem::Node.new(host: '23.228.67.85', timeout: TIMEOUT),
         Nem::Node.new(host: '104.128.226.60', timeout: TIMEOUT),
         Nem::Node.new(host: '150.95.145.157', timeout: TIMEOUT),
