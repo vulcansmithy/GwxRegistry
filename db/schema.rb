@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_05_100100) do
+ActiveRecord::Schema.define(version: 2019_09_12_025328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 2019_09_05_100100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_actions_on_game_id"
+  end
+
+  create_table "administrators", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -164,6 +175,7 @@ ActiveRecord::Schema.define(version: 2019_09_05_100100) do
     t.string "temporary_password"
     t.string "avatar"
     t.string "username"
+    t.datetime "last_login"
     t.index ["email", "mac_address", "confirmation_code"], name: "index_users_on_email_and_mac_address_and_confirmation_code", unique: true
     t.index ["encrypted_pk_iv"], name: "index_users_on_encrypted_pk_iv", unique: true
   end
