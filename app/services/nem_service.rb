@@ -14,6 +14,16 @@ class NemService
   NEM_NODE =
     if Rails.env.production?
       Nem::NodePool.new([
+        Nem::Node.new(host: '165.22.180.103', timeout: TIMEOUT),
+        Nem::Node.new(host: '45.63.78.67', timeout: TIMEOUT),
+        Nem::Node.new(host: '69.30.222.139', timeout: TIMEOUT),
+        Nem::Node.new(host: '199.217.118.114', timeout: TIMEOUT),
+        Nem::Node.new(host: '149.28.247.129', timeout: TIMEOUT),
+        Nem::Node.new(host: '66.228.48.37', timeout: TIMEOUT),
+        Nem::Node.new(host: '45.32.196.216', timeout: TIMEOUT),
+        Nem::Node.new(host: '108.61.204.81', timeout: TIMEOUT),
+        Nem::Node.new(host: '45.32.192.155', timeout: TIMEOUT),
+        Nem::Node.new(host: '45.63.69.29', timeout: TIMEOUT),
         Nem::Node.new(host: '62.75.251.134', timeout: TIMEOUT),
         Nem::Node.new(host: '62.75.163.236', timeout: TIMEOUT),
         Nem::Node.new(host: '209.126.98.204', timeout: TIMEOUT),
