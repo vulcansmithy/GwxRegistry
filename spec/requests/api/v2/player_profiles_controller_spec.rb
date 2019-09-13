@@ -18,8 +18,6 @@ describe Api::V2::PlayerProfilesController, fake_nem: true do
 
   let!(:player_profile_params) do
     {
-      user_id: player_user.id,
-      username: player_profile.username,
       game_id: game.id
     }
   end
@@ -53,19 +51,19 @@ describe Api::V2::PlayerProfilesController, fake_nem: true do
       end
 
       it 'should return correct result' do
-        expect(json['data']['attributes']['username']).to eq player_profile.username
+        expect(json['data']['attributes']['username']).to eq player_user.username
       end
     end
 
     context 'when player_profile params are invalid' do
       before do
         post '/v2/player_profiles',
-             params: player_profile_params.except(:username).to_json,
+             params: player_profile_params.except(:game_id).to_json,
              headers: valid_headers
       end
 
-      it 'should return status 422' do
-        expect(response.status).to eq 422
+      it 'should return status 400' do
+        expect(response.status).to eq 400
       end
     end
   end
@@ -92,36 +90,6 @@ describe Api::V2::PlayerProfilesController, fake_nem: true do
 
       it 'should return status 400' do
         expect(response.status).to eq 400
-      end
-    end
-  end
-
-  describe 'PUT /player_profiles/:id' do
-    context 'when player_profile params are valid' do
-      before do
-        put "/v2/player_profiles/#{other_player_profile.id}",
-            params: { username: 'username' }.to_json,
-            headers: other_valid_headers
-      end
-
-      it 'should return status 200' do
-        expect(response.status).to eq 200
-      end
-
-      it 'should update the record' do
-        expect(json['data']['attributes']['username']). to eq 'username'
-      end
-    end
-
-    context 'when player_profile params are invalid' do
-      before do
-        put "/v2/player_profiles/#{other_player_profile.id}",
-            params: { username: nil }.to_json,
-            headers: other_valid_headers
-      end
-
-      it 'should return status 422' do
-        expect(response.status).to eq 422
       end
     end
   end

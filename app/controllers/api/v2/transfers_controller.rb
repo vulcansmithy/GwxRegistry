@@ -6,7 +6,11 @@ class Api::V2::TransfersController < Api::V2::BaseController
 
   def create
     response = CashierService.new.create_transaction transfer_params
-    success_response response
+    if response.code == 200
+      success_response response
+    else
+      error_response response['message'], nil, response.code
+    end
   end
 
   def show
@@ -38,8 +42,8 @@ class Api::V2::TransfersController < Api::V2::BaseController
   end
 
   def balance
-    player = PlayerProfile.find_by! username: params[:username]
-    balance = NemService.check_balance(player.user.wallet.wallet_address)
+    user = User.find params[:username]
+    balance = NemService.check_balance(user.wallet.wallet_address)
     success_response(balance)
   end
 
@@ -61,10 +65,8 @@ class Api::V2::TransfersController < Api::V2::BaseController
   end
 
   def set_user_wallet_address
-    player = PlayerProfile.find_by! username: seamless_params[:username],
-                                   game_id: seamless_params[:game_id]
-
-    @user_wallet_address = player.user.wallet.wallet_address
+    user = User.find seamless_params[:username]
+    @user_wallet_address = user.wallet.wallet_address
   end
 
   def set_game_wallet_address
@@ -73,6 +75,6 @@ class Api::V2::TransfersController < Api::V2::BaseController
   end
 
   def valid_params?
-    ['debit', 'credit'].include? params[:type]
+    %w[debit credit].include? params[:type]
   end
 end

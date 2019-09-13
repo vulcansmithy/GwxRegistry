@@ -46,7 +46,7 @@ class CashierService
   end
 
   def find_wallet_address(id)
-    wallet = Wallet.find_by(
+    wallet = Wallet.find_by!(
       account_id: id,
       account_type: 'User'
     )
