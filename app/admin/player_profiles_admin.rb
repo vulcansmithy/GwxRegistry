@@ -1,35 +1,57 @@
 Trestle.resource(:player_profiles) do
   menu do
-    item :player_profiles, icon: "fa fa-list-ul"
+    group :admin do
+      item :player_profiles, icon: 'fa fa-list-ul', priority: 4
+    end
   end
 
-  # Customize the table columns shown on the index view.
-  #
-  # table do
-  #   column :name
-  #   column :created_at, align: :center
-  #   actions
-  # end
+  return_to on: :create do |player_profile|
+    referrer = request.referrer
+    query = URI.parse(referrer).query
 
-  # Customize the form fields shown on the new/edit views.
-  #
-  # form do |player_profile|
-  #   text_field :name
-  #
-  #   row do
-  #     col(xs: 6) { datetime_field :updated_at }
-  #     col(xs: 6) { datetime_field :created_at }
-  #   end
-  # end
+    if query.nil?
+      edit_player_profiles_admin_path(id: player_profile.id)
+    else
+      prev_params = CGI.parse(URI.parse(referrer).query)
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
-  # params do |params|
-  #   params.require(:player_profile).permit(:name, ...)
-  # end
+      if prev_params['user_id'].first.present?
+        edit_users_admin_path(id: prev_params['user_id'].first)
+      elsif prev_params['game_id'].first.present?
+        edit_games_admin_path(id: prev_params['game_id'].first)
+      else
+        edit_player_profiles_admin_path(id: player_profile.id)
+      end
+    end
+  end
+
+  build_instance do |attrs, params|
+    scope = if params[:user_id]
+              User.find(params[:user_id]).player_profiles
+            elsif params[:game_id]
+              Game.find(params[:game_id]).player_profiles
+            else
+              PlayerProfile
+            end
+
+    scope.new(attrs)
+  end
+
+  table do
+    column :id
+    column :user
+    column :game
+    column :username, ->(player_profile) { player_profile.user.username }
+    column :created_at, align: :center
+  end
+
+  form do
+    select :user_id, User.all
+    select :game_id, Game.all
+    if params[:action] == 'show'
+      row do
+        col(xs: 6) { datetime_field :updated_at, disabled: true }
+        col(xs: 6) { datetime_field :created_at, disabled: true }
+      end
+    end
+  end
 end

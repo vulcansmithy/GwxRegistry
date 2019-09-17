@@ -1,38 +1,48 @@
 Trestle.resource(:publishers) do
   menu do
-    item :publishers, icon: "fa fa-book"
+    group :admin do
+      item :publishers, icon: "fa fa-book", priority: 1
+    end
   end
 
-  # Customize the table columns shown on the index view.
-  #
   table do
     column :publisher_name
-    column :wallet_address
     column :description
-    column :balance
+    column :wallet_address do |instance|
+      instance.wallet.wallet_address
+    end
     column :created_at, align: :center
     actions
   end
 
-  # Customize the form fields shown on the new/edit views.
-  #
-  # form do |publisher|
-  #   text_field :name
-  #
-  #   row do
-  #     col(xs: 6) { datetime_field :updated_at }
-  #     col(xs: 6) { datetime_field :created_at }
-  #   end
-  # end
+  form do |publisher|
+    tab :publisher do
+      text_field :publisher_name
+      text_field :description
+      if params[:action] == 'show'
+        text_field :wallet_address, value: publisher.wallet&.wallet_address, disabled: true
+        row do
+          col(xs: 6) { datetime_field :updated_at, disabled: true }
+          col(xs: 6) { datetime_field :created_at, disabled: true }
+        end
+      end
+    end
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
-  # params do |params|
-  #   params.require(:publisher).permit(:name, ...)
-  # end
+    tab :games, badge: publisher.games.size do
+      table publisher.games, admin: :games do
+        column :icon, header: nil, align: :center, class: "poster-column" do |game|
+          admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
+        end
+        column :name
+        column :description
+        column :tags, format: :tags, class: 'hidden-xs' do |game|
+          game.tags.map(&:name)
+        end
+
+        actions
+      end
+
+      concat admin_link_to('New Game', admin: :games, action: :new, params: { publisher_id: publisher}, class: 'btn btn-success')
+    end
+  end
 end

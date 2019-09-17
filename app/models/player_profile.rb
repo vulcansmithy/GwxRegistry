@@ -4,8 +4,8 @@ class PlayerProfile < ApplicationRecord
   after_commit :create_account, on: :create
 
   belongs_to   :user, optional: true
-  belongs_to   :game
+  belongs_to   :game, optional: true
   has_one      :wallet, as: :account
-  has_many     :triggers
+  has_many     :triggers, dependent: :nullify
 
 end

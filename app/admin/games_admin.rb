@@ -1,37 +1,93 @@
 Trestle.resource(:games) do
   menu do
-    item :games, icon: "fa fa-gamepad"
+    group :admin do
+      item :games, icon: 'fa fa-gamepad', priority: 2
+    end
   end
 
-  # Customize the table columns shown on the index view.
-  #
+  return_to on: :create do |game|
+    referrer = request.referrer
+    query = URI.parse(referrer).query
+
+    if query.nil?
+      edit_games_admin_path(id: game.id)
+    else
+      prev_params = CGI.parse(query)
+
+      if prev_params['publisher_id'].first.present?
+        edit_publishers_admin_path(id: prev_params['publisher_id'].first)
+      else
+        edit_games_admin_path(id: game.id)
+      end
+    end
+  end
+
+  collection do
+    model.includes(:tags)
+  end
+
   table do
+    column :icon, header: nil, align: :center, class: "poster-column" do |game|
+      admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
+    end
     column :name
     column :description
-    column :publisher
+    column :publisher do |game|
+      link_to game.publisher.publisher_name, edit_publishers_admin_path(id: game.publisher.id)
+    end
+    column :tags, format: :tags, class: 'hidden-xs' do |game|
+      game.tags.map(&:name)
+    end
     column :created_at, align: :center
     actions
   end
 
-  # Customize the form fields shown on the new/edit views.
-  #
-  # form do |game|
-  #   text_field :name
-  #
-  #   row do
-  #     col(xs: 6) { datetime_field :updated_at }
-  #     col(xs: 6) { datetime_field :created_at }
-  #   end
-  # end
+  form do |game|
+    tab :game do
+      text_field :name
+      text_field :description
+      file_field :icon
+      if params[:action] == 'new' && params[:publisher_id].nil?
+        select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
+      elsif params[:action] == 'new' && params[:publisher_id].present?
+        publisher = Publisher.find(params[:publisher_id])
+        select :publisher_id, [[publisher.publisher_name, publisher.id]]
+      end
+      if params[:action] == 'show'
+        text_field :wallet_address, value: game.wallet&.wallet_address, disabled: true
+        text_field :pubisher_name, value: game.publisher.publisher_name, disabled: true
+        row do
+          col(xs: 6) { datetime_field :updated_at, disabled: true }
+          col(xs: 6) { datetime_field :created_at, disabled: true }
+        end
+      end
+    end
 
-  # By default, all parameters passed to the update and create actions will be
-  # permitted. If you do not have full trust in your users, you should explicitly
-  # define the list of permitted parameters.
-  #
-  # For further information, see the Rails documentation on Strong Parameters:
-  #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
-  #
-  # params do |params|
-  #   params.require(:game).permit(:name, ...)
-  # end
+    tab :players, badge: game.player_profiles.size do
+      table game.player_profiles, admin: :player_profiles do
+        column :user do |player|
+          link_to "#{player&.user&.first_name} #{player&.user&.last_name}", edit_users_admin_path(id: player&.user&.id)
+        end
+        column :username do |player|
+          player.user.username
+        end
+
+        actions
+      end
+
+      concat admin_link_to('New Player', admin: :player_profiles, action: :new, params: { game_id: game }, class: "btn btn-success")
+    end
+
+    tab :tags, badge: game.tags.size do
+      table game.tags, admin: :tags do
+        column :id
+        column :name
+
+        actions
+      end
+
+      concat admin_link_to('New Tag', admin: :game_tags, action: :new, params: { game_id: game }, class: "btn btn-success")
+    end
+  end
+
 end
