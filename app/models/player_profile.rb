@@ -8,4 +8,5 @@ class PlayerProfile < ApplicationRecord
   has_one      :wallet, as: :account
   has_many     :triggers
 
+  validates :user_id, uniqueness: { scope: :game_id }
 end
