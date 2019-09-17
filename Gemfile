@@ -25,6 +25,18 @@ gem 'rswag', '2.0.5'
 gem 'simple_command'
 gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
+gem 'kaminari'
+
+# Trestle.io
+gem 'trestle', '~> 0.8.13'
+gem 'trestle-auth'
+gem 'trestle-search'
+
+# Javascript Runtime for Trestle.io
+gem 'execjs'
+gem 'mini_racer'
+
+
 
 group :development, :test do
   gem 'awesome_print'
