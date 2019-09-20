@@ -116,6 +116,13 @@ class NemService
       end
     end
 
+    def wallet_transactions_for(source_wallet)
+      account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
+      account_endpoint.transfers_all(source_wallet).select do |tx|
+        tx.mosaics.present? && tx.mosaics.map(&:name).include?('gwx')
+      end
+    end
+
     def unconfirmed_transactions(source_wallet, destination_wallet, mosaic_name = 'gwx')
       account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
       unconfirmed_transactions = account_endpoint.transfers_unconfirmed(source_wallet)
