@@ -43,7 +43,7 @@ Trestle.resource(:users) do
       end
     end
 
-    tab :players, badge: user.player_profiles.size do
+    tab :games, badge: user.player_profiles.size do
       table user.player_profiles, admin: :player_profiles do
         column :game do |player|
           if player.game.present?
@@ -58,6 +58,29 @@ Trestle.resource(:users) do
       end
 
       concat admin_link_to('New Player', admin: :player_profiles, action: :new, params: { user_id: user }, class: "btn btn-success")
+    end
+
+    tab :game_wallets, badge: user.player_profiles.size do
+      table user.player_profiles, admin: :player_profiles do
+        column :wallet_address do |player|
+          player.wallet.wallet_address
+        end
+        column :game do |player|
+          player.game.name
+        end
+      end
+    end
+
+    wallet_transactions = NemService.wallet_transactions_for(user.wallet.wallet_address)
+    tab :transactions, badge: wallet_transactions.count do
+      table wallet_transactions do
+        column :recipient
+        column :hash
+        column :amount do |transaction|
+          amount = transaction.mosaics.find { |m| m.name == 'gwx' }.quantity / 1_000_000
+          "#{amount} GWX"
+        end
+      end
     end
   end
 

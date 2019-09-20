@@ -5,6 +5,14 @@ Trestle.resource(:publishers) do
     end
   end
 
+  search do |query|
+    if query
+      collection.where('publisher_name ILIKE ? OR description ILIKE ?', "%#{query}%", "%#{query}%")
+    else
+      collection
+    end
+  end
+
   table do
     column :publisher_name
     column :description

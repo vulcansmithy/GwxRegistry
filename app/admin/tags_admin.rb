@@ -1,7 +1,7 @@
 Trestle.resource(:tags) do
   menu do
-    group :admin do
-      item :tags, icon: 'fa fa-star', priority: 3
+    group :configuration do
+      item :tags, icon: 'fa fa-star', priority: :last
     end
   end
 

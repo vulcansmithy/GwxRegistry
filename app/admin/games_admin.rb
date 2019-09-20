@@ -5,6 +5,14 @@ Trestle.resource(:games) do
     end
   end
 
+  search do |query|
+    if query
+      collection.where('name ILIKE ? OR description ILIKE ?', "%#{query}%", "%#{query}%")
+    else
+      collection
+    end
+  end
+
   return_to on: :create do |game|
     referrer = request.referrer
     query = URI.parse(referrer).query
