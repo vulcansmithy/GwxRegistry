@@ -5,6 +5,14 @@ Trestle.resource(:games) do
     end
   end
 
+  search do |query|
+    if query
+      collection.where('name ILIKE ? OR description ILIKE ?', "%#{query}%", "%#{query}%")
+    else
+      collection
+    end
+  end
+
   return_to on: :create do |game|
     referrer = request.referrer
     query = URI.parse(referrer).query
@@ -46,14 +54,18 @@ Trestle.resource(:games) do
     tab :game do
       text_field :name
       text_field :description
+      form_group :icon, label: false do
+        link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" }
+      end
       file_field :icon
+      check_box :featured
       if params[:action] == 'new' && params[:publisher_id].nil?
         select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
       elsif params[:action] == 'new' && params[:publisher_id].present?
         publisher = Publisher.find(params[:publisher_id])
         select :publisher_id, [[publisher.publisher_name, publisher.id]]
       end
-      if params[:action] == 'show'
+      if params[:action] == 'show' || params[:action] == 'edit'
         text_field :wallet_address, value: game.wallet&.wallet_address, disabled: true
         text_field :pubisher_name, value: game.publisher.publisher_name, disabled: true
         row do

@@ -1,7 +1,7 @@
 class Api::V1::TransfersController < Api::V1::BaseController
   skip_before_action :authenticate_request
 
-  before_action :set_game_wallet_address, only: :seamless_transfer
+  before_action :set_game, only: :seamless_transfer
   before_action :set_user_wallet_address, only: :seamless_transfer
 
   def create
@@ -22,18 +22,20 @@ class Api::V1::TransfersController < Api::V1::BaseController
   def seamless_transfer
     raise ExceptionHandler::InvalidArgs, 'Invalid arguments' unless valid_params?
 
-    source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game_wallet_address
-    destination_wlt = params[:type] == 'debit' ? @game_wallet_address : @user_wallet_address
+    source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game.wallet.wallet_address
+    destination_wlt = params[:type] == 'debit' ? @game.wallet.wallet_address : @user_wallet_address
+
     balance = NemService.check_game_balance(
       wallet_address: @user_wallet_address,
-      game_address: @game_wallet_address
+      game_address: @game.wallet.wallet_address
     )
 
     if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
       response = CashierService.new.create_transaction(
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
-        quantity: seamless_params[:quantity].to_f
+        quantity: seamless_params[:quantity].to_f,
+        message: "#{@game.publisher_id}, #{seamless_params[:message]}"
       )
 
       success_response(transaction: response, balance: balance)
@@ -84,8 +86,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def set_game_wallet_address
-    game = Game.find seamless_params[:game_id]
-    @game_wallet_address = game.wallet.wallet_address
+    @game = Game.find seamless_params[:game_id]
   end
 
   def valid_params?
