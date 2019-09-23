@@ -65,7 +65,7 @@ Trestle.resource(:games) do
         publisher = Publisher.find(params[:publisher_id])
         select :publisher_id, [[publisher.publisher_name, publisher.id]]
       end
-      if params[:action] == 'show'
+      if params[:action] == 'show' || params[:action] == 'edit'
         text_field :wallet_address, value: game.wallet&.wallet_address, disabled: true
         text_field :pubisher_name, value: game.publisher.publisher_name, disabled: true
         row do
