@@ -1,10 +1,4 @@
 Trestle.resource(:wallets) do
-  # menu do
-  #   group :admin do
-  #     item :wallets, icon: 'fa fa-google-wallet', priority: :last
-  #   end
-  # end
-
   table do
     column :id
     column :wallet_address, align: :center

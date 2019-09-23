@@ -1,10 +1,4 @@
 Trestle.resource(:player_profiles) do
-  # menu do
-  #   group :admin do
-  #     item :player_profiles, icon: 'fa fa-list-ul', priority: 4
-  #   end
-  # end
-
   return_to on: :create do |player_profile|
     referrer = request.referrer
     query = URI.parse(referrer).query
