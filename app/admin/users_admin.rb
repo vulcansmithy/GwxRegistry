@@ -74,8 +74,12 @@ Trestle.resource(:users) do
     wallet_transactions = NemService.wallet_transactions_for(user.wallet.wallet_address)
     tab :transactions, badge: wallet_transactions.count do
       table wallet_transactions do
-        column :recipient
-        column :hash
+        column :recipient do |transaction|
+          truncate(transaction.recipient, length: 60)
+        end
+        column :hash do |transaction|
+          truncate(transaction.hash, length: 60)
+        end
         column :amount do |transaction|
           amount = transaction.mosaics.find { |m| m.name == 'gwx' }.quantity / 1_000_000
           "#{amount} GWX"

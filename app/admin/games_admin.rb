@@ -54,7 +54,11 @@ Trestle.resource(:games) do
     tab :game do
       text_field :name
       text_field :description
+      form_group :icon, label: false do
+        link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" }
+      end
       file_field :icon
+      check_box :featured
       if params[:action] == 'new' && params[:publisher_id].nil?
         select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
       elsif params[:action] == 'new' && params[:publisher_id].present?
