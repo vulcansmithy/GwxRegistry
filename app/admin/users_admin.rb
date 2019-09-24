@@ -70,7 +70,7 @@ Trestle.resource(:users) do
         end
         column :balance do |player|
           balance = NemService.check_balance(player.wallet.wallet_address)
-          "#{balance[:gwx].round(6) || 0} GWX"
+          "#{balance[:gwx]&.round(6) || 0} GWX"
         end
       end
     end
