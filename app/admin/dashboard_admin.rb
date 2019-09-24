@@ -1,9 +1,9 @@
 Trestle.admin(:dashboard) do
-  menu do
-    group :admin do
-      item :dashboard, icon: "fa fa-tachometer", priority: :first
-    end
-  end
+  # menu do
+  #   group :admin do
+  #     item :dashboard, icon: "fa fa-tachometer", priority: :first
+  #   end
+  # end
 
   controller do
     def index

@@ -39,7 +39,13 @@ Trestle.resource(:games) do
       admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
     end
     column :name
-    column :description
+    column :wallet_address, class: 'recipient' do |game|
+      game.wallet.wallet_address
+    end
+    column :balance do |game|
+      balance = NemService.check_balance(game.wallet.wallet_address)
+      "#{balance[:gwx]&.round(6) || 0} GWX, #{balance[:xem]} XEM"
+    end
     column :publisher do |game|
       link_to game.publisher.publisher_name, edit_publishers_admin_path(id: game.publisher.id)
     end
@@ -55,7 +61,7 @@ Trestle.resource(:games) do
       text_field :name
       text_field :description
       form_group :icon, label: false do
-        link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" }
+        link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" } if game.icon?
       end
       file_field :icon
       check_box :featured
@@ -99,6 +105,24 @@ Trestle.resource(:games) do
       end
 
       concat admin_link_to('New Tag', admin: :game_tags, action: :new, params: { game_id: game }, class: "btn btn-success")
+    end
+
+    wallet_transactions = NemService.wallet_transactions_for(game.wallet.wallet_address)
+    tab :transactions, badge: wallet_transactions.count do
+      table wallet_transactions do
+        column :recipient, class: 'recipient' do |transaction|
+          truncate(transaction.recipient, length: 60)
+        end
+        column :hash, class: 'hash' do |transaction|
+          hash = truncate(transaction.hash, length: 100)
+          nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
+          link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
+        end
+        column :amount do |transaction|
+          amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
+          "#{amount.round(6)} GWX"
+        end
+      end
     end
   end
 
