@@ -35,10 +35,14 @@ Trestle.resource(:users) do
         password_field :password_confirmation
       end
       if params[:action] == 'show' || params[:action] == 'edit'
-        bal = NemService.check_balance(user.wallet.wallet_address)
+        bal = if user.wallet.present?
+                NemService.check_balance(user.wallet.wallet_address)
+              else
+                {}
+              end
 
-        text_field :gwx_balance, label: 'GWX Balance', value: "#{bal[:gwx]} GWX", disabled: true
-        text_field :xem_balance, label: 'XEM Balance', value: "#{bal[:xem]} XEM", disabled: true
+        text_field :gwx_balance, label: 'GWX Balance', value: "#{bal[:gwx] || 0} GWX", disabled: true
+        text_field :xem_balance, label: 'XEM Balance', value: "#{bal[:xem] || 0} XEM", disabled: true
         text_field :wallet_address, value: user.wallet&.wallet_address, disabled: true
 
         row do
