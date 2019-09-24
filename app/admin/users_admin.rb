@@ -28,7 +28,7 @@ Trestle.resource(:users) do
         col(xs: 6) { text_field :first_name }
         col(xs: 6) { text_field :last_name }
       end
-      text_field :email
+      text_field :email, disabled: params[:action] == 'show'
       text_field :username
       if params[:action] == 'new'
         password_field :password
@@ -68,21 +68,37 @@ Trestle.resource(:users) do
         column :game do |player|
           player.game.name
         end
+        column :balance do |player|
+          balance = NemService.check_balance(player.wallet.wallet_address)
+          "#{balance[:gwx].round(6) || 0} GWX"
+        end
       end
     end
 
-    wallet_transactions = NemService.wallet_transactions_for(user.wallet.wallet_address)
+    wallet_transactions = if user.wallet&.wallet_address
+                            NemService.wallet_transactions_for(user.wallet&.wallet_address)
+                          else
+                            []
+                          end
     tab :transactions, badge: wallet_transactions.count do
       table wallet_transactions do
-        column :recipient do |transaction|
-          truncate(transaction.recipient, length: 60)
+        column :recipient, header: 'Address', class: 'recipient' do |transaction|
+          sender = Nem::Unit::Address.from_public_key(transaction.signer)
+          is_sender = sender == user.wallet.wallet_address
+          displayed_address = is_sender ? transaction.recipient : sender
+
+          content_tag(:strong, displayed_address, class: "#{is_sender ? 'red' : 'green'}")
         end
-        column :hash do |transaction|
-          truncate(transaction.hash, length: 60)
+
+        column :hash, class: 'hash' do |transaction|
+          hash = truncate(transaction.hash, length: 100)
+          nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
+          link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
         end
+
         column :amount do |transaction|
           amount = transaction.mosaics.find { |m| m.name == 'gwx' }.quantity / 1_000_000
-          "#{amount} GWX"
+          "#{amount.round(6)} GWX"
         end
       end
     end

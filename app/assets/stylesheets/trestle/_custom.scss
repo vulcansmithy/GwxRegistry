@@ -9,3 +9,23 @@
 .app-footer {
   display: none;
 }
+
+tbody .recipient {
+  font-family: sans-serif;
+  font-size: 12px;
+
+  > .red {
+    color: red;
+  }
+
+  > .green {
+    color: green;
+  }
+}
+
+tbody .hash {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+

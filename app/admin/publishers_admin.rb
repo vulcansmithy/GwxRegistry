@@ -15,9 +15,12 @@ Trestle.resource(:publishers) do
 
   table do
     column :publisher_name
-    column :description
-    column :wallet_address do |instance|
+    column :wallet_address, class: 'recipient' do |instance|
       instance.wallet.wallet_address
+    end
+    column :balance do |instance|
+      balance = NemService.check_balance(instance.wallet.wallet_address)
+      "#{balance[:gwx] || 0} GWX, #{balance[:xem] } XEM"
     end
     column :created_at, align: :center
     actions
@@ -42,7 +45,6 @@ Trestle.resource(:publishers) do
           admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
         end
         column :name
-        column :description
         column :tags, format: :tags, class: 'hidden-xs' do |game|
           game.tags.map(&:name)
         end
@@ -51,6 +53,32 @@ Trestle.resource(:publishers) do
       end
 
       concat admin_link_to('New Game', admin: :games, action: :new, params: { publisher_id: publisher}, class: 'btn btn-success')
+    end
+
+    wallet_transactions = publisher.games.map do |game|
+      NemService.wallet_transactions_for(game.wallet.wallet_address)
+    end
+
+    wallet_transactions = wallet_transactions.flatten.sort_by { |t| t.timestamp.to_time }.reverse
+
+    tab :transactions, badge: wallet_transactions.count do
+      table wallet_transactions do
+        column :recipient, header: 'Address', class: 'recipient' do |transaction|
+          sender = Nem::Unit::Address.from_public_key(transaction.signer)
+
+          safe_join([
+            content_tag(:span, "From: #{sender}"),
+            content_tag(:span, "To: #{transaction.recipient}")
+          ], '<br />'.html_safe)
+        end
+        column :hash, class: 'hash' do |transaction|
+          truncate(transaction.hash, length: 100)
+        end
+        column :amount do |transaction|
+          amount = transaction.mosaics.find { |m| m.name == 'gwx' }.quantity / 1_000_000
+          "#{amount.round(6)} GWX"
+        end
+      end
     end
   end
 end
