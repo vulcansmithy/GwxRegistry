@@ -114,7 +114,9 @@ Trestle.resource(:games) do
           truncate(transaction.recipient, length: 60)
         end
         column :hash, class: 'hash' do |transaction|
-          truncate(transaction.hash, length: 100)
+          hash = truncate(transaction.hash, length: 100)
+          nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
+          link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
         end
         column :amount do |transaction|
           amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
