@@ -28,4 +28,39 @@ tbody .hash {
   font-size: 12px;
 }
 
+.card-container {
+  display: grid;
+  width: 100%;
+  grid-auto-rows: 180px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1em;
+
+  > .card {
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 24px;
+  }
+
+  > .card > .title {
+    font-weight: 500;
+  }
+
+  > .card > .details {
+    display: flex;
+    margin-top: 24px;
+    align-items: center;
+  }
+
+  > .card > .details > .fa {
+    font-size: 5rem;
+  }
+
+  > .card > .details > .count {
+    font-size: 4.5rem;
+    margin-left: 32px;
+  }
+}
+
+
+
 
