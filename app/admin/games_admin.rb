@@ -58,6 +58,7 @@ Trestle.resource(:games) do
 
   form do |game|
     tab :game do
+      number_field :id, label: 'ID'
       text_field :name
       text_field :description
       form_group :icon, label: false do
@@ -81,46 +82,48 @@ Trestle.resource(:games) do
       end
     end
 
-    tab :players, badge: game.player_profiles.size do
-      table game.player_profiles, admin: :player_profiles do
-        column :user do |player|
-          link_to "#{player&.user&.first_name} #{player&.user&.last_name}", edit_users_admin_path(id: player&.user&.id)
-        end
-        column :username do |player|
-          player.user.username
+    if params[:action] != 'new'
+      tab :players, badge: game.player_profiles.size do
+        table game.player_profiles, admin: :player_profiles do
+          column :user do |player|
+            link_to "#{player&.user&.first_name} #{player&.user&.last_name}", edit_users_admin_path(id: player&.user&.id)
+          end
+          column :username do |player|
+            player.user.username
+          end
+
+          actions
         end
 
-        actions
+        concat admin_link_to('New Player', admin: :player_profiles, action: :new, params: { game_id: game }, class: "btn btn-success")
       end
 
-      concat admin_link_to('New Player', admin: :player_profiles, action: :new, params: { game_id: game }, class: "btn btn-success")
-    end
+      tab :tags, badge: game.tags.size do
+        table game.tags, admin: :tags do
+          column :id
+          column :name
 
-    tab :tags, badge: game.tags.size do
-      table game.tags, admin: :tags do
-        column :id
-        column :name
+          actions
+        end
 
-        actions
+        concat admin_link_to('New Tag', admin: :game_tags, action: :new, params: { game_id: game }, class: "btn btn-success")
       end
 
-      concat admin_link_to('New Tag', admin: :game_tags, action: :new, params: { game_id: game }, class: "btn btn-success")
-    end
-
-    wallet_transactions = NemService.wallet_transactions_for(game.wallet.wallet_address)
-    tab :transactions, badge: wallet_transactions.count do
-      table wallet_transactions do
-        column :recipient, class: 'recipient' do |transaction|
-          truncate(transaction.recipient, length: 60)
-        end
-        column :hash, class: 'hash' do |transaction|
-          hash = truncate(transaction.hash, length: 100)
-          nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
-          link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
-        end
-        column :amount do |transaction|
-          amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
-          "#{amount.round(6)} GWX"
+      wallet_transactions = NemService.wallet_transactions_for(game.wallet.wallet_address)
+      tab :transactions, badge: wallet_transactions.count do
+        table wallet_transactions do
+          column :recipient, class: 'recipient' do |transaction|
+            truncate(transaction.recipient, length: 60)
+          end
+          column :hash, class: 'hash' do |transaction|
+            hash = truncate(transaction.hash, length: 100)
+            nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
+            link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
+          end
+          column :amount do |transaction|
+            amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
+            "#{amount.round(6)} GWX"
+          end
         end
       end
     end

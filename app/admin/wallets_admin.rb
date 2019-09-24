@@ -22,11 +22,21 @@ Trestle.resource(:wallets) do
     actions
   end
 
+  return_to on: :create do |wallet|
+    users_admin_path(id: wallet.account_id)
+  end
+
   form do
-    text_field :wallet_address
-    text_field :pk, label: 'PK'
+    account = NemService.create_account
+    text_field :wallet_address, value: account[:address]
+    hidden_field :pk, label: 'PK', value: account[:priv_key]
     hidden_field :account_type, value: 'User'
-    select :account_id, User.all
+    if params[:user_id]
+      user = User.find params[:user_id]
+      select :account_id, [["#{user.first_name}" "#{user.last_name}", user.id]]
+    else
+      select :account_id, User.all
+    end
     if params[:action] == 'show'
       row do
         col(xs: 6) { datetime_field :updated_at, disabled: true }
