@@ -85,7 +85,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
     @user_wallet_address = user.wallet.wallet_address
   end
 
-  def set_game_wallet_address
+  def set_game
     @game = Game.find seamless_params[:game_id]
   end
 
