@@ -45,6 +45,13 @@ Trestle.resource(:publishers) do
           admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
         end
         column :name
+        column :wallet_address, class: 'recipient' do |game|
+          game.wallet.wallet_address
+        end
+        column :balance do |game|
+          balance = NemService.check_balance(game.wallet.wallet_address)
+          "#{balance[:gwx]&.round(6) || 0} GWX, #{balance[:xem]} XEM"
+        end
         column :tags, format: :tags, class: 'hidden-xs' do |game|
           game.tags.map(&:name)
         end
