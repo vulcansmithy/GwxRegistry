@@ -30,7 +30,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
       game_address: @game.wallet.wallet_address
     )
 
-    if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
+    if balance[:xem] >= 0.05 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
       response = CashierService.new.create_transaction(
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
