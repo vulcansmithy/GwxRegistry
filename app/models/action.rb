@@ -1,6 +1,6 @@
 class Action < ApplicationRecord
-  belongs_to :game
-  has_many   :triggers
+  belongs_to :game, optional: true
+  has_many   :triggers, dependent: :destroy
   validates_presence_of :name,
                         :description,
                         :fixed_amount,

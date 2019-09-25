@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   has_one :publisher, dependent: :destroy
   has_many :player_profiles, dependent: :destroy
-  has_many :games, through: :player_profiles
+  has_many :games, through: :player_profiles, dependent: :nullify
   has_one :wallet, as: :account
 
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
@@ -31,7 +31,7 @@ class User < ApplicationRecord
                     uniqueness: true,
                     format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
 
-  validates_format_of :username, with: /^[A-Za-z0-9_\.]+$/, multiline: true, allow_nil: true
+  validates_format_of :username, with: /^[A-Za-z0-9_\.]+$/, multiline: true, allow_nil: true, allow_blank: true
 
   validates :password, :password_confirmation, presence: true,
                                                length: { minimum: 8 },

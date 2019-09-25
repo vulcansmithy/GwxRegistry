@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_025328) do
+ActiveRecord::Schema.define(version: 2019_09_23_074123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_025328) do
     t.string "icon"
     t.string "url"
     t.string "cover"
+    t.boolean "featured", default: false
     t.index ["game_application_id"], name: "index_games_on_game_application_id"
     t.index ["publisher_id"], name: "index_games_on_publisher_id"
   end
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_025328) do
     t.bigint "user_id"
     t.bigint "game_id"
     t.index ["game_id"], name: "index_player_profiles_on_game_id"
+    t.index ["user_id", "game_id"], name: "index_player_profiles_on_user_id_and_game_id", unique: true
     t.index ["user_id"], name: "index_player_profiles_on_user_id"
   end
 

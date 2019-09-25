@@ -1,0 +1,59 @@
+<main class="app-main">
+  <header class="content-header">
+    <div class="content-header-title">
+      <h1>Dashboard Overview</h1>
+    </div>
+  </header>
+  <div class="main-content-area">
+    <div class="main-content-container">
+      <div class="main-content">
+        <div class="card-container">
+          <div class="card">
+            <div class="title">
+              USERS
+            </div>
+            <div class="details">
+              <i class="fa fa-users"></i>
+              <div class="count">
+                <%= @user_count %>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="title">
+              GAMES
+            </div>
+            <div class="details">
+              <i class="fa fa-gamepad"></i>
+              <div class="count">
+                <%= @game_count %>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="title">
+              PUBLISHERS
+            </div>
+            <div class="details">
+              <i class="fa fa-puzzle-piece"></i>
+              <div class="count">
+                <%= @publisher_count %>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="title">
+              WALLETS
+            </div>
+            <div class="details">
+              <i class="fa fa-money"></i>
+              <div class="count">
+                <%= @wallet_count %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

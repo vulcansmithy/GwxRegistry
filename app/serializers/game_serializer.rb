@@ -10,7 +10,9 @@ class GameSerializer < ActiveModel::Serializer
              :icon,
              :images,
              :cover,
-             :url
+             :url,
+             :created_at,
+             :updated_at
 
   attribute :game_wallet_address do |game|
     game.wallet.try(:wallet_address)
