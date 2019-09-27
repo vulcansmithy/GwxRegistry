@@ -64,7 +64,7 @@ Trestle.resource(:games) do
       form_group :icon, label: false do
         link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" } if game.icon?
       end
-      file_field :icon
+      file_field :icon, required: true
       form_group :cover, label: false do
         link_to image_tag(game.cover.url), game.cover.url, data: { behavior: "zoom" } if game.cover?
       end
