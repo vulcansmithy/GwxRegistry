@@ -62,13 +62,13 @@ Trestle.resource(:games) do
       text_field :name
       text_field :description
       form_group :icon, label: false do
-        link_to image_tag(game.icon.url), game.icon.url, data: { behavior: "zoom" } if game.icon?
+        link_to image_tag(game.icon.url, style: "120px"), game.icon.url, data: { behavior: "zoom" } if game.icon?
       end
       file_field :icon, required: true
       form_group :cover, label: false do
-        link_to image_tag(game.cover.url), game.cover.url, data: { behavior: "zoom" } if game.cover?
+        link_to image_tag(game.cover.url, style: "120px"), game.cover.url, data: { behavior: "zoom" } if game.cover?
       end
-      file_field :cover
+      file_field :cover, required: true
       check_box :featured
       if params[:action] == 'new' && params[:publisher_id].nil?
         select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})

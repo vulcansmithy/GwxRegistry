@@ -14,7 +14,7 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :tags
 
-  validates_presence_of :name, :description, :icon
+  validates_presence_of :name, :description
   validate :validate_platforms
 
   PLATFORMS = %w(console windows macos android ios).freeze
