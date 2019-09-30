@@ -28,8 +28,8 @@ Trestle.resource(:publishers) do
 
   form do |publisher|
     tab :publisher do
-      text_field :publisher_name
-      text_field :description
+      text_field :publisher_name, required: true
+      text_field :description, required: true
       select :user_id, (User.all.map { |u| ["#{u.first_name} #{u.last_name}", u.id] })
       if params[:action] == 'show'
         text_field :wallet_address, value: publisher.wallet&.wallet_address, disabled: true
