@@ -25,14 +25,14 @@ Trestle.resource(:users) do
   form do |user|
     tab :user do
       row do
-        col(xs: 6) { text_field :first_name }
-        col(xs: 6) { text_field :last_name }
+        col(xs: 6) { text_field :first_name, required: true }
+        col(xs: 6) { text_field :last_name, required: true }
       end
-      text_field :email, disabled: params[:action] == 'show'
+      text_field :email, type: 'email', required: true, disabled: params[:action] == 'show'
       text_field :username
-      if params[:action] == 'new'
-        password_field :password
-        password_field :password_confirmation
+      if params[:action] == 'new' || params[:action] == 'create'
+        password_field :password, required: true
+        password_field :password_confirmation, required: true
       end
       if params[:action] == 'show' || params[:action] == 'edit'
         bal = if user.wallet.present?
