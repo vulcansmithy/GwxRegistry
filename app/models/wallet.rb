@@ -1,8 +1,8 @@
 class Wallet < ApplicationRecord
   belongs_to :account, polymorphic: true
 
-  attr_encrypted :pk, key: Rails.application.secrets.pk_key
-  attr_encrypted :custodian_key, key: Rails.application.secrets.custodian_key_secret
+  attr_encrypted :pk, key: ENV['PK_KEY']
+  attr_encrypted :custodian_key, key: ENV['CUSTODIAN_KEY_SECRET']
 
   TYPES = %w[Game User PlayerProfile Publisher].freeze
 

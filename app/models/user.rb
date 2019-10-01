@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  attr_encrypted :pk, key: Rails.application.secrets.pk_key
+  attr_encrypted :pk, key: ENV['PK_KEY']
 
   before_create :set_confirmation_code
   after_create :send_confirmation_code

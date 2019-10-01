@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: gwx_registry_api_development
+  database: <%= ENV['DATABASE_NAME'] %>
   
 test:
   <<: *default
