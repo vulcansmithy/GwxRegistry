@@ -34,6 +34,18 @@ Trestle.resource(:games) do
     model.includes(:tags)
   end
 
+  controller do
+    def create
+      params[:game]["blacklisted_countries"].shift
+      super
+    end
+
+    def update
+      params[:game]["blacklisted_countries"].shift
+      super
+    end
+  end
+
   table do
     column :icon, header: nil, align: :center, class: "poster-column" do |game|
       admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
@@ -70,6 +82,7 @@ Trestle.resource(:games) do
       end
       file_field :cover, value: game.cover
       check_box :featured
+      select :blacklisted_countries, options_for_select(ISO3166::Country.all.map(&:name), game.blacklisted_countries), {}, multiple: true
       if params[:action] == 'new' && params[:publisher_id].nil?
         select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
       elsif params[:action] == 'new' && params[:publisher_id].present?
