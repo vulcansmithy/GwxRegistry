@@ -11,8 +11,9 @@ class GameSerializer < ActiveModel::Serializer
              :images,
              :cover,
              :url,
+             :blacklisted_countries,
              :created_at,
-             :updated_at
+             :updated_at,
 
   attribute :game_wallet_address do |game|
     game.wallet.try(:wallet_address)
