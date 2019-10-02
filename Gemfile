@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.5.7'
 
+gem 'dotenv-rails', groups: [:staging, :production]
+
 gem 'active_model_serializers', '0.10.8'
 gem 'appsignal'
 gem 'attr_encrypted', '~> 3.1.0'
