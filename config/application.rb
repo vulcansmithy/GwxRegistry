@@ -58,9 +58,7 @@ module GwxRegistryApi
         region = 'ap-southeast-1'
         secrets_prefix = "registry_api_#{Rails.env}"
         client = Aws::SecretsManager::Client.new(
-          region: region,
-          access_key_id: SECRETS_MANAGER_KEY,
-          secret_access_key: SECRETS_MANAGER_ACCESS_KEY_SECRET
+          region: region
         )
       
         secrets = JSON.parse client.get_secret_value(secret_id: secrets_prefix).secret_string
