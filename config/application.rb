@@ -17,16 +17,19 @@ require 'aws-sdk-secretsmanager'
 
 if Rails.env.staging? || Rails.env.production?
   region = 'ap-southeast-1'
-  secrets_prefix = 'registry_api_staging'
+  secrets_prefix = "registry_api_#{Rails.env}"
   client = Aws::SecretsManager::Client.new(
     region: region,
     access_key_id: 'AKIA2X6IHDRGHMLRI5WU',
     secret_access_key: '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'
   )
 
-  secrets = client.get_secret_value(secret_id: secrets_prefix).secret_string
+  secrets = JSON.parse client.get_secret_value(secret_id: secrets_prefix).secret_string
 
-  puts "SECRETS #{secrets}"
+  secrets.each do |key, value|
+    ENV[key] = value
+    puts "Loading ENV Variable '#{key}' from AWS Secrets"
+  end
 end
 
 Bundler.require(*Rails.groups)
@@ -55,7 +58,7 @@ module GwxRegistryApi
 
     if Rails.env.development? || Rails.env.test?
       config.before_configuration do
-        env_file = File.join(Rails.root, 'config', 'local_env.yml')
+        env_file = File.join(Rails.root, 'config', "local_env.#{Rails.env}.yml")
         if File.exist?(env_file)
           YAML.safe_load(File.open(env_file)).each do |key, value|
             ENV[key.to_s] = value
