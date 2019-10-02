@@ -48,7 +48,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.5.1-stretch
         environment:
-          BUNDLER_VERSION: 2.0.1
+          BUNDLER_VERSION: 2.0.2
     steps:
       - checkout
       - type: cache-restore
