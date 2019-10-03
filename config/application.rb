@@ -49,11 +49,6 @@ module GwxRegistryApi
         end
       end
     elsif Rails.env.staging? || Rails.env.production?
-      Dotenv::Railtie.load
-
-      SECRETS_MANAGER_KEY = ENV['SECRETS_MANAGER_KEY']
-      SECRETS_MANAGER_ACCESS_KEY_SECRET = ENV['SECERETS_MANAGER_ACCESS_KEY_SECRET']
-
       config.before_configuration do
         region = 'ap-southeast-1'
         secrets_prefix = "registry_api_#{Rails.env}"
