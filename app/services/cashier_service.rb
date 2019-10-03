@@ -2,7 +2,7 @@ class CashierService
   class InvalidArgumentError < StandardError; end
 
   def initialize
-    @base_url = Rails.application.secrets.cashier_url
+    @base_url = ENV['CASHIER_URL']
   end
 
   def create_transaction(args)

@@ -11,6 +11,7 @@ class GameSerializer < ActiveModel::Serializer
              :images,
              :cover,
              :url,
+             :blacklisted_countries,
              :created_at,
              :updated_at
 

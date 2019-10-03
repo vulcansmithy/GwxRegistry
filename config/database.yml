@@ -5,24 +5,24 @@ default: &default
 
 development:
   <<: *default
-  database: gwx_registry_api_development
+  database: <%= ENV['DATABASE_NAME'] %>
   
 test:
   <<: *default
-  database: gwx_registry_api_test
+  database: <%= ENV['DATABASE_NAME'] %>
 
 staging:
   <<: *default
-  database: gwx_registry_api_staging
-  username: db_user
-  password: wYWdr4cu^8#q
-  host: gd14mkvw7wv5r23.crbvlq8se7oc.ap-southeast-1.rds.amazonaws.com
-  port: 5432
-  
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+
 production:
   <<: *default
-  database: gwx_registry_api_production
-  username: db_user
-  password: wYWdr4cu^8#q
-  host: gd1u0xot3lfaxbj.crbvlq8se7oc.ap-southeast-1.rds.amazonaws.com
-  port: 5432
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
