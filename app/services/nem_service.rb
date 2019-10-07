@@ -69,6 +69,9 @@ class NemService
     end
 
     def check_balance(wallet_address, mosaic_name = 'gwx')
+      puts "@DEBUG L:#{__LINE__}  *********************"
+      puts "@DEBUG L:#{__LINE__}  * Wallet Address: #{wallet_address}"
+      puts "@DEBUG L:#{__LINE__}  *********************"
       account_endpoint = Nem::Endpoint::Account.new(NEM_NODE)
       xem = account_endpoint.find(wallet_address).balance.to_f / 1_000_000
       mosaic = account_endpoint.mosaic_owned(wallet_address)
@@ -82,11 +85,16 @@ class NemService
         end.first.quantity.to_f / 1_000_000
 
         unconfirmed = account_endpoint.transfers_unconfirmed(wallet_address)
-                                      .select do |transaction|
-                                        transaction.mosaics.select do |m|
-                                          m.name == mosaic_name
-                                        end.present?
-                                      end
+
+        puts "@DEBUG L:#{__LINE__}  *********************"
+        puts "@DEBUG L:#{__LINE__}  * Unconfirmed Transactions: #{unconfirmed}"
+        puts "@DEBUG L:#{__LINE__}  *********************"
+
+        unconfirmed = unconfirmed.select do |transaction|
+                        transaction.mosaics.select do |m|
+                          m.name == mosaic_name
+                        end.present?
+                      end
         incoming = unconfirmed.select { |tx| tx.recipient == wallet_address }
         outgoing = unconfirmed - incoming
 
