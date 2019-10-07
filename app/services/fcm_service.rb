@@ -2,7 +2,7 @@ require 'fcm'
 
 class FCMService
   def initialize
-    @api_key = Rails.application.secrets.FCM_API_KEY
+    @api_key = ENV['FCM_API_KEY']
     @fcm = FCM.new @api_key
   end
 

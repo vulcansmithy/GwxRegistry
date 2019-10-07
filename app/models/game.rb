@@ -14,8 +14,10 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :tags
 
+  validates_uniqueness_of :id, :name
   validates_presence_of :name, :description
   validate :validate_platforms
+  validate :validate_blacklisted_countries
 
   PLATFORMS = %w(console windows macos android ios).freeze
 
@@ -26,6 +28,12 @@ class Game < ApplicationRecord
     unless game_platform.include?(false) == false
       errors[:base] << "Unknown Platform"
       return true
+    end
+  end
+
+  def validate_blacklisted_countries
+    errors.add(:blacklisted_countries, 'not part of the list') unless blacklisted_countries.all? do |country|
+      ISO3166::Country.all.map(&:name).include?(country)
     end
   end
 end

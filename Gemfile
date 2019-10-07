@@ -1,19 +1,23 @@
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.5.7'
 
 gem 'active_model_serializers', '0.10.8'
 gem 'appsignal'
 gem 'attr_encrypted', '~> 3.1.0'
+gem 'aws-sdk-secretsmanager'
 gem 'base32'
 gem 'bcrypt'
 gem 'bootsnap', require: false
 gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
+gem 'countries'
 gem 'digest-sha3'
 gem 'doorkeeper'
+gem 'dotenv-rails'
 gem 'fast_jsonapi', '1.3'
 gem 'fcm'
 gem 'fog-aws'
 gem 'jwt'
+gem 'kaminari'
 gem 'nem-ruby'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
@@ -25,7 +29,6 @@ gem 'rswag', '2.0.5'
 gem 'simple_command'
 gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
-gem 'kaminari'
 
 # Trestle.io
 gem 'trestle', '~> 0.8.13'
@@ -35,8 +38,6 @@ gem 'trestle-search'
 # Javascript Runtime for Trestle.io
 gem 'execjs'
 gem 'mini_racer'
-
-
 
 group :development, :test do
   gem 'awesome_print'

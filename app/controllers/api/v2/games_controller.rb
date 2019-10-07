@@ -5,7 +5,7 @@ class Api::V2::GamesController < Api::V2::BaseController
   before_action :set_game, except: %i[index create show player_profiles]
 
   def index
-    @games = Game.all.includes(:player_profiles).paginate(page: params[:page])
+    @games = Game.all.includes(:player_profiles).paginate(page: params[:page], per_page: 100)
     serialized_games = GameSerializer.new(@games, include: [:player_profiles, :publisher, :tags, :categories]).serializable_hash
     success_response paginate_result(serialized_games, @games)
   end

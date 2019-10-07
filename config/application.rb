@@ -13,6 +13,7 @@ require "action_view/railtie"
 require "action_cable/engine"
 require "rails/test_unit/railtie"
 require "sprockets/railtie"
+require 'aws-sdk-secretsmanager'
 
 Bundler.require(*Rails.groups)
 
@@ -37,5 +38,31 @@ module GwxRegistryApi
 
     config.autoload_paths << Rails.root.join('services')
     config.autoload_paths << Rails.root.join('app', 'forms')
+
+    if Rails.env.development? || Rails.env.test?
+      config.before_configuration do
+        env_file = File.join(Rails.root, 'config', "local_env.#{Rails.env}.yml")
+        if File.exist?(env_file)
+          YAML.safe_load(File.open(env_file)).each do |key, value|
+            ENV[key.to_s] = value
+          end
+        end
+      end
+    elsif Rails.env.staging? || Rails.env.production?
+      config.before_configuration do
+        region = 'ap-southeast-1'
+        secrets_prefix = "registry_api_#{Rails.env}"
+        client = Aws::SecretsManager::Client.new(
+          region: region
+        )
+      
+        secrets = JSON.parse client.get_secret_value(secret_id: secrets_prefix).secret_string
+      
+        secrets.each do |key, value|
+          ENV[key] = value
+          puts "Loading ENV Variable '#{key}' from AWS Secrets"
+        end
+      end
+    end
   end
 end

@@ -8,7 +8,7 @@ class TriggerProcessor
   def initialize(trigger, args = nil)
     @trigger = trigger
     @quantity = args[:quantity]
-    @base_url = Rails.application.secrets.cashier_url
+    @base_url = ENV['CASHIER_URL']
   end
 
   def process

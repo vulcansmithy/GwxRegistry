@@ -5,25 +5,25 @@ class PublicKeyEncryptionService
   
   def registry_public_key
     
-    raise EncryptionFailedError, "Passed 'registry_private_key' was either nil or empty." if nil_or_empty?(Rails.application.secrets.registry_private_key)
+    raise EncryptionFailedError, "Passed 'registry_private_key' was either nil or empty." if nil_or_empty?(ENV['REGISTRY_PRIVATE_KEY'])
 
     # retrieve Registry private key
-    registry_private_key = RbNaCl::PrivateKey.new(decode_from_base64(Rails.application.secrets.registry_private_key))
+    registry_private_key = RbNaCl::PrivateKey.new(decode_from_base64(ENV['REGISTRY_PRIVATE_KEY']))
     return encode_to_base64(registry_private_key.public_key)
   end  
   
   def encrypt(payload)
     
-    raise EncryptionFailedError, "Passed 'registry_private_key' was either nil or empty." if nil_or_empty?(Rails.application.secrets.registry_private_key)
+    raise EncryptionFailedError, "Passed 'registry_private_key' was either nil or empty." if nil_or_empty?(ENV['REGISTRY_PRIVATE_KEY'])
 
-    raise EncryptionFailedError, "Passed 'cashier_public_key' was either nil or empty." if nil_or_empty?(Rails.application.secrets.cashier_public_key)
+    raise EncryptionFailedError, "Passed 'cashier_public_key' was either nil or empty." if nil_or_empty?(ENV['CASHIER_PUBLIC_KEY'])
 
     begin
       # retrieve Registry private key
-      registry_private_key = RbNaCl::PublicKey.new(decode_from_base64(Rails.application.secrets.registry_private_key))
+      registry_private_key = RbNaCl::PublicKey.new(decode_from_base64(ENV['REGISTRY_PRIVATE_KEY']))
 
       # retrieve Cashier public key
-      cashier_public_key = RbNaCl::PublicKey.new(decode_from_base64(Rails.application.secrets.cashier_public_key))
+      cashier_public_key = RbNaCl::PublicKey.new(decode_from_base64(ENV['CASHIER_PUBLIC_KEY']))
 
     
       # setup Register's box

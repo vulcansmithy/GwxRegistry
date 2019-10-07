@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/gwx-registry-api
     docker:
-      - image: circleci/ruby:2.5.1-stretch
+      - image: circleci/ruby:2.5.7-stretch
         environment:
           BUNDLER_VERSION: 2.0.1
           PGHOST: 127.0.0.1
@@ -46,9 +46,9 @@ jobs:
   deploy:
     working_directory: ~/gwx-registry-api
     docker:
-      - image: circleci/ruby:2.5.1-stretch
+      - image: circleci/ruby:2.5.7-stretch
         environment:
-          BUNDLER_VERSION: 2.0.1
+          BUNDLER_VERSION: 2.0.2
     steps:
       - checkout
       - type: cache-restore

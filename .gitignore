@@ -29,3 +29,10 @@
 /coverage
 
 **/.DS_Store
+
+# Ignore local_env file
+/config/local_env.development.yml
+/config/local_env.test.yml
+
+# Ignore .env
+.env

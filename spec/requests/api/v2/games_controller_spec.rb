@@ -8,13 +8,14 @@ describe Api::V2::GamesController, fake_nem: true do
   let!(:user)               { create(:user) }
   let!(:publisher_user)     { create(:publisher, user: user) }
   let!(:game)               { create(:game, publisher: publisher_user) }
+  let!(:new_game)           { build(:game, publisher: publisher_user) }
   let!(:games)              { create_list(:game, 2, publisher: publisher_user) }
   let!(:valid_headers)      { generate_headers(user, application) }
   let!(:credential_headers) { generate_auth_headers(token) }
   let!(:game_params) do
     {
-      name: game.name,
-      description: game.description
+      name: new_game.name,
+      description: new_game.description
     }
   end
 
@@ -47,7 +48,7 @@ describe Api::V2::GamesController, fake_nem: true do
       end
 
       it 'should return correct result' do
-        expect(json['data']['attributes']['name']).to eq game.name
+        expect(json['data']['attributes']['name']).to eq new_game.name
       end
     end
 

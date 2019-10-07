@@ -30,7 +30,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
       game_address: @game.wallet.wallet_address
     )
 
-    if balance[:xem] >= 1.25 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
+    if balance[:xem] >= 0.1 && (balance[:gwx] || 0) > seamless_params[:quantity].to_f
       response = CashierService.new.create_transaction(
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
@@ -45,7 +45,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def balance
-    user = User.find params[:username]
+    user = User.find params[:user_id]
     user_wallet = user.wallet.wallet_address
 
     if params[:game_id]
@@ -66,7 +66,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
   private
 
   def seamless_params
-    params.permit(:game_id, :username, :quantity, :type, :message)
+    params.permit(:game_id, :user_id, :quantity, :type, :message)
   end
 
   def transfer_params
@@ -81,7 +81,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
   end
 
   def set_user_wallet_address
-    user = User.find seamless_params[:username]
+    user = User.find seamless_params[:user_id]
     @user_wallet_address = user.wallet.wallet_address
   end
 
