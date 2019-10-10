@@ -1,0 +1,2808 @@
+{
+	"info": {
+		"_postman_id": "f6e24892-1c24-40a6-9842-939ae9e9a86b",
+		"name": "Gameworks Registry API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "Authenticate Client Credential Grant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "51fc48df-330b-4c22-b15a-7f989d644c67",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"accessToken\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"grant_type\": \"client_credentials\",\n\t\"client_id\": \"THNqdkclVCxdD6Mh8gDwW9hzlA9qxMhU-FxSdIU3PEA\",\n\t\"client_secret\": \"-_u_J1s_7lmPRKCZ7FQfNKqWyL0iW0CEQhPw-ocCXHg\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authorize",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "39ca4df2-13b1-4777-830e-356b5ed283b8",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"code\", data.redirect_uri.code);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{host}}/oauth/authorize?client_id=THNqdkclVCxdD6Mh8gDwW9hzlA9qxMhU-FxSdIU3PEA&client_secret=-_u_J1s_7lmPRKCZ7FQfNKqWyL0iW0CEQhPw-ocCXHg&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&jwt={{jwtToken}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "THNqdkclVCxdD6Mh8gDwW9hzlA9qxMhU-FxSdIU3PEA"
+								},
+								{
+									"key": "client_secret",
+									"value": "-_u_J1s_7lmPRKCZ7FQfNKqWyL0iW0CEQhPw-ocCXHg"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "urn:ietf:wg:oauth:2.0:oob"
+								},
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "jwt",
+									"value": "{{jwtToken}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate Authorization Code Grant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1104bade-4c69-46fb-bb24-b972ba5bc03a",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"accessToken\", data.access_token);",
+									"postman.setEnvironmentVariable(\"refreshToken\", data.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"grant_type\": \"authorization_code\",\n\t\"client_id\": \"THNqdkclVCxdD6Mh8gDwW9hzlA9qxMhU-FxSdIU3PEA\",\n\t\"client_secret\": \"-_u_J1s_7lmPRKCZ7FQfNKqWyL0iW0CEQhPw-ocCXHg\",\n\t\"redirect_uri\": \"urn:ietf:wg:oauth:2.0:oob\",\n\t\"code\": \"{{code}}\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b0a3314-982a-4ad8-aba2-d4890f143b56",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"accessToken\", data.access_token);",
+									"postman.setEnvironmentVariable(\"refreshToken\", data.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"grant_type\": \"refresh_token\",\n\t\"refresh_token\": \"{{refreshToken}}\",\n\t\"client_id\": \"THNqdkclVCxdD6Mh8gDwW9hzlA9qxMhU-FxSdIU3PEA\",\n\t\"client_secret\": \"-_u_J1s_7lmPRKCZ7FQfNKqWyL0iW0CEQhPw-ocCXHg\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "63ac10e2-b96a-467b-bef8-6415f0f7f3bb",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"sadie.sink@gmail.com\",\n\t\"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1599e180-47c4-4691-9433-8f8d10399d26",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Sadie\",\n\t\"last_name\": \"Sink\",\n\t\"email\": \"sadie.sink@gmail.com\",\n\t\"password\": \"password\",\n\t\"password_confirmation\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/register",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"mikko@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/forgot",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"forgot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm Code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/auth/confirm/:code",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"confirm",
+										":code"
+									],
+									"variable": [
+										{
+											"key": "code",
+											"value": "6803",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "My Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Basic {{jwtToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/auth/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend Code",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/auth/resend",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"resend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Sadie\",\n\t\"last_name\": \"Sink\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register with Wallet Creation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a30c45a-a1a9-44c3-834a-fa457f57bf2d",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Gameworks\",\n\t\"last_name\": \"Publishing\",\n\t\"email\": \"gwx.publishing@gmail.com\",\n\t\"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/register-with-wallet",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"register-with-wallet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update password",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"password\",\n\t\"password_confirmation\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/update_password",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"update_password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Console Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c2d8210f-9857-48be-a862-a858698030ff",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"wallet_address\": \"TBV6LGYL5RXM42GTX2Q6MAUKKZ7DLWSF42HKFHNP\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/console_login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"console_login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Publishers",
+					"item": [
+						{
+							"name": "Create Publisher",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publisher_name\": \"GWX Games\",\n\t\"description\": \"The official GWX publisher account\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/publishers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"publishers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Publishers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/publishers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"publishers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Publisher",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/publishers/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"publishers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Publisher Games",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/publishers/me/games",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"publishers",
+										"me",
+										"games"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Publisher",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publisher_name\": \"Gameworks Publisher\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/publishers/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"publishers",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Games",
+					"item": [
+						{
+							"name": "Get Games",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/games?page=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create My Game",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Wreck it Ralph\",\n\t\"description\": \"Top selling movie in 2012, has its first appearance as an actual game only in Gameworks Game Central\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/games",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Game",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"description\": \"Immensive real-life virtual reality\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "38",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Game",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "40",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Game",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "39",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Player Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/games/:id/player_profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":id",
+										"player_profiles"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "39",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Actions",
+					"item": [
+						{
+							"name": "Get Actions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/games/:game_id/actions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":game_id",
+										"actions"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "39"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Test Action\",\n\t\"description\": \"Player will be given a chance to continue to play by paying 7 GWX Tokens\",\n\t\"fixed_amount\": 7,\n\t\"unit_fee\": 1\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/games/:game_id/actions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":game_id",
+										"actions"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "39",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Action",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "39",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "7",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Action",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Start Bomberman\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "39",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "7",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Action",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "39",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "9",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "Create Profile",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"game_id\": 1020\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/player_profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"player_profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/player_profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"player_profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/player_profiles/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"player_profiles",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Profile",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/player_profiles/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"player_profiles",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Transfers",
+					"item": [
+						{
+							"name": "Wallet to Wallet Transaction",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"source_user_id\": 20,\n\t\"destination_user_id\": 19,\n\t\"quantity\": 100\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transaction",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/transfers/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "114"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Seamless Transfer",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "XML Balance",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Wallets",
+					"item": [
+						{
+							"name": "Get Wallet Account",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/wallets/:wallet_address",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"wallets",
+										":wallet_address"
+									],
+									"variable": [
+										{
+											"key": "wallet_address",
+											"value": "TCC54G26PVYBHPVD5PPI6IOYIN2EWL23Y7JXD3O5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Wallet Balance",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v1/wallets/:wallet_address/balance",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"wallets",
+										":wallet_address",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet_address",
+											"value": "TCC54G26PVYBHPVD5PPI6IOYIN2EWL23Y7JXD3O5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Triggers",
+					"item": [
+						{
+							"name": "Create Trigger",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic {{jwtToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"action_id\": 7,\n\t\"player_profile_id\": 8\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/triggers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"triggers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "DigitalWin",
+					"item": [
+						{
+							"name": "Get Game Token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"game_id\": 500,\n\t\"username\": \"mikko_test\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/digital_win/game_token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"digital_win",
+										"game_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Game Token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"game_id\": 500,\n\t\"username\": \"mikko_test\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/digital_win/game_token",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"digital_win",
+										"game_token"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "v2",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "63ac10e2-b96a-467b-bef8-6415f0f7f3bb",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"sadie.sink@gmail.com\",\n\t\"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1599e180-47c4-4691-9433-8f8d10399d26",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Sadie\",\n\t\"last_name\": \"Sink\",\n\t\"email\": \"sadie.sink@gmail.com\",\n\t\"password\": \"password\",\n\t\"password_confirmation\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/register",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"mikko@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/forgot",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"forgot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm Code",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/auth/confirm/:code",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"confirm",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "7199fa00-3691-403b-bdc0-48c711ee6697",
+											"key": "code",
+											"value": "6803",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "My Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/auth/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend Code",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/auth/resend",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"resend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Sadie\",\n\t\"last_name\": \"Sink\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register with Wallet Creation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a30c45a-a1a9-44c3-834a-fa457f57bf2d",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"Gameworks\",\n\t\"last_name\": \"Publishing\",\n\t\"email\": \"gwx.publishing@gmail.com\",\n\t\"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/register-with-wallet",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"register-with-wallet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update password",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"password\",\n\t\"password_confirmation\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v1/auth/update_password",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"update_password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Console Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c2d8210f-9857-48be-a862-a858698030ff",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"jwtToken\", data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"wallet_address\": \"TBV6LGYL5RXM42GTX2Q6MAUKKZ7DLWSF42HKFHNP\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/auth/console_login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"console_login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Publishers",
+					"item": [
+						{
+							"name": "Create Publisher",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publisher_name\": \"SS Gaming\",\n\t\"description\": \"The official SS Gaming publisher account\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/publishers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"publishers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Publishers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/publishers?page=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"publishers"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Publisher",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"description": "\n",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/publishers/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"publishers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "50",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Publisher Games",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/publishers/me/games",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"publishers",
+										"me",
+										"games"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Publisher",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publisher_name\": \"SSG Apps\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/publishers/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"publishers",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Games",
+					"item": [
+						{
+							"name": "Get Games",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games?page=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create My Game",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"SSG App 1\",\n\t\"description\": \"Test App\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/games",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Game",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"description\": \"Immensive real-life virtual reality\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "35",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Game",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "36",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Game",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "35",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Player Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:id/player_profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":id",
+										"player_profiles"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "500",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Actions",
+					"item": [
+						{
+							"name": "Get Actions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:game_id/actions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":game_id",
+										"actions"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "35",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Test Action 3\",\n\t\"description\": \"Player will be given a chance to continue to play by paying 7 GWX Tokens\",\n\t\"fixed_amount\": 7,\n\t\"unit_fee\": 1\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/games/:game_id/actions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":game_id",
+										"actions"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "35",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Action",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "35",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "23",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Action",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Test Action 33\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "35",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "23",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Action",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/games/:game_id/actions/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"games",
+										":game_id",
+										"actions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "35",
+											"type": "string"
+										},
+										{
+											"key": "id",
+											"value": "23",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "Create Profile",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"game_id\": 1020\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/player_profiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"player_profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Profiles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/player_profiles?page=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"player_profiles"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/player_profiles/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"player_profiles",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "72",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Profile",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/player_profiles/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"player_profiles",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "72",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Triggers",
+					"item": [
+						{
+							"name": "Create Trigger",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"action_id\": 22,\n\t\"player_profile_id\": 73\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/triggers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"triggers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Transfers",
+					"item": [
+						{
+							"name": "Wallet to Wallet Transaction",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"source_user_id\": 20,\n\t\"destination_user_id\": 19,\n\t\"quantity\": 100\n}"
+								},
+								"url": {
+									"raw": "{{host}}/v2/transfers",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transaction",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/transfers/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"transfers",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "c42f4768-e426-4e94-899b-290db57217d2",
+											"key": "id",
+											"value": "114",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Wallets",
+					"item": [
+						{
+							"name": "Get Wallet Account",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/wallets/:wallet_address",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"wallets",
+										":wallet_address"
+									],
+									"variable": [
+										{
+											"id": "b96ee2b3-9313-49b9-9939-61489a5f7969",
+											"key": "wallet_address",
+											"value": "TCC54G26PVYBHPVD5PPI6IOYIN2EWL23Y7JXD3O5",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Wallet Balance",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{host}}/v2/wallets/:wallet_address/balance",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v2",
+										"wallets",
+										":wallet_address",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet_address",
+											"value": "NCZX4RC5LNWN772BNY6QEHZXQCGYQ7NRWYOQSZLH",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "DigitalWin",
+					"item": [
+						{
+							"name": "Get Game Token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "770a803a-5ef5-42fb-958a-e5584e1786c2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "df0d8c70-a033-47c3-a894-e3cb1b254cf5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
