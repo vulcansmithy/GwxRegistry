@@ -50,19 +50,25 @@ Trestle.resource(:games) do
     column :icon, header: nil, align: :center, class: "poster-column" do |game|
       admin_link_to(image_tag(game.icon.url, class: "poster", style: "width: 50px"), game) if game.icon?
     end
-    column :name
+    column :name, class: 'game-name' do |game|
+      safe_join([
+        content_tag(:strong, game.name),
+        content_tag(:a, game.publisher.publisher_name, href: edit_publishers_admin_path(id: game.publisher.id))
+      ], '<br />'.html_safe)
+    end
     column :wallet_address, class: 'recipient' do |game|
-      game.wallet.wallet_address
-    end
-    column :balance do |game|
       balance = NemService.check_balance(game.wallet.wallet_address)
-      "#{balance[:gwx]&.round(6) || 0} GWX, #{balance[:xem]} XEM"
-    end
-    column :publisher do |game|
-      link_to game.publisher.publisher_name, edit_publishers_admin_path(id: game.publisher.id)
+
+      safe_join([
+        content_tag(:strong, game.wallet.wallet_address, class: 'recipient'),
+        content_tag(:span, "Balance: #{balance[:gwx]&.round(6) || 0} GWX, #{balance[:xem]} XEM")
+      ], '<br />'.html_safe)
     end
     column :tags, format: :tags, class: 'hidden-xs' do |game|
       game.tags.map(&:name)
+    end
+    column :blacklisted_countries do |game|
+      game.blacklisted_countries.join(', ') if game.blacklisted_countries.present?
     end
     column :created_at, align: :center
     actions
