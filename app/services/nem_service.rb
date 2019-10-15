@@ -93,7 +93,7 @@ class NemService
         unconfirmed = (unconfirmed || []).select do |transaction|
                         transaction.mosaics.select do |m|
                           m.name == mosaic_name
-                        end.present? unless transaction.mosaics.empty?
+                        end.present? if transaction.mosaics
                       end
         incoming = unconfirmed.select { |tx| tx.recipient == wallet_address }
         outgoing = unconfirmed - incoming
