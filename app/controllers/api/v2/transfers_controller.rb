@@ -3,10 +3,12 @@ class Api::V2::TransfersController < Api::V2::BaseController
 
   before_action :set_game, only: :seamless_transfer
   before_action :set_user_wallet_address, only: :seamless_transfer
+  before_action :set_users, only: :create
 
   def create
     response = CashierService.new.create_transaction transfer_params
     if response.code == 200
+      FCMService.new.notify([@recipient.device_token], notification_payload)
       success_response response
     else
       error_response response['message'], nil, response.code
@@ -76,5 +78,24 @@ class Api::V2::TransfersController < Api::V2::BaseController
 
   def valid_params?
     %w[debit credit].include? params[:type]
+  end
+
+  def set_users
+    if params[:destination_wallet]
+      @recipient = User.find_by wallet_address: params[:destination_wallet]
+      @sender = User.find_by wallet_address: params[:source_wallet]
+    else
+      @recipient = User.find params[:destination_user_id]
+      @sender = User.find params[:source_user_id]
+    end
+  end
+
+  def notification_payload
+    {
+      notification: {
+        title: 'GWX Token Pending Receivable',
+        body: "Hi! You have received GWX #{params[:quantity]} from #{@sender.first_name} #{@sender.last_name}."
+      }
+    }
   end
 end
