@@ -29,6 +29,8 @@ gem 'rswag', '2.0.5'
 gem 'simple_command'
 gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
+gem 'sssa-ruby', '~> 0.0.2'    # https://github.com/SSSaaS/sssa-ruby
+
 
 # Trestle.io
 gem 'trestle', '~> 0.8.13'

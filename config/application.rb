@@ -38,6 +38,7 @@ module GwxRegistryApi
 
     config.autoload_paths << Rails.root.join('services')
     config.autoload_paths << Rails.root.join('app', 'forms')
+    config.autoload_paths << Rails.root.join('lib')
 
     if Rails.env.development? || Rails.env.test?
       config.before_configuration do

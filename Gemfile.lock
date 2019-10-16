@@ -335,6 +335,7 @@ GEM
     sshkit (1.19.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sssa-ruby (0.0.2)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -411,6 +412,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
+  sssa-ruby (~> 0.0.2)
   trestle (~> 0.8.13)
   trestle-auth
   trestle-search

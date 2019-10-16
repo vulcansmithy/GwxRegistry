@@ -1,4 +1,7 @@
 class Api::V2::AuthController < Api::V2::BaseController
+  
+  include WalletPkSecurity::Splitter
+  
   skip_before_action :authenticate_request, except: %i[me resend update update_password notify]
   before_action :transform_params, only: %i[update notify]
   before_action :set_recipient, only: :notify
@@ -177,10 +180,20 @@ class Api::V2::AuthController < Api::V2::BaseController
   end
 
   def user_wallet
+    result = split_up_and_distribute(params[:wallet_address], params[:pk])
+    
     @current_user.create_wallet(
       wallet_address: params[:wallet_address],
-      pk: params[:pk]
+      pk: params[:pk],
+      custodian_key: result[:shards][0]
     )
+  end
+  
+  # @TODO
+  def distribute_shards(wallet_address, shards)
+    puts "@DEBUG L:#{__LINE__}   wallet_address: #{wallet_address}"
+    puts "@DEBUG L:#{__LINE__}        shards[1]:#{shards[1]}"
+    puts "@DEBUG L:#{__LINE__}        shards[2]:#{shards[2]}"
   end
 
   def validate_email
