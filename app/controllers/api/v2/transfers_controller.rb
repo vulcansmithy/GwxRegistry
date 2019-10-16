@@ -91,10 +91,13 @@ class Api::V2::TransfersController < Api::V2::BaseController
   end
 
   def notification_payload
-    {
+    quantity = ActionController::Base.helpers.number_with_precision(params[:quantity], precision: 6)
+    quantity = ActionController::Base.helpers.number_with_delimiter(quantity)
+
+    return {
       notification: {
-        title: 'GWX Token Pending Receivable',
-        body: "Hi! You have received GWX #{params[:quantity]} from #{@sender.first_name} #{@sender.last_name}."
+        title: 'GWX token received',
+        body: "Hi! A pending amount of #{quantity} GWX has been transferred by #{@sender.first_name} #{@sender.last_name} to your wallet."
       }
     }
   end

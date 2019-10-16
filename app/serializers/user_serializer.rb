@@ -9,6 +9,7 @@ class UserSerializer
              :email,
              :confirmed_at,
              :confirmation_sent_at,
+             :device_token,
              :reset_password_sent_at,
              :avatar,
              :username,
