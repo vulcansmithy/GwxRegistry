@@ -35,7 +35,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
         quantity: seamless_params[:quantity].to_f,
-        message: "#{@game.publisher_id}, #{seamless_params[:message]}"
+        message: "#{@game.publisher_id}, #{seamless_params[:message]}",
+        dw_transaction_id: seamless_params[:dw_transaction_id]
       )
 
       success_response(transaction: response, balance: balance)
@@ -76,7 +77,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
       :source_wallet,
       :destination_wallet,
       :quantity,
-      :message
+      :message,
+      :dw_transaction_id
     )
   end
 
