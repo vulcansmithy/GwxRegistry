@@ -188,13 +188,6 @@ class Api::V2::AuthController < Api::V2::BaseController
       custodian_key: result[:shards][0]
     )
   end
-  
-  # @TODO
-  def distribute_shards(wallet_address, shards)
-    puts "@DEBUG L:#{__LINE__}   wallet_address: #{wallet_address}"
-    puts "@DEBUG L:#{__LINE__}        shards[1]:#{shards[1]}"
-    puts "@DEBUG L:#{__LINE__}        shards[2]:#{shards[2]}"
-  end
 
   def validate_email
     if params[:email].blank?

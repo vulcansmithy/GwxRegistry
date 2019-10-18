@@ -42,13 +42,6 @@ class UserWithWalletForm
       end
     end
   end
-  
-  # @TODO
-  def distribute_shards(wallet_address, shards)
-    puts "@DEBUG L:#{__LINE__}   wallet_address: #{wallet_address}"
-    puts "@DEBUG L:#{__LINE__}        shards[1]:#{shards[1]}"
-    puts "@DEBUG L:#{__LINE__}        shards[2]:#{shards[2]}"
-  end
 
   def create_user
     User.create!(
