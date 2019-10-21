@@ -12,7 +12,8 @@ class CashierService
       source_wallet_address: source_wallet(args),
       destination_wallet_address: destination_wallet(args),
       quantity: args[:quantity],
-      message: args[:message]
+      message: args[:message],
+      dw_transaction_id: args[:dw_transaction_id]
     }.to_json
 
     response = HTTParty.post(@base_url,
@@ -67,7 +68,8 @@ class CashierService
       :source_wallet,
       :destination_wallet,
       :quantity,
-      :message
+      :message,
+      :dw_transaction_id
     ].sort
   end
 end
