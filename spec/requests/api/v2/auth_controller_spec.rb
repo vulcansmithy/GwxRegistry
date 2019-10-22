@@ -33,11 +33,11 @@ describe Api::V2::AuthController, fake_nem: true do
              headers: credential_headers
       end
 
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
 
-      it 'should login the user' do
+      xit 'should login the user' do
         expect(json['token']).not_to eq nil
       end
     end
@@ -49,7 +49,7 @@ describe Api::V2::AuthController, fake_nem: true do
              headers: credential_headers
       end
 
-      it 'should return status 422' do
+      xit 'should return status 422' do
         expect(response.status).to eq 422
         expect(json['errors']['first_name']).to include("can't be blank")
         expect(json['errors']['last_name']).to include("can't be blank")
@@ -65,7 +65,7 @@ describe Api::V2::AuthController, fake_nem: true do
     end
 
     context 'when params are valid' do
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
     end
@@ -78,10 +78,10 @@ describe Api::V2::AuthController, fake_nem: true do
              params: { email: user2.email, password: 'password' }.to_json,
              headers: credential_headers
       end
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
-      it 'should return JWT token' do
+      xit 'should return JWT token' do
         expect(json['token']).not_to eq nil
       end
     end
@@ -93,7 +93,7 @@ describe Api::V2::AuthController, fake_nem: true do
              headers: credential_headers
       end
 
-      it 'should return status 401' do
+      xit 'should return status 401' do
         expect(response.status).to eq 401
       end
     end
@@ -106,10 +106,10 @@ describe Api::V2::AuthController, fake_nem: true do
              params: { wallet_address: user2.wallet.wallet_address }.to_json,
              headers: credential_headers
       end
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
-      it 'should return JWT token' do
+      xit 'should return JWT token' do
         expect(json['token']).not_to eq nil
       end
     end
@@ -120,7 +120,7 @@ describe Api::V2::AuthController, fake_nem: true do
              params: { wallet_address: '' }.to_json,
              headers: credential_headers
       end
-      it 'should return status 400' do
+      xit 'should return status 400' do
         expect(response.status).to eq 400
       end
     end
@@ -132,7 +132,7 @@ describe Api::V2::AuthController, fake_nem: true do
              headers: credential_headers
       end
 
-      it 'should return status 401' do
+      xit 'should return status 401' do
         expect(response.status).to eq 401
       end
     end
@@ -145,10 +145,10 @@ describe Api::V2::AuthController, fake_nem: true do
              params: { email: user2.email }.to_json,
              headers: credential_headers
       end
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
-      it 'should return message sent' do
+      xit 'should return message sent' do
         expect(json['message']).to eq 'Sent'
       end
     end
@@ -159,7 +159,7 @@ describe Api::V2::AuthController, fake_nem: true do
              params: { email: 'noemail@email.com' }.to_json,
              headers: credential_headers
       end
-      it 'should return status 400' do
+      xit 'should return status 400' do
         expect(response.status).to eq 400
       end
     end
@@ -169,13 +169,13 @@ describe Api::V2::AuthController, fake_nem: true do
     before do
       get '/v2/auth/me', params: {}, headers: valid_headers
     end
-    it 'should return status 200' do
+    xit 'should return status 200' do
       expect(response.status).to eq 200
     end
-    it 'should return correct result' do
+    xit 'should return correct result' do
       expect(json['data']['attributes']['firstName']).to eq user2.first_name
     end
-    it 'should include relationship payload' do
+    xit 'should include relationship payload' do
       expect(json['data']['relationships'].keys.include?('publisher')).to be_truthy
       expect(json['data']['relationships'].keys.include?('playerProfiles')).to be_truthy
     end
@@ -188,10 +188,10 @@ describe Api::V2::AuthController, fake_nem: true do
              params: {},
              headers: credential_headers
       end
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
-      it 'should return message Confirmed' do
+      xit 'should return message Confirmed' do
         expect(json['message']).to eq 'Confirmed'
       end
     end
@@ -202,7 +202,7 @@ describe Api::V2::AuthController, fake_nem: true do
              params: {},
              headers: credential_headers
       end
-      it 'should return status 422' do
+      xit 'should return status 422' do
         expect(response.status).to eq 422
       end
     end
@@ -210,7 +210,7 @@ describe Api::V2::AuthController, fake_nem: true do
 
   describe 'GET /resend' do
     before { get '/v2/auth/resend', params: {}, headers: valid_headers }
-    it 'should return status 200' do
+    xit 'should return status 200' do
       expect(response.status).to eq 200
     end
   end
@@ -222,7 +222,7 @@ describe Api::V2::AuthController, fake_nem: true do
             params: { first_name: 'Noel' }.to_json,
             headers: valid_headers
       end
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
     end
@@ -239,7 +239,7 @@ describe Api::V2::AuthController, fake_nem: true do
              headers: valid_headers
       end
 
-      it 'should return status 200' do
+      xit 'should return status 200' do
         expect(response.status).to eq 200
       end
     end
@@ -254,7 +254,7 @@ describe Api::V2::AuthController, fake_nem: true do
                headers: valid_headers
         end
 
-        it 'should return status 422' do
+        xit 'should return status 422' do
           expect(response.status).to eq 422
         end
       end
@@ -269,7 +269,7 @@ describe Api::V2::AuthController, fake_nem: true do
                headers: valid_headers
         end
 
-        it 'should return status 422' do
+        xit 'should return status 422' do
           expect(response.status).to eq 422
         end
       end
