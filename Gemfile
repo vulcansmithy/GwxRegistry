@@ -65,4 +65,6 @@ group :test do
   gem 'faker'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'guard-rspec', '4.7.3'    # https://github.com/guard/guard-rspec
+  
 end
