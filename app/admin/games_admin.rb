@@ -89,11 +89,14 @@ Trestle.resource(:games) do
       file_field :cover, value: game.cover
       check_box :featured
       select :blacklisted_countries, options_for_select(ISO3166::Country.all.map(&:name), game.blacklisted_countries), {}, multiple: true
+      
       if params[:action] == 'new' && params[:publisher_id].nil?
         select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
       elsif params[:action] == 'new' && params[:publisher_id].present?
         publisher = Publisher.find(params[:publisher_id])
         select :publisher_id, [[publisher.publisher_name, publisher.id]]
+      elsif params[:action] == 'create'
+        select :publisher_id, (Publisher.all.map { |p| [p.publisher_name, p.id]})
       end
       if params[:action] == 'show' || params[:action] == 'edit'
         text_field :wallet_address, value: game.wallet&.wallet_address, disabled: true
@@ -132,20 +135,23 @@ Trestle.resource(:games) do
         concat admin_link_to('New Tag', admin: :game_tags, action: :new, params: { game_id: game }, class: "btn btn-success")
       end
 
-      wallet_transactions = NemService.wallet_transactions_for(game.wallet.wallet_address)
-      tab :transactions, badge: wallet_transactions.count do
-        table wallet_transactions do
-          column :recipient, class: 'recipient' do |transaction|
-            truncate(transaction.recipient, length: 60)
-          end
-          column :hash, class: 'hash' do |transaction|
-            hash = truncate(transaction.hash, length: 100)
-            nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
-            link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
-          end
-          column :amount do |transaction|
-            amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
-            "#{amount.round(6)} GWX"
+      
+      if !game.wallet.nil? 
+        wallet_transactions = NemService.wallet_transactions_for(game.wallet.wallet_address)
+        tab :transactions, badge: wallet_transactions.count do
+          table wallet_transactions do
+            column :recipient, class: 'recipient' do |transaction|
+              truncate(transaction.recipient, length: 60)
+            end
+            column :hash, class: 'hash' do |transaction|
+              hash = truncate(transaction.hash, length: 100)
+              nembex_link = Rails.env.production? ? 'http://chain.nem.ninja/#/transfer' : "http://bob.nem.ninja:8765/#/transfer"
+              link_to hash, "#{nembex_link}/#{hash}", target: "_blank"
+            end
+            column :amount do |transaction|
+              amount = transaction.mosaics.find { |m| m.name == 'gwx'}.quantity / 1_000_000
+              "#{amount.round(6)} GWX"
+            end
           end
         end
       end
