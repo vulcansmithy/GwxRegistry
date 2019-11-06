@@ -181,7 +181,7 @@ class Api::V1::AuthController < Api::V1::BaseController
   end
 
   def user_wallet
-    if ENV["SHARDING_ENABLED"].present? || ENV["SHARDING_ENABLED"].downcase.to_sym == :on
+    if ENV["SHARDING_ENABLED"].present? && ENV["SHARDING_ENABLED"].downcase.to_sym == :on
       result = split_up_and_distribute(params[:wallet_address], params[:pk])
       @current_user.create_wallet(
         wallet_address: params[:wallet_address],

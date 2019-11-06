@@ -26,7 +26,7 @@ class UserWithWalletForm
         if valid?
           account = NemService.create_account
           @user   = create_user
-          if ENV["SHARDING_ENABLED"].present? || ENV["SHARDING_ENABLED"].downcase.to_sym == :on
+          if ENV["SHARDING_ENABLED"].present? && ENV["SHARDING_ENABLED"].downcase.to_sym == :on
             result  = split_up_and_distribute(account[:address], account[:priv_key])
             @user.create_wallet(
               wallet_address: account[:address],
