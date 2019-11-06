@@ -23,7 +23,7 @@ namespace :sharding do
   namespace :test do
     
     desc "Run a test Wallet pk sharding and distribution"
-    task :split_and_distribute do
+    task :split_and_distribute => :environment  do
 
       test_wallet = [
         "TAUBFB4SLR3RVNKDJJ3XSJ2HOZAS3IVE3KTFPPAW",
@@ -33,7 +33,7 @@ namespace :sharding do
         "TBRMH7ROI6JTJE3PPHKKSZNO322QJFARLWE3CR3Q"
       ].each do |wallet_address|
         queried_result = Wallet.where(wallet_address: wallet_address)
-        unless queried_wallet.empty?
+        unless queried_result.empty?
           target_wallet = queried_result.first
           result = split_up_and_distribute(wallet_address, target_wallet.pk)
           target_wallet.custodian_key = result[:shards][0]
@@ -45,12 +45,26 @@ namespace :sharding do
 
   end  
 
-  namespace :staging do
+  namespace :split_and_distribute do
+    desc "This rake task will take all existing Wallet and split the wallet address into shards and distribute them"
+    task :perform => :environment  do
+      
+      Wallet.all.each do |wallet|
+        puts "Sharding wallet address... #{wallet.wallet_address}"
+        result = split_up_and_distribute(wallet.wallet_address, wallet.pk)
+        wallet.custodian_key = result[:shards][0]
+        
+        raise "Target wallet with the address '#{wallet.wallet_address}' can't be save."unless wallet.save
+        
+        puts "Sharding done."
+        puts 
+        puts
+      end
+    end
   end 
-  
-  namespace :production do
-  end  
-  
+
+
+
   def split_up_and_distribute(wallet_address, wallet_pk, min_shares_to_work=2, max_shares_allowed=3)
     
     result = nil
@@ -63,10 +77,6 @@ namespace :sharding do
 
       # using SSSA split up the wallet_pk into individual shares or shards
       shards = SSSA::create(min_shares_to_work, max_shares_allowed, wallet_pk)
-
-      puts ":#{__LINE__}   wallet_address: #{wallet_address}"
-      puts ":#{__LINE__}        wallet_pk: #{wallet_pk     }"
-      puts ":#{__LINE__}   #{ap shards}" 
 
       distribute_shards(wallet_address, shards)  
 
@@ -85,6 +95,9 @@ namespace :sharding do
   def distribute_shards(wallet_address, shards)
     
     if Rails.env.staging?
+      
+      raise "Missing ENV['CASHIER_URL'] setting." if ENV["CASHIER_URL"].nil?
+      
       # define the url for the Cashier API create new Shard endpoint
       cashier_api_shard_endpoint = "#{ENV["CASHIER_URL"]}/shards"
     
@@ -107,6 +120,8 @@ namespace :sharding do
 
 
 
+      raise "Missing ENV['CUSTODIAN_VAULT_URL'] setting." if ENV["CUSTODIAN_VAULT_URL"].nil?
+      
       # define the url for the CustodianVault API create new Shard endpoint
       custodian_vault_api_shard_endpoint = "#{ENV["CUSTODIAN_VAULT_URL"]}/shards"
     
@@ -128,8 +143,8 @@ namespace :sharding do
       raise "Can't reach CustodianVault API." unless response.code == 201
       
     elsif Rails.env.development?
-      puts "@DEBUG L:#{__LINE__}   Sending out to CustodianVault the shard... '#{shards[1]}'"
-      puts "@DEBUG L:#{__LINE__}   Sending out to Cashier API the shard...... '#{shards[2]}'"
+      puts "@DEBUG L:#{__LINE__}   Sending out to Cashier API the shard...... '#{shards[1]}'"
+      puts "@DEBUG L:#{__LINE__}   Sending out to CustodianVault the shard... '#{shards[2]}'"
     end  
 
   end
