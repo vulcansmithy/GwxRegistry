@@ -2,6 +2,24 @@ require "sssa"
 
 namespace :sharding do
   
+  namespace :create_wallets do
+
+    desc "Create User Wallets"
+    task :users => :environment do
+      User.all.each do |user|
+        puts "Creating wallet for user... #{user.full_name}"
+        unless user.wallet
+          account = NemService.create_account
+          user.create_wallet(
+            wallet_address: account[:address],
+            pk: account[:priv_key]
+          )
+        end
+      end
+    end
+
+  end
+  
   namespace :test do
     
     desc "Run a test Wallet pk sharding and distribution"

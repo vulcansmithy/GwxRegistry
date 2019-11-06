@@ -143,31 +143,10 @@ ActiveRecord::Schema.define(version: 2019_10_01_073242) do
     t.index ["user_id"], name: "index_publishers_on_user_id"
   end
 
-  create_table "shards", force: :cascade do |t|
-    t.string "wallet_address"
-    t.string "encrypted_custodian_key"
-    t.string "encrypted_custodian_key_iv"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "transactions", force: :cascade do |t|
-    t.string "source_wallet_address"
-    t.string "destination_wallet_address"
-    t.string "quantity"
-    t.string "tx_hash"
-    t.string "status", default: "pending", null: false
-    t.text "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "transaction_details", default: "{}", null: false
-    t.string "mosaic", default: "gwx", null: false
   end
 
   create_table "triggers", force: :cascade do |t|
