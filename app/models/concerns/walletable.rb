@@ -9,12 +9,19 @@ module Walletable
 
   def create_account
     account = NemService.create_account
-    result  = split_up_and_distribute(account[:address], account[:priv_key])
-    self.create_wallet(
-      wallet_address: account[:address],
-      pk: account[:priv_key],
-      custodian_key: result[:shards][0]
-    )
+    
+    if ENV["SHARDING_ENABLED"].present? || ENV["SHARDING_ENABLED"].downcase.to_sym == :on
+      result = split_up_and_distribute(account[:address], account[:priv_key])
+      self.create_wallet(
+        wallet_address: account[:address],
+        custodian_key: result[:shards][0]
+      )
+    else
+      self.create_wallet(
+        wallet_address: account[:address],
+        pk: account[:priv_key]
+      )
+    end
   end
   
   def distribute_shards(wallet_address, shards)

@@ -180,13 +180,21 @@ class Api::V2::AuthController < Api::V2::BaseController
   end
 
   def user_wallet
-    result = split_up_and_distribute(params[:wallet_address], params[:pk])
+    if ENV["SHARDING_ENABLED"].present? || ENV["SHARDING_ENABLED"].downcase.to_sym == :on
+      result = split_up_and_distribute(params[:wallet_address], params[:pk])
     
-    @current_user.create_wallet(
-      wallet_address: params[:wallet_address],
-      pk: params[:pk],
-      custodian_key: result[:shards][0]
-    )
+      @current_user.create_wallet(
+        wallet_address: params[:wallet_address],
+        custodian_key: result[:shards][0]
+      )
+    else
+      @current_user.create_wallet(
+        wallet_address: params[:wallet_address],
+        pk: params[:pk],
+      )
+    end
+    
+    
   end
 
   def validate_email
