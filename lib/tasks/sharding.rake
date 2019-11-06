@@ -1,4 +1,4 @@
-include WalletPkSecurity::Splitter
+require "sssa"
 
 namespace :sharding do
   
@@ -33,6 +33,37 @@ namespace :sharding do
   namespace :production do
   end  
   
+  def split_up_and_distribute(wallet_address, wallet_pk, min_shares_to_work=2, max_shares_allowed=3)
+    
+    result = nil
+    begin
+      # make sure the passed 'wallet_address' is neither nil or empty
+      raise "wallet_address' was nil or empty." if wallet_address.nil? || wallet_address.empty?
+    
+      # make sure the passed 'wallet_pk' is neither nil or empty
+      raise "'wallet_pk' was nil or empty." if wallet_pk.nil? || wallet_pk.empty? 
+
+      # using SSSA split up the wallet_pk into individual shares or shards
+      shards = SSSA::create(min_shares_to_work, max_shares_allowed, wallet_pk)
+
+      puts ":#{__LINE__}   wallet_address: #{wallet_address}"
+      puts ":#{__LINE__}        wallet_pk: #{wallet_pk     }"
+      puts ":#{__LINE__}   #{ap shards}" 
+
+      distribute_shards(wallet_address, shards)  
+
+    rescue Exception => e
+      result = { success: false, message: e.message }
+    else
+      result = { success: true }
+      
+      # only going to run when running in Development or Test environment
+      result.merge!({ shards: shards }) unless Rails.env.production?
+    ensure
+      return result
+    end
+  end
+
   def distribute_shards(wallet_address, shards)
     puts "@DEBUG L:#{__LINE__}   distribute_shards"
 =begin
@@ -78,6 +109,5 @@ namespace :sharding do
     # make sure the response code is :created before continuing
     raise "Can't reach CustodianVault API." unless response.code == 201
 =end
-  end  
-
+  end
 end  
