@@ -89,7 +89,8 @@ namespace :sharding do
       
       # define the url for the Cashier API create new Shard endpoint
       cashier_api_shard_endpoint = "#{ENV["CASHIER_SHARDING_URL"]}/shards"
-
+      puts "@DEBUG L:#{__LINE__}   cashier_api_shard_endpoint: #{cashier_api_shard_endpoint}"
+      
       # prepare payload for the Cashier API
       body = {
         wallet_address: wallet_address,
