@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 2019_10_01_073242) do
     t.string "encrypted_pk_iv"
     t.string "mac_address"
     t.string "device_token"
+    t.datetime "reset_password_sent_at"
+    t.string "temporary_password"
     t.string "avatar"
     t.string "username"
     t.datetime "last_login"
