@@ -7,7 +7,7 @@ namespace :sharding do
     desc "Run a test Wallet pk sharding and distribution"
     task :split_and_distribute => :environment  do
 
-      puts "@DEBUG L:#{__LINE__}   Timestamp 6:50:25"
+      puts "@DEBUG L:#{__LINE__}   Timestamp 6:58:03"
       test_wallet = [
         "TAUBFB4SLR3RVNKDJJ3XSJ2HOZAS3IVE3KTFPPAW",
         "TAANF5SJOPLNFK5UVQGSEVKYWJBIHPCBZAOURTIM",
