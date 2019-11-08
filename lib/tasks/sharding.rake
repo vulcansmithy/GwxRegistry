@@ -65,7 +65,7 @@ namespace :sharding do
 
       # using SSSA split up the wallet_pk into individual shares or shards
       shards = SSSA::create(min_shares_to_work, max_shares_allowed, wallet_pk)
-
+      puts "@DEBUG L:#{__LINE__}   shards: #{shards}"
       distribute_shards(wallet_address, shards)  
 
     rescue Exception => e
@@ -88,13 +88,13 @@ namespace :sharding do
       
       # define the url for the Cashier API create new Shard endpoint
       cashier_api_shard_endpoint = "#{ENV["CASHIER_SHARDING_URL"]}/shards"
-    
+
       # prepare payload for the Cashier API
       body = {
         wallet_address: wallet_address,
         custodian_key: shards[1]
       }.to_json
-    
+
       # call Cashier API and create a new Shard
       response = HTTParty.post(cashier_api_shard_endpoint,
         body: body,
