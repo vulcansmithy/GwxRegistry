@@ -84,10 +84,10 @@ namespace :sharding do
     
     if Rails.env.staging?
       
-      raise "Missing ENV['CASHIER_URL'] setting." if ENV["CASHIER_URL"].nil?
+      raise "Missing ENV['CASHIER_SHARDING_URL'] setting." if ENV["CASHIER_SHARDING_URL"].nil?
       
       # define the url for the Cashier API create new Shard endpoint
-      cashier_api_shard_endpoint = "#{ENV["CASHIER_URL"]}/shards"
+      cashier_api_shard_endpoint = "#{ENV["CASHIER_SHARDING_URL"]}/shards"
     
       # prepare payload for the Cashier API
       body = {
