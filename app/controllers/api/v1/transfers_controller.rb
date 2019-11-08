@@ -68,7 +68,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
   private
 
   def seamless_params
-    params.permit(:game_id, :user_id, :quantity, :type, :message)
+    params.permit(:game_id, :user_id, :quantity, :type, :message, :dw_transaction_id)
   end
 
   def transfer_params
