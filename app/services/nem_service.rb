@@ -90,10 +90,10 @@ class NemService
         puts "@DEBUG L:#{__LINE__}  * Unconfirmed Transactions: #{unconfirmed}"
         puts "@DEBUG L:#{__LINE__}  *********************"
 
-        unconfirmed = unconfirmed.select do |transaction|
+        unconfirmed = (unconfirmed || []).select do |transaction|
                         transaction.mosaics.select do |m|
                           m.name == mosaic_name
-                        end.present?
+                        end.present? if transaction.mosaics
                       end
         incoming = unconfirmed.select { |tx| tx.recipient == wallet_address }
         outgoing = unconfirmed - incoming

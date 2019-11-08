@@ -11,6 +11,7 @@ module ExceptionHandler
   class ExpiredCode < StandardError; end
   class WrongCode < StandardError; end
   class InvalidArgs < StandardError; end
+  class InvalidDWCredentials < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized
@@ -22,6 +23,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::ExpiredCode, with: :unprocessable
     rescue_from ExceptionHandler::WrongCode, with: :unprocessable
     rescue_from ExceptionHandler::InvalidArgs, with: :bad_request
+    rescue_from ExceptionHandler::InvalidDWCredentials, with: :unauthorized
     rescue_from Nem::BadRequestError, with: :bad_request
   end
 
