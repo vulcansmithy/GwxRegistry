@@ -14,13 +14,19 @@ namespace :sharding do
         "TAAXFSHF7KNSWWVGOPR3VTKMGVLI2R4QBH46JOAE",
         "TBRMH7ROI6JTJE3PPHKKSZNO322QJFARLWE3CR3Q"
       ].each do |wallet_address|
+        puts "@DEBUG L:#{__LINE__}   wallet address: #{wallet_address}"        
         queried_result = Wallet.where(wallet_address: wallet_address)
         unless queried_result.empty?
           target_wallet = queried_result.first
+          puts "@DEBUG L:#{__LINE__}   target_wallet.wallet_address: #{target_wallet.wallet_address}"
+          puts "@DEBUG L:#{__LINE__}   target_wallet.pk:             #{target_wallet.pk}"
           result = split_up_and_distribute(wallet_address, target_wallet.pk)
+          puts "@DEBUG L:#{__LINE__}   #{result.inspect}"
           target_wallet.custodian_key = result[:shards][0]
           
           raise "Target wallet with the address '#{wallet_address}' can't be save."unless target_wallet.save
+        else
+          puts "@DEBUG L:#{__LINE__}   wallet address #{wallet_address} not found."
         end  
       end
     end
