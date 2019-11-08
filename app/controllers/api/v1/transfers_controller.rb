@@ -21,6 +21,7 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
   def seamless_transfer
     raise ExceptionHandler::InvalidArgs, 'Invalid arguments' unless valid_params?
+    raise ExceptionHandler::InvalidDWCredentials, 'Invalid credentials' unless valid_credentials?
 
     source_wlt = params[:type] == 'debit' ? @user_wallet_address : @game.wallet.wallet_address
     destination_wlt = params[:type] == 'debit' ? @game.wallet.wallet_address : @user_wallet_address
@@ -35,7 +36,8 @@ class Api::V1::TransfersController < Api::V1::BaseController
         source_wallet: source_wlt,
         destination_wallet: destination_wlt,
         quantity: seamless_params[:quantity].to_f,
-        message: "#{@game.publisher_id}, #{seamless_params[:message]}"
+        message: "#{@game.publisher_id}, #{seamless_params[:message]}",
+        dw_transaction_id: seamless_params[:dw_transaction_id]
       )
 
       success_response(transaction: response, balance: balance)
@@ -76,7 +78,10 @@ class Api::V1::TransfersController < Api::V1::BaseController
       :source_wallet,
       :destination_wallet,
       :quantity,
-      :message
+      :message,
+      :dw_transaction_id,
+      :web_call_id,
+      :web_call_key
     )
   end
 
@@ -91,5 +96,9 @@ class Api::V1::TransfersController < Api::V1::BaseController
 
   def valid_params?
     %w[debit credit].include? params[:type]
+  end
+
+  def valid_credentials?
+    (ENV['DIGITAL_WIN_API_ID'] == transfer_params[:web_call_id]) && (ENV['DIGITAL_WIN_API_KEY'] == transfer_params[:web_call_key])
   end
 end
