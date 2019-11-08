@@ -27,7 +27,7 @@ module Walletable
   def distribute_shards(wallet_address, shards)
     unless Rails.env.test?
       # define the url for the Cashier API create new Shard endpoint
-      cashier_api_shard_endpoint = "#{ENV["CASHIER_URL"]}/shards"
+      cashier_api_shard_endpoint = "#{ENV["CASHIER_SHARDING_URL"]}/shards"
     
       # prepare payload for the Cashier API
       body = {
