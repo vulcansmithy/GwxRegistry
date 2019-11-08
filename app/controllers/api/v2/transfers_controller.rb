@@ -8,7 +8,9 @@ class Api::V2::TransfersController < Api::V2::BaseController
   def create
     response = CashierService.new.create_transaction transfer_params
     if response.code == 200
-      FCMService.new.notify([@recipient.device_token], notification_payload)
+      if @recipient != nil && @recipient.device_token.present?
+        FCMService.new.notify([@recipient.device_token], notification_payload)
+      end
       success_response response
     else
       error_response response['message'], nil, response.code
