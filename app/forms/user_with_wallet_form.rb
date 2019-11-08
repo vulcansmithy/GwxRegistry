@@ -1,5 +1,7 @@
 class UserWithWalletForm
+  
   include ActiveModel::Model
+  include WalletPkSecurity::Splitter
 
   attr_accessor(
     :success,
@@ -23,11 +25,19 @@ class UserWithWalletForm
       begin
         if valid?
           account = NemService.create_account
-          @user = create_user
-          @user.create_wallet(
-            wallet_address: account[:address],
-            pk: account[:priv_key]
-          )
+          @user   = create_user
+          if ENV["SHARDING_ENABLED"].present? && ENV["SHARDING_ENABLED"].downcase.to_sym == :on
+            result  = split_up_and_distribute(account[:address], account[:priv_key])
+            @user.create_wallet(
+              wallet_address: account[:address],
+              custodian_key: result[:shards][0]
+            )
+          else
+            @user.create_wallet(
+              wallet_address: account[:address],
+              pk: account[:priv_key]
+            )
+          end    
           @success = true
         else
           @success = false

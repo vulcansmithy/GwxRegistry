@@ -29,6 +29,8 @@ gem 'rswag', '2.0.5'
 gem 'simple_command'
 gem 'versionist', '1.7.0'
 gem 'will_paginate', '~> 3.1.0'
+gem 'sssa-ruby', '~> 0.0.2'    # https://github.com/SSSaaS/sssa-ruby
+
 
 # Trestle.io
 gem 'trestle', '~> 0.8.13'
@@ -63,4 +65,6 @@ group :test do
   gem 'faker'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'guard-rspec', '4.7.3'    # https://github.com/guard/guard-rspec
+  
 end

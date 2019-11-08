@@ -1,14 +1,18 @@
 require "rails_helper"
 
+include WalletPkSecurity::Splitter
+
 describe Api::V1::WalletsController, fake_nem: true do
   before { mock_nem_service }
 
   let(:nem_account) { NemService.create_account }
   let!(:user) { create(:user) }
   let!(:wallet) do
+    result = split_up_and_distribute(nem_account[:address], nem_account[:priv_key])
     user.create_wallet(
       wallet_address: nem_account[:address],
-      pk: nem_account[:priv_key]
+      pk: nem_account[:priv_key],
+      custodian_key: result[:shards][0]
     )
   end
   let(:valid_headers) { generate_jwt_headers(user) }
@@ -50,4 +54,10 @@ describe Api::V1::WalletsController, fake_nem: true do
       expect(response).to have_http_status :ok
     end
   end
+  
+  def distribute_shards(wallet_address, shards)
+    # Do not remove this. This method is essential for 
+    # successfully running all the test in this rspec test.
+  end
+    
 end
